@@ -84,8 +84,8 @@ public class VitalSignProcessor {
 			vitalObservation.setStatusCode(ApplicationUtil.readCode((Element) xPath.compile("./statusCode[not(@nullFlavor)]").
 					evaluate(resultObservationElement, XPathConstants.NODE)));
 			
-			vitalObservation.setMeasurementTime(ApplicationUtil.readEffectivetime((Element) xPath.compile("./effectiveTime[not(@nullFlavor)]").
-					evaluate(resultObservationElement, XPathConstants.NODE), xPath));
+			vitalObservation.setMeasurementTime(ApplicationUtil.readDataElement((Element) xPath.compile("./effectiveTime[not(@nullFlavor)]").
+					evaluate(resultObservationElement, XPathConstants.NODE)));
 			
 			vitalObservation.setInterpretationCode(ApplicationUtil.readCode((Element) xPath.compile("./interpretationCode[not(@nullFlavor)]").
 					evaluate(resultObservationElement, XPathConstants.NODE)));
