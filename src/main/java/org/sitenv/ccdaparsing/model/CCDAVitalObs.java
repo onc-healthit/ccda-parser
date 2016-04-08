@@ -6,7 +6,7 @@ public class CCDAVitalObs {
 	private ArrayList<CCDAII>   			templateIds;
 	private CCDACode						vsCode;
 	private CCDACode						statusCode;
-	private CCDAEffTime						measurementTime;
+	private CCDADataElement					measurementTime;
 	private CCDAPQ							vsResult;
 	private CCDACode						interpretationCode;
 	private ArrayList<CCDAEffTime>			referenceValue;
@@ -40,11 +40,11 @@ public class CCDAVitalObs {
 		this.statusCode = statusCode;
 	}
 
-	public CCDAEffTime getMeasurementTime() {
+	public CCDADataElement getMeasurementTime() {
 		return measurementTime;
 	}
 
-	public void setMeasurementTime(CCDAEffTime measurementTime) {
+	public void setMeasurementTime(CCDADataElement measurementTime) {
 		this.measurementTime = measurementTime;
 	}
 
@@ -140,7 +140,6 @@ public class CCDAVitalObs {
 			return false;
 		return true;
 	}
-	
-	
+
 }
 
