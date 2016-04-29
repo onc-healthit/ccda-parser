@@ -1,8 +1,8 @@
 package org.sitenv.ccdaparsing.service;
 
-import java.io.File;
 import java.io.FileNotFoundException;
 import java.io.IOException;
+import java.io.InputStream;
 
 import org.apache.log4j.Logger;
 
@@ -39,7 +39,7 @@ public class CCDAParserAPI {
 	
 	private static XPath xPath = XPathFactory.newInstance().newXPath();
 	 
-	public static CCDARefModel parseCCDA2_1(String filePath) {
+	public static CCDARefModel parseCCDA2_1(InputStream inputStream) {
 		
 		DocumentBuilderFactory factory = 
 				DocumentBuilderFactory.newInstance();
@@ -48,7 +48,7 @@ public class CCDAParserAPI {
 			    
 	    	logger.info("Parsing CCDA document");
 	    	DocumentBuilder builder = factory.newDocumentBuilder();
-			Document doc = builder.parse(new File(filePath));
+			Document doc = builder.parse(inputStream);
 			refModel.setPatient(PatientProcessor.retrievePatientDetails(xPath, doc));
 			refModel.setEncounter(EncounterDiagnosesProcessor.retrieveEncounterDetails(xPath, doc));
 			refModel.setProblem(ProblemProcessor.retrieveProblemDetails(xPath, doc));

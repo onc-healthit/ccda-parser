@@ -96,6 +96,8 @@ public class LaboratoryResultsTest {
 		CCDAEffTime effectiveTime = new CCDAEffTime();
 		effectiveTime.setLow(new CCDADataElement("20150622"));
 		effectiveTime.setHigh(new CCDADataElement("20150622"));
+		effectiveTime.setHighPresent(true);
+		effectiveTime.setLowPresent(true);
 		
 		resultOrg.setEffTime(effectiveTime);
 		
