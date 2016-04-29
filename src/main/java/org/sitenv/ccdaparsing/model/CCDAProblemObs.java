@@ -49,6 +49,7 @@ public class CCDAProblemObs {
 	public void setProblemCode(CCDACode problemCode) {
 		this.problemCode = problemCode;
 	}
+	
 
 	public CCDAProblemObs()
 	{
@@ -109,6 +110,6 @@ public class CCDAProblemObs {
 			return false;
 		return true;
 	}
-	
+
 	
 }

@@ -27,7 +27,7 @@ public class LaboratoryTestTestCases {
 	private static CCDALabResult labTests;
 	private ArrayList<CCDAII>    templateIds;
 	private CCDACode  sectionCode;
-	private ArrayList<CCDALabResultOrg> resultOrgList;
+	private static ArrayList<CCDALabResultOrg> resultOrgList;
 	
 	
 	@BeforeClass
@@ -39,31 +39,6 @@ public class LaboratoryTestTestCases {
 		Document doc = builder.parse(new File(CCDA_DOC));
 		XPath xPath =  XPathFactory.newInstance().newXPath();
 		labTests = LaboratoryTestProcessor.retrieveLabTests(xPath, doc);
-	}
-	
-	private void setLabTestsSectionCode()
-	 {
-		sectionCode = new CCDACode();
-		sectionCode.setCode("30954-2");
-		sectionCode.setCodeSystem("2.16.840.1.113883.6.1");
-		sectionCode.setCodeSystemName("LOINC");
-		sectionCode.setDisplayName("RESULTS");
-	 }
-	
-	private void setLabTestsTemplateIds()
-	 {
-		templateIds = new ArrayList<CCDAII>();
-		CCDAII templateIdOne = new CCDAII();
-		templateIdOne.setRootValue("2.16.840.1.113883.10.20.22.2.3.1");
-		templateIdOne.setExtValue("2015-08-01");
-		templateIds.add(templateIdOne);
-		CCDAII templateIdTwo = new CCDAII();
-		templateIdTwo.setRootValue("2.16.840.1.113883.10.20.22.2.3.1");
-		templateIds.add(templateIdTwo);
-	 }
-	
-	private void setLabResultsOrg()
-	{
 		
 		resultOrgList = new ArrayList<>();
 		CCDALabResultOrg resultOrg = new CCDALabResultOrg();
@@ -95,7 +70,8 @@ public class LaboratoryTestTestCases {
 		CCDAEffTime effectiveTime = new CCDAEffTime();
 		effectiveTime.setLow(new CCDADataElement("20150622"));
 		effectiveTime.setHigh(new CCDADataElement("20150622"));
-		
+		effectiveTime.setHighPresent(true);
+		effectiveTime.setLowPresent(true);
 		resultOrg.setEffTime(effectiveTime);
 		
 		ArrayList<CCDALabResultObs>	 resultsObsList = new ArrayList<>();
@@ -131,6 +107,28 @@ public class LaboratoryTestTestCases {
 		resultOrgList.add(resultOrg);
 	}
 	
+	private void setLabTestsSectionCode()
+	 {
+		sectionCode = new CCDACode();
+		sectionCode.setCode("30954-2");
+		sectionCode.setCodeSystem("2.16.840.1.113883.6.1");
+		sectionCode.setCodeSystemName("LOINC");
+		sectionCode.setDisplayName("RESULTS");
+	 }
+	
+	private void setLabTestsTemplateIds()
+	 {
+		templateIds = new ArrayList<CCDAII>();
+		CCDAII templateIdOne = new CCDAII();
+		templateIdOne.setRootValue("2.16.840.1.113883.10.20.22.2.3.1");
+		templateIdOne.setExtValue("2015-08-01");
+		templateIds.add(templateIdOne);
+		CCDAII templateIdTwo = new CCDAII();
+		templateIdTwo.setRootValue("2.16.840.1.113883.10.20.22.2.3.1");
+		templateIds.add(templateIdTwo);
+	 }
+	
+	
 	@Test
 	public void testLabTests() throws Exception{
 		Assert.assertNotNull(labTests);
@@ -150,10 +148,77 @@ public class LaboratoryTestTestCases {
 	
 	@Test
 	public void testLabTestOrg(){
-		setLabResultsOrg();
 		Assert.assertEquals("Lab Tests test case failed",resultOrgList,labTests.getResultOrg());
 	}
 	
+	@Test
+	public void testLabTestOrgTemplateId(){
+		Assert.assertEquals("Lab Tests Template Id test case failed",resultOrgList.get(0).getTemplateIds(),labTests.getResultOrg().get(0).getTemplateIds());
+	}
+	
+	@Test
+	public void testLabTestOrgStatusCode(){
+		Assert.assertEquals("Lab Tests status code test case failed",resultOrgList.get(0).getStatusCode(),labTests.getResultOrg().get(0).getStatusCode());
+	}
+	
+	@Test
+	public void testLabTestOrgCode(){
+		Assert.assertEquals("Lab Tests code test case failed",resultOrgList.get(0).getOrgCode(),labTests.getResultOrg().get(0).getOrgCode());
+	}
+	
+	@Test
+	public void testLabTestOrgEffectiveTime(){
+		Assert.assertEquals("Lab Tests effective time test case failed",resultOrgList.get(0).getEffTime(),labTests.getResultOrg().get(0).getEffTime());
+	}
+	
+	@Test
+	public void testLabTestOrgResultObsTemplateId(){
+		Assert.assertEquals("Lab Tests result observation Template Id test case failed",resultOrgList.get(0).getResultObs().get(0).getTemplateIds(),
+								labTests.getResultOrg().get(0).getResultObs().get(0).getTemplateIds());
+	}
+	
+	@Test
+	public void testLabTestOrgResultObsLabcode(){
+		Assert.assertEquals("Lab Tests result observation Lab code test case failed",resultOrgList.get(0).getResultObs().get(0).getLabCode(),
+								labTests.getResultOrg().get(0).getResultObs().get(0).getLabCode());
+	}
+	
+	@Test
+	public void testLabTestOrgResultObsStatusCode(){
+		Assert.assertEquals("Lab Tests result observation Status code test case failed",resultOrgList.get(0).getResultObs().get(0).getStatusCode(),
+								labTests.getResultOrg().get(0).getResultObs().get(0).getStatusCode());
+	}
+	
+	@Test
+	public void testLabTestOrgResultObsMeasurementTime(){
+		Assert.assertEquals("Lab Tests result observation Measurement Time test case failed",resultOrgList.get(0).getResultObs().get(0).getMeasurementTime(),
+								labTests.getResultOrg().get(0).getResultObs().get(0).getMeasurementTime());
+	}
+	
+	@Test
+	public void testLabTestOrgResultObsMeasurementResults(){
+		Assert.assertEquals("Lab Tests result observation results test case failed",resultOrgList.get(0).getResultObs().get(0).getResults(),
+								labTests.getResultOrg().get(0).getResultObs().get(0).getResults());
+	}
+	
+	@Test
+	public void testLabTestOrgResultObsMeasurementResultsCode(){
+		Assert.assertEquals("Lab Tests result observation results code test case failed",resultOrgList.get(0).getResultObs().get(0).getResultCode(),
+								labTests.getResultOrg().get(0).getResultObs().get(0).getResultCode());
+	}
+	
+	@Test
+	public void testLabTestOrgResultObsMeasurementIntrepretationCode(){
+		Assert.assertEquals("Lab Tests result observation Interpretation code test case failed",resultOrgList.get(0).getResultObs().get(0).getInterpretationCode(),
+								labTests.getResultOrg().get(0).getResultObs().get(0).getInterpretationCode());
+	}
+	
+	@Test
+	public void testLabTestOrgResultObsMeasurementReferenceRange(){
+		Assert.assertEquals("Lab Tests result observation reference range test case failed",resultOrgList.get(0).getResultObs().get(0).getReferenceRange(),
+								labTests.getResultOrg().get(0).getResultObs().get(0).getReferenceRange());
+	}
+
 	@Test
 	public void testIsLabTestInsteadOfResult(){
 		Assert.assertEquals("IsLabTestInsteadOfResult test case failed",new Boolean(true),labTests.getIsLabTestInsteadOfResult());

@@ -30,7 +30,7 @@ public class EncounterDiagnosisTest {
 	private static CCDAEncounter encounter;
 	private ArrayList<CCDAII>    templateIds;
 	private CCDACode  sectionCode;
-	private ArrayList<CCDAEncounterActivity> encActivities;
+	private static ArrayList<CCDAEncounterActivity> encActivities;
 	
 	
 	@BeforeClass
@@ -42,31 +42,7 @@ public class EncounterDiagnosisTest {
 		Document doc = builder.parse(new File(CCDA_DOC));
 		XPath xPath =  XPathFactory.newInstance().newXPath();
 		encounter = EncounterDiagnosesProcessor.retrieveEncounterDetails(xPath, doc);
-	}
-	
-	private void setEncounterSectionCode()
-	 {
-		sectionCode = new CCDACode();
-		sectionCode.setCode("46240-8");
-		sectionCode.setCodeSystem("2.16.840.1.113883.6.1");
-		sectionCode.setCodeSystemName("LOINC");
-		sectionCode.setDisplayName("History of encounters");
-	 }
-	
-	private void setEncounterTemplateIds()
-	 {
-		templateIds = new ArrayList<CCDAII>();
-		CCDAII templateIdOne = new CCDAII();
-		templateIdOne.setRootValue("2.16.840.1.113883.10.20.22.2.22.1");
-		templateIdOne.setExtValue("2015-08-01");
-		templateIds.add(templateIdOne);
-		CCDAII templateIdTwo = new CCDAII();
-		templateIdTwo.setRootValue("2.16.840.1.113883.10.20.22.2.22.1");
-		templateIds.add(templateIdTwo);
-	 }
-	
-	private void setEncounterActivities()
-	 {
+		
 		encActivities = new ArrayList<CCDAEncounterActivity>();
 		CCDAEncounterActivity encActivityOne = new CCDAEncounterActivity();
 		
@@ -167,6 +143,8 @@ public class EncounterDiagnosisTest {
 		
 		CCDAEffTime probObsEffectiveTime = new CCDAEffTime();
 		probObsEffectiveTime.setLow(new CCDADataElement("20150622"));
+		probObsEffectiveTime.setLowPresent(true);
+		probObsEffectiveTime.setHighPresent(false);
 		probObsOne.setEffTime(probObsEffectiveTime);
 		
 		CCDACode problemCode = new CCDACode();
@@ -181,6 +159,27 @@ public class EncounterDiagnosisTest {
 		encActivityOne.setIndications(probObsList);
 		
 		encActivities.add(encActivityOne);
+	}
+	
+	private void setEncounterSectionCode()
+	 {
+		sectionCode = new CCDACode();
+		sectionCode.setCode("46240-8");
+		sectionCode.setCodeSystem("2.16.840.1.113883.6.1");
+		sectionCode.setCodeSystemName("LOINC");
+		sectionCode.setDisplayName("History of encounters");
+	 }
+	
+	private void setEncounterTemplateIds()
+	 {
+		templateIds = new ArrayList<CCDAII>();
+		CCDAII templateIdOne = new CCDAII();
+		templateIdOne.setRootValue("2.16.840.1.113883.10.20.22.2.22.1");
+		templateIdOne.setExtValue("2015-08-01");
+		templateIds.add(templateIdOne);
+		CCDAII templateIdTwo = new CCDAII();
+		templateIdTwo.setRootValue("2.16.840.1.113883.10.20.22.2.22.1");
+		templateIds.add(templateIdTwo);
 	 }
 	
 	@Test
@@ -202,11 +201,104 @@ public class EncounterDiagnosisTest {
 	
 	@Test
 	public void testEncounterActivities(){
-		setEncounterActivities();
 		Assert.assertEquals("EncounterActivity test case failed",encActivities,encounter.getEncActivities());
+	}
+	
+	@Test
+	public void testEncounterActivitiyTemplateId(){
+		Assert.assertEquals("EncounterActivity Template Id test case failed",encActivities.get(0).getTemplateId(),encounter.getEncActivities().get(0).getTemplateId());
+	}
+	
+	@Test
+	public void testEncounterActivitiyTypeCode(){
+		Assert.assertEquals("EncounterActivity Type Code test case failed",encActivities.get(0).getEncounterTypeCode(),
+												encounter.getEncActivities().get(0).getEncounterTypeCode());
+	}
+	
+	@Test
+	public void testEncounterActivitiyEffectiveTime(){
+		Assert.assertEquals("EncounterActivity Effective time test case failed",encActivities.get(0).getEffectiveTime(),
+											encounter.getEncActivities().get(0).getEffectiveTime());
+	}
+	
+	@Test
+	public void testEncounterActivitiyDiagnoses(){
+		Assert.assertEquals("EncounterActivity Diagnoses test case failed",encActivities.get(0).getDiagnoses(),encounter.getEncActivities().get(0).getDiagnoses());
+	}
+	
+	@Test
+	public void testEncounterActivitiySdlocs(){
+		Assert.assertEquals("EncounterActivity SdLocs test case failed",encActivities.get(0).getSdLocs(),encounter.getEncActivities().get(0).getSdLocs());
+	}
+	
+	@Test
+	public void testEncounterActivitiyIndications(){
+		Assert.assertEquals("EncounterActivity Indications test case failed",encActivities.get(0).getIndications(),encounter.getEncActivities().get(0).getIndications());
+	}
+	
+	@Test
+	public void testEncounterActivitiySdlocsTemplateId(){
+		Assert.assertEquals("EncounterActivity SdLocs Template Ids test case failed",encActivities.get(0).getSdLocs().get(0).getTemplateId(),
+									encounter.getEncActivities().get(0).getSdLocs().get(0).getTemplateId());
+	}
+	
+	@Test
+	public void testEncounterActivitiySdlocsLocationCode(){
+		Assert.assertEquals("EncounterActivity SdLocs location code Template Ids test case failed",encActivities.get(0).getSdLocs().get(0).getLocationCode(),
+									encounter.getEncActivities().get(0).getSdLocs().get(0).getLocationCode());
+	}
+	
+	@Test
+	public void testEncounterActivitiySdlocsAddress(){
+		Assert.assertEquals("EncounterActivity SdLocs Address test case failed",encActivities.get(0).getSdLocs().get(0).getAddress(),
+									encounter.getEncActivities().get(0).getSdLocs().get(0).getAddress());
+	}
+	
+	@Test
+	public void testEncounterActivitiySdlocsTelecom(){
+		Assert.assertEquals("EncounterActivity SdLocs Telecom test case failed",encActivities.get(0).getSdLocs().get(0).getTelecom(),
+									encounter.getEncActivities().get(0).getSdLocs().get(0).getTelecom());
+	}
+	
+	@Test
+	public void testEncounterActivitiySdlocsName(){
+		Assert.assertEquals("EncounterActivity SdLocs Name test case failed",encActivities.get(0).getSdLocs().get(0).getName(),
+									encounter.getEncActivities().get(0).getSdLocs().get(0).getName());
+	}
+	
+	@Test
+	public void testEncounterActivitiyProbObsTemplateId(){
+		Assert.assertEquals("EncounterActivity Prob obs Template Id test case failed",encActivities.get(0).getIndications().get(0).getTemplateId(),
+									encounter.getEncActivities().get(0).getIndications().get(0).getTemplateId());
+	}
+	
+	
+	@Test
+	public void testEncounterActivitiyProbObsProblemType(){
+		Assert.assertEquals("EncounterActivity Prob obs problem type test case failed",encActivities.get(0).getIndications().get(0).getProblemType(),
+									encounter.getEncActivities().get(0).getIndications().get(0).getProblemType());
+	}
+	
+	
+	@Test
+	public void testEncounterActivitiyProbObsProblemCode(){
+		Assert.assertEquals("EncounterActivity Prob obs problem code test case failed",encActivities.get(0).getIndications().get(0).getProblemCode(),
+									encounter.getEncActivities().get(0).getIndications().get(0).getProblemCode());
+	}
+	
+
+	@Test
+	public void testEncounterActivitiyProbObsEffectivetTime(){
+		Assert.assertEquals("EncounterActivity Prob obs Effective Time test case failed",encActivities.get(0).getIndications().get(0).getEffTime(),
+									encounter.getEncActivities().get(0).getIndications().get(0).getEffTime());
+	}
+	
+	@Test
+	public void testEncounterActivitiyProbObsTransProbType(){
+		Assert.assertEquals("EncounterActivity Prob obs Translation Problem type test case failed",encActivities.get(0).getIndications().get(0).getTranslationProblemType(),
+									encounter.getEncActivities().get(0).getIndications().get(0).getTranslationProblemType());
 	}
 	
 	
 	
-
 }

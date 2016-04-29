@@ -24,7 +24,7 @@ public class UDITest {
 	private static String CCDA_DOC = "src/test/resources/170.315_b1_toc_amb_ccd_r21_sample1_v1.xml";
 	private static CCDAProcedure procedures;
 	private static ArrayList<CCDAUDI>  patientUDIList;
-	private  ArrayList<CCDAUDI>  udiList;
+	private static  ArrayList<CCDAUDI>  udiList;
 	
 	
 	@BeforeClass
@@ -37,10 +37,7 @@ public class UDITest {
 		XPath xPath =  XPathFactory.newInstance().newXPath();
 		procedures = ProcedureProcessor.retrievePrcedureDetails(xPath, doc);
 		patientUDIList = UDIProcessor.retrieveUDIDetails(procedures);
-	}
-	
-	private void setProcedureAct()
-	{
+		
 		udiList = new ArrayList<>();
 		CCDAUDI udiOne = new CCDAUDI();
 		
@@ -69,6 +66,7 @@ public class UDITest {
 		udiList.add(udiOne);
 	}
 	
+	
 	@Test
 	public void testUDI() throws Exception{
 		Assert.assertNotNull(patientUDIList);
@@ -76,8 +74,28 @@ public class UDITest {
 
 	@Test
 	public void testUdiList(){
-		setProcedureAct();
 		Assert.assertEquals("UDI test case failed",udiList,patientUDIList);
 	}
+	
+	@Test
+	public void testUdiListTemplateIds(){
+		Assert.assertEquals("UDI test case template Id failed",udiList.get(0).getTemplateIds(),patientUDIList.get(0).getTemplateIds());
+	}
+	
+	@Test
+	public void testUdiListUDIValue(){
+		Assert.assertEquals("UDI test case UDI value failed",udiList.get(0).getUDIValue(),patientUDIList.get(0).getUDIValue());
+	}
+	
+	@Test
+	public void testUdiListDeviceCode(){
+		Assert.assertEquals("UDI test device code value failed",udiList.get(0).getDeviceCode(),patientUDIList.get(0).getDeviceCode());
+	}
+	
+	@Test
+	public void testUdiListScopingEntityId(){
+		Assert.assertEquals("UDI test device code value failed",udiList.get(0).getScopingEntityId(),patientUDIList.get(0).getScopingEntityId());
+	}
+
 
 }
