@@ -94,6 +94,18 @@ public class ApplicationUtil {
 	    				evaluate(effectiveTimeElement, XPathConstants.NODE)));
 			effectiveTime.setHigh(readDataElement((Element) xPath.compile("./high[not(@nullFlavor)]").
 	    				evaluate(effectiveTimeElement, XPathConstants.NODE)));
+			if(effectiveTime.getLow() != null)
+			{
+				effectiveTime.setLowPresent(true);
+			}else
+				effectiveTime.setLowPresent(false);
+			
+			if(effectiveTime.getHigh() != null)
+			{
+				effectiveTime.setHighPresent(true);
+			}else
+				effectiveTime.setHighPresent(false);
+				
 		}
 		return effectiveTime;
 	}

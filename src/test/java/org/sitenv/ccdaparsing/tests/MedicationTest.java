@@ -29,7 +29,7 @@ public class MedicationTest {
 	private static CCDAMedication medication;
 	private ArrayList<CCDAII>    templateIds;
 	private CCDACode  sectionCode;
-	private ArrayList<CCDAMedicationActivity> medActivities;
+	private static ArrayList<CCDAMedicationActivity> medActivities;
 	
 	
 	@BeforeClass
@@ -41,31 +41,6 @@ public class MedicationTest {
 		Document doc = builder.parse(new File(CCDA_DOC));
 		XPath xPath =  XPathFactory.newInstance().newXPath();
 		medication = MedicationProcessor.retrieveMedicationDetails(xPath, doc);
-	}
-	
-	private void setMedicationSectionCode()
-	{
-		sectionCode = new CCDACode();
-		sectionCode.setCode("10160-0");
-		sectionCode.setCodeSystem("2.16.840.1.113883.6.1");
-		sectionCode.setCodeSystemName("LOINC");
-		sectionCode.setDisplayName("HISTORY OF MEDICATION USE");
-	}
-	
-	private void setMedicationTemplateIds()
-	{
-		templateIds = new ArrayList<CCDAII>();
-		CCDAII templateIdOne = new CCDAII();
-		templateIdOne.setRootValue("2.16.840.1.113883.10.20.22.2.1.1");
-		templateIdOne.setExtValue("2014-06-09");
-		templateIds.add(templateIdOne);
-		CCDAII templateIdTwo = new CCDAII();
-		templateIdTwo.setRootValue("2.16.840.1.113883.10.20.22.2.1.1");
-		templateIds.add(templateIdTwo);
-	}
-	
-	private void setMedicationActivities()
-	{
 		
 		medActivities = new ArrayList<>();
 		
@@ -100,6 +75,8 @@ public class MedicationTest {
 		
 		CCDAEffTime duration = new CCDAEffTime();
 		duration.setLow(new CCDADataElement("20150622"));
+		duration.setLowPresent(true);
+		duration.setHighPresent(false);
 		medActivitiyOne.setDuration(duration);
 		
 		CCDAFrequency frequency = new CCDAFrequency();
@@ -133,6 +110,28 @@ public class MedicationTest {
 		medActivities.add(medActivitiyOne);
 	}
 	
+	private void setMedicationSectionCode()
+	{
+		sectionCode = new CCDACode();
+		sectionCode.setCode("10160-0");
+		sectionCode.setCodeSystem("2.16.840.1.113883.6.1");
+		sectionCode.setCodeSystemName("LOINC");
+		sectionCode.setDisplayName("HISTORY OF MEDICATION USE");
+	}
+	
+	private void setMedicationTemplateIds()
+	{
+		templateIds = new ArrayList<CCDAII>();
+		CCDAII templateIdOne = new CCDAII();
+		templateIdOne.setRootValue("2.16.840.1.113883.10.20.22.2.1.1");
+		templateIdOne.setExtValue("2014-06-09");
+		templateIds.add(templateIdOne);
+		CCDAII templateIdTwo = new CCDAII();
+		templateIdTwo.setRootValue("2.16.840.1.113883.10.20.22.2.1.1");
+		templateIds.add(templateIdTwo);
+	}
+	
+	
 	@Test
 	public void testMedication() throws Exception{
 		Assert.assertNotNull(medication);
@@ -152,50 +151,78 @@ public class MedicationTest {
 	
 	@Test
 	public void testMedicationAct(){
-		setMedicationActivities();
 		Assert.assertEquals("Medication Activity test case failed",medActivities.get(0),medication.getMedActivities().get(0));
 	}
 	
 	@Test
 	public void testMedicationActTemplateIds(){
-		setMedicationActivities();
-		Assert.assertEquals("Medication Activity Teamplate Id test case failed",medActivities.get(0).getTemplateIds(),medication.getMedActivities().get(0).getTemplateIds());
+		Assert.assertEquals("Medication Activity Teamplate Id test case failed",medActivities.get(0).getTemplateIds(),
+													medication.getMedActivities().get(0).getTemplateIds());
 	}
 	
 	@Test
 	public void testMedicationActRouteCode(){
-		setMedicationActivities();
-		Assert.assertEquals("Medication Activity Route Code test case failed",medActivities.get(0).getRouteCode(),medication.getMedActivities().get(0).getRouteCode());
+		Assert.assertEquals("Medication Activity Route Code test case failed",medActivities.get(0).getRouteCode(),
+																	medication.getMedActivities().get(0).getRouteCode());
 	}
 	
 	@Test
 	public void testMedicationActDoseQuantity(){
-		setMedicationActivities();
-		Assert.assertEquals("Medication Activity Dose Quantity test case failed",medActivities.get(0).getDoseQuantity(),medication.getMedActivities().get(0).getDoseQuantity());
+		Assert.assertEquals("Medication Activity Dose Quantity test case failed",medActivities.get(0).getDoseQuantity(),
+											medication.getMedActivities().get(0).getDoseQuantity());
 	}
 	
 	@Test
 	public void testMedicationActRateQuantity(){
-		setMedicationActivities();
-		Assert.assertEquals("Medication Activity Rate Quantity test case failed",medActivities.get(0).getRateQuantity(),medication.getMedActivities().get(0).getRateQuantity());
+		Assert.assertEquals("Medication Activity Rate Quantity test case failed",medActivities.get(0).getRateQuantity(),
+														medication.getMedActivities().get(0).getRateQuantity());
 	}
 	
 	@Test
 	public void testMedicationActDuration(){
-		setMedicationActivities();
 		Assert.assertEquals("Medication Activity duration test case failed",medActivities.get(0).getDuration(),medication.getMedActivities().get(0).getDuration());
 	}
 	
 	@Test
 	public void testMedicationActFrequency(){
-		setMedicationActivities();
 		Assert.assertEquals("Medication Activity frequency test case failed",medActivities.get(0).getFrequency(),medication.getMedActivities().get(0).getFrequency());
 	}
 	
 	@Test
 	public void testMedicationActConsumable(){
-		setMedicationActivities();
 		Assert.assertEquals("Medication Activity consumable test case failed",medActivities.get(0).getConsumable(),medication.getMedActivities().get(0).getConsumable());
 	}
-
+	
+	@Test
+	public void testMedicationActConsumableTemplateIds(){
+		Assert.assertEquals("Medication Activity consumable template Ids test case failed",medActivities.get(0).getConsumable().getTemplateIds(),
+											medication.getMedActivities().get(0).getConsumable().getTemplateIds());
+	}
+	
+	@Test
+	public void testMedicationActConsumableMedcode(){
+		Assert.assertEquals("Medication Activity consumable med code test case failed",medActivities.get(0).getConsumable().getMedcode(),
+											medication.getMedActivities().get(0).getConsumable().getMedcode());
+	}
+	
+	@Test
+	public void testMedicationActConsumableTranslations(){
+		Assert.assertEquals("Medication Activity consumable translations test case failed",medActivities.get(0).getConsumable().getTranslations(),
+											medication.getMedActivities().get(0).getConsumable().getTranslations());
+	}
+	
+	@Test
+	public void testMedicationActConsumableLotNumberText(){
+		Assert.assertEquals("Medication Activity consumable lotnumber text test case failed",medActivities.get(0).getConsumable().getTranslations(),
+											medication.getMedActivities().get(0).getConsumable().getTranslations());
+	}
+	
+	@Test
+	public void testMedicationActConsumableManufacturingOrg(){
+		Assert.assertEquals("Medication Activity consumable manufacturing org test case failed",medActivities.get(0).getConsumable().getManufacturingOrg(),
+											medication.getMedActivities().get(0).getConsumable().getManufacturingOrg());
+	}
+	
 }
+
+

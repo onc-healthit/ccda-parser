@@ -27,7 +27,7 @@ public class ProblemTest {
 	private static CCDAProblem problems;
 	private ArrayList<CCDAII>    templateIds;
 	private CCDACode  sectionCode;
-	private ArrayList<CCDAProblemConcern> problemConcernList;
+	private static ArrayList<CCDAProblemConcern> problemConcernList;
 	
 	
 	@BeforeClass
@@ -39,31 +39,6 @@ public class ProblemTest {
 		Document doc = builder.parse(new File(CCDA_DOC));
 		XPath xPath =  XPathFactory.newInstance().newXPath();
 		problems = ProblemProcessor.retrieveProblemDetails(xPath, doc);
-	}
-	
-	private void setProblemsSectionCode()
-	{
-		sectionCode = new CCDACode();
-		sectionCode.setCode("11450-4");
-		sectionCode.setCodeSystem("2.16.840.1.113883.6.1");
-		sectionCode.setCodeSystemName("LOINC");
-		sectionCode.setDisplayName("PROBLEM LIST");
-	}
-	
-	private void setProblemsTemplateIds()
-	{
-		templateIds = new ArrayList<CCDAII>();
-		CCDAII templateIdOne = new CCDAII();
-		templateIdOne.setRootValue("2.16.840.1.113883.10.20.22.2.5.1");
-		templateIdOne.setExtValue("2015-08-01");
-		templateIds.add(templateIdOne);
-		CCDAII templateIdTwo = new CCDAII();
-		templateIdTwo.setRootValue("2.16.840.1.113883.10.20.22.2.5.1");
-		templateIds.add(templateIdTwo);
-	}
-	
-	private void setProblemConcerns()
-	{
 		
 		problemConcernList = new ArrayList<>();
 		
@@ -92,6 +67,8 @@ public class ProblemTest {
 		
 		CCDAEffTime effectiveTime = new CCDAEffTime();
 		effectiveTime.setLow(new CCDADataElement("20111005"));
+		effectiveTime.setLowPresent(true);
+		effectiveTime.setHighPresent(false);
 		problemConcernOne.setEffTime(effectiveTime);
 		
 		ArrayList<CCDAProblemObs> problemObsList = new ArrayList<>();
@@ -128,6 +105,8 @@ public class ProblemTest {
 		
 		CCDAEffTime problemObsEffectiveTime = new CCDAEffTime();
 		problemObsEffectiveTime.setLow(new CCDADataElement("20111005"));
+		problemObsEffectiveTime.setLowPresent(true);
+		problemObsEffectiveTime.setHighPresent(false);
 		problemObsOne.setEffTime(problemObsEffectiveTime);
 		
 		ArrayList<CCDACode> translationList = new ArrayList<>();
@@ -146,6 +125,27 @@ public class ProblemTest {
 		problemConcernOne.setProblemObservations(problemObsList);
 		
 		problemConcernList.add(problemConcernOne);
+	}
+	
+	private void setProblemsSectionCode()
+	{
+		sectionCode = new CCDACode();
+		sectionCode.setCode("11450-4");
+		sectionCode.setCodeSystem("2.16.840.1.113883.6.1");
+		sectionCode.setCodeSystemName("LOINC");
+		sectionCode.setDisplayName("PROBLEM LIST");
+	}
+	
+	private void setProblemsTemplateIds()
+	{
+		templateIds = new ArrayList<CCDAII>();
+		CCDAII templateIdOne = new CCDAII();
+		templateIdOne.setRootValue("2.16.840.1.113883.10.20.22.2.5.1");
+		templateIdOne.setExtValue("2015-08-01");
+		templateIds.add(templateIdOne);
+		CCDAII templateIdTwo = new CCDAII();
+		templateIdTwo.setRootValue("2.16.840.1.113883.10.20.22.2.5.1");
+		templateIds.add(templateIdTwo);
 	}
 	
 	
@@ -168,40 +168,64 @@ public class ProblemTest {
 	
 	@Test
 	public void testProblemConcern(){
-		setProblemConcerns();
 		Assert.assertEquals("Problems  Concern  test case failed",problemConcernList.get(0),problems.getProblemConcerns().get(0));
 	}
 	
 	@Test
 	public void testProblemConcernTeamplateId(){
-		setProblemConcerns();
-		Assert.assertEquals("Problems  Concern Teamplate Id test case failed",problemConcernList.get(0).getTemplateId(),problems.getProblemConcerns().get(0).getTemplateId());
+		Assert.assertEquals("Problems  Concern Teamplate Id test case failed",problemConcernList.get(0).getTemplateId(),
+														problems.getProblemConcerns().get(0).getTemplateId());
 	}
 	
 	@Test
 	public void testProblemConcernCode(){
-		setProblemConcerns();
 		Assert.assertEquals("Problems  Concern Code  test case failed",problemConcernList.get(0).getConcernCode(),problems.getProblemConcerns().get(0).getConcernCode());
 	}
 	
 	@Test
 	public void testProblemConcernStatusCode(){
-		setProblemConcerns();
 		Assert.assertEquals("Problems  Concern  test case failed",problemConcernList.get(0).getStatusCode(),problems.getProblemConcerns().get(0).getStatusCode());
 	}
 	
 	@Test
 	public void testProblemConcerneffectiveTime(){
-		setProblemConcerns();
 		Assert.assertEquals("Problems  Concern  Effective Time test case failed",problemConcernList.get(0).getEffTime(),problems.getProblemConcerns().get(0).getEffTime());
 	}
 	
 	@Test
 	public void testProblemObservations(){
-		setProblemConcerns();
-		Assert.assertEquals("Problems  Observations  test case failed",problemConcernList.get(0).getProblemObservations(),problems.getProblemConcerns().get(0).getProblemObservations());
+		Assert.assertEquals("Problems  Observations  test case failed",problemConcernList.get(0).getProblemObservations(),
+													problems.getProblemConcerns().get(0).getProblemObservations());
 	}
 	
+	@Test
+	public void testProblemObservationsTemplateId(){
+		Assert.assertEquals("Problems  Observations template Id  test case failed",problemConcernList.get(0).getProblemObservations().get(0).getTemplateId(),
+													problems.getProblemConcerns().get(0).getProblemObservations().get(0).getTemplateId());
+	}
 	
+	@Test
+	public void testProblemObservationsProblemType(){
+		Assert.assertEquals("Problems  Observations  problem type test case failed",problemConcernList.get(0).getProblemObservations().get(0).getProblemType(),
+													problems.getProblemConcerns().get(0).getProblemObservations().get(0).getProblemType());
+	}
+	
+	@Test
+	public void testProblemObservationsProblemCode(){
+		Assert.assertEquals("Problems  Observations  problem code test case failed",problemConcernList.get(0).getProblemObservations().get(0).getProblemCode(),
+													problems.getProblemConcerns().get(0).getProblemObservations().get(0).getProblemCode());
+	}
+	
+	@Test
+	public void testProblemObservationsTranslationProblemType(){
+		Assert.assertEquals("Problems  Observations translation problem type test case failed",problemConcernList.get(0).getProblemObservations().get(0).getTranslationProblemType(),
+													problems.getProblemConcerns().get(0).getProblemObservations().get(0).getTranslationProblemType());
+	}
+	
+	@Test
+	public void testProblemObservationsEffectiveTime(){
+		Assert.assertEquals("Problems  Observations effective time test case failed",problemConcernList.get(0).getProblemObservations().get(0).getEffTime(),
+													problems.getProblemConcerns().get(0).getProblemObservations().get(0).getEffTime());
+	}
 
 }

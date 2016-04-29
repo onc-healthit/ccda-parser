@@ -29,7 +29,7 @@ public class MedicationAllergies {
 	private static CCDAAllergy allergies;
 	private ArrayList<CCDAII>    templateIds;
 	private CCDACode  sectionCode;
-	private ArrayList<CCDAAllergyConcern> allergyConcernList;
+	private static ArrayList<CCDAAllergyConcern> allergyConcernList;
 	
 	
 	@BeforeClass
@@ -41,31 +41,7 @@ public class MedicationAllergies {
 		Document doc = builder.parse(new File(CCDA_DOC));
 		XPath xPath =  XPathFactory.newInstance().newXPath();
 		allergies = MediactionAllergiesProcessor.retrieveAllergiesDetails(xPath, doc);
-	}
-	
-	private void setAllergiesSectionCode()
-	{
-		sectionCode = new CCDACode();
-		sectionCode.setCode("48765-2");
-		sectionCode.setCodeSystem("2.16.840.1.113883.6.1");
-		sectionCode.setCodeSystemName("LOINC");
-	}
-	
-	private void setAllergiesTemplateIds()
-	{
-		templateIds = new ArrayList<CCDAII>();
-		CCDAII templateIdOne = new CCDAII();
-		templateIdOne.setRootValue("2.16.840.1.113883.10.20.22.2.6.1");
-		templateIdOne.setExtValue("2015-08-01");
-		templateIds.add(templateIdOne);
-		CCDAII templateIdTwo = new CCDAII();
-		templateIdTwo.setRootValue("2.16.840.1.113883.10.20.22.2.6.1");
-		templateIds.add(templateIdTwo);
-	}
-	
-	
-	private void setAllergiesConcern()
-	{
+		
 		allergyConcernList = new ArrayList<>();
 		CCDAAllergyConcern allergyConcern = new CCDAAllergyConcern();
 		
@@ -91,6 +67,8 @@ public class MedicationAllergies {
 		
 		CCDAEffTime effectiveTime = new CCDAEffTime();
 		effectiveTime.setLow(new CCDADataElement("19800501"));
+		effectiveTime.setLowPresent(true);
+		effectiveTime.setHighPresent(false);
 		
 		allergyConcern.setEffTime(effectiveTime);
 		
@@ -127,7 +105,8 @@ public class MedicationAllergies {
 		
 		CCDAEffTime obsEffectiveTime = new CCDAEffTime();
 		obsEffectiveTime.setLow(new CCDADataElement("19980501"));
-		
+		obsEffectiveTime.setLowPresent(true);
+		obsEffectiveTime.setHighPresent(false);
 		allergyObservationOne.setEffTime(obsEffectiveTime);
 		
 		ArrayList<CCDAAllergyReaction> allergyReactionList = new ArrayList<>();
@@ -183,6 +162,27 @@ public class MedicationAllergies {
 		allergyConcernList.add(allergyConcern);
 	}
 	
+	private void setAllergiesSectionCode()
+	{
+		sectionCode = new CCDACode();
+		sectionCode.setCode("48765-2");
+		sectionCode.setCodeSystem("2.16.840.1.113883.6.1");
+		sectionCode.setCodeSystemName("LOINC");
+	}
+	
+	private void setAllergiesTemplateIds()
+	{
+		templateIds = new ArrayList<CCDAII>();
+		CCDAII templateIdOne = new CCDAII();
+		templateIdOne.setRootValue("2.16.840.1.113883.10.20.22.2.6.1");
+		templateIdOne.setExtValue("2015-08-01");
+		templateIds.add(templateIdOne);
+		CCDAII templateIdTwo = new CCDAII();
+		templateIdTwo.setRootValue("2.16.840.1.113883.10.20.22.2.6.1");
+		templateIds.add(templateIdTwo);
+	}
+	
+	
 	@Test
 	public void testAllergies() throws Exception{
 		Assert.assertNotNull(allergies);
@@ -202,13 +202,71 @@ public class MedicationAllergies {
 	
 	@Test
 	public void testAllergyConcern(){
-		setAllergiesConcern();
 		Assert.assertEquals("Medication Allergies test case failed",allergyConcernList.get(0),allergies.getAllergyConcern().get(0));
 	}
 	
 	@Test
 	public void testAllergyConcernTemplateId(){
-		setAllergiesConcern();
 		Assert.assertEquals("Allergy concern Template Id test case failed",allergyConcernList.get(0).getTemplateId(),allergies.getAllergyConcern().get(0).getTemplateId());
+	}
+	
+	@Test
+	public void testAllergyConcernCode(){
+		Assert.assertEquals("Allergy concern code test case failed",allergyConcernList.get(0).getConcernCode(),
+									allergies.getAllergyConcern().get(0).getConcernCode());
+	}
+	
+	@Test
+	public void testAllergyConcernStatusCode(){
+		Assert.assertEquals("Allergy concern status code test case failed",allergyConcernList.get(0).getStatusCode(),
+									allergies.getAllergyConcern().get(0).getStatusCode());
+	}
+	
+	@Test
+	public void testAllergyConcernEffectiveTime(){
+		Assert.assertEquals("Allergy concern Effective time test case failed",allergyConcernList.get(0).getEffTime(),
+									allergies.getAllergyConcern().get(0).getEffTime());
+	}
+	
+	@Test
+	public void testAllergyConcernObsTemplateId(){
+		Assert.assertEquals("Allergy concern obs teamplate Ids test case failed",allergyConcernList.get(0).getAllergyObs().get(0).getTemplateId(),
+									allergies.getAllergyConcern().get(0).getAllergyObs().get(0).getTemplateId());
+	}
+	
+	@Test
+	public void testAllergyConcernObsIntoleranceType(){
+		Assert.assertEquals("Allergy concern obs intolerance type test case failed",allergyConcernList.get(0).getAllergyObs().get(0).getAllergyIntoleranceType(),
+									allergies.getAllergyConcern().get(0).getAllergyObs().get(0).getAllergyIntoleranceType());
+	}
+	
+	@Test
+	public void testAllergyConcernObsSubstance(){
+		Assert.assertEquals("Allergy concern obs substance test case failed",allergyConcernList.get(0).getAllergyObs().get(0).getAllergySubstance(),
+									allergies.getAllergyConcern().get(0).getAllergyObs().get(0).getAllergySubstance());
+	}
+	
+	@Test
+	public void testAllergyConcernObsEffectiveTime(){
+		Assert.assertEquals("Allergy concern obs  effective time test case failed",allergyConcernList.get(0).getAllergyObs().get(0).getEffTime(),
+									allergies.getAllergyConcern().get(0).getAllergyObs().get(0).getEffTime());
+	}
+	
+	@Test
+	public void testAllergyConcernObsReactions(){
+		Assert.assertEquals("Allergy concern obs reactions test case failed",allergyConcernList.get(0).getAllergyObs().get(0).getReactions(),
+									allergies.getAllergyConcern().get(0).getAllergyObs().get(0).getReactions());
+	}
+	
+	@Test
+	public void testAllergyConcernObsSeverity(){
+		Assert.assertEquals("Allergy concern obs severity test case failed",allergyConcernList.get(0).getAllergyObs().get(0).getSeverity(),
+									allergies.getAllergyConcern().get(0).getAllergyObs().get(0).getSeverity());
+	}
+	
+	@Test
+	public void testAllergyConcernObsNegationInd(){
+		Assert.assertEquals("Allergy concern obs negation Ind test case failed",allergyConcernList.get(0).getAllergyObs().get(0).getNegationInd(),
+									allergies.getAllergyConcern().get(0).getAllergyObs().get(0).getNegationInd());
 	}
 }
