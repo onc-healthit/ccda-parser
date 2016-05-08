@@ -29,7 +29,7 @@ public class ImmunizationTest {
 	private static CCDAImmunization immunizations;
 	private ArrayList<CCDAII>    templateIds;
 	private CCDACode  sectionCode;
-	private ArrayList<CCDAImmunizationActivity> immuActivities;
+	private static ArrayList<CCDAImmunizationActivity> immuActivities;
 	
 	
 	@BeforeClass
@@ -41,31 +41,7 @@ public class ImmunizationTest {
 		Document doc = builder.parse(new File(CCDA_DOC));
 		XPath xPath =  XPathFactory.newInstance().newXPath();
 		immunizations = ImmunizationProcessor.retrieveImmunizationDetails(xPath, doc);
-	}
-	
-	private void setEncounterSectionCode()
-	 {
-		sectionCode = new CCDACode();
-		sectionCode.setCode("11369-6");
-		sectionCode.setCodeSystem("2.16.840.1.113883.6.1");
-		sectionCode.setCodeSystemName("LOINC");
-		sectionCode.setDisplayName("History of immunizations");
-	 }
-	
-	private void setEncounterTemplateIds()
-	 {
-		templateIds = new ArrayList<CCDAII>();
-		CCDAII templateIdOne = new CCDAII();
-		templateIdOne.setRootValue("2.16.840.1.113883.10.20.22.2.2.1");
-		templateIdOne.setExtValue("2014-06-09");
-		templateIds.add(templateIdOne);
-		CCDAII templateIdTwo = new CCDAII();
-		templateIdTwo.setRootValue("2.16.840.1.113883.10.20.22.2.2.1");
-		templateIds.add(templateIdTwo);
-	 }
-	
-	private void setImmunizationActivity()
-	{
+		
 		immuActivities = new ArrayList<>();
 		CCDAImmunizationActivity immuActivityOne = new CCDAImmunizationActivity();
 		
@@ -197,9 +173,29 @@ public class ImmunizationTest {
 		
 		immuActivityThree.setConsumable(consumableThree);
 		immuActivities.add(immuActivityThree);
-       		
-		
 	}
+	
+	private void setEncounterSectionCode()
+	 {
+		sectionCode = new CCDACode();
+		sectionCode.setCode("11369-6");
+		sectionCode.setCodeSystem("2.16.840.1.113883.6.1");
+		sectionCode.setCodeSystemName("LOINC");
+		sectionCode.setDisplayName("History of immunizations");
+	 }
+	
+	private void setEncounterTemplateIds()
+	 {
+		templateIds = new ArrayList<CCDAII>();
+		CCDAII templateIdOne = new CCDAII();
+		templateIdOne.setRootValue("2.16.840.1.113883.10.20.22.2.2.1");
+		templateIdOne.setExtValue("2014-06-09");
+		templateIds.add(templateIdOne);
+		CCDAII templateIdTwo = new CCDAII();
+		templateIdTwo.setRootValue("2.16.840.1.113883.10.20.22.2.2.1");
+		templateIds.add(templateIdTwo);
+	 }
+	
 	
 	@Test
 	public void testImmunization() throws Exception{
@@ -220,8 +216,100 @@ public class ImmunizationTest {
 	
 	@Test
 	public void testImmunizationActivities(){
-		setImmunizationActivity();
 		Assert.assertEquals("Immunization Activity test case failed",immuActivities,immunizations.getImmActivity());
+	}
+	
+	@Test
+	public void testImmunizationActivitiesTemplateId(){
+		Assert.assertEquals("Immunization Activity Template Ids test case failed",immuActivities.get(0).getTemplateIds(),immunizations.getImmActivity().get(0).getTemplateIds());
+	}
+	
+	@Test
+	public void testImmunizationActivitiesTime(){
+		Assert.assertEquals("Immunization Activity time test case failed",immuActivities.get(0).getTime(),immunizations.getImmActivity().get(0).getTime());
+	}
+	
+	@Test
+	public void testImmunizationRouteCode(){
+		Assert.assertEquals("Immunization Activity route code test case failed",immuActivities.get(0).getRouteCode(),immunizations.getImmActivity().get(0).getRouteCode());
+	}
+	
+	@Test
+	public void testImmunizationAppraochsiteCode(){
+		Assert.assertEquals("Immunization Activity appraochsite code test case failed",immuActivities.get(0).getApproachSiteCode(),
+									immunizations.getImmActivity().get(0).getApproachSiteCode());
+	}
+	
+	@Test
+	public void testImmunizationDoseQuantity(){
+		Assert.assertEquals("Immunization Activity dose quantity test case failed",immuActivities.get(0).getDoseQuantity(),
+									immunizations.getImmActivity().get(0).getDoseQuantity());
+	}
+	
+	@Test
+	public void testImmunizationAdminUnitCode(){
+		Assert.assertEquals("Immunization Activity Admin unit code test case failed",immuActivities.get(0).getAdminUnitCode(),
+									immunizations.getImmActivity().get(0).getAdminUnitCode());
+	}
+	
+	@Test
+	public void testImmunizationConsumable(){
+		Assert.assertEquals("Immunization Activity consumable test case failed",immuActivities.get(0).getConsumable(),
+									immunizations.getImmActivity().get(0).getConsumable());
+	}
+	
+	@Test
+	public void testImmunizationOrganization(){
+		Assert.assertEquals("Immunization Activity organization test case failed",immuActivities.get(0).getOrganization(),
+									immunizations.getImmActivity().get(0).getOrganization());
+	}
+	
+	@Test
+	public void testImmunizationConsumableTemplateIds(){
+		Assert.assertEquals("Immunization Activity consumable  template ids test case failed",immuActivities.get(0).getConsumable().getTemplateIds(),
+									immunizations.getImmActivity().get(0).getConsumable().getTemplateIds());
+	}
+	
+	@Test
+	public void testImmunizationConsumableMedcode(){
+		Assert.assertEquals("Immunization Activity consumable medcode test case failed",immuActivities.get(0).getConsumable().getMedcode(),
+									immunizations.getImmActivity().get(0).getConsumable().getMedcode());
+	}
+	
+	@Test
+	public void testImmunizationConsumableTranslations(){
+		Assert.assertEquals("Immunization Activity consumable translations test case failed",immuActivities.get(0).getConsumable().getTranslations(),
+									immunizations.getImmActivity().get(0).getConsumable().getTranslations());
+	}
+	
+	@Test
+	public void testImmunizationConsumableLotNumberText(){
+		Assert.assertEquals("Immunization Activity consumable lot number text test case failed",immuActivities.get(0).getConsumable().getLotNumberText(),
+									immunizations.getImmActivity().get(0).getConsumable().getLotNumberText());
+	}
+	
+	@Test
+	public void testImmunizationConsumableManufacturingOrg(){
+		Assert.assertEquals("Immunization Activity consumable lot number text test case failed",immuActivities.get(0).getConsumable().getManufacturingOrg(),
+									immunizations.getImmActivity().get(0).getConsumable().getManufacturingOrg());
+	}
+	
+	@Test
+	public void testImmunizationOrganizationName(){
+		Assert.assertEquals("Immunization Activity organization name test case failed",immuActivities.get(0).getOrganization().getNames(),
+									immunizations.getImmActivity().get(0).getOrganization().getNames());
+	}
+	
+	@Test
+	public void testImmunizationOrganizationAddress(){
+		Assert.assertEquals("Immunization Activity organization Address test case failed",immuActivities.get(0).getOrganization().getAddress(),
+									immunizations.getImmActivity().get(0).getOrganization().getAddress());
+	}
+	
+	@Test
+	public void testImmunizationOrganizationTelecom(){
+		Assert.assertEquals("Immunization Activity organization Telecom test case failed",immuActivities.get(0).getOrganization().getTelecom(),
+									immunizations.getImmActivity().get(0).getOrganization().getTelecom());
 	}
 
 }

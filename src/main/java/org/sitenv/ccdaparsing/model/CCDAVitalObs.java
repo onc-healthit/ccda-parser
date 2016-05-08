@@ -9,7 +9,7 @@ public class CCDAVitalObs {
 	private CCDADataElement					measurementTime;
 	private CCDAPQ							vsResult;
 	private CCDACode						interpretationCode;
-	private ArrayList<CCDAEffTime>			referenceValue;
+	private ArrayList<CCDAPQ>			    referenceValue;
 	
 	public CCDAVitalObs()
 	{
@@ -64,11 +64,11 @@ public class CCDAVitalObs {
 		this.interpretationCode = interpretationCode;
 	}
 
-	public ArrayList<CCDAEffTime> getReferenceValue() {
+	public ArrayList<CCDAPQ> getReferenceValue() {
 		return referenceValue;
 	}
 
-	public void setReferenceValue(ArrayList<CCDAEffTime> referenceValue) {
+	public void setReferenceValue(ArrayList<CCDAPQ> referenceValue) {
 		this.referenceValue = referenceValue;
 	}
 
@@ -140,6 +140,5 @@ public class CCDAVitalObs {
 			return false;
 		return true;
 	}
-
 }
 

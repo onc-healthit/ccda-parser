@@ -6,7 +6,6 @@ import javax.xml.xpath.XPath;
 import javax.xml.xpath.XPathConstants;
 import javax.xml.xpath.XPathExpressionException;
 
-import org.sitenv.ccdaparsing.model.CCDAEffTime;
 import org.sitenv.ccdaparsing.model.CCDAPQ;
 import org.sitenv.ccdaparsing.model.CCDAVitalObs;
 import org.sitenv.ccdaparsing.model.CCDAVitalOrg;
@@ -50,6 +49,9 @@ public class VitalSignProcessor {
 										evaluate(vitalOrganizerElement, XPathConstants.NODESET)));
 			
 			vitalOrganizer.setOrgCode(ApplicationUtil.readCode((Element) xPath.compile("./code[not(@nullFlavor)]").
+					evaluate(vitalOrganizerElement, XPathConstants.NODE)));
+			
+			vitalOrganizer.setTranslationCode(ApplicationUtil.readCode((Element) xPath.compile("./code/translation[not(@nullFlavor)]").
 					evaluate(vitalOrganizerElement, XPathConstants.NODE)));
 			
 			vitalOrganizer.setStatusCode(ApplicationUtil.readCode((Element) xPath.compile("./statusCode[not(@nullFlavor)]").
@@ -98,10 +100,10 @@ public class VitalSignProcessor {
 				if(!ApplicationUtil.isEmpty(vsResult.getAttribute("xsi:type")))
 				{
 					String xsiType = vsResult.getAttribute("xsi:type");
-					if (xsiType.equalsIgnoreCase("ST"))
+					if (xsiType.equalsIgnoreCase("CD"))
 					{
 						vitalObservation.setVsResult(new CCDAPQ(vsResult.getTextContent()));
-					}else 
+					}else if(xsiType.equalsIgnoreCase("PQ"))
 					{
 						vitalObservation.setVsResult(ApplicationUtil.readQuantity(vsResult));
 					}
@@ -111,14 +113,17 @@ public class VitalSignProcessor {
 			NodeList referenceRangeNodeList = (NodeList) xPath.compile("./referenceRange/observationRange[value[@type='IVL_PQ']]").
 					evaluate(resultObservationElement, XPathConstants.NODESET);
 			
-			ArrayList<CCDAEffTime> referenceValueList = new ArrayList<>();
+			ArrayList<CCDAPQ> referenceValueList = new ArrayList<>();
 			for (int j = 0; j < referenceRangeNodeList.getLength(); j++) { 
 				
 				Element referenceRangeElement = (Element) referenceRangeNodeList.item(j);
 				
 				if(referenceRangeElement != null)
 				{
-					referenceValueList.add(ApplicationUtil.readEffectivetime(referenceRangeElement, xPath));
+					referenceValueList.add(ApplicationUtil.readQuantity((Element) xPath.compile("./low[not(@nullFlavor)]").
+		    				evaluate(referenceRangeElement, XPathConstants.NODE)));
+					referenceValueList.add(ApplicationUtil.readQuantity((Element) xPath.compile("./high[not(@nullFlavor)]").
+		    				evaluate(referenceRangeElement, XPathConstants.NODE)));
 				}
 			}
 			vitalObservation.setReferenceValue(referenceValueList);
