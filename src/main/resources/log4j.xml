@@ -11,7 +11,7 @@
  
     <appender name="FILE" class="org.apache.log4j.rolling.RollingFileAppender">
         <rollingPolicy class="org.apache.log4j.rolling.TimeBasedRollingPolicy">
-            <param name="FileNamePattern" value="${catalina.home}/logs/CCDAParserAPI.%d{yyyy-MM-dd}.log" />
+            <param name="FileNamePattern" value="${catalina.home}/logs/ScoreCard.%d{yyyy-MM-dd}.log" />
         </rollingPolicy>
  
         <layout class="org.apache.log4j.PatternLayout">
@@ -20,7 +20,7 @@
     </appender>
  
     <root>
-        <priority value="DEBUG" />
+        <priority value="INFO" />
         <appender-ref ref="CONSOLE" />
         <appender-ref ref="FILE" />
     </root>
