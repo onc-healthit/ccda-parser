@@ -102,7 +102,7 @@ public class VitalSignProcessor {
 					String xsiType = vsResult.getAttribute("xsi:type");
 					if (xsiType.equalsIgnoreCase("CD"))
 					{
-						vitalObservation.setVsResult(new CCDAPQ(vsResult.getTextContent()));
+						vitalObservation.setVsResult(new CCDAPQ(vsResult.getTextContent(),"CD"));
 					}else if(xsiType.equalsIgnoreCase("PQ"))
 					{
 						vitalObservation.setVsResult(ApplicationUtil.readQuantity(vsResult));

@@ -102,7 +102,7 @@ public class LaboratoryResultsProcessor {
 					String xsiType = resultValue.getAttribute("xsi:type");
 					if (xsiType.equalsIgnoreCase("CD"))
 					{
-						resultObservation.setResults(new CCDAPQ(resultValue.getTextContent()));
+						resultObservation.setResults(new CCDAPQ(resultValue.getTextContent(),"CD"));
 					}else if(xsiType.equalsIgnoreCase("PQ"))
 					{
 						resultObservation.setResults(ApplicationUtil.readQuantity(resultValue));

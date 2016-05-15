@@ -9,6 +9,7 @@ public class CCDAProblemObs {
 	private ArrayList<CCDACode>  translationProblemType;
 	private CCDAEffTime          effTime;
 	private CCDACode             problemCode;
+	private CCDACode  		     statusCode;
 	
 	public ArrayList<CCDAII> getTemplateId() {
 		return templateId;
@@ -50,6 +51,13 @@ public class CCDAProblemObs {
 		this.problemCode = problemCode;
 	}
 	
+	public CCDACode getStatusCode() {
+		return statusCode;
+	}
+
+	public void setStatusCode(CCDACode statusCode) {
+		this.statusCode = statusCode;
+	}
 
 	public CCDAProblemObs()
 	{
@@ -65,6 +73,8 @@ public class CCDAProblemObs {
 				+ ((problemCode == null) ? 0 : problemCode.hashCode());
 		result = prime * result
 				+ ((problemType == null) ? 0 : problemType.hashCode());
+		result = prime * result
+				+ ((statusCode == null) ? 0 : statusCode.hashCode());
 		result = prime * result
 				+ ((templateId == null) ? 0 : templateId.hashCode());
 		result = prime
@@ -98,6 +108,11 @@ public class CCDAProblemObs {
 				return false;
 		} else if (!problemType.equals(other.problemType))
 			return false;
+		if (statusCode == null) {
+			if (other.statusCode != null)
+				return false;
+		} else if (!statusCode.equals(other.statusCode))
+			return false;
 		if (templateId == null) {
 			if (other.templateId != null)
 				return false;
@@ -110,6 +125,8 @@ public class CCDAProblemObs {
 			return false;
 		return true;
 	}
+
+	
 
 	
 }
