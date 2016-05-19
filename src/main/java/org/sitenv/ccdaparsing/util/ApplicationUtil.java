@@ -165,6 +165,7 @@ public class ApplicationUtil {
 			{
 				quantity.setValue(quantityElement.getAttribute("value"));
 			}
+			quantity.setXsiType("PQ");
 		}
 		return quantity;
 	}

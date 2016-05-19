@@ -4,6 +4,7 @@ public class CCDAPQ {
 	
 	private String  value;
 	private String  units;
+	private String xsiType;
 	
 	public String getValue() {
 		return value;
@@ -31,10 +32,30 @@ public class CCDAPQ {
 	{
 	  this.value = value;
 	}
+	
+	public CCDAPQ(String value, String xsiType)
+	{
+	  this.value = value;
+	  this.xsiType = xsiType;
+	}
+	
+	public String getXsiType() {
+		return xsiType;
+	}
+
+
+
+	public void setXsiType(String xsiType) {
+		this.xsiType = xsiType;
+	}
+
+
 
 	public CCDAPQ()
 	{
 	}
+
+
 
 	@Override
 	public int hashCode() {
@@ -42,6 +63,7 @@ public class CCDAPQ {
 		int result = 1;
 		result = prime * result + ((units == null) ? 0 : units.hashCode());
 		result = prime * result + ((value == null) ? 0 : value.hashCode());
+		result = prime * result + ((xsiType == null) ? 0 : xsiType.hashCode());
 		return result;
 	}
 
@@ -66,6 +88,13 @@ public class CCDAPQ {
 				return false;
 		} else if (!value.equals(other.value))
 			return false;
+		if (xsiType == null) {
+			if (other.xsiType != null)
+				return false;
+		} else if (!xsiType.equals(other.xsiType))
+			return false;
 		return true;
 	}
+
+	
 }

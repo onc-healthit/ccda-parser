@@ -90,6 +90,8 @@ public class ProblemProcessor {
 			
 			problemObservation.setProblemCode(ApplicationUtil.readCode((Element) xPath.compile("./value[not(@nullFlavor)]").
 					evaluate(problemObservationElement, XPathConstants.NODE)));
+			problemObservation.setStatusCode(ApplicationUtil.readCode((Element) xPath.compile("./statusCode[not(@nullFlavor)]").
+					evaluate(problemObservationElement, XPathConstants.NODE)));
 			problemObservationList.add(problemObservation);
 		}
 		
