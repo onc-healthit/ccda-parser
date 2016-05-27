@@ -2,7 +2,7 @@ package org.sitenv.ccdaparsing.model;
 
 import java.util.ArrayList;
 
-public class CCDACareTeamMember {
+public class CCDACareTeamMember extends CCDAXmlSnippet {
 
 	private ArrayList<CCDAParticipant> members;
 	

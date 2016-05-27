@@ -2,6 +2,7 @@ package org.sitenv.ccdaparsing.processing;
 
 import java.util.ArrayList;
 
+import javax.xml.transform.TransformerException;
 import javax.xml.xpath.XPath;
 import javax.xml.xpath.XPathConstants;
 import javax.xml.xpath.XPathExpressionException;
@@ -17,7 +18,7 @@ import org.w3c.dom.NodeList;
 public class PatientProcessor {
 	
 	
-	public static CCDAPatient retrievePatientDetails(XPath xPath , Document doc) throws XPathExpressionException
+	public static CCDAPatient retrievePatientDetails(XPath xPath , Document doc) throws XPathExpressionException,TransformerException
 	{
 		CCDAPatient patient = null;
 		NodeList nodeList = (NodeList) xPath.compile(ApplicationConstants.PATIENT_EXPRESSION).evaluate(doc, XPathConstants.NODESET);
@@ -73,7 +74,7 @@ public class PatientProcessor {
 	   return patient;
 	}
 	
-	public static void readRaceCodes(NodeList raceCodeList, CCDAPatient patient)
+	public static void readRaceCodes(NodeList raceCodeList, CCDAPatient patient)throws TransformerException
 	{
 		Element raceCodeElement= null;
 		for (int i = 0; i < raceCodeList.getLength(); i++) {
@@ -117,7 +118,7 @@ public class PatientProcessor {
 	}
 	
 	
-	public static ArrayList<CCDAPL> readPreferredLanguage(NodeList languageCommElementList , XPath xPath) throws XPathExpressionException
+	public static ArrayList<CCDAPL> readPreferredLanguage(NodeList languageCommElementList , XPath xPath) throws XPathExpressionException,TransformerException
 	{
 		ArrayList<CCDAPL> preferredLanguageList = new ArrayList<>();
 		CCDAPL preferredLanguage = null;

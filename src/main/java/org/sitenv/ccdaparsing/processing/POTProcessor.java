@@ -1,5 +1,6 @@
 package org.sitenv.ccdaparsing.processing;
 
+import javax.xml.transform.TransformerException;
 import javax.xml.xpath.XPath;
 import javax.xml.xpath.XPathConstants;
 import javax.xml.xpath.XPathExpressionException;
@@ -13,7 +14,7 @@ import org.w3c.dom.NodeList;
 
 public class POTProcessor {
 	
-	public static CCDAPOT retrievePOTDetails(XPath xPath , Document doc) throws XPathExpressionException
+	public static CCDAPOT retrievePOTDetails(XPath xPath , Document doc) throws XPathExpressionException,TransformerException
 	{
 		CCDAPOT pot = null;
 		Element sectionElement = (Element) xPath.compile(ApplicationConstants.POT_EXPRESSION).evaluate(doc, XPathConstants.NODE);

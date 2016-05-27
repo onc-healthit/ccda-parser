@@ -1,5 +1,6 @@
 package org.sitenv.ccdaparsing.processing;
 
+import javax.xml.transform.TransformerException;
 import javax.xml.xpath.XPath;
 import javax.xml.xpath.XPathConstants;
 import javax.xml.xpath.XPathExpressionException;
@@ -13,7 +14,7 @@ import org.w3c.dom.NodeList;
 
 public class LaboratoryTestProcessor {
 	
-	public static CCDALabResult retrieveLabTests(XPath xPath , Document doc) throws XPathExpressionException
+	public static CCDALabResult retrieveLabTests(XPath xPath , Document doc) throws XPathExpressionException,TransformerException
 	{
 		CCDALabResult labTests = null;
 		

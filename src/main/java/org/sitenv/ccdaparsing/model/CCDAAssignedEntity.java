@@ -2,7 +2,7 @@ package org.sitenv.ccdaparsing.model;
 
 import java.util.ArrayList;
 
-public class CCDAAssignedEntity {
+public class CCDAAssignedEntity extends CCDAXmlSnippet {
 
 	private ArrayList<CCDADataElement>			telecom;
 	private ArrayList<CCDAAddress>			addresses;

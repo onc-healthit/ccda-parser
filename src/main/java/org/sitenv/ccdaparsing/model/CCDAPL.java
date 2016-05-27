@@ -3,7 +3,7 @@ package org.sitenv.ccdaparsing.model;
 import org.sitenv.ccdaparsing.model.CCDACode;
 import org.sitenv.ccdaparsing.model.CCDADataElement;
 
-public class CCDAPL{
+public class CCDAPL extends CCDAXmlSnippet{
 	
 	private CCDACode languageCode ;
 	private CCDACode modeCode;

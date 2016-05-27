@@ -1,6 +1,6 @@
 package org.sitenv.ccdaparsing.model;
 
-public class CCDAPQ {
+public class CCDAPQ extends CCDAXmlSnippet {
 	
 	private String  value;
 	private String  units;

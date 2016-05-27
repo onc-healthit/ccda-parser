@@ -2,7 +2,7 @@ package org.sitenv.ccdaparsing.model;
 
 import java.util.ArrayList;
 
-public class CCDASmokingStatus {
+public class CCDASmokingStatus extends CCDAXmlSnippet{
 
 	private ArrayList<CCDAII>					smokingStatusTemplateIds;
 	private CCDACode							smokingStatusCode;

@@ -2,7 +2,7 @@ package org.sitenv.ccdaparsing.model;
 
 import java.util.ArrayList;
 
-public class CCDAConsumable {
+public class CCDAConsumable extends CCDAXmlSnippet {
 
 	ArrayList<CCDAII> 			templateIds;
 	CCDACode					medcode;

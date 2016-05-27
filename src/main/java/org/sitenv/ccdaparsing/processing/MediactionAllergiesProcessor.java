@@ -2,6 +2,7 @@ package org.sitenv.ccdaparsing.processing;
 
 import java.util.ArrayList;
 
+import javax.xml.transform.TransformerException;
 import javax.xml.xpath.XPath;
 import javax.xml.xpath.XPathConstants;
 import javax.xml.xpath.XPathExpressionException;
@@ -15,11 +16,12 @@ import org.sitenv.ccdaparsing.util.ApplicationConstants;
 import org.sitenv.ccdaparsing.util.ApplicationUtil;
 import org.w3c.dom.Document;
 import org.w3c.dom.Element;
+import org.w3c.dom.Node;
 import org.w3c.dom.NodeList;
 
 public class MediactionAllergiesProcessor {
 	
-	public static CCDAAllergy retrieveAllergiesDetails(XPath xPath , Document doc) throws XPathExpressionException
+	public static CCDAAllergy retrieveAllergiesDetails(XPath xPath , Document doc) throws XPathExpressionException,TransformerException
 	{
 		CCDAAllergy allergies = null;
 		Element sectionElement = (Element) xPath.compile(ApplicationConstants.ALLERGIES_EXPRESSION).evaluate(doc, XPathConstants.NODE);
@@ -32,11 +34,14 @@ public class MediactionAllergiesProcessor {
 					evaluate(sectionElement, XPathConstants.NODE)));
 			allergies.setAllergyConcern(readAllergyConcern((NodeList) xPath.compile("./entry/act[not(@nullFlavor)]").
 					evaluate(sectionElement, XPathConstants.NODESET), xPath));
+			sectionElement.setAttribute("xmlns:xsi", "http://www.w3.org/2001/XMLSchema-instance");
+			allergies.setLineNumber(sectionElement.getUserData("lineNumber") + " - " + sectionElement.getUserData("endLineNumber") );
+			allergies.setXmlString(ApplicationUtil.nodeToString((Node)sectionElement));
 		}
 		return allergies;
 	}
 	
-	public static ArrayList<CCDAAllergyConcern> readAllergyConcern(NodeList allergyConcernNodeList, XPath xPath) throws XPathExpressionException
+	public static ArrayList<CCDAAllergyConcern> readAllergyConcern(NodeList allergyConcernNodeList, XPath xPath) throws XPathExpressionException,TransformerException
 	{
 		ArrayList<CCDAAllergyConcern> allergyConcernList = null;
 		if(!ApplicationUtil.isNodeListEmpty(allergyConcernNodeList))
@@ -48,6 +53,11 @@ public class MediactionAllergiesProcessor {
 			
 			allergyConcern = new CCDAAllergyConcern();
 			Element allergyConcernElement = (Element) allergyConcernNodeList.item(i);
+			
+			allergyConcernElement.setAttribute("xmlns:xsi", "http://www.w3.org/2001/XMLSchema-instance");
+			allergyConcern.setLineNumber(allergyConcernElement.getUserData("lineNumber") + " - " + allergyConcernElement.getUserData("endLineNumber") );
+			allergyConcern.setXmlString(ApplicationUtil.nodeToString((Node)allergyConcernElement));
+			
 			allergyConcern.setTemplateId(ApplicationUtil.readTemplateIdList((NodeList) xPath.compile("./templateId[not(@nullFlavor)]").
 																evaluate(allergyConcernElement, XPathConstants.NODESET)));
 			
@@ -69,7 +79,7 @@ public class MediactionAllergiesProcessor {
 	}
 	
 	
-	public static ArrayList<CCDAAllergyObs> readAllergyObservation(NodeList allergyObservationNodeList,XPath xPath) throws XPathExpressionException
+	public static ArrayList<CCDAAllergyObs> readAllergyObservation(NodeList allergyObservationNodeList,XPath xPath) throws XPathExpressionException,TransformerException
 	{
 		ArrayList<CCDAAllergyObs> allergyObservationList = null;
 		if(!ApplicationUtil.isNodeListEmpty(allergyObservationNodeList))
@@ -81,6 +91,9 @@ public class MediactionAllergiesProcessor {
 			
 			allergyObservation = new CCDAAllergyObs();
 			Element allergyObservationElement = (Element) allergyObservationNodeList.item(i);
+			allergyObservationElement.setAttribute("xmlns:xsi", "http://www.w3.org/2001/XMLSchema-instance");
+			allergyObservation.setLineNumber(allergyObservationElement.getUserData("lineNumber") + " - " + allergyObservationElement.getUserData("endLineNumber") );
+			allergyObservation.setXmlString(ApplicationUtil.nodeToString((Node)allergyObservationElement));
 			allergyObservation.setTemplateId(ApplicationUtil.readTemplateIdList((NodeList) xPath.compile("./templateId[not(@nullFlavor)]").
 												evaluate(allergyObservationElement, XPathConstants.NODESET)));
 			

@@ -2,6 +2,7 @@ package org.sitenv.ccdaparsing.processing;
 
 import java.util.ArrayList;
 
+import javax.xml.transform.TransformerException;
 import javax.xml.xpath.XPath;
 import javax.xml.xpath.XPathConstants;
 import javax.xml.xpath.XPathExpressionException;
@@ -14,11 +15,12 @@ import org.sitenv.ccdaparsing.util.ApplicationConstants;
 import org.sitenv.ccdaparsing.util.ApplicationUtil;
 import org.w3c.dom.Document;
 import org.w3c.dom.Element;
+import org.w3c.dom.Node;
 import org.w3c.dom.NodeList;
 
 public class VitalSignProcessor {
 	
-	public static CCDAVitalSigns retrieveVitalSigns(XPath xPath , Document doc) throws XPathExpressionException
+	public static CCDAVitalSigns retrieveVitalSigns(XPath xPath , Document doc) throws XPathExpressionException,TransformerException
 	{
 		CCDAVitalSigns vitalSigns = null;
 		Element sectionElement = (Element) xPath.compile(ApplicationConstants.VITALSIGNS_EXPRESSION).evaluate(doc, XPathConstants.NODE);
@@ -31,12 +33,16 @@ public class VitalSignProcessor {
 					evaluate(sectionElement, XPathConstants.NODE)));
 			vitalSigns.setVitalsOrg(readVitalOrganizer((NodeList) xPath.compile("./entry/organizer[not(@nullFlavor)]").
 					evaluate(sectionElement, XPathConstants.NODESET), xPath));
+			
+			sectionElement.setAttribute("xmlns:xsi", "http://www.w3.org/2001/XMLSchema-instance");
+			vitalSigns.setLineNumber(sectionElement.getUserData("lineNumber") + " - " + sectionElement.getUserData("endLineNumber") );
+			vitalSigns.setXmlString(ApplicationUtil.nodeToString((Node)sectionElement));
 		}
 		return vitalSigns;
 	}
 	
 	
-	public static ArrayList<CCDAVitalOrg> readVitalOrganizer(NodeList vitalOrganizerNodeList, XPath xPath) throws XPathExpressionException
+	public static ArrayList<CCDAVitalOrg> readVitalOrganizer(NodeList vitalOrganizerNodeList, XPath xPath) throws XPathExpressionException,TransformerException
 	{
 		ArrayList<CCDAVitalOrg> vitalOrganizerList = new ArrayList<>();
 		CCDAVitalOrg vitalOrganizer;
@@ -44,6 +50,10 @@ public class VitalSignProcessor {
 			vitalOrganizer = new CCDAVitalOrg();
 			
 			Element vitalOrganizerElement = (Element) vitalOrganizerNodeList.item(i);
+			
+			vitalOrganizerElement.setAttribute("xmlns:xsi", "http://www.w3.org/2001/XMLSchema-instance");
+			vitalOrganizer.setLineNumber(vitalOrganizerElement.getUserData("lineNumber") + " - " + vitalOrganizerElement.getUserData("endLineNumber") );
+			vitalOrganizer.setXmlString(ApplicationUtil.nodeToString((Node)vitalOrganizerElement));
 			
 			vitalOrganizer.setTemplateIds(ApplicationUtil.readTemplateIdList((NodeList) xPath.compile("./templateId[not(@nullFlavor)]").
 										evaluate(vitalOrganizerElement, XPathConstants.NODESET)));
@@ -67,7 +77,7 @@ public class VitalSignProcessor {
 		return vitalOrganizerList;
 	}
 	
-	public static ArrayList<CCDAVitalObs> readVitalObservation(NodeList vitalObservationNodeList , XPath xPath) throws XPathExpressionException
+	public static ArrayList<CCDAVitalObs> readVitalObservation(NodeList vitalObservationNodeList , XPath xPath) throws XPathExpressionException,TransformerException
 	{
 		
 		ArrayList<CCDAVitalObs> vitalObservationList = new ArrayList<>();
@@ -77,6 +87,12 @@ public class VitalSignProcessor {
 			vitalObservation = new CCDAVitalObs();
 			
 			Element resultObservationElement = (Element) vitalObservationNodeList.item(i);
+			
+			resultObservationElement.setAttribute("xmlns:xsi", "http://www.w3.org/2001/XMLSchema-instance");
+			vitalObservation.setLineNumber(resultObservationElement.getUserData("lineNumber") + " - " + resultObservationElement.getUserData("endLineNumber") );
+			vitalObservation.setXmlString(ApplicationUtil.nodeToString((Node)resultObservationElement));
+			
+			
 			vitalObservation.setTemplateIds(ApplicationUtil.readTemplateIdList((NodeList) xPath.compile("./templateId[not(@nullFlavor)]").
 					evaluate(resultObservationElement, XPathConstants.NODESET)));
 			
@@ -106,6 +122,9 @@ public class VitalSignProcessor {
 					}else if(xsiType.equalsIgnoreCase("PQ"))
 					{
 						vitalObservation.setVsResult(ApplicationUtil.readQuantity(vsResult));
+					}else if (xsiType.equalsIgnoreCase("ST"))
+					{
+						vitalObservation.setVsResult(new CCDAPQ(vsResult.getTextContent(),"ST"));
 					}
 				}
 			}
