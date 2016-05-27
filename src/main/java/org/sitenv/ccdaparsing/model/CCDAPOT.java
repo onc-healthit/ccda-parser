@@ -2,7 +2,7 @@ package org.sitenv.ccdaparsing.model;
 
 import java.util.ArrayList;
 
-public class CCDAPOT {
+public class CCDAPOT extends CCDAXmlSnippet{
 	
 	private ArrayList<CCDAII>    templateId;
 	private CCDACode  sectionCode;

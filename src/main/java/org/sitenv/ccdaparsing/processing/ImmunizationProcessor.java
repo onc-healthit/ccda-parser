@@ -2,6 +2,7 @@ package org.sitenv.ccdaparsing.processing;
 
 import java.util.ArrayList;
 
+import javax.xml.transform.TransformerException;
 import javax.xml.xpath.XPath;
 import javax.xml.xpath.XPathConstants;
 import javax.xml.xpath.XPathExpressionException;
@@ -13,11 +14,12 @@ import org.sitenv.ccdaparsing.util.ApplicationConstants;
 import org.sitenv.ccdaparsing.util.ApplicationUtil;
 import org.w3c.dom.Document;
 import org.w3c.dom.Element;
+import org.w3c.dom.Node;
 import org.w3c.dom.NodeList;
 
 public class ImmunizationProcessor {
 	
-	public static CCDAImmunization retrieveImmunizationDetails(XPath xPath , Document doc) throws XPathExpressionException
+	public static CCDAImmunization retrieveImmunizationDetails(XPath xPath , Document doc) throws XPathExpressionException,TransformerException
 	{
 		CCDAImmunization immunizations = null;
 		Element sectionElement = (Element) xPath.compile(ApplicationConstants.IMMUNIZATION_EXPRESSION).evaluate(doc, XPathConstants.NODE);
@@ -32,11 +34,14 @@ public class ImmunizationProcessor {
 					evaluate(sectionElement, XPathConstants.NODE)));
 			immunizations.setImmActivity(readImmunization((NodeList) xPath.compile("./entry[not(@nullFlavor)]").
 					evaluate(sectionElement, XPathConstants.NODESET), xPath));
+			sectionElement.setAttribute("xmlns:xsi", "http://www.w3.org/2001/XMLSchema-instance");
+			immunizations.setLineNumber(sectionElement.getUserData("lineNumber") + " - " + sectionElement.getUserData("endLineNumber") );
+			immunizations.setXmlString(ApplicationUtil.nodeToString((Node)sectionElement));
 		}
 		return immunizations;
 	}
 	
-	public static ArrayList<CCDAImmunizationActivity> readImmunization(NodeList entryNodeList, XPath xPath) throws XPathExpressionException
+	public static ArrayList<CCDAImmunizationActivity> readImmunization(NodeList entryNodeList, XPath xPath) throws XPathExpressionException,TransformerException
 	{
 		ArrayList<CCDAImmunizationActivity> immunizationActivityList = new ArrayList<>();
 		CCDAImmunizationActivity immunizationActivity;
@@ -52,6 +57,10 @@ public class ImmunizationProcessor {
 			if(immunizationActivityElement != null)
 			{
 			
+				immunizationActivityElement.setAttribute("xmlns:xsi", "http://www.w3.org/2001/XMLSchema-instance");
+				immunizationActivity.setLineNumber(immunizationActivityElement.getUserData("lineNumber") + " - " + immunizationActivityElement.getUserData("endLineNumber") );
+				immunizationActivity.setXmlString(ApplicationUtil.nodeToString((Node)immunizationActivityElement));
+				
 				immunizationActivity.setTemplateIds(ApplicationUtil.readTemplateIdList((NodeList) xPath.compile("./templateId[not(@nullFlavor)]").
 													evaluate(immunizationActivityElement, XPathConstants.NODESET)));
 				

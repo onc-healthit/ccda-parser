@@ -3,9 +3,10 @@ package org.sitenv.ccdaparsing.model;
 public class CCDADataElement {
 
 	private String  value;
-	private Integer lineNumber;
+	private String lineNumber;
 	private String  xpath;
-	private String use;
+	private String  use;
+	private String  xmlString ;
 	
 	public CCDADataElement(String value)
 	{
@@ -24,11 +25,11 @@ public class CCDADataElement {
 		this.value = value;
 	}
 
-	public Integer getLineNumber() {
+	public String getLineNumber() {
 		return lineNumber;
 	}
 
-	public void setLineNumber(Integer lineNumber) {
+	public void setLineNumber(String lineNumber) {
 		this.lineNumber = lineNumber;
 	}
 
@@ -46,6 +47,28 @@ public class CCDADataElement {
 
 	public void setUse(String use) {
 		this.use = use;
+	}
+	
+	public String getXmlString() {
+		return xmlString;
+	}
+
+	public void setXmlString(String xmlString) {
+		this.xmlString = xmlString;
+	}
+
+	@Override
+	public int hashCode() {
+		final int prime = 31;
+		int result = 1;
+		result = prime * result
+				+ ((lineNumber == null) ? 0 : lineNumber.hashCode());
+		result = prime * result + ((use == null) ? 0 : use.hashCode());
+		result = prime * result + ((value == null) ? 0 : value.hashCode());
+		result = prime * result
+				+ ((xmlString == null) ? 0 : xmlString.hashCode());
+		result = prime * result + ((xpath == null) ? 0 : xpath.hashCode());
+		return result;
 	}
 
 	@Override
@@ -71,6 +94,11 @@ public class CCDADataElement {
 			if (other.value != null)
 				return false;
 		} else if (!value.equals(other.value))
+			return false;
+		if (xmlString == null) {
+			if (other.xmlString != null)
+				return false;
+		} else if (!xmlString.equals(other.xmlString))
 			return false;
 		if (xpath == null) {
 			if (other.xpath != null)

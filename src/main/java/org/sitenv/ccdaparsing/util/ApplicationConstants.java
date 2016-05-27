@@ -54,4 +54,6 @@ public class ApplicationConstants {
 	public static String ALLERGY_SEVERITY_TEM_ID="2.16.840.1.113883.10.20.22.4.8";
 	public static String ALLERGY_REACTION_TEM_ID="2.16.840.1.113883.10.20.22.4.9";
 	
+	public final static String LINE_NUMBER_KEY_NAME = "lineNumber";
+    public final static String END_LINE_NUMBER_KEY_NAME = "endLineNumber";
 }

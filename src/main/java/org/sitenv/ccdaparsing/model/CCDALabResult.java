@@ -2,7 +2,7 @@ package org.sitenv.ccdaparsing.model;
 
 import java.util.ArrayList;
 
-public class CCDALabResult {
+public class CCDALabResult extends CCDAXmlSnippet{
 
 	private ArrayList<CCDAII>			resultSectionTempalteIds;
 	private CCDACode					sectionCode;

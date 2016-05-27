@@ -1,7 +1,14 @@
 package org.sitenv.ccdaparsing.util;
 
+import java.io.StringWriter;
 import java.util.ArrayList;
 
+import javax.xml.transform.OutputKeys;
+import javax.xml.transform.Transformer;
+import javax.xml.transform.TransformerException;
+import javax.xml.transform.TransformerFactory;
+import javax.xml.transform.dom.DOMSource;
+import javax.xml.transform.stream.StreamResult;
 import javax.xml.xpath.XPath;
 import javax.xml.xpath.XPathConstants;
 import javax.xml.xpath.XPathExpressionException;
@@ -14,11 +21,12 @@ import org.sitenv.ccdaparsing.model.CCDAFrequency;
 import org.sitenv.ccdaparsing.model.CCDAII;
 import org.sitenv.ccdaparsing.model.CCDAPQ;
 import org.w3c.dom.Element;
+import org.w3c.dom.Node;
 import org.w3c.dom.NodeList;
 
 public class ApplicationUtil {
 	
-	public static CCDACode readCode(Element codeElement)
+	public static CCDACode readCode(Element codeElement)throws TransformerException
 	{
 		CCDACode code = null;
 		if(codeElement != null)
@@ -44,11 +52,15 @@ public class ApplicationUtil {
 			{
 				code.setXpath(codeElement.getAttribute("xsi:type"));
 			}
+			
+			codeElement.setAttribute("xmlns:xsi", "http://www.w3.org/2001/XMLSchema-instance");
+			code.setXmlString(nodeToString((Node)codeElement));
+			code.setLineNumber(codeElement.getUserData("lineNumber").toString());
 		}
 		return code;
 	}
 	
-	public static CCDAII readTemplateID(Element templateElement)
+	public static CCDAII readTemplateID(Element templateElement)throws TransformerException
 	{
 		CCDAII templateID = null;
 		
@@ -63,11 +75,14 @@ public class ApplicationUtil {
 			{
 				templateID.setExtValue(templateElement.getAttribute("extension"));
 			}
+			
+			templateID.setXmlString(nodeToString((Node)templateElement));
+			templateID.setLineNumber(templateElement.getUserData("lineNumber").toString());
 		}
 		return templateID;
 	}
 	
-	public static ArrayList<CCDAII> readTemplateIdList(NodeList templateIDNodeList)
+	public static ArrayList<CCDAII> readTemplateIdList(NodeList templateIDNodeList)throws TransformerException
 	{
 		ArrayList<CCDAII> templateList = null;
 		if( ! isNodeListEmpty(templateIDNodeList))
@@ -82,7 +97,7 @@ public class ApplicationUtil {
 		return templateList;
 	} 
 	
-	public static CCDAEffTime readEffectivetime(Element effectiveTimeElement,XPath xPath) throws XPathExpressionException
+	public static CCDAEffTime readEffectivetime(Element effectiveTimeElement,XPath xPath) throws XPathExpressionException,TransformerException
 	{
 		CCDAEffTime effectiveTime = null;
 		
@@ -105,12 +120,16 @@ public class ApplicationUtil {
 				effectiveTime.setHighPresent(true);
 			}else
 				effectiveTime.setHighPresent(false);
+			
+			effectiveTimeElement.setAttribute("xmlns:xsi", "http://www.w3.org/2001/XMLSchema-instance");
+			effectiveTime.setXmlString(nodeToString((Node)effectiveTimeElement));
+			effectiveTime.setLineNumber(effectiveTimeElement.getUserData("lineNumber").toString() + " - " + effectiveTimeElement.getUserData("endLineNumber"));
 				
 		}
 		return effectiveTime;
 	}
 	
-	public static CCDADataElement readDataElement(Element nodeElement)
+	public static CCDADataElement readDataElement(Element nodeElement)throws TransformerException
 	{
 		CCDADataElement dataElement = null;
 		if(nodeElement != null)
@@ -120,10 +139,10 @@ public class ApplicationUtil {
 			{
 				dataElement.setValue(nodeElement.getAttribute("value"));
 			}
-			if(!isEmpty(nodeElement.getAttribute("lineNumber")))
+			/*if(!isEmpty(nodeElement.getAttribute("lineNumber")))
 			{
 				dataElement.setLineNumber(Integer.parseInt(nodeElement.getAttribute("lineNumber")));
-			}
+			}*/
 			if(!isEmpty(nodeElement.getAttribute("xpath")))
 			{
 				dataElement.setXpath(nodeElement.getAttribute("xpath"));
@@ -132,11 +151,17 @@ public class ApplicationUtil {
 			{
 				dataElement.setUse(nodeElement.getAttribute("use"));
 			}
+			
+			nodeElement.setAttribute("xmlns:xsi", "http://www.w3.org/2001/XMLSchema-instance");
+			dataElement.setXmlString(nodeToString((Node)nodeElement));
+			dataElement.setLineNumber(nodeElement.getUserData("lineNumber").toString());
 		}
+		
+		
 		return dataElement;
 	}
 	
-	public static ArrayList<CCDADataElement> readDataElementList(NodeList dataElementNodeList)
+	public static ArrayList<CCDADataElement> readDataElementList(NodeList dataElementNodeList)throws TransformerException
 	{
 		ArrayList<CCDADataElement> dataElementList = null;
 		if( ! isNodeListEmpty(dataElementNodeList))
@@ -151,7 +176,7 @@ public class ApplicationUtil {
 		return dataElementList;
 	}
 	
-	public static CCDAPQ readQuantity(Element quantityElement)
+	public static CCDAPQ readQuantity(Element quantityElement)throws TransformerException
 	{
 		CCDAPQ quantity = null;
 		if(quantityElement != null)
@@ -166,11 +191,14 @@ public class ApplicationUtil {
 				quantity.setValue(quantityElement.getAttribute("value"));
 			}
 			quantity.setXsiType("PQ");
+			quantityElement.setAttribute("xmlns:xsi", "http://www.w3.org/2001/XMLSchema-instance");
+			quantity.setXmlString(nodeToString((Node)quantityElement));
+			quantity.setLineNumber(quantityElement.getUserData("lineNumber").toString());
 		}
 		return quantity;
 	}
 	
-	public static ArrayList<CCDACode> readCodeList(NodeList codeNodeList)
+	public static ArrayList<CCDACode> readCodeList(NodeList codeNodeList)throws TransformerException
 	{
 		ArrayList<CCDACode> codeList = null;
 		if( ! isNodeListEmpty(codeNodeList))
@@ -185,7 +213,7 @@ public class ApplicationUtil {
 		return codeList;
 	}
 	
-	public static CCDAFrequency readFrequency(Element frequencyElement)
+	public static CCDAFrequency readFrequency(Element frequencyElement)throws TransformerException
 	{
 		CCDAFrequency frequency = null;
 		if(frequencyElement != null)
@@ -211,6 +239,9 @@ public class ApplicationUtil {
 					frequency.setUnit(periodElement.getAttribute("unit"));
 				}
 			}
+			frequencyElement.setAttribute("xmlns:xsi", "http://www.w3.org/2001/XMLSchema-instance");
+			frequency.setXmlString(nodeToString((Node)frequencyElement));
+			frequency.setLineNumber(frequencyElement.getUserData("lineNumber").toString());
 		}
 		
 		return frequency;
@@ -291,5 +322,25 @@ public class ApplicationUtil {
 	    				evaluate(addrElement, XPathConstants.NODE)));
 		}
 		return address;
+	}
+	
+	public static String nodeToString(Node node)
+			throws TransformerException
+	{
+		StringWriter buf = new StringWriter();
+		Transformer xform = TransformerFactory.newInstance().newTransformer();
+	    xform.setOutputProperty(OutputKeys.OMIT_XML_DECLARATION, "yes");
+	    xform.transform(new DOMSource(node), new StreamResult(buf));
+	    return(buf.toString());
+	}
+	
+	public static String readLineNuberString(Node node)
+			throws TransformerException
+	{
+		StringWriter buf = new StringWriter();
+		Transformer xform = TransformerFactory.newInstance().newTransformer();
+	    xform.setOutputProperty(OutputKeys.OMIT_XML_DECLARATION, "yes");
+	    xform.transform(new DOMSource(node), new StreamResult(buf));
+	    return(buf.toString());
 	}
 }

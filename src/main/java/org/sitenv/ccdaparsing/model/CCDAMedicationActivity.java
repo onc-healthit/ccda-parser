@@ -2,7 +2,7 @@ package org.sitenv.ccdaparsing.model;
 
 import java.util.ArrayList;
 
-public class CCDAMedicationActivity {
+public class CCDAMedicationActivity extends CCDAXmlSnippet{
 
 	private ArrayList<CCDAII>     				templateIds;
 	private CCDAEffTime							duration;

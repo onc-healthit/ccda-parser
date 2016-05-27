@@ -2,7 +2,7 @@ package org.sitenv.ccdaparsing.model;
 
 import java.util.ArrayList;
 
-public class CCDAServiceDeliveryLoc {
+public class CCDAServiceDeliveryLoc extends CCDAXmlSnippet{
 
 	private ArrayList<CCDAII>           templateId;
 	private CCDACode                    locationCode;

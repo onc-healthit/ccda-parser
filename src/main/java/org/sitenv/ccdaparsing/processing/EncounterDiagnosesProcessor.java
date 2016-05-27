@@ -2,6 +2,7 @@ package org.sitenv.ccdaparsing.processing;
 
 import java.util.ArrayList;
 
+import javax.xml.transform.TransformerException;
 import javax.xml.xpath.XPath;
 import javax.xml.xpath.XPathConstants;
 import javax.xml.xpath.XPathExpressionException;
@@ -15,11 +16,12 @@ import org.sitenv.ccdaparsing.util.ApplicationConstants;
 import org.sitenv.ccdaparsing.util.ApplicationUtil;
 import org.w3c.dom.Document;
 import org.w3c.dom.Element;
+import org.w3c.dom.Node;
 import org.w3c.dom.NodeList;
 
 public class EncounterDiagnosesProcessor {
 	
-	public static CCDAEncounter retrieveEncounterDetails(XPath xPath , Document doc) throws XPathExpressionException
+	public static CCDAEncounter retrieveEncounterDetails(XPath xPath , Document doc) throws XPathExpressionException,TransformerException
 	{
 		Element sectionElement = (Element) xPath.compile(ApplicationConstants.ENCOUNTER_EXPRESSION).evaluate(doc, XPathConstants.NODE);
 		CCDAEncounter encounters = null;
@@ -32,12 +34,15 @@ public class EncounterDiagnosesProcessor {
 					evaluate(sectionElement, XPathConstants.NODE)));
 			encounters.setEncActivities(readEncounterActivity((NodeList) xPath.compile("./entry/encounter[not(@nullFlavor)]").
 					evaluate(sectionElement, XPathConstants.NODESET), xPath));
+			sectionElement.setAttribute("xmlns:xsi", "http://www.w3.org/2001/XMLSchema-instance");
+			encounters.setLineNumber(sectionElement.getUserData("lineNumber") + " - " + sectionElement.getUserData("endLineNumber") );
+			encounters.setXmlString(ApplicationUtil.nodeToString((Node)sectionElement));
 		}
 		return encounters;
 	}
 	
 	
-	public static ArrayList<CCDAEncounterActivity> readEncounterActivity(NodeList encounterActivityNodeList , XPath xPath) throws XPathExpressionException
+	public static ArrayList<CCDAEncounterActivity> readEncounterActivity(NodeList encounterActivityNodeList , XPath xPath) throws XPathExpressionException,TransformerException
 	{
 		ArrayList<CCDAEncounterActivity> encounterActivityList = new ArrayList<>();
 		CCDAEncounterActivity encounterActivity;
@@ -53,6 +58,10 @@ public class EncounterDiagnosesProcessor {
 
 				encounterActivity.setEncounterTypeCode(ApplicationUtil.readCode((Element) xPath.compile("./code[not(@nullFlavor)]").
 										evaluate(encounterActivityElement, XPathConstants.NODE)));
+				
+				encounterActivityElement.setAttribute("xmlns:xsi", "http://www.w3.org/2001/XMLSchema-instance");
+				encounterActivity.setLineNumber(encounterActivityElement.getUserData("lineNumber") + " - " + encounterActivityElement.getUserData("endLineNumber") );
+				encounterActivity.setXmlString(ApplicationUtil.nodeToString((Node)encounterActivityElement));
 				
 				encounterActivity.setEffectiveTime(ApplicationUtil.readDataElement((Element) xPath.compile("./effectiveTime[not(@nullFlavor)]").
 															evaluate(encounterActivityElement, XPathConstants.NODE)));
@@ -75,7 +84,7 @@ public class EncounterDiagnosesProcessor {
 		return encounterActivityList;
 	}
 	
-	public static ArrayList<CCDAEncounterDiagnosis> readEncounterDiagnosis(NodeList encounterDiagnosisNodeList, XPath xPath) throws XPathExpressionException
+	public static ArrayList<CCDAEncounterDiagnosis> readEncounterDiagnosis(NodeList encounterDiagnosisNodeList, XPath xPath) throws XPathExpressionException,TransformerException
 	{
 		ArrayList<CCDAEncounterDiagnosis> encounterDiagnosisList = null;
 		if(encounterDiagnosisNodeList.getLength() > 0)
@@ -87,6 +96,9 @@ public class EncounterDiagnosesProcessor {
 			
 			Element encounterDiagnosisElement = (Element) encounterDiagnosisNodeList.item(i);
 			encounterDiagnosis = new CCDAEncounterDiagnosis();
+			encounterDiagnosisElement.setAttribute("xmlns:xsi", "http://www.w3.org/2001/XMLSchema-instance");
+			encounterDiagnosis.setLineNumber(encounterDiagnosisElement.getUserData("lineNumber") + " - " + encounterDiagnosisElement.getUserData("endLineNumber") );
+			encounterDiagnosis.setXmlString(ApplicationUtil.nodeToString((Node)encounterDiagnosisElement));
 			encounterDiagnosis.setTemplateId(ApplicationUtil.readTemplateIdList((NodeList) xPath.compile("./templateId[not(@nullFlavor)]").
 					evaluate(encounterDiagnosisElement, XPathConstants.NODESET)));
 			
@@ -102,7 +114,7 @@ public class EncounterDiagnosesProcessor {
 		return encounterDiagnosisList;
 	}
 	
-	public static ArrayList<CCDAServiceDeliveryLoc> readServiceDeliveryLocators(NodeList serviceDeliveryLocNodeList, XPath xPath) throws XPathExpressionException
+	public static ArrayList<CCDAServiceDeliveryLoc> readServiceDeliveryLocators(NodeList serviceDeliveryLocNodeList, XPath xPath) throws XPathExpressionException,TransformerException
 	{
 		ArrayList<CCDAServiceDeliveryLoc> serviceDeliveryLocsList = null;
 		if(serviceDeliveryLocNodeList.getLength() > 0)
@@ -135,7 +147,7 @@ public class EncounterDiagnosesProcessor {
 		return serviceDeliveryLocsList;
 	}
 	
-	public static ArrayList<CCDAProblemObs> readProblemObservation(NodeList problemObservationNodeList, XPath xPath) throws XPathExpressionException
+	public static ArrayList<CCDAProblemObs> readProblemObservation(NodeList problemObservationNodeList, XPath xPath) throws XPathExpressionException,TransformerException
 	{
 		ArrayList<CCDAProblemObs> problemObservationList = null;
 		if(problemObservationNodeList.getLength() > 0)
@@ -148,6 +160,9 @@ public class EncounterDiagnosesProcessor {
 			problemObservation = new CCDAProblemObs();
 			
 			Element problemObservationElement = (Element) problemObservationNodeList.item(i);
+			problemObservationElement.setAttribute("xmlns:xsi", "http://www.w3.org/2001/XMLSchema-instance");
+			problemObservation.setLineNumber(problemObservationElement.getUserData("lineNumber") + " - " + problemObservationElement.getUserData("endLineNumber") );
+			problemObservation.setXmlString(ApplicationUtil.nodeToString((Node)problemObservationElement));
 			problemObservation.setTemplateId(ApplicationUtil.readTemplateIdList((NodeList) xPath.compile("./templateId[not(@nullFlavor)]").
 					evaluate(problemObservationElement, XPathConstants.NODESET)));
 			

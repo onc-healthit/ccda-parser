@@ -2,7 +2,7 @@ package org.sitenv.ccdaparsing.model;
 
 import java.util.ArrayList;
 
-public class CCDAVitalObs {
+public class CCDAVitalObs extends CCDAXmlSnippet{
 	private ArrayList<CCDAII>   			templateIds;
 	private CCDACode						vsCode;
 	private CCDACode						statusCode;

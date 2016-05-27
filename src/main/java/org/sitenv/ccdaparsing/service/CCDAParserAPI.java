@@ -6,9 +6,7 @@ import java.io.InputStream;
 
 import org.apache.log4j.Logger;
 
-import javax.xml.parsers.DocumentBuilder;
-import javax.xml.parsers.DocumentBuilderFactory;
-import javax.xml.parsers.ParserConfigurationException;
+import javax.xml.transform.TransformerException;
 import javax.xml.xpath.XPath;
 import javax.xml.xpath.XPathExpressionException;
 import javax.xml.xpath.XPathFactory;
@@ -30,6 +28,7 @@ import org.sitenv.ccdaparsing.processing.ProcedureProcessor;
 import org.sitenv.ccdaparsing.processing.SmokingStatusProcessor;
 import org.sitenv.ccdaparsing.processing.UDIProcessor;
 import org.sitenv.ccdaparsing.processing.VitalSignProcessor;
+import org.sitenv.ccdaparsing.util.PositionalXMLReader;
 import org.w3c.dom.Document;
 import org.xml.sax.SAXException;
 
@@ -38,17 +37,16 @@ public class CCDAParserAPI {
 	private static final Logger logger = Logger.getLogger(CCDAParserAPI.class);
 	
 	private static XPath xPath = XPathFactory.newInstance().newXPath();
+	
+	//private static String filePath = "C:/Projects/Dragon/CCDAParser/170.315_b1_toc_amb_ccd_r21_sample1_v1.xml";
 	 
 	public static CCDARefModel parseCCDA2_1(InputStream inputStream) {
 		
-		DocumentBuilderFactory factory = 
-				DocumentBuilderFactory.newInstance();
 		CCDARefModel refModel = new CCDARefModel();
 	    try {
 			    
 	    	logger.info("Parsing CCDA document");
-	    	DocumentBuilder builder = factory.newDocumentBuilder();
-			Document doc = builder.parse(inputStream);
+			Document doc = PositionalXMLReader.readXML(inputStream);
 			refModel.setPatient(PatientProcessor.retrievePatientDetails(xPath, doc));
 			refModel.setEncounter(EncounterDiagnosesProcessor.retrieveEncounterDetails(xPath, doc));
 			refModel.setProblem(ProblemProcessor.retrieveProblemDetails(xPath, doc));
@@ -83,14 +81,16 @@ public class CCDAParserAPI {
 	    	{
 	    		logger.error(saxException);
 			}
-	    	catch (ParserConfigurationException pcException)
-	    	{
-	    		logger.error(pcException);
-			}
 	    	catch (NullPointerException npException) 
 	    	{
+	    		npException.printStackTrace();
 	    		logger.error(npException);
 			}
+	        catch(TransformerException te)
+	    	{
+	            te.printStackTrace();
+	            logger.error(te);
+	    	}
 	    
 	    return refModel;
 	
