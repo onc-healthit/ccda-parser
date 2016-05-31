@@ -2,7 +2,7 @@ package org.sitenv.ccdaparsing.model;
 
 import java.util.ArrayList;
 
-public class CCDAAllergy {
+public class CCDAAllergy extends CCDAXmlSnippet {
 
 	private ArrayList<CCDAII>       		sectionTemplateId;
 	private CCDACode                 		sectionCode;

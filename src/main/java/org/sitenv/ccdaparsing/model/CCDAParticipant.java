@@ -1,6 +1,6 @@
 package org.sitenv.ccdaparsing.model;
 
-public class CCDAParticipant {
+public class CCDAParticipant extends CCDAXmlSnippet{
 	
 	private CCDADataElement firstName;
 	private CCDADataElement lastName;

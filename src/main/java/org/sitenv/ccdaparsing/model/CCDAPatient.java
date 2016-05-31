@@ -2,7 +2,7 @@ package org.sitenv.ccdaparsing.model;
 
 import java.util.ArrayList;
 
-public class CCDAPatient {
+public class CCDAPatient extends CCDAXmlSnippet{
 	private CCDADataElement firstName;
 	private CCDADataElement lastName;
 	private CCDADataElement middleName;

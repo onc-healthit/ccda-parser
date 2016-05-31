@@ -2,7 +2,7 @@ package org.sitenv.ccdaparsing.model;
 
 import java.util.ArrayList;
 
-public class CCDATobaccoUse {
+public class CCDATobaccoUse extends CCDAXmlSnippet{
 	private ArrayList<CCDAII>					tobaccoUseTemplateIds;
 	private CCDACode							tobaccoUseSectionCode;
 	private CCDACode							tobaccoUseCode;

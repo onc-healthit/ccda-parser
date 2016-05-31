@@ -1,6 +1,6 @@
 package org.sitenv.ccdaparsing.model;
 
-public class CCDAEffTime{
+public class CCDAEffTime extends CCDAXmlSnippet{
 
 	private CCDADataElement low;
 	private Boolean         lowPresent;

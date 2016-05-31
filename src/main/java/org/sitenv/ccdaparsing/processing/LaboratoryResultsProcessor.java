@@ -2,10 +2,12 @@ package org.sitenv.ccdaparsing.processing;
 
 import java.util.ArrayList;
 
+import javax.xml.transform.TransformerException;
 import javax.xml.xpath.XPath;
 import javax.xml.xpath.XPathConstants;
 import javax.xml.xpath.XPathExpressionException;
 
+import org.sitenv.ccdaparsing.model.CCDACode;
 import org.sitenv.ccdaparsing.model.CCDALabResult;
 import org.sitenv.ccdaparsing.model.CCDALabResultObs;
 import org.sitenv.ccdaparsing.model.CCDALabResultOrg;
@@ -14,11 +16,12 @@ import org.sitenv.ccdaparsing.util.ApplicationConstants;
 import org.sitenv.ccdaparsing.util.ApplicationUtil;
 import org.w3c.dom.Document;
 import org.w3c.dom.Element;
+import org.w3c.dom.Node;
 import org.w3c.dom.NodeList;
 
 public class LaboratoryResultsProcessor {
 	
-	public static CCDALabResult retrieveLabResults(XPath xPath , Document doc) throws XPathExpressionException
+	public static CCDALabResult retrieveLabResults(XPath xPath , Document doc) throws XPathExpressionException,TransformerException
 	{
 		CCDALabResult labResults = null;
 		Element sectionElement = (Element) xPath.compile(ApplicationConstants.RESULTS_EXPRESSION).evaluate(doc, XPathConstants.NODE);
@@ -33,13 +36,16 @@ public class LaboratoryResultsProcessor {
 			
 			labResults.setResultOrg(readResultOrganizer((NodeList) xPath.compile(ApplicationConstants.LAB_RESULTS_EXPRESSION).
 									evaluate(sectionElement, XPathConstants.NODESET),xPath));
+			sectionElement.setAttribute("xmlns:xsi", "http://www.w3.org/2001/XMLSchema-instance");
+			labResults.setLineNumber(sectionElement.getUserData("lineNumber") + " - " + sectionElement.getUserData("endLineNumber") );
+			labResults.setXmlString(ApplicationUtil.nodeToString((Node)sectionElement));
 			labResults.setIsLabTestInsteadOfResult(false);
 		}
 		return labResults;
 	}
 	
 	
-	public static ArrayList<CCDALabResultOrg> readResultOrganizer(NodeList resultOrganizerNodeList, XPath xPath) throws XPathExpressionException
+	public static ArrayList<CCDALabResultOrg> readResultOrganizer(NodeList resultOrganizerNodeList, XPath xPath) throws XPathExpressionException,TransformerException
 	{
 		ArrayList<CCDALabResultOrg> labResultOrgList = new ArrayList<>();
 		CCDALabResultOrg labResultOrg;
@@ -47,6 +53,10 @@ public class LaboratoryResultsProcessor {
 			labResultOrg = new CCDALabResultOrg();
 			
 			Element labResultOrgElement = (Element) resultOrganizerNodeList.item(i);
+			
+			labResultOrgElement.setAttribute("xmlns:xsi", "http://www.w3.org/2001/XMLSchema-instance");
+			labResultOrg.setLineNumber(labResultOrgElement.getUserData("lineNumber") + " - " + labResultOrgElement.getUserData("endLineNumber") );
+			labResultOrg.setXmlString(ApplicationUtil.nodeToString((Node)labResultOrgElement));
 			
 			labResultOrg.setTemplateIds(ApplicationUtil.readTemplateIdList((NodeList) xPath.compile("./templateId[not(@nullFlavor)]").
 										evaluate(labResultOrgElement, XPathConstants.NODESET)));
@@ -67,7 +77,7 @@ public class LaboratoryResultsProcessor {
 		return labResultOrgList;
 	}
 	
-	public static ArrayList<CCDALabResultObs> readResultObservation(NodeList resultObservationNodeList , XPath xPath) throws XPathExpressionException
+	public static ArrayList<CCDALabResultObs> readResultObservation(NodeList resultObservationNodeList , XPath xPath) throws XPathExpressionException,TransformerException
 	{
 		
 		ArrayList<CCDALabResultObs> resultObservationList = new ArrayList<>();
@@ -77,6 +87,11 @@ public class LaboratoryResultsProcessor {
 			resultObservation = new CCDALabResultObs();
 			
 			Element resultObservationElement = (Element) resultObservationNodeList.item(i);
+			
+			resultObservationElement.setAttribute("xmlns:xsi", "http://www.w3.org/2001/XMLSchema-instance");
+			resultObservation.setLineNumber(resultObservationElement.getUserData("lineNumber") + " - " + resultObservationElement.getUserData("endLineNumber") );
+			resultObservation.setXmlString(ApplicationUtil.nodeToString((Node)resultObservationElement));
+			
 			resultObservation.setTemplateIds(ApplicationUtil.readTemplateIdList((NodeList) xPath.compile("./templateId").
 					evaluate(resultObservationElement, XPathConstants.NODESET)));
 			
@@ -102,10 +117,14 @@ public class LaboratoryResultsProcessor {
 					String xsiType = resultValue.getAttribute("xsi:type");
 					if (xsiType.equalsIgnoreCase("CD"))
 					{
-						resultObservation.setResults(new CCDAPQ(resultValue.getTextContent(),"CD"));
+						CCDACode valueCode =  ApplicationUtil.readCode(resultValue);
+						resultObservation.setResults(new CCDAPQ(valueCode.getCode(),"CD"));
 					}else if(xsiType.equalsIgnoreCase("PQ"))
 					{
 						resultObservation.setResults(ApplicationUtil.readQuantity(resultValue));
+					}else if (xsiType.equalsIgnoreCase("ST"))
+					{
+						resultObservation.setResults(new CCDAPQ(resultValue.getTextContent(),"ST"));
 					}
 				}
 			}

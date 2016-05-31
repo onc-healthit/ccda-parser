@@ -1,6 +1,6 @@
 package org.sitenv.ccdaparsing.model;
 
-public class CCDAFrequency {
+public class CCDAFrequency extends CCDAXmlSnippet {
 	
 	private boolean institutionSpecified;
 	private String operator;

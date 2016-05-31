@@ -2,6 +2,7 @@ package org.sitenv.ccdaparsing.processing;
 
 import java.util.ArrayList;
 
+import javax.xml.transform.TransformerException;
 import javax.xml.xpath.XPath;
 import javax.xml.xpath.XPathConstants;
 import javax.xml.xpath.XPathExpressionException;
@@ -16,7 +17,7 @@ import org.w3c.dom.NodeList;
 
 public class CareTeamMemberProcessor {
 	
-	public static CCDACareTeamMember retrieveCTMDetails(XPath xPath , Document doc) throws XPathExpressionException
+	public static CCDACareTeamMember retrieveCTMDetails(XPath xPath , Document doc) throws XPathExpressionException,TransformerException
 	{
 		NodeList performerNodeList = (NodeList) xPath.compile(ApplicationConstants.CTM_EXPRESSION).evaluate(doc, XPathConstants.NODESET);
 		CCDACareTeamMember careTeamMember = new CCDACareTeamMember();

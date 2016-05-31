@@ -2,6 +2,7 @@ package org.sitenv.ccdaparsing.processing;
 
 import java.util.ArrayList;
 
+import javax.xml.transform.TransformerException;
 import javax.xml.xpath.XPath;
 import javax.xml.xpath.XPathConstants;
 import javax.xml.xpath.XPathExpressionException;
@@ -16,11 +17,12 @@ import org.sitenv.ccdaparsing.util.ApplicationConstants;
 import org.sitenv.ccdaparsing.util.ApplicationUtil;
 import org.w3c.dom.Document;
 import org.w3c.dom.Element;
+import org.w3c.dom.Node;
 import org.w3c.dom.NodeList;
 
 public class ProcedureProcessor {
 	
-	public static CCDAProcedure retrievePrcedureDetails(XPath xPath , Document doc) throws XPathExpressionException
+	public static CCDAProcedure retrievePrcedureDetails(XPath xPath , Document doc) throws XPathExpressionException,TransformerException
 	{
 		CCDAProcedure procedures = null;
 		Element sectionElement = (Element) xPath.compile(ApplicationConstants.PROCEDURE_EXPRESSION).evaluate(doc, XPathConstants.NODE);
@@ -33,11 +35,16 @@ public class ProcedureProcessor {
 					evaluate(sectionElement, XPathConstants.NODE)));
 			procedures.setProcActsProcs(readProcedures((NodeList) xPath.compile("./entry/procedure[not(@nullFlavor)]").
 					evaluate(sectionElement, XPathConstants.NODESET), xPath));
+			
+			sectionElement.setAttribute("xmlns:xsi", "http://www.w3.org/2001/XMLSchema-instance");
+			procedures.setLineNumber(sectionElement.getUserData("lineNumber") + " - " + sectionElement.getUserData("endLineNumber") );
+			procedures.setXmlString(ApplicationUtil.nodeToString((Node)sectionElement));
+
 		}
 		return procedures;
 	}
 	
-	public static ArrayList<CCDAProcActProc> readProcedures(NodeList proceduresNodeList , XPath xPath) throws XPathExpressionException
+	public static ArrayList<CCDAProcActProc> readProcedures(NodeList proceduresNodeList , XPath xPath) throws XPathExpressionException,TransformerException
 	{
 		ArrayList<CCDAProcActProc> proceduresList = null;
 		if(!ApplicationUtil.isNodeListEmpty(proceduresNodeList))
@@ -49,6 +56,11 @@ public class ProcedureProcessor {
 			
 			procedure = new CCDAProcActProc();
 			Element procedureElement = (Element) proceduresNodeList.item(i);
+			
+			procedureElement.setAttribute("xmlns:xsi", "http://www.w3.org/2001/XMLSchema-instance");
+			procedure.setLineNumber(procedureElement.getUserData("lineNumber") + " - " + procedureElement.getUserData("endLineNumber") );
+			procedure.setXmlString(ApplicationUtil.nodeToString((Node)procedureElement));
+
 			
 			procedure.setSectionTemplateId(ApplicationUtil.readTemplateIdList((NodeList) xPath.compile("./templateId[not(@nullFlavor)]").
 										evaluate(procedureElement, XPathConstants.NODESET)));
@@ -80,7 +92,7 @@ public class ProcedureProcessor {
 		return proceduresList;
 	}
 	
-	public static ArrayList<CCDAAssignedEntity> readPerformerList(NodeList performerEntityNodeList , XPath xPath) throws XPathExpressionException
+	public static ArrayList<CCDAAssignedEntity> readPerformerList(NodeList performerEntityNodeList , XPath xPath) throws XPathExpressionException,TransformerException
 	{
 		ArrayList<CCDAAssignedEntity> assignedEntityList = null;
 		if(!ApplicationUtil.isNodeListEmpty(performerEntityNodeList))
@@ -127,7 +139,7 @@ public class ProcedureProcessor {
 		
 	}
 	
-	public static ArrayList<CCDAUDI> readUDI(NodeList deviceNodeList, XPath xPath) throws XPathExpressionException
+	public static ArrayList<CCDAUDI> readUDI(NodeList deviceNodeList, XPath xPath) throws XPathExpressionException,TransformerException
 	{
 		ArrayList<CCDAUDI> deviceList =  null;
 		if(!ApplicationUtil.isNodeListEmpty(deviceNodeList))
@@ -159,7 +171,7 @@ public class ProcedureProcessor {
 		
 	}
 	
-	public static ArrayList<CCDAServiceDeliveryLoc> readServiceDeliveryLocators(NodeList serviceDeliveryLocNodeList, XPath xPath) throws XPathExpressionException
+	public static ArrayList<CCDAServiceDeliveryLoc> readServiceDeliveryLocators(NodeList serviceDeliveryLocNodeList, XPath xPath) throws XPathExpressionException,TransformerException
 	{
 		ArrayList<CCDAServiceDeliveryLoc> serviceDeliveryLocsList = null;
 		if(!ApplicationUtil.isNodeListEmpty(serviceDeliveryLocNodeList))

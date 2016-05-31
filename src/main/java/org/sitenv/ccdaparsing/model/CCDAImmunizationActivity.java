@@ -2,7 +2,7 @@ package org.sitenv.ccdaparsing.model;
 
 import java.util.ArrayList;
 
-public class CCDAImmunizationActivity {
+public class CCDAImmunizationActivity extends CCDAXmlSnippet {
 	private ArrayList<CCDAII>     				templateIds;
 	private CCDADataElement							time;
 	private CCDACode							routeCode;

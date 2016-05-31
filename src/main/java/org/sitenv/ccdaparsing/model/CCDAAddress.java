@@ -1,7 +1,7 @@
 package org.sitenv.ccdaparsing.model;
 
 
-public class CCDAAddress {
+public class CCDAAddress extends CCDAXmlSnippet {
 	
 	private CCDADataElement addressLine1;
 	private CCDADataElement addressLine2;

@@ -2,7 +2,7 @@ package org.sitenv.ccdaparsing.model;
 
 import java.util.ArrayList;
 
-public class CCDAVitalSigns {
+public class CCDAVitalSigns extends CCDAXmlSnippet{
 	
 	private ArrayList<CCDAII>			templateIds;
 	private CCDACode					sectionCode;

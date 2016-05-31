@@ -2,7 +2,7 @@ package org.sitenv.ccdaparsing.model;
 
 import java.util.ArrayList;
 
-public class CCDAProcedure {
+public class CCDAProcedure extends CCDAXmlSnippet{
 	private ArrayList<CCDAII>       		sectionTemplateId;
 	private CCDACode                 		sectionCode;
 	private ArrayList<CCDAProcActProc>		procActsProcs;

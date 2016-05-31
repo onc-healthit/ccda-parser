@@ -2,7 +2,7 @@ package org.sitenv.ccdaparsing.model;
 
 import java.util.ArrayList;
 
-public class CCDAUDI {
+public class CCDAUDI extends CCDAXmlSnippet{
 	
 	private ArrayList<CCDAII>     templateIds;
 	private ArrayList<CCDAII>     UDIValue;

@@ -2,7 +2,7 @@ package org.sitenv.ccdaparsing.model;
 
 import java.util.ArrayList;
 
-public class CCDASocialHistory {
+public class CCDASocialHistory extends CCDAXmlSnippet{
 
 	private ArrayList<CCDAII>					sectionTemplateIds;
 	private CCDACode							sectionCode;
