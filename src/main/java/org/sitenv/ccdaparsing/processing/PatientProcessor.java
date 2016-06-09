@@ -13,6 +13,7 @@ import org.sitenv.ccdaparsing.util.ApplicationConstants;
 import org.sitenv.ccdaparsing.util.ApplicationUtil;
 import org.w3c.dom.Document;
 import org.w3c.dom.Element;
+import org.w3c.dom.Node;
 import org.w3c.dom.NodeList;
 
 public class PatientProcessor {
@@ -29,6 +30,11 @@ public class PatientProcessor {
 		    
 	        	
 	        	patient= new CCDAPatient();
+	        	
+	        	patientRoleElement.setAttribute("xmlns:xsi", "http://www.w3.org/2001/XMLSchema-instance");
+				patient.setLineNumber(patientRoleElement.getUserData("lineNumber") + " - " + patientRoleElement.getUserData("endLineNumber") );
+				patient.setXmlString(ApplicationUtil.nodeToString((Node)patientRoleElement));
+				
 	            patient.setAddresses(ApplicationUtil.readAddressList((NodeList) xPath.compile("./addr[not(@nullFlavor)]").
     					evaluate(patientRoleElement, XPathConstants.NODESET), xPath));
 	            
