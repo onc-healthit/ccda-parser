@@ -43,6 +43,9 @@ public class SmokingStatusProcessor {
 			sectionElement.setAttribute("xmlns:xsi", "http://www.w3.org/2001/XMLSchema-instance");
 			socailHistory.setLineNumber(sectionElement.getUserData("lineNumber") + " - " + sectionElement.getUserData("endLineNumber") );
 			socailHistory.setXmlString(ApplicationUtil.nodeToString((Node)sectionElement));
+			
+			socailHistory.setReferenceLinks(ApplicationUtil.readSectionTextReferences((NodeList) xPath.compile("./text/table/tbody/tr[not(@nullFlavor)]").
+					evaluate(sectionElement, XPathConstants.NODESET),xPath));
 		
 			socailHistory.setTobaccoUse(readTobaccoUse(tobaccoUseNodeList , xPath));
 		}
@@ -66,6 +69,12 @@ public class SmokingStatusProcessor {
 			smokingStatusElement.setAttribute("xmlns:xsi", "http://www.w3.org/2001/XMLSchema-instance");
 			smokingStatus.setLineNumber(smokingStatusElement.getUserData("lineNumber") + " - " + smokingStatusElement.getUserData("endLineNumber") );
 			smokingStatus.setXmlString(ApplicationUtil.nodeToString((Node)smokingStatusElement));
+			
+			smokingStatus.getReferenceTexts().addAll(ApplicationUtil.readTextReferences((NodeList) xPath.compile(".//originalText/reference[not(@nullFlavor)]").
+					evaluate(smokingStatusElement, XPathConstants.NODESET)));
+
+			smokingStatus.getReferenceTexts().addAll(ApplicationUtil.readTextReferences((NodeList) xPath.compile(".//text/reference[not(@nullFlavor)]").
+					evaluate(smokingStatusElement, XPathConstants.NODESET)));
 			
 			smokingStatus.setSmokingStatusTemplateIds(ApplicationUtil.readTemplateIdList((NodeList) xPath.compile("./templateId[not(@nullFlavor)]").
 														evaluate(smokingStatusElement, XPathConstants.NODESET)));

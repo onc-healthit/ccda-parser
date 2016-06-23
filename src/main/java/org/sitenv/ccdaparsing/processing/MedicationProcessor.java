@@ -37,6 +37,9 @@ public class MedicationProcessor {
 			sectionElement.setAttribute("xmlns:xsi", "http://www.w3.org/2001/XMLSchema-instance");
 			medications.setLineNumber(sectionElement.getUserData("lineNumber") + " - " + sectionElement.getUserData("endLineNumber") );
 			medications.setXmlString(ApplicationUtil.nodeToString((Node)sectionElement));
+			
+			medications.setReferenceLinks(ApplicationUtil.readSectionTextReferences((NodeList) xPath.compile("./text/table/tbody/tr[not(@nullFlavor)]").
+					evaluate(sectionElement, XPathConstants.NODESET),xPath));
 		}
 		return medications;
 	}
@@ -59,6 +62,12 @@ public class MedicationProcessor {
 			
 			medicationActivity.setTemplateIds(ApplicationUtil.readTemplateIdList((NodeList) xPath.compile("./templateId[not(@nullFlavor)]").
 									evaluate(entryElement, XPathConstants.NODESET)));
+			
+			medicationActivity.getReferenceTexts().addAll(ApplicationUtil.readTextReferences((NodeList) xPath.compile(".//originalText/reference[not(@nullFlavor)]").
+					evaluate(entryElement, XPathConstants.NODESET)));
+
+			medicationActivity.getReferenceTexts().addAll(ApplicationUtil.readTextReferences((NodeList) xPath.compile(".//text/reference[not(@nullFlavor)]").
+					evaluate(entryElement, XPathConstants.NODESET)));
 			
 			NodeList effectiveTime = (NodeList) xPath.compile("./effectiveTime[not(@nullFlavor)]").evaluate(entryElement, XPathConstants.NODESET);
 			

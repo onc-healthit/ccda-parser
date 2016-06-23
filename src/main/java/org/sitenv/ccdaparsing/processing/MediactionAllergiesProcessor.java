@@ -37,6 +37,9 @@ public class MediactionAllergiesProcessor {
 			sectionElement.setAttribute("xmlns:xsi", "http://www.w3.org/2001/XMLSchema-instance");
 			allergies.setLineNumber(sectionElement.getUserData("lineNumber") + " - " + sectionElement.getUserData("endLineNumber") );
 			allergies.setXmlString(ApplicationUtil.nodeToString((Node)sectionElement));
+			
+			allergies.setReferenceLinks(ApplicationUtil.readSectionTextReferences((NodeList) xPath.compile("./text/table/tbody/tr[not(@nullFlavor)]").
+					evaluate(sectionElement, XPathConstants.NODESET),xPath));
 		}
 		return allergies;
 	}
@@ -60,6 +63,12 @@ public class MediactionAllergiesProcessor {
 			
 			allergyConcern.setTemplateId(ApplicationUtil.readTemplateIdList((NodeList) xPath.compile("./templateId[not(@nullFlavor)]").
 																evaluate(allergyConcernElement, XPathConstants.NODESET)));
+			
+			allergyConcern.getReferenceTexts().addAll(ApplicationUtil.readTextReferences((NodeList) xPath.compile(".//originalText/reference[not(@nullFlavor)]").
+					evaluate(allergyConcernElement, XPathConstants.NODESET)));
+
+			allergyConcern.getReferenceTexts().addAll(ApplicationUtil.readTextReferences((NodeList) xPath.compile(".//text/reference[not(@nullFlavor)]").
+					evaluate(allergyConcernElement, XPathConstants.NODESET)));
 			
 			allergyConcern.setConcernCode(ApplicationUtil.readCode((Element) xPath.compile("./code[not(@nullFlavor)]").
 					evaluate(allergyConcernElement, XPathConstants.NODE)));

@@ -7,6 +7,7 @@ public class CCDAAllergy extends CCDAXmlSnippet {
 	private ArrayList<CCDAII>       		sectionTemplateId;
 	private CCDACode                 		sectionCode;
 	private ArrayList<CCDAAllergyConcern>	allergyConcern;
+	private ArrayList<String> referenceLinks;
 	
 	public ArrayList<CCDAII> getSectionTemplateId() {
 		return sectionTemplateId;
@@ -30,6 +31,14 @@ public class CCDAAllergy extends CCDAXmlSnippet {
 
 	public void setAllergyConcern(ArrayList<CCDAAllergyConcern> allergyConcern) {
 		this.allergyConcern = allergyConcern;
+	}
+	
+	public ArrayList<String> getReferenceLinks() {
+		return referenceLinks;
+	}
+
+	public void setReferenceLinks(ArrayList<String> referenceLinks) {
+		this.referenceLinks = referenceLinks;
 	}
 
 	public CCDAAllergy()

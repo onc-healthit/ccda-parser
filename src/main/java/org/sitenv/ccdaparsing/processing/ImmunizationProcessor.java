@@ -37,6 +37,9 @@ public class ImmunizationProcessor {
 			sectionElement.setAttribute("xmlns:xsi", "http://www.w3.org/2001/XMLSchema-instance");
 			immunizations.setLineNumber(sectionElement.getUserData("lineNumber") + " - " + sectionElement.getUserData("endLineNumber") );
 			immunizations.setXmlString(ApplicationUtil.nodeToString((Node)sectionElement));
+			
+			immunizations.setReferenceLinks(ApplicationUtil.readSectionTextReferences((NodeList) xPath.compile("./text/table/tbody/tr[not(@nullFlavor)]").
+					evaluate(sectionElement, XPathConstants.NODESET),xPath));
 		}
 		return immunizations;
 	}
@@ -63,6 +66,12 @@ public class ImmunizationProcessor {
 				
 				immunizationActivity.setTemplateIds(ApplicationUtil.readTemplateIdList((NodeList) xPath.compile("./templateId[not(@nullFlavor)]").
 													evaluate(immunizationActivityElement, XPathConstants.NODESET)));
+				
+				immunizationActivity.getReferenceTexts().addAll(ApplicationUtil.readTextReferences((NodeList) xPath.compile(".//originalText/reference[not(@nullFlavor)]").
+						evaluate(immunizationActivityElement, XPathConstants.NODESET)));
+
+				immunizationActivity.getReferenceTexts().addAll(ApplicationUtil.readTextReferences((NodeList) xPath.compile(".//text/reference[not(@nullFlavor)]").
+						evaluate(immunizationActivityElement, XPathConstants.NODESET)));
 				
 				immunizationActivity.setTime(ApplicationUtil.readDataElement((Element) xPath.compile("./effectiveTime[not(@nullFlavor)]").
 						evaluate(immunizationActivityElement, XPathConstants.NODE)));

@@ -15,6 +15,7 @@ public class CCDAProcActProc extends CCDAXmlSnippet{
 	private CCDACode							deviceCode;
 	private CCDAII								scopingEntityId;
 	private ArrayList<CCDAUDI>                 patientUDI;
+	private ArrayList<CCDADataElement> referenceTexts;
 	
 	public CCDAProcActProc()
 	{
@@ -107,6 +108,19 @@ public class CCDAProcActProc extends CCDAXmlSnippet{
 
 	public void setPatientUDI(ArrayList<CCDAUDI> patientUDI) {
 		this.patientUDI = patientUDI;
+	}
+	
+	public ArrayList<CCDADataElement> getReferenceTexts() {
+		if(this.referenceTexts == null)
+		{
+			this.referenceTexts = new ArrayList<CCDADataElement>();
+		}
+		
+		return referenceTexts;
+	}
+
+	public void setReferenceTexts(ArrayList<CCDADataElement> referenceTexts) {
+		this.referenceTexts = referenceTexts;
 	}
 
 	@Override

@@ -10,6 +10,7 @@ public class CCDAVitalOrg extends CCDAXmlSnippet{
 	private CCDACode						translationCode;
 	private CCDAEffTime						effTime;
 	private ArrayList<CCDAVitalObs>			vitalObs;
+	private ArrayList<CCDADataElement> referenceTexts;
 	
 	public CCDAVitalOrg()
 	{
@@ -62,6 +63,19 @@ public class CCDAVitalOrg extends CCDAXmlSnippet{
 
 	public void setVitalObs(ArrayList<CCDAVitalObs> vitalObs) {
 		this.vitalObs = vitalObs;
+	}
+	
+	public ArrayList<CCDADataElement> getReferenceTexts() {
+		if(this.referenceTexts == null)
+		{
+			this.referenceTexts = new ArrayList<CCDADataElement>();
+		}
+		
+		return referenceTexts;
+	}
+
+	public void setReferenceTexts(ArrayList<CCDADataElement> referenceTexts) {
+		this.referenceTexts = referenceTexts;
 	}
 
 	@Override
