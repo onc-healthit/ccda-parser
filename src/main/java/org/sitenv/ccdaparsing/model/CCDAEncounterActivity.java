@@ -10,6 +10,7 @@ public class CCDAEncounterActivity extends CCDAXmlSnippet {
 	private ArrayList<CCDAEncounterDiagnosis> diagnoses;
 	private ArrayList<CCDAServiceDeliveryLoc> sdLocs;
 	private ArrayList<CCDAProblemObs> indications;
+	private ArrayList<CCDADataElement> referenceTexts;
 	
 	public ArrayList<CCDAII> getTemplateId() {
 		return templateId;
@@ -57,6 +58,19 @@ public class CCDAEncounterActivity extends CCDAXmlSnippet {
 
 	public void setIndications(ArrayList<CCDAProblemObs> indications) {
 		this.indications = indications;
+	}
+	
+	public ArrayList<CCDADataElement> getReferenceTexts() {
+		if(this.referenceTexts == null)
+		{
+			this.referenceTexts = new ArrayList<CCDADataElement>();
+		}
+		
+		return referenceTexts;
+	}
+
+	public void setReferenceTexts(ArrayList<CCDADataElement> referenceTexts) {
+		this.referenceTexts = referenceTexts;
 	}
 
 	@Override

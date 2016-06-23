@@ -7,6 +7,7 @@ public class CCDAMedication extends CCDAXmlSnippet{
 	private ArrayList<CCDAII>     				templateIds;
 	private CCDACode                 			sectionCode;
 	private ArrayList<CCDAMedicationActivity>  	medActivities;
+	private ArrayList<String> referenceLinks;
 	
 	public ArrayList<CCDAII> getTemplateIds() {
 		return templateIds;
@@ -22,6 +23,14 @@ public class CCDAMedication extends CCDAXmlSnippet{
 
 	public void setSectionCode(CCDACode sectionCode) {
 		this.sectionCode = sectionCode;
+	}
+	
+	public ArrayList<String> getReferenceLinks() {
+		return referenceLinks;
+	}
+
+	public void setReferenceLinks(ArrayList<String> referenceLinks) {
+		this.referenceLinks = referenceLinks;
 	}
 
 	public CCDAMedication()

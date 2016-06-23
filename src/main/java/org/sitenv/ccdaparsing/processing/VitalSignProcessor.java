@@ -37,6 +37,8 @@ public class VitalSignProcessor {
 			sectionElement.setAttribute("xmlns:xsi", "http://www.w3.org/2001/XMLSchema-instance");
 			vitalSigns.setLineNumber(sectionElement.getUserData("lineNumber") + " - " + sectionElement.getUserData("endLineNumber") );
 			vitalSigns.setXmlString(ApplicationUtil.nodeToString((Node)sectionElement));
+			vitalSigns.setReferenceLinks(ApplicationUtil.readSectionTextReferences((NodeList) xPath.compile("./text/table/tbody/tr[not(@nullFlavor)]").
+					evaluate(sectionElement, XPathConstants.NODESET),xPath));
 		}
 		return vitalSigns;
 	}
@@ -57,6 +59,12 @@ public class VitalSignProcessor {
 			
 			vitalOrganizer.setTemplateIds(ApplicationUtil.readTemplateIdList((NodeList) xPath.compile("./templateId[not(@nullFlavor)]").
 										evaluate(vitalOrganizerElement, XPathConstants.NODESET)));
+			
+			vitalOrganizer.getReferenceTexts().addAll(ApplicationUtil.readTextReferences((NodeList) xPath.compile(".//originalText/reference[not(@nullFlavor)]").
+					evaluate(vitalOrganizerElement, XPathConstants.NODESET)));
+
+			vitalOrganizer.getReferenceTexts().addAll(ApplicationUtil.readTextReferences((NodeList) xPath.compile(".//text/reference[not(@nullFlavor)]").
+					evaluate(vitalOrganizerElement, XPathConstants.NODESET)));
 			
 			vitalOrganizer.setOrgCode(ApplicationUtil.readCode((Element) xPath.compile("./code[not(@nullFlavor)]").
 					evaluate(vitalOrganizerElement, XPathConstants.NODE)));

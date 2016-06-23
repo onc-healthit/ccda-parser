@@ -6,6 +6,7 @@ public class CCDAImmunization extends CCDAXmlSnippet {
 	private ArrayList<CCDAII>     				templateIds;
 	private CCDACode                 			sectionCode;
 	private ArrayList<CCDAImmunizationActivity> immActivity;
+	private ArrayList<String> referenceLinks;
 	
 	public ArrayList<CCDAII> getTemplateIds() {
 		return templateIds;
@@ -29,6 +30,16 @@ public class CCDAImmunization extends CCDAXmlSnippet {
 
 	public void setImmActivity(ArrayList<CCDAImmunizationActivity> immActivity) {
 		this.immActivity = immActivity;
+	}
+	
+	
+
+	public ArrayList<String> getReferenceLinks() {
+		return referenceLinks;
+	}
+
+	public void setReferenceLinks(ArrayList<String> referenceLinks) {
+		this.referenceLinks = referenceLinks;
 	}
 
 	public CCDAImmunization() 

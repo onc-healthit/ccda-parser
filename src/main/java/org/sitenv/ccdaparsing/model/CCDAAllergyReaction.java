@@ -6,7 +6,16 @@ public class CCDAAllergyReaction extends CCDAXmlSnippet {
 	
 	private ArrayList<CCDAII>			templateIds;
 	private CCDACode					reactionCode;
+	private CCDADataElement referenceText;
 	
+	public CCDADataElement getReferenceText() {
+		return referenceText;
+	}
+
+	public void setReferenceText(CCDADataElement referenceText) {
+		this.referenceText = referenceText;
+	}
+
 	public ArrayList<CCDAII> getTemplateIds() {
 		return templateIds;
 	}

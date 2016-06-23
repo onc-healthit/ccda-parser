@@ -39,6 +39,8 @@ public class LaboratoryResultsProcessor {
 			sectionElement.setAttribute("xmlns:xsi", "http://www.w3.org/2001/XMLSchema-instance");
 			labResults.setLineNumber(sectionElement.getUserData("lineNumber") + " - " + sectionElement.getUserData("endLineNumber") );
 			labResults.setXmlString(ApplicationUtil.nodeToString((Node)sectionElement));
+			labResults.setReferenceLinks(ApplicationUtil.readSectionTextReferences((NodeList) xPath.compile("./text/table/tbody/tr[not(@nullFlavor)]").
+					evaluate(sectionElement, XPathConstants.NODESET),xPath));
 			labResults.setIsLabTestInsteadOfResult(false);
 		}
 		return labResults;
@@ -60,6 +62,12 @@ public class LaboratoryResultsProcessor {
 			
 			labResultOrg.setTemplateIds(ApplicationUtil.readTemplateIdList((NodeList) xPath.compile("./templateId[not(@nullFlavor)]").
 										evaluate(labResultOrgElement, XPathConstants.NODESET)));
+			
+			labResultOrg.getReferenceTexts().addAll(ApplicationUtil.readTextReferences((NodeList) xPath.compile(".//originalText/reference[not(@nullFlavor)]").
+					evaluate(labResultOrgElement, XPathConstants.NODESET)));
+
+			labResultOrg.getReferenceTexts().addAll(ApplicationUtil.readTextReferences((NodeList) xPath.compile(".//text/reference[not(@nullFlavor)]").
+					evaluate(labResultOrgElement, XPathConstants.NODESET)));
 			
 			labResultOrg.setOrgCode(ApplicationUtil.readCode((Element) xPath.compile("./code[not(@nullFlavor)]").
 					evaluate(labResultOrgElement, XPathConstants.NODE)));

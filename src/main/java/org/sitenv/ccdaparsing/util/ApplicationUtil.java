@@ -129,6 +129,65 @@ public class ApplicationUtil {
 		return effectiveTime;
 	}
 	
+	public static ArrayList<String> readSectionTextReferences(NodeList rowList,XPath xPath) throws XPathExpressionException,TransformerException
+	{
+		ArrayList<String> textReferences=new ArrayList<String>();
+		NodeList columnList = null;
+		Element columnElement = null;
+		
+		if( ! isNodeListEmpty(rowList))
+		{
+			for (int i = 0; i < rowList.getLength(); i++) 
+			{
+				columnList = (NodeList)xPath.compile("./td[not(@nullFlavor)]").evaluate((Element)rowList.item(i), XPathConstants.NODESET);
+				
+				if( ! isNodeListEmpty(columnList))
+				{
+					for (int j = 0; j < columnList.getLength(); j++)
+					{
+						columnElement = (Element) columnList.item(j);
+						if(columnElement!=null)
+						{
+							if(!isEmpty(columnElement.getAttribute("ID")))
+							{
+								textReferences.add("#"+columnElement.getAttribute("ID"));
+							}
+						}
+					}
+				}
+			}
+		}
+		return textReferences;
+	}
+	
+	
+	public static ArrayList<CCDADataElement> readTextReferences(NodeList referenceList) throws XPathExpressionException,TransformerException
+	{
+		ArrayList<CCDADataElement> textReferences=new ArrayList<CCDADataElement>();
+		Element referenceElement = null;
+		CCDADataElement dataElement= null;
+		
+		if( ! isNodeListEmpty(referenceList))
+		{
+			for (int i = 0; i < referenceList.getLength(); i++) 
+			{
+				referenceElement = (Element) referenceList.item(i);
+				if(referenceElement!=null)
+				{
+					if(!isEmpty(referenceElement.getAttribute("value")))
+					{
+					   dataElement = new CCDADataElement();
+					   dataElement.setValue(referenceElement.getAttribute("value"));
+					   dataElement.setXmlString(nodeToString((Node)referenceElement));
+					   dataElement.setLineNumber(referenceElement.getUserData("lineNumber").toString());
+					   textReferences.add(dataElement);
+					}
+				}
+			}
+		}
+		return textReferences;
+	}
+	
 	public static CCDADataElement readDataElement(Element nodeElement)throws TransformerException
 	{
 		CCDADataElement dataElement = null;
