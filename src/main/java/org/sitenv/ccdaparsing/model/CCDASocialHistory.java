@@ -48,6 +48,10 @@ public class CCDASocialHistory extends CCDAXmlSnippet{
 	}
 	
 	public ArrayList<String> getReferenceLinks() {
+		if(referenceLinks == null)
+		{
+			this.referenceLinks = new ArrayList<String>();
+		}
 		return referenceLinks;
 	}
 
