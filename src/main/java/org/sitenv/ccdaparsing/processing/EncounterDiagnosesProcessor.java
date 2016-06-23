@@ -38,8 +38,16 @@ public class EncounterDiagnosesProcessor {
 			encounters.setLineNumber(sectionElement.getUserData("lineNumber") + " - " + sectionElement.getUserData("endLineNumber") );
 			encounters.setXmlString(ApplicationUtil.nodeToString((Node)sectionElement));
 			
-			encounters.setReferenceLinks(ApplicationUtil.readSectionTextReferences((NodeList) xPath.compile("./text/table/tbody/tr[not(@nullFlavor)]").
-					evaluate(sectionElement, XPathConstants.NODESET),xPath));
+			Element textElement = (Element) xPath.compile("./text[not(@nullFlavor)]").evaluate(sectionElement, XPathConstants.NODE);
+			
+			if(textElement!=null)
+			{
+			
+				encounters.getReferenceLinks().addAll((ApplicationUtil.readSectionTextReferences((NodeList) xPath.compile(".//td[not(@nullFlavor)]").
+					evaluate(textElement, XPathConstants.NODESET))));
+				encounters.getReferenceLinks().addAll((ApplicationUtil.readSectionTextReferences((NodeList) xPath.compile(".//content[not(@nullFlavor)]").
+					evaluate(textElement, XPathConstants.NODESET))));
+			}
 		}
 		return encounters;
 	}

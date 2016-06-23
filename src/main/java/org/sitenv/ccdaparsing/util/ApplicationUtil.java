@@ -129,30 +129,62 @@ public class ApplicationUtil {
 		return effectiveTime;
 	}
 	
-	public static ArrayList<String> readSectionTextReferences(NodeList rowList,XPath xPath) throws XPathExpressionException,TransformerException
+	/*public static ArrayList<String> readSectionTextReferences(NodeList rowList,XPath xPath) throws XPathExpressionException,TransformerException
 	{
 		ArrayList<String> textReferences=new ArrayList<String>();
-		NodeList columnList = null;
-		Element columnElement = null;
+		NodeList tdColumnList = null;
+		Element tdColumnElement = null;
+		Element contentElement = null;
 		
 		if( ! isNodeListEmpty(rowList))
 		{
 			for (int i = 0; i < rowList.getLength(); i++) 
 			{
-				columnList = (NodeList)xPath.compile("./td[not(@nullFlavor)]").evaluate((Element)rowList.item(i), XPathConstants.NODESET);
+				tdColumnList = (NodeList)xPath.compile("./td[not(@nullFlavor)]").evaluate((Element)rowList.item(i), XPathConstants.NODESET);
 				
-				if( ! isNodeListEmpty(columnList))
+				if( ! isNodeListEmpty(tdColumnList))
 				{
-					for (int j = 0; j < columnList.getLength(); j++)
+					for (int j = 0; j < tdColumnList.getLength(); j++)
 					{
-						columnElement = (Element) columnList.item(j);
-						if(columnElement!=null)
+						tdColumnElement = (Element) tdColumnList.item(j);
+						if(tdColumnElement!=null)
 						{
-							if(!isEmpty(columnElement.getAttribute("ID")))
+							if(!isEmpty(tdColumnElement.getAttribute("ID")))
 							{
-								textReferences.add("#"+columnElement.getAttribute("ID"));
+								textReferences.add("#"+tdColumnElement.getAttribute("ID"));
+							}
+							
+							contentElement = (Element)xPath.compile("./content[not(@nullFlavor)]").evaluate(tdColumnElement, XPathConstants.NODE);
+							if(contentElement!=null)
+							{
+								if(!isEmpty(contentElement.getAttribute("ID")))
+								{
+									textReferences.add("#"+contentElement.getAttribute("ID"));
+								}
 							}
 						}
+					}
+				}
+			}
+		}
+		return textReferences;
+	}*/
+	
+	public static ArrayList<String> readSectionTextReferences(NodeList referenceList) throws XPathExpressionException,TransformerException
+	{
+		ArrayList<String> textReferences=new ArrayList<String>();
+		Element referenceElement = null;
+		
+		if( ! isNodeListEmpty(referenceList))
+		{
+			for (int i = 0; i < referenceList.getLength(); i++) 
+			{
+				referenceElement = (Element) referenceList.item(i);
+				if(referenceElement!=null)
+				{
+					if(!isEmpty(referenceElement.getAttribute("ID")))
+					{
+					   textReferences.add("#"+referenceElement.getAttribute("ID"));
 					}
 				}
 			}

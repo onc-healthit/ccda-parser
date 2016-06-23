@@ -39,8 +39,17 @@ public class LaboratoryResultsProcessor {
 			sectionElement.setAttribute("xmlns:xsi", "http://www.w3.org/2001/XMLSchema-instance");
 			labResults.setLineNumber(sectionElement.getUserData("lineNumber") + " - " + sectionElement.getUserData("endLineNumber") );
 			labResults.setXmlString(ApplicationUtil.nodeToString((Node)sectionElement));
-			labResults.setReferenceLinks(ApplicationUtil.readSectionTextReferences((NodeList) xPath.compile("./text/table/tbody/tr[not(@nullFlavor)]").
-					evaluate(sectionElement, XPathConstants.NODESET),xPath));
+			
+			Element textElement = (Element) xPath.compile("./text[not(@nullFlavor)]").evaluate(sectionElement, XPathConstants.NODE);
+			
+			if(textElement!=null)
+			{
+				labResults.getReferenceLinks().addAll((ApplicationUtil.readSectionTextReferences((NodeList) xPath.compile(".//td[not(@nullFlavor)]").
+					evaluate(sectionElement, XPathConstants.NODESET))));
+			
+				labResults.getReferenceLinks().addAll((ApplicationUtil.readSectionTextReferences((NodeList) xPath.compile(".//content[not(@nullFlavor)]").
+					evaluate(textElement, XPathConstants.NODESET))));
+			}
 			labResults.setIsLabTestInsteadOfResult(false);
 		}
 		return labResults;

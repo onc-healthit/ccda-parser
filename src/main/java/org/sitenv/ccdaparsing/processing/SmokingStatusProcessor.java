@@ -44,8 +44,16 @@ public class SmokingStatusProcessor {
 			socailHistory.setLineNumber(sectionElement.getUserData("lineNumber") + " - " + sectionElement.getUserData("endLineNumber") );
 			socailHistory.setXmlString(ApplicationUtil.nodeToString((Node)sectionElement));
 			
-			socailHistory.setReferenceLinks(ApplicationUtil.readSectionTextReferences((NodeList) xPath.compile("./text/table/tbody/tr[not(@nullFlavor)]").
-					evaluate(sectionElement, XPathConstants.NODESET),xPath));
+			Element textElement = (Element) xPath.compile("./text[not(@nullFlavor)]").evaluate(sectionElement, XPathConstants.NODE);
+			
+			if(textElement!=null)
+			{
+				socailHistory.getReferenceLinks().addAll((ApplicationUtil.readSectionTextReferences((NodeList) xPath.compile(".//td[not(@nullFlavor)]").
+					evaluate(textElement, XPathConstants.NODESET))));
+			
+				socailHistory.getReferenceLinks().addAll((ApplicationUtil.readSectionTextReferences((NodeList) xPath.compile(".//content[not(@nullFlavor)]").
+					evaluate(textElement, XPathConstants.NODESET))));
+			}
 		
 			socailHistory.setTobaccoUse(readTobaccoUse(tobaccoUseNodeList , xPath));
 		}
