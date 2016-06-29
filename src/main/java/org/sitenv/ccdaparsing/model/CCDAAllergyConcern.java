@@ -9,6 +9,7 @@ public class CCDAAllergyConcern extends CCDAXmlSnippet {
 	private CCDACode  					statusCode;
 	private CCDAEffTime      			effTime;
 	private ArrayList<CCDAAllergyObs>  	allergyObs;
+	private ArrayList<CCDADataElement> referenceTexts;
 	
 	public CCDAAllergyConcern()
 	{
@@ -53,6 +54,19 @@ public class CCDAAllergyConcern extends CCDAXmlSnippet {
 
 	public void setAllergyObs(ArrayList<CCDAAllergyObs> allergyObs) {
 		this.allergyObs = allergyObs;
+	}
+	
+	public ArrayList<CCDADataElement> getReferenceTexts() {
+		if(this.referenceTexts == null)
+		{
+			this.referenceTexts = new ArrayList<CCDADataElement>();
+		}
+		
+		return referenceTexts;
+	}
+
+	public void setReferenceTexts(ArrayList<CCDADataElement> referenceTexts) {
+		this.referenceTexts = referenceTexts;
 	}
 
 	@Override

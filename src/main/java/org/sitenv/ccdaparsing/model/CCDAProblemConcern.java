@@ -9,6 +9,7 @@ public class CCDAProblemConcern extends CCDAXmlSnippet{
 	private CCDACode  					statusCode;
 	private CCDAEffTime      			effTime;
 	private ArrayList<CCDAProblemObs>  	problemObservations;
+	private ArrayList<CCDADataElement> referenceTexts;
 	
 	public CCDAProblemConcern()
 	{
@@ -53,6 +54,19 @@ public class CCDAProblemConcern extends CCDAXmlSnippet{
 
 	public void setProblemObservations(ArrayList<CCDAProblemObs> problemObservations) {
 		this.problemObservations = problemObservations;
+	}
+	
+	public ArrayList<CCDADataElement> getReferenceTexts() {
+		if(this.referenceTexts == null)
+		{
+			this.referenceTexts = new ArrayList<CCDADataElement>();
+		}
+		
+		return referenceTexts;
+	}
+
+	public void setReferenceTexts(ArrayList<CCDADataElement> referenceTexts) {
+		this.referenceTexts = referenceTexts;
 	}
 
 	@Override

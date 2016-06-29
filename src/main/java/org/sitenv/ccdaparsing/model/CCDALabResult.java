@@ -8,6 +8,7 @@ public class CCDALabResult extends CCDAXmlSnippet{
 	private CCDACode					sectionCode;
 	private ArrayList<CCDALabResultOrg>	resultOrg;
 	private Boolean						isLabTestInsteadOfResult;
+	private ArrayList<String> referenceLinks;
 	
 	public CCDALabResult()
 	{
@@ -44,6 +45,18 @@ public class CCDALabResult extends CCDAXmlSnippet{
 
 	public void setResultOrg(ArrayList<CCDALabResultOrg> resultOrg) {
 		this.resultOrg = resultOrg;
+	}
+	
+	public ArrayList<String> getReferenceLinks() {
+		if(referenceLinks == null)
+		{
+			this.referenceLinks = new ArrayList<String>();
+		}
+		return referenceLinks;
+	}
+
+	public void setReferenceLinks(ArrayList<String> referenceLinks) {
+		this.referenceLinks = referenceLinks;
 	}
 
 	@Override

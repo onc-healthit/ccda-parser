@@ -37,6 +37,17 @@ public class EncounterDiagnosesProcessor {
 			sectionElement.setAttribute("xmlns:xsi", "http://www.w3.org/2001/XMLSchema-instance");
 			encounters.setLineNumber(sectionElement.getUserData("lineNumber") + " - " + sectionElement.getUserData("endLineNumber") );
 			encounters.setXmlString(ApplicationUtil.nodeToString((Node)sectionElement));
+			
+			Element textElement = (Element) xPath.compile("./text[not(@nullFlavor)]").evaluate(sectionElement, XPathConstants.NODE);
+			
+			if(textElement!=null)
+			{
+			
+				encounters.getReferenceLinks().addAll((ApplicationUtil.readSectionTextReferences((NodeList) xPath.compile(".//td[not(@nullFlavor)]").
+					evaluate(textElement, XPathConstants.NODESET))));
+				encounters.getReferenceLinks().addAll((ApplicationUtil.readSectionTextReferences((NodeList) xPath.compile(".//content[not(@nullFlavor)]").
+					evaluate(textElement, XPathConstants.NODESET))));
+			}
 		}
 		return encounters;
 	}
@@ -55,13 +66,20 @@ public class EncounterDiagnosesProcessor {
 				encounterActivity = new CCDAEncounterActivity();
 				encounterActivity.setTemplateId(ApplicationUtil.readTemplateIdList((NodeList) xPath.compile("./templateId[not(@nullFlavor)]").
 						evaluate(encounterActivityElement, XPathConstants.NODESET)));
-
+				
 				encounterActivity.setEncounterTypeCode(ApplicationUtil.readCode((Element) xPath.compile("./code[not(@nullFlavor)]").
 										evaluate(encounterActivityElement, XPathConstants.NODE)));
 				
 				encounterActivityElement.setAttribute("xmlns:xsi", "http://www.w3.org/2001/XMLSchema-instance");
 				encounterActivity.setLineNumber(encounterActivityElement.getUserData("lineNumber") + " - " + encounterActivityElement.getUserData("endLineNumber") );
 				encounterActivity.setXmlString(ApplicationUtil.nodeToString((Node)encounterActivityElement));
+				
+				
+				encounterActivity.getReferenceTexts().addAll(ApplicationUtil.readTextReferences((NodeList) xPath.compile(".//originalText/reference[not(@nullFlavor)]").
+															evaluate(encounterActivityElement, XPathConstants.NODESET)));
+				
+				encounterActivity.getReferenceTexts().addAll(ApplicationUtil.readTextReferences((NodeList) xPath.compile(".//text/reference[not(@nullFlavor)]").
+						evaluate(encounterActivityElement, XPathConstants.NODESET)));
 				
 				encounterActivity.setEffectiveTime(ApplicationUtil.readDataElement((Element) xPath.compile("./effectiveTime[not(@nullFlavor)]").
 															evaluate(encounterActivityElement, XPathConstants.NODE)));

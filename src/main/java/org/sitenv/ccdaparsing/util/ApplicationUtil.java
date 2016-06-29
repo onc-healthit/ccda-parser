@@ -129,6 +129,97 @@ public class ApplicationUtil {
 		return effectiveTime;
 	}
 	
+	/*public static ArrayList<String> readSectionTextReferences(NodeList rowList,XPath xPath) throws XPathExpressionException,TransformerException
+	{
+		ArrayList<String> textReferences=new ArrayList<String>();
+		NodeList tdColumnList = null;
+		Element tdColumnElement = null;
+		Element contentElement = null;
+		
+		if( ! isNodeListEmpty(rowList))
+		{
+			for (int i = 0; i < rowList.getLength(); i++) 
+			{
+				tdColumnList = (NodeList)xPath.compile("./td[not(@nullFlavor)]").evaluate((Element)rowList.item(i), XPathConstants.NODESET);
+				
+				if( ! isNodeListEmpty(tdColumnList))
+				{
+					for (int j = 0; j < tdColumnList.getLength(); j++)
+					{
+						tdColumnElement = (Element) tdColumnList.item(j);
+						if(tdColumnElement!=null)
+						{
+							if(!isEmpty(tdColumnElement.getAttribute("ID")))
+							{
+								textReferences.add("#"+tdColumnElement.getAttribute("ID"));
+							}
+							
+							contentElement = (Element)xPath.compile("./content[not(@nullFlavor)]").evaluate(tdColumnElement, XPathConstants.NODE);
+							if(contentElement!=null)
+							{
+								if(!isEmpty(contentElement.getAttribute("ID")))
+								{
+									textReferences.add("#"+contentElement.getAttribute("ID"));
+								}
+							}
+						}
+					}
+				}
+			}
+		}
+		return textReferences;
+	}*/
+	
+	public static ArrayList<String> readSectionTextReferences(NodeList referenceList) throws XPathExpressionException,TransformerException
+	{
+		ArrayList<String> textReferences=new ArrayList<String>();
+		Element referenceElement = null;
+		
+		if( ! isNodeListEmpty(referenceList))
+		{
+			for (int i = 0; i < referenceList.getLength(); i++) 
+			{
+				referenceElement = (Element) referenceList.item(i);
+				if(referenceElement!=null)
+				{
+					if(!isEmpty(referenceElement.getAttribute("ID")))
+					{
+					   textReferences.add("#"+referenceElement.getAttribute("ID"));
+					}
+				}
+			}
+		}
+		return textReferences;
+	}
+	
+	
+	public static ArrayList<CCDADataElement> readTextReferences(NodeList referenceList) throws XPathExpressionException,TransformerException
+	{
+		ArrayList<CCDADataElement> textReferences=new ArrayList<CCDADataElement>();
+		Element referenceElement = null;
+		CCDADataElement dataElement= null;
+		
+		if( ! isNodeListEmpty(referenceList))
+		{
+			for (int i = 0; i < referenceList.getLength(); i++) 
+			{
+				referenceElement = (Element) referenceList.item(i);
+				if(referenceElement!=null)
+				{
+					if(!isEmpty(referenceElement.getAttribute("value")))
+					{
+					   dataElement = new CCDADataElement();
+					   dataElement.setValue(referenceElement.getAttribute("value"));
+					   dataElement.setXmlString(nodeToString((Node)referenceElement));
+					   dataElement.setLineNumber(referenceElement.getUserData("lineNumber").toString());
+					   textReferences.add(dataElement);
+					}
+				}
+			}
+		}
+		return textReferences;
+	}
+	
 	public static CCDADataElement readDataElement(Element nodeElement)throws TransformerException
 	{
 		CCDADataElement dataElement = null;

@@ -6,6 +6,7 @@ public class CCDAProcedure extends CCDAXmlSnippet{
 	private ArrayList<CCDAII>       		sectionTemplateId;
 	private CCDACode                 		sectionCode;
 	private ArrayList<CCDAProcActProc>		procActsProcs;
+	private ArrayList<String> referenceLinks;
 	
 	public CCDAProcedure()
 	{
@@ -34,6 +35,18 @@ public class CCDAProcedure extends CCDAXmlSnippet{
 
 	public void setProcActsProcs(ArrayList<CCDAProcActProc> procActsProcs) {
 		this.procActsProcs = procActsProcs;
+	}
+	
+	public ArrayList<String> getReferenceLinks() {
+		if(referenceLinks == null)
+		{
+			this.referenceLinks = new ArrayList<String>();
+		}
+		return referenceLinks;
+	}
+
+	public void setReferenceLinks(ArrayList<String> referenceLinks) {
+		this.referenceLinks = referenceLinks;
 	}
 
 	@Override

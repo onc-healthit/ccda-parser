@@ -7,6 +7,7 @@ public class CCDASmokingStatus extends CCDAXmlSnippet{
 	private ArrayList<CCDAII>					smokingStatusTemplateIds;
 	private CCDACode							smokingStatusCode;
 	private CCDADataElement						observationTime;
+	private ArrayList<CCDADataElement> referenceTexts;
 	
 	public CCDASmokingStatus()
 	{
@@ -35,6 +36,19 @@ public class CCDASmokingStatus extends CCDAXmlSnippet{
 
 	public void setObservationTime(CCDADataElement observationTime) {
 		this.observationTime = observationTime;
+	}
+	
+	public ArrayList<CCDADataElement> getReferenceTexts() {
+		if(this.referenceTexts == null)
+		{
+			this.referenceTexts = new ArrayList<CCDADataElement>();
+		}
+		
+		return referenceTexts;
+	}
+
+	public void setReferenceTexts(ArrayList<CCDADataElement> referenceTexts) {
+		this.referenceTexts = referenceTexts;
 	}
 
 	@Override
