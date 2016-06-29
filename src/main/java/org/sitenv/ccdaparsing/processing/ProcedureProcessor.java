@@ -39,6 +39,17 @@ public class ProcedureProcessor {
 			sectionElement.setAttribute("xmlns:xsi", "http://www.w3.org/2001/XMLSchema-instance");
 			procedures.setLineNumber(sectionElement.getUserData("lineNumber") + " - " + sectionElement.getUserData("endLineNumber") );
 			procedures.setXmlString(ApplicationUtil.nodeToString((Node)sectionElement));
+			
+			Element textElement = (Element) xPath.compile("./text[not(@nullFlavor)]").evaluate(sectionElement, XPathConstants.NODE);
+			
+			if(textElement!=null)
+			{
+				procedures.getReferenceLinks().addAll((ApplicationUtil.readSectionTextReferences((NodeList) xPath.compile(".//td[not(@nullFlavor)]").
+					evaluate(textElement, XPathConstants.NODESET))));
+			
+				procedures.getReferenceLinks().addAll((ApplicationUtil.readSectionTextReferences((NodeList) xPath.compile(".//content[not(@nullFlavor)]").
+					evaluate(textElement, XPathConstants.NODESET))));
+			}
 
 		}
 		return procedures;
@@ -64,6 +75,12 @@ public class ProcedureProcessor {
 			
 			procedure.setSectionTemplateId(ApplicationUtil.readTemplateIdList((NodeList) xPath.compile("./templateId[not(@nullFlavor)]").
 										evaluate(procedureElement, XPathConstants.NODESET)));
+			
+			procedure.getReferenceTexts().addAll(ApplicationUtil.readTextReferences((NodeList) xPath.compile(".//originalText/reference[not(@nullFlavor)]").
+					evaluate(procedureElement, XPathConstants.NODESET)));
+
+			procedure.getReferenceTexts().addAll(ApplicationUtil.readTextReferences((NodeList) xPath.compile(".//text/reference[not(@nullFlavor)]").
+					evaluate(procedureElement, XPathConstants.NODESET)));
 			
 			procedure.setProcCode(ApplicationUtil.readCode((Element) xPath.compile("./code[not(@nullFlavor)]").
 					evaluate(procedureElement, XPathConstants.NODE)));

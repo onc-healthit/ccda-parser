@@ -9,6 +9,7 @@ public class CCDALabResultOrg extends CCDAXmlSnippet {
 	private CCDACode						orgCode;
 	private CCDAEffTime						effTime;
 	private ArrayList<CCDALabResultObs>		resultObs;
+	private ArrayList<CCDADataElement> referenceTexts;
 	
 	public CCDALabResultOrg()
 	{
@@ -53,6 +54,19 @@ public class CCDALabResultOrg extends CCDAXmlSnippet {
 
 	public void setResultObs(ArrayList<CCDALabResultObs> resultObs) {
 		this.resultObs = resultObs;
+	}
+	
+	public ArrayList<CCDADataElement> getReferenceTexts() {
+		if(this.referenceTexts == null)
+		{
+			this.referenceTexts = new ArrayList<CCDADataElement>();
+		}
+		
+		return referenceTexts;
+	}
+
+	public void setReferenceTexts(ArrayList<CCDADataElement> referenceTexts) {
+		this.referenceTexts = referenceTexts;
 	}
 
 	@Override

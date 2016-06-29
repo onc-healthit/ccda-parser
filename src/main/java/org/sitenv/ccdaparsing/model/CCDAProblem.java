@@ -7,6 +7,7 @@ public class CCDAProblem extends CCDAXmlSnippet{
 	private ArrayList<CCDAII>       		sectionTemplateId;
 	private CCDACode                 		sectionCode;
 	private ArrayList<CCDAProblemConcern>  	problemConcerns;
+	private ArrayList<String> referenceLinks;
 	
 	public ArrayList<CCDAProblemConcern> getProblemConcerns() {
 		return problemConcerns;
@@ -30,6 +31,18 @@ public class CCDAProblem extends CCDAXmlSnippet{
 
 	public void setSectionCode(CCDACode sectionCode) {
 		this.sectionCode = sectionCode;
+	}
+	
+	public ArrayList<String> getReferenceLinks() {
+		if(referenceLinks == null)
+		{
+			this.referenceLinks = new ArrayList<String>();
+		}
+		return referenceLinks;
+	}
+
+	public void setReferenceLinks(ArrayList<String> referenceLinks) {
+		this.referenceLinks = referenceLinks;
 	}
 
 	public CCDAProblem()

@@ -7,6 +7,7 @@ public class CCDAVitalSigns extends CCDAXmlSnippet{
 	private ArrayList<CCDAII>			templateIds;
 	private CCDACode					sectionCode;
 	private ArrayList<CCDAVitalOrg>		vitalsOrg;
+	private ArrayList<String> referenceLinks;
 
 	public ArrayList<CCDAII> getTemplateIds() {
 		return templateIds;
@@ -30,6 +31,18 @@ public class CCDAVitalSigns extends CCDAXmlSnippet{
 
 	public void setVitalsOrg(ArrayList<CCDAVitalOrg> vitalsOrg) {
 		this.vitalsOrg = vitalsOrg;
+	}
+	
+	public ArrayList<String> getReferenceLinks() {
+		if(referenceLinks == null)
+		{
+			this.referenceLinks = new ArrayList<String>();
+		}
+		return referenceLinks;
+	}
+
+	public void setReferenceLinks(ArrayList<String> referenceLinks) {
+		this.referenceLinks = referenceLinks;
 	}
 
 	public CCDAVitalSigns()

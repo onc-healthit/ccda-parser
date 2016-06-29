@@ -11,6 +11,7 @@ public class CCDAImmunizationActivity extends CCDAXmlSnippet {
 	private CCDACode							adminUnitCode;
 	private CCDAConsumable						consumable;
 	private CCDAOrganization					organization;
+	private ArrayList<CCDADataElement> referenceTexts;
 	
 	public CCDAImmunizationActivity()
 	{
@@ -79,6 +80,19 @@ public class CCDAImmunizationActivity extends CCDAXmlSnippet {
 
 	public void setOrganization(CCDAOrganization organization) {
 		this.organization = organization;
+	}
+	
+	public ArrayList<CCDADataElement> getReferenceTexts() {
+		if(this.referenceTexts == null)
+		{
+			this.referenceTexts = new ArrayList<CCDADataElement>();
+		}
+		
+		return referenceTexts;
+	}
+
+	public void setReferenceTexts(ArrayList<CCDADataElement> referenceTexts) {
+		this.referenceTexts = referenceTexts;
 	}
 
 	@Override

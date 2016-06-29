@@ -12,7 +12,6 @@ public class CCDAAllergyObs extends CCDAXmlSnippet {
 	private CCDAAllergySeverity				severity;
 	private Boolean							negationInd;
 	
-	
 	public Boolean getNegationInd() {
 		return negationInd;
 	}
@@ -80,8 +79,7 @@ public class CCDAAllergyObs extends CCDAXmlSnippet {
 	public void setSeverity(CCDAAllergySeverity severity) {
 		this.severity = severity;
 	}
-
-
+	
 	public CCDAAllergyObs()
 	{
 		

@@ -7,6 +7,7 @@ public class CCDAEncounter extends CCDAXmlSnippet {
 	private ArrayList<CCDAII>    templateId;
 	private CCDACode  sectionCode;
 	private ArrayList<CCDAEncounterActivity> encActivities;
+	private ArrayList<String> referenceLinks;
 	
 	public ArrayList<CCDAII> getTemplateId() {
 		return templateId;
@@ -30,6 +31,18 @@ public class CCDAEncounter extends CCDAXmlSnippet {
 
 	public void setEncActivities(ArrayList<CCDAEncounterActivity> encActivities) {
 		this.encActivities = encActivities;
+	}
+	
+	public ArrayList<String> getReferenceLinks() {
+		if(referenceLinks == null)
+		{
+			this.referenceLinks = new ArrayList<String>();
+		}
+		return referenceLinks;
+	}
+
+	public void setReferenceLinks(ArrayList<String> referenceLinks) {
+		this.referenceLinks = referenceLinks;
 	}
 
 	@Override

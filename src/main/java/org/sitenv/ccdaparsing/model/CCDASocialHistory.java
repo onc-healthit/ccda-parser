@@ -8,6 +8,7 @@ public class CCDASocialHistory extends CCDAXmlSnippet{
 	private CCDACode							sectionCode;
 	private ArrayList<CCDASmokingStatus>		smokingStatus;
 	private ArrayList<CCDATobaccoUse>			tobaccoUse;
+	private ArrayList<String> referenceLinks;
 	
 	public CCDASocialHistory()
 	{
@@ -44,6 +45,18 @@ public class CCDASocialHistory extends CCDAXmlSnippet{
 
 	public void setTobaccoUse(ArrayList<CCDATobaccoUse> tobaccoUse) {
 		this.tobaccoUse = tobaccoUse;
+	}
+	
+	public ArrayList<String> getReferenceLinks() {
+		if(referenceLinks == null)
+		{
+			this.referenceLinks = new ArrayList<String>();
+		}
+		return referenceLinks;
+	}
+
+	public void setReferenceLinks(ArrayList<String> referenceLinks) {
+		this.referenceLinks = referenceLinks;
 	}
 
 	@Override
