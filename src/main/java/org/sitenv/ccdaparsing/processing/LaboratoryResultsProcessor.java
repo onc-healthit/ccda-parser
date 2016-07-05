@@ -67,6 +67,8 @@ public class LaboratoryResultsProcessor {
 			
 			labResultOrgElement.setAttribute("xmlns:xsi", "http://www.w3.org/2001/XMLSchema-instance");
 			labResultOrg.setLineNumber(labResultOrgElement.getUserData("lineNumber") + " - " + labResultOrgElement.getUserData("endLineNumber") );
+			
+			
 			labResultOrg.setXmlString(ApplicationUtil.nodeToString((Node)labResultOrgElement));
 			
 			labResultOrg.setTemplateIds(ApplicationUtil.readTemplateIdList((NodeList) xPath.compile("./templateId[not(@nullFlavor)]").
