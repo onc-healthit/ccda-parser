@@ -40,6 +40,10 @@ public class CCDALabResult extends CCDAXmlSnippet{
 	}
 
 	public ArrayList<CCDALabResultOrg> getResultOrg() {
+		if(resultOrg == null)
+		{
+			resultOrg = new ArrayList<CCDALabResultOrg>();
+		}
 		return resultOrg;
 	}
 
