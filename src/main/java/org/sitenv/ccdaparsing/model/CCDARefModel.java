@@ -20,6 +20,9 @@ public class CCDARefModel {
 	private CCDAGoals          goals;
 	private CCDAHealthConcerns hcs;
 	private ArrayList<CCDAUDI> udi;
+	private boolean isEmpty;
+	
+	
 	public CCDAPatient getPatient() {
 		return patient;
 	}
@@ -116,6 +119,13 @@ public class CCDARefModel {
 	public void setUdi(ArrayList<CCDAUDI> udi) {
 		this.udi = udi;
 	}
+	public boolean isEmpty() {
+		return isEmpty;
+	}
+	public void setEmpty(boolean isEmpty) {
+		this.isEmpty = isEmpty;
+	}
+	
 	@Override
 	public int hashCode() {
 		final int prime = 31;

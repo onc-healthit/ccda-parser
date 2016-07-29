@@ -47,27 +47,35 @@ public class CCDAParserAPI {
 			    
 	    	logger.info("Parsing CCDA document");
 			Document doc = PositionalXMLReader.readXML(inputStream);
-			refModel.setPatient(PatientProcessor.retrievePatientDetails(xPath, doc));
-			refModel.setEncounter(EncounterDiagnosesProcessor.retrieveEncounterDetails(xPath, doc));
-			refModel.setProblem(ProblemProcessor.retrieveProblemDetails(xPath, doc));
-			refModel.setMedication(MedicationProcessor.retrieveMedicationDetails(xPath, doc));
-			refModel.setAllergy(MediactionAllergiesProcessor.retrieveAllergiesDetails(xPath, doc));
-			refModel.setSmokingStatus(SmokingStatusProcessor.retrieveSmokingStatusDetails(xPath, doc));
-			refModel.setLabTests(LaboratoryTestProcessor.retrieveLabTests(xPath, doc));
-			refModel.setLabResults(LaboratoryResultsProcessor.retrieveLabResults(xPath, doc));
-			refModel.setVitalSigns(VitalSignProcessor.retrieveVitalSigns(xPath, doc));
-			refModel.setProcedure(ProcedureProcessor.retrievePrcedureDetails(xPath, doc));
-			refModel.setMembers(CareTeamMemberProcessor.retrieveCTMDetails(xPath, doc));
-			refModel.setImmunization(ImmunizationProcessor.retrieveImmunizationDetails(xPath, doc));
-			refModel.setUdi(UDIProcessor.retrieveUDIDetails(refModel.getProcedure()));
-			refModel.setPlanOfTreatment(POTProcessor.retrievePOTDetails(xPath, doc));
-			refModel.setGoals(GoalsProcessor.retrieveGoalsDetails(xPath, doc));
-			refModel.setHcs(HealthConcernsProcessor.retrieveHealthConcernDetails(xPath, doc));
+			if(doc.getDocumentElement()!= null && doc.getDocumentElement().getChildNodes().getLength()>1)
+			{
+				refModel.setPatient(PatientProcessor.retrievePatientDetails(xPath, doc));
+				refModel.setEncounter(EncounterDiagnosesProcessor.retrieveEncounterDetails(xPath, doc));
+				refModel.setProblem(ProblemProcessor.retrieveProblemDetails(xPath, doc));
+				refModel.setMedication(MedicationProcessor.retrieveMedicationDetails(xPath, doc));
+				refModel.setAllergy(MediactionAllergiesProcessor.retrieveAllergiesDetails(xPath, doc));
+				refModel.setSmokingStatus(SmokingStatusProcessor.retrieveSmokingStatusDetails(xPath, doc));
+				refModel.setLabTests(LaboratoryTestProcessor.retrieveLabTests(xPath, doc));
+				refModel.setLabResults(LaboratoryResultsProcessor.retrieveLabResults(xPath, doc));
+				refModel.setVitalSigns(VitalSignProcessor.retrieveVitalSigns(xPath, doc));
+				refModel.setProcedure(ProcedureProcessor.retrievePrcedureDetails(xPath, doc));
+				refModel.setMembers(CareTeamMemberProcessor.retrieveCTMDetails(xPath, doc));
+				refModel.setImmunization(ImmunizationProcessor.retrieveImmunizationDetails(xPath, doc));
+				refModel.setUdi(UDIProcessor.retrieveUDIDetails(refModel.getProcedure()));
+				refModel.setPlanOfTreatment(POTProcessor.retrievePOTDetails(xPath, doc));
+				refModel.setGoals(GoalsProcessor.retrieveGoalsDetails(xPath, doc));
+				refModel.setHcs(HealthConcernsProcessor.retrieveHealthConcernDetails(xPath, doc));
+			}
+			else
+			{
+				refModel.setEmpty(true);
+			}
+			
 			logger.info("Parsing CCDA document completed");
 		    }
 	    	catch (FileNotFoundException fnfException) 
 	    	{
-		    	logger.error(fnfException);
+	    		logger.error(fnfException);
 			}
 	    	catch(XPathExpressionException xpeException)
 			{
@@ -79,16 +87,16 @@ public class CCDAParserAPI {
 			}
 	    	catch (SAXException saxException) 
 	    	{
+	    		logger.info("Parsing CCDA document failed");
 	    		logger.error(saxException);
+	    		refModel.setEmpty(true);
 			}
 	    	catch (NullPointerException npException) 
 	    	{
-	    		npException.printStackTrace();
 	    		logger.error(npException);
 			}
 	        catch(TransformerException te)
 	    	{
-	            te.printStackTrace();
 	            logger.error(te);
 	    	}
 	    
