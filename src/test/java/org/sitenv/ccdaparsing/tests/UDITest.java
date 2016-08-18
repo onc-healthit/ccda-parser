@@ -2,6 +2,7 @@ package org.sitenv.ccdaparsing.tests;
 
 import java.io.File;
 import java.util.ArrayList;
+import java.util.List;
 
 import javax.xml.parsers.DocumentBuilder;
 import javax.xml.parsers.DocumentBuilderFactory;
@@ -12,6 +13,7 @@ import org.junit.Assert;
 import org.junit.BeforeClass;
 import org.junit.Test;
 import org.sitenv.ccdaparsing.model.CCDACode;
+import org.sitenv.ccdaparsing.model.CCDAID;
 import org.sitenv.ccdaparsing.model.CCDAII;
 import org.sitenv.ccdaparsing.model.CCDAProcedure;
 import org.sitenv.ccdaparsing.model.CCDAUDI;
@@ -25,6 +27,7 @@ public class UDITest {
 	private static CCDAProcedure procedures;
 	private static ArrayList<CCDAUDI>  patientUDIList;
 	private static  ArrayList<CCDAUDI>  udiList;
+	private static List<CCDAID> idList = new ArrayList<CCDAID>();
 	
 	
 	@BeforeClass
@@ -35,7 +38,7 @@ public class UDITest {
 		DocumentBuilder builder = factory.newDocumentBuilder();
 		Document doc = builder.parse(new File(CCDA_DOC));
 		XPath xPath =  XPathFactory.newInstance().newXPath();
-		procedures = ProcedureProcessor.retrievePrcedureDetails(xPath, doc);
+		procedures = ProcedureProcessor.retrievePrcedureDetails(xPath, doc,idList);
 		patientUDIList = UDIProcessor.retrieveUDIDetails(procedures);
 		
 		udiList = new ArrayList<>();

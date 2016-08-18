@@ -3,6 +3,7 @@ package org.sitenv.ccdaparsing.service;
 import java.io.FileNotFoundException;
 import java.io.IOException;
 import java.io.InputStream;
+import java.util.ArrayList;
 
 import org.apache.log4j.Logger;
 
@@ -11,6 +12,7 @@ import javax.xml.xpath.XPath;
 import javax.xml.xpath.XPathExpressionException;
 import javax.xml.xpath.XPathFactory;
 
+import org.sitenv.ccdaparsing.model.CCDAID;
 import org.sitenv.ccdaparsing.model.CCDARefModel;
 import org.sitenv.ccdaparsing.processing.CareTeamMemberProcessor;
 import org.sitenv.ccdaparsing.processing.EncounterDiagnosesProcessor;
@@ -43,6 +45,7 @@ public class CCDAParserAPI {
 	public static CCDARefModel parseCCDA2_1(InputStream inputStream) {
 		
 		CCDARefModel refModel = new CCDARefModel();
+		ArrayList<CCDAID> idList = new ArrayList<CCDAID>();
 	    try {
 			    
 	    	logger.info("Parsing CCDA document");
@@ -50,21 +53,22 @@ public class CCDAParserAPI {
 			if(doc.getDocumentElement()!= null && doc.getDocumentElement().getChildNodes().getLength()>1)
 			{
 				refModel.setPatient(PatientProcessor.retrievePatientDetails(xPath, doc));
-				refModel.setEncounter(EncounterDiagnosesProcessor.retrieveEncounterDetails(xPath, doc));
-				refModel.setProblem(ProblemProcessor.retrieveProblemDetails(xPath, doc));
-				refModel.setMedication(MedicationProcessor.retrieveMedicationDetails(xPath, doc));
-				refModel.setAllergy(MediactionAllergiesProcessor.retrieveAllergiesDetails(xPath, doc));
-				refModel.setSmokingStatus(SmokingStatusProcessor.retrieveSmokingStatusDetails(xPath, doc));
-				refModel.setLabTests(LaboratoryTestProcessor.retrieveLabTests(xPath, doc));
-				refModel.setLabResults(LaboratoryResultsProcessor.retrieveLabResults(xPath, doc));
-				refModel.setVitalSigns(VitalSignProcessor.retrieveVitalSigns(xPath, doc));
-				refModel.setProcedure(ProcedureProcessor.retrievePrcedureDetails(xPath, doc));
+				refModel.setEncounter(EncounterDiagnosesProcessor.retrieveEncounterDetails(xPath, doc,idList));
+				refModel.setProblem(ProblemProcessor.retrieveProblemDetails(xPath, doc,idList));
+				refModel.setMedication(MedicationProcessor.retrieveMedicationDetails(xPath, doc,idList));
+				refModel.setAllergy(MediactionAllergiesProcessor.retrieveAllergiesDetails(xPath, doc,idList));
+				refModel.setSmokingStatus(SmokingStatusProcessor.retrieveSmokingStatusDetails(xPath, doc,idList));
+				refModel.setLabTests(LaboratoryTestProcessor.retrieveLabTests(xPath, doc,idList));
+				refModel.setLabResults(LaboratoryResultsProcessor.retrieveLabResults(xPath, doc,idList));
+				refModel.setVitalSigns(VitalSignProcessor.retrieveVitalSigns(xPath, doc,idList));
+				refModel.setProcedure(ProcedureProcessor.retrievePrcedureDetails(xPath, doc,idList));
 				refModel.setMembers(CareTeamMemberProcessor.retrieveCTMDetails(xPath, doc));
-				refModel.setImmunization(ImmunizationProcessor.retrieveImmunizationDetails(xPath, doc));
+				refModel.setImmunization(ImmunizationProcessor.retrieveImmunizationDetails(xPath, doc,idList));
 				refModel.setUdi(UDIProcessor.retrieveUDIDetails(refModel.getProcedure()));
-				refModel.setPlanOfTreatment(POTProcessor.retrievePOTDetails(xPath, doc));
+				refModel.setPlanOfTreatment(POTProcessor.retrievePOTDetails(xPath, doc,idList));
 				refModel.setGoals(GoalsProcessor.retrieveGoalsDetails(xPath, doc));
 				refModel.setHcs(HealthConcernsProcessor.retrieveHealthConcernDetails(xPath, doc));
+				refModel.setIdList(idList);
 			}
 			else
 			{

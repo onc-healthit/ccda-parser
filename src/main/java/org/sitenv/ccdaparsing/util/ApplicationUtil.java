@@ -18,6 +18,7 @@ import org.sitenv.ccdaparsing.model.CCDACode;
 import org.sitenv.ccdaparsing.model.CCDADataElement;
 import org.sitenv.ccdaparsing.model.CCDAEffTime;
 import org.sitenv.ccdaparsing.model.CCDAFrequency;
+import org.sitenv.ccdaparsing.model.CCDAID;
 import org.sitenv.ccdaparsing.model.CCDAII;
 import org.sitenv.ccdaparsing.model.CCDAPQ;
 import org.w3c.dom.Element;
@@ -80,6 +81,26 @@ public class ApplicationUtil {
 			templateID.setLineNumber(templateElement.getUserData("lineNumber").toString());
 		}
 		return templateID;
+	}
+	
+	public static CCDAID readID(Element idElement, String parentElement)throws TransformerException
+	{
+		CCDAID id = null;
+		
+		if(idElement != null)
+		{
+			id = new CCDAID();
+			if(!isEmpty(idElement.getAttribute("root")))
+			{
+				id.setRoot(idElement.getAttribute("root"));
+			}
+			
+			id.setParentElementName(parentElement);
+			
+			id.setXmlString(nodeToString((Node)idElement));
+			id.setLineNumber(idElement.getUserData("lineNumber").toString());
+		}
+		return id;
 	}
 	
 	public static ArrayList<CCDAII> readTemplateIdList(NodeList templateIDNodeList)throws TransformerException

@@ -1,12 +1,14 @@
 package org.sitenv.ccdaparsing.processing;
 
 import java.util.ArrayList;
+import java.util.List;
 
 import javax.xml.transform.TransformerException;
 import javax.xml.xpath.XPath;
 import javax.xml.xpath.XPathConstants;
 import javax.xml.xpath.XPathExpressionException;
 
+import org.sitenv.ccdaparsing.model.CCDAID;
 import org.sitenv.ccdaparsing.model.CCDASmokingStatus;
 import org.sitenv.ccdaparsing.model.CCDASocialHistory;
 import org.sitenv.ccdaparsing.model.CCDATobaccoUse;
@@ -19,7 +21,7 @@ import org.w3c.dom.NodeList;
 
 public class SmokingStatusProcessor {
 	
-	public static CCDASocialHistory retrieveSmokingStatusDetails(XPath xPath , Document doc) throws XPathExpressionException,TransformerException
+	public static CCDASocialHistory retrieveSmokingStatusDetails(XPath xPath , Document doc, List<CCDAID> idList) throws XPathExpressionException,TransformerException
 	{
 		CCDASocialHistory socailHistory = null;
 		Element sectionElement = (Element) xPath.compile(ApplicationConstants.SMOKING_EXPRESSION).evaluate(doc, XPathConstants.NODE);
@@ -35,7 +37,7 @@ public class SmokingStatusProcessor {
 			NodeList smokingStatusNodeList = (NodeList) xPath.compile(ApplicationConstants.SMOKING_STATUS_EXPRESSION).
 				evaluate(sectionElement, XPathConstants.NODESET);
 		
-			socailHistory.setSmokingStatus(readSmokingStatus(smokingStatusNodeList , xPath));
+			socailHistory.setSmokingStatus(readSmokingStatus(smokingStatusNodeList , xPath, idList));
 		
 			NodeList tobaccoUseNodeList = (NodeList) xPath.compile(ApplicationConstants.TOBACCOUSE_EXPRESSION).
 				evaluate(sectionElement, XPathConstants.NODESET);
@@ -55,13 +57,13 @@ public class SmokingStatusProcessor {
 					evaluate(textElement, XPathConstants.NODESET))));
 			}
 		
-			socailHistory.setTobaccoUse(readTobaccoUse(tobaccoUseNodeList , xPath));
+			socailHistory.setTobaccoUse(readTobaccoUse(tobaccoUseNodeList , xPath,idList));
 		}
 		
 		return socailHistory;
 	}
 	
-	public static ArrayList<CCDASmokingStatus> readSmokingStatus(NodeList smokingStatusNodeList, XPath xPath) throws XPathExpressionException,TransformerException
+	public static ArrayList<CCDASmokingStatus> readSmokingStatus(NodeList smokingStatusNodeList, XPath xPath, List<CCDAID> idList) throws XPathExpressionException,TransformerException
 	{
 		ArrayList<CCDASmokingStatus> smokingStatusList = null;
 		if(!ApplicationUtil.isNodeListEmpty(smokingStatusNodeList))
@@ -77,6 +79,13 @@ public class SmokingStatusProcessor {
 			smokingStatusElement.setAttribute("xmlns:xsi", "http://www.w3.org/2001/XMLSchema-instance");
 			smokingStatus.setLineNumber(smokingStatusElement.getUserData("lineNumber") + " - " + smokingStatusElement.getUserData("endLineNumber") );
 			smokingStatus.setXmlString(ApplicationUtil.nodeToString((Node)smokingStatusElement));
+			
+			if(ApplicationUtil.readID((Element) xPath.compile("./id[not(@nullFlavor)]").
+					evaluate(smokingStatusElement, XPathConstants.NODE),"smokingStatus")!= null)
+			{
+				idList.add(ApplicationUtil.readID((Element) xPath.compile("./id[not(@nullFlavor)]").
+					evaluate(smokingStatusElement, XPathConstants.NODE),"smokingStatus"));
+			}
 			
 			smokingStatus.getReferenceTexts().addAll(ApplicationUtil.readTextReferences((NodeList) xPath.compile(".//originalText/reference[not(@nullFlavor)]").
 					evaluate(smokingStatusElement, XPathConstants.NODESET)));
@@ -98,7 +107,7 @@ public class SmokingStatusProcessor {
 		return smokingStatusList;
 	}
 	
-	public static ArrayList<CCDATobaccoUse> readTobaccoUse(NodeList tobaccoUseNodeList, XPath xPath) throws XPathExpressionException,TransformerException
+	public static ArrayList<CCDATobaccoUse> readTobaccoUse(NodeList tobaccoUseNodeList, XPath xPath, List<CCDAID> idList) throws XPathExpressionException,TransformerException
 	{
 		ArrayList<CCDATobaccoUse> tobaccoUseList = null;
 		if(!ApplicationUtil.isNodeListEmpty(tobaccoUseNodeList))
@@ -117,6 +126,13 @@ public class SmokingStatusProcessor {
 			
 			tobaccoUse.setTobaccoUseTemplateIds(ApplicationUtil.readTemplateIdList((NodeList) xPath.compile("./templateId[not(@nullFlavor)]").
 														evaluate(tobaccoUseElement, XPathConstants.NODESET)));
+			
+			if(ApplicationUtil.readID((Element) xPath.compile("./id[not(@nullFlavor)]").
+					evaluate(tobaccoUseElement, XPathConstants.NODE),"TobaccoUse")!= null)
+			{
+				idList.add(ApplicationUtil.readID((Element) xPath.compile("./id[not(@nullFlavor)]").
+					evaluate(tobaccoUseElement, XPathConstants.NODE),"TobaccoUse"));
+			}
 			
 			tobaccoUse.setTobaccoUseCode(ApplicationUtil.readCode((Element) xPath.compile("./value[not(@nullFlavor)]").
 					evaluate(tobaccoUseElement, XPathConstants.NODE)));

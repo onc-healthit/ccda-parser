@@ -1,6 +1,7 @@
 package org.sitenv.ccdaparsing.processing;
 
 import java.util.ArrayList;
+import java.util.List;
 
 import javax.xml.transform.TransformerException;
 import javax.xml.xpath.XPath;
@@ -9,6 +10,7 @@ import javax.xml.xpath.XPathExpressionException;
 
 import org.sitenv.ccdaparsing.model.CCDAConsumable;
 import org.sitenv.ccdaparsing.model.CCDAEffTime;
+import org.sitenv.ccdaparsing.model.CCDAID;
 import org.sitenv.ccdaparsing.model.CCDAMedication;
 import org.sitenv.ccdaparsing.model.CCDAMedicationActivity;
 import org.sitenv.ccdaparsing.util.ApplicationConstants;
@@ -20,7 +22,7 @@ import org.w3c.dom.NodeList;
 
 public class MedicationProcessor {
 	
-	public static CCDAMedication retrieveMedicationDetails(XPath xPath , Document doc) throws XPathExpressionException,TransformerException
+	public static CCDAMedication retrieveMedicationDetails(XPath xPath , Document doc, List<CCDAID> idList) throws XPathExpressionException,TransformerException
 	{
 		CCDAMedication medications = null;
 		Element sectionElement = (Element) xPath.compile(ApplicationConstants.MEDICATION_EXPRESSION).evaluate(doc, XPathConstants.NODE);
@@ -32,7 +34,7 @@ public class MedicationProcessor {
 			medications.setSectionCode(ApplicationUtil.readCode((Element) xPath.compile("./code[not(@nullFlavor)]").
 					evaluate(sectionElement, XPathConstants.NODE)));
 			medications.setMedActivities(readMedication((NodeList) xPath.compile("./entry/substanceAdministration[not(@nullFlavor)]").
-					evaluate(sectionElement, XPathConstants.NODESET), xPath));
+					evaluate(sectionElement, XPathConstants.NODESET), xPath,idList));
 			
 			sectionElement.setAttribute("xmlns:xsi", "http://www.w3.org/2001/XMLSchema-instance");
 			medications.setLineNumber(sectionElement.getUserData("lineNumber") + " - " + sectionElement.getUserData("endLineNumber") );
@@ -52,7 +54,7 @@ public class MedicationProcessor {
 		return medications;
 	}
 	
-	public static ArrayList<CCDAMedicationActivity> readMedication(NodeList entryNodeList, XPath xPath) throws XPathExpressionException,TransformerException
+	public static ArrayList<CCDAMedicationActivity> readMedication(NodeList entryNodeList, XPath xPath, List<CCDAID> idList) throws XPathExpressionException,TransformerException
 	{
 		ArrayList<CCDAMedicationActivity> medicationList = null;
 		if(!ApplicationUtil.isNodeListEmpty(entryNodeList))
@@ -70,6 +72,13 @@ public class MedicationProcessor {
 			
 			medicationActivity.setTemplateIds(ApplicationUtil.readTemplateIdList((NodeList) xPath.compile("./templateId[not(@nullFlavor)]").
 									evaluate(entryElement, XPathConstants.NODESET)));
+			
+			if(ApplicationUtil.readID((Element) xPath.compile("./id[not(@nullFlavor)]").
+					evaluate(entryElement, XPathConstants.NODE),"medicationActivity")!= null)
+			{
+				idList.add(ApplicationUtil.readID((Element) xPath.compile("./id[not(@nullFlavor)]").
+					evaluate(entryElement, XPathConstants.NODE),"medicationActivity"));
+			}
 			
 			medicationActivity.getReferenceTexts().addAll(ApplicationUtil.readTextReferences((NodeList) xPath.compile(".//originalText/reference[not(@nullFlavor)]").
 					evaluate(entryElement, XPathConstants.NODESET)));
@@ -106,7 +115,7 @@ public class MedicationProcessor {
 						evaluate(entryElement, XPathConstants.NODE)));
 			
 			medicationActivity.setConsumable(readMedicationInformation((Element) xPath.compile("./consumable/manufacturedProduct[not(@nullFlavor)]").
-					evaluate(entryElement, XPathConstants.NODE), xPath));
+					evaluate(entryElement, XPathConstants.NODE), xPath,idList));
 			medicationList.add(medicationActivity);
 		}
 		return medicationList;
@@ -131,7 +140,7 @@ public class MedicationProcessor {
 		
 	}
 	
-	public static CCDAConsumable readMedicationInformation(Element medicationInforamtionElement,XPath xPath) throws XPathExpressionException,TransformerException
+	public static CCDAConsumable readMedicationInformation(Element medicationInforamtionElement,XPath xPath, List<CCDAID> idList) throws XPathExpressionException,TransformerException
 	{
 		
 		CCDAConsumable consumable = null;
@@ -158,7 +167,16 @@ public class MedicationProcessor {
 			
 			consumable.setLotNumberText(ApplicationUtil.readTextContext((Element) xPath.compile("./manufacturedMaterial/lotNumberText[not(@nullFlavor)]").
 						evaluate(medicationInforamtionElement, XPathConstants.NODE)));
+			
+			if(ApplicationUtil.readID((Element) xPath.compile("./id[not(@nullFlavor)]").
+					evaluate(medicationInforamtionElement, XPathConstants.NODE),"medicationInformation")!= null)
+			{
+			
+				idList.add(ApplicationUtil.readID((Element) xPath.compile("./id[not(@nullFlavor)]").
+					evaluate(medicationInforamtionElement, XPathConstants.NODE),"medicationInformation"));
+			}
 		}
+		
 		
 		return consumable;
 	}

@@ -1,12 +1,14 @@
 package org.sitenv.ccdaparsing.processing;
 
 import java.util.ArrayList;
+import java.util.List;
 
 import javax.xml.transform.TransformerException;
 import javax.xml.xpath.XPath;
 import javax.xml.xpath.XPathConstants;
 import javax.xml.xpath.XPathExpressionException;
 
+import org.sitenv.ccdaparsing.model.CCDAID;
 import org.sitenv.ccdaparsing.model.CCDAPQ;
 import org.sitenv.ccdaparsing.model.CCDAVitalObs;
 import org.sitenv.ccdaparsing.model.CCDAVitalOrg;
@@ -20,7 +22,7 @@ import org.w3c.dom.NodeList;
 
 public class VitalSignProcessor {
 	
-	public static CCDAVitalSigns retrieveVitalSigns(XPath xPath , Document doc) throws XPathExpressionException,TransformerException
+	public static CCDAVitalSigns retrieveVitalSigns(XPath xPath , Document doc, List<CCDAID> idList) throws XPathExpressionException,TransformerException
 	{
 		CCDAVitalSigns vitalSigns = null;
 		Element sectionElement = (Element) xPath.compile(ApplicationConstants.VITALSIGNS_EXPRESSION).evaluate(doc, XPathConstants.NODE);
@@ -32,7 +34,7 @@ public class VitalSignProcessor {
 			vitalSigns.setSectionCode(ApplicationUtil.readCode((Element) xPath.compile("./code[not(@nullFlavor)]").
 					evaluate(sectionElement, XPathConstants.NODE)));
 			vitalSigns.setVitalsOrg(readVitalOrganizer((NodeList) xPath.compile("./entry/organizer[not(@nullFlavor)]").
-					evaluate(sectionElement, XPathConstants.NODESET), xPath));
+					evaluate(sectionElement, XPathConstants.NODESET), xPath,idList));
 			
 			sectionElement.setAttribute("xmlns:xsi", "http://www.w3.org/2001/XMLSchema-instance");
 			vitalSigns.setLineNumber(sectionElement.getUserData("lineNumber") + " - " + sectionElement.getUserData("endLineNumber") );
@@ -53,7 +55,7 @@ public class VitalSignProcessor {
 	}
 	
 	
-	public static ArrayList<CCDAVitalOrg> readVitalOrganizer(NodeList vitalOrganizerNodeList, XPath xPath) throws XPathExpressionException,TransformerException
+	public static ArrayList<CCDAVitalOrg> readVitalOrganizer(NodeList vitalOrganizerNodeList, XPath xPath, List<CCDAID> idList) throws XPathExpressionException,TransformerException
 	{
 		ArrayList<CCDAVitalOrg> vitalOrganizerList = new ArrayList<>();
 		CCDAVitalOrg vitalOrganizer;
@@ -68,6 +70,13 @@ public class VitalSignProcessor {
 			
 			vitalOrganizer.setTemplateIds(ApplicationUtil.readTemplateIdList((NodeList) xPath.compile("./templateId[not(@nullFlavor)]").
 										evaluate(vitalOrganizerElement, XPathConstants.NODESET)));
+			
+			if(ApplicationUtil.readID((Element) xPath.compile("./id[not(@nullFlavor)]").
+					evaluate(vitalOrganizerElement, XPathConstants.NODE),"vitalOrganizer")!= null)
+			{
+				idList.add(ApplicationUtil.readID((Element) xPath.compile("./id[not(@nullFlavor)]").
+					evaluate(vitalOrganizerElement, XPathConstants.NODE),"vitalOrganizer"));
+			}
 			
 			vitalOrganizer.getReferenceTexts().addAll(ApplicationUtil.readTextReferences((NodeList) xPath.compile(".//originalText/reference[not(@nullFlavor)]").
 					evaluate(vitalOrganizerElement, XPathConstants.NODESET)));
@@ -88,13 +97,13 @@ public class VitalSignProcessor {
 					evaluate(vitalOrganizerElement, XPathConstants.NODE), xPath));
 			
 			vitalOrganizer.setVitalObs(readVitalObservation((NodeList) xPath.compile("./component/observation[not(@nullFlavor)]").
-					evaluate(vitalOrganizerElement, XPathConstants.NODESET), xPath));
+					evaluate(vitalOrganizerElement, XPathConstants.NODESET), xPath,idList));
 			vitalOrganizerList.add(vitalOrganizer);
 		}
 		return vitalOrganizerList;
 	}
 	
-	public static ArrayList<CCDAVitalObs> readVitalObservation(NodeList vitalObservationNodeList , XPath xPath) throws XPathExpressionException,TransformerException
+	public static ArrayList<CCDAVitalObs> readVitalObservation(NodeList vitalObservationNodeList , XPath xPath, List<CCDAID> idList) throws XPathExpressionException,TransformerException
 	{
 		
 		ArrayList<CCDAVitalObs> vitalObservationList = new ArrayList<>();
@@ -109,6 +118,12 @@ public class VitalSignProcessor {
 			vitalObservation.setLineNumber(resultObservationElement.getUserData("lineNumber") + " - " + resultObservationElement.getUserData("endLineNumber") );
 			vitalObservation.setXmlString(ApplicationUtil.nodeToString((Node)resultObservationElement));
 			
+			if(ApplicationUtil.readID((Element) xPath.compile("./id[not(@nullFlavor)]").
+					evaluate(resultObservationElement, XPathConstants.NODE),"vitalObservation")!= null)
+			{
+				idList.add(ApplicationUtil.readID((Element) xPath.compile("./id[not(@nullFlavor)]").
+					evaluate(resultObservationElement, XPathConstants.NODE),"vitalObservation"));
+			}
 			
 			vitalObservation.setTemplateIds(ApplicationUtil.readTemplateIdList((NodeList) xPath.compile("./templateId[not(@nullFlavor)]").
 					evaluate(resultObservationElement, XPathConstants.NODESET)));

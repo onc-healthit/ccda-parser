@@ -1,6 +1,7 @@
 package org.sitenv.ccdaparsing.processing;
 
 import java.util.ArrayList;
+import java.util.List;
 
 import javax.xml.transform.TransformerException;
 import javax.xml.xpath.XPath;
@@ -12,6 +13,7 @@ import org.sitenv.ccdaparsing.model.CCDAAllergyConcern;
 import org.sitenv.ccdaparsing.model.CCDAAllergyObs;
 import org.sitenv.ccdaparsing.model.CCDAAllergyReaction;
 import org.sitenv.ccdaparsing.model.CCDAAllergySeverity;
+import org.sitenv.ccdaparsing.model.CCDAID;
 import org.sitenv.ccdaparsing.util.ApplicationConstants;
 import org.sitenv.ccdaparsing.util.ApplicationUtil;
 import org.w3c.dom.Document;
@@ -21,7 +23,7 @@ import org.w3c.dom.NodeList;
 
 public class MediactionAllergiesProcessor {
 	
-	public static CCDAAllergy retrieveAllergiesDetails(XPath xPath , Document doc) throws XPathExpressionException,TransformerException
+	public static CCDAAllergy retrieveAllergiesDetails(XPath xPath , Document doc, List<CCDAID> idList) throws XPathExpressionException,TransformerException
 	{
 		CCDAAllergy allergies = null;
 		Element sectionElement = (Element) xPath.compile(ApplicationConstants.ALLERGIES_EXPRESSION).evaluate(doc, XPathConstants.NODE);
@@ -33,7 +35,7 @@ public class MediactionAllergiesProcessor {
 			allergies.setSectionCode(ApplicationUtil.readCode((Element) xPath.compile("./code[not(@nullFlavor)]").
 					evaluate(sectionElement, XPathConstants.NODE)));
 			allergies.setAllergyConcern(readAllergyConcern((NodeList) xPath.compile("./entry/act[not(@nullFlavor)]").
-					evaluate(sectionElement, XPathConstants.NODESET), xPath));
+					evaluate(sectionElement, XPathConstants.NODESET), xPath,idList));
 			sectionElement.setAttribute("xmlns:xsi", "http://www.w3.org/2001/XMLSchema-instance");
 			allergies.setLineNumber(sectionElement.getUserData("lineNumber") + " - " + sectionElement.getUserData("endLineNumber") );
 			allergies.setXmlString(ApplicationUtil.nodeToString((Node)sectionElement));
@@ -52,7 +54,7 @@ public class MediactionAllergiesProcessor {
 		return allergies;
 	}
 	
-	public static ArrayList<CCDAAllergyConcern> readAllergyConcern(NodeList allergyConcernNodeList, XPath xPath) throws XPathExpressionException,TransformerException
+	public static ArrayList<CCDAAllergyConcern> readAllergyConcern(NodeList allergyConcernNodeList, XPath xPath, List<CCDAID> idList) throws XPathExpressionException,TransformerException
 	{
 		ArrayList<CCDAAllergyConcern> allergyConcernList = null;
 		if(!ApplicationUtil.isNodeListEmpty(allergyConcernNodeList))
@@ -72,6 +74,13 @@ public class MediactionAllergiesProcessor {
 			allergyConcern.setTemplateId(ApplicationUtil.readTemplateIdList((NodeList) xPath.compile("./templateId[not(@nullFlavor)]").
 																evaluate(allergyConcernElement, XPathConstants.NODESET)));
 			
+			if(ApplicationUtil.readID((Element) xPath.compile("./id[not(@nullFlavor)]").
+					evaluate(allergyConcernElement, XPathConstants.NODE),"allergyConcern")!=null)
+			{
+				idList.add(ApplicationUtil.readID((Element) xPath.compile("./id[not(@nullFlavor)]").
+					evaluate(allergyConcernElement, XPathConstants.NODE),"allergyConcern"));
+			}
+			
 			allergyConcern.getReferenceTexts().addAll(ApplicationUtil.readTextReferences((NodeList) xPath.compile(".//originalText/reference[not(@nullFlavor)]").
 					evaluate(allergyConcernElement, XPathConstants.NODESET)));
 
@@ -89,14 +98,14 @@ public class MediactionAllergiesProcessor {
 			
 			NodeList allergyObservationNodeList = (NodeList) xPath.compile("./entryRelationship/observation[not(@nullFlavor)]").
 								evaluate(allergyConcernElement, XPathConstants.NODESET);
-			allergyConcern.setAllergyObs(readAllergyObservation(allergyObservationNodeList,xPath));
+			allergyConcern.setAllergyObs(readAllergyObservation(allergyObservationNodeList,xPath,idList));
 			allergyConcernList.add(allergyConcern);
 		}
 		return allergyConcernList;
 	}
 	
 	
-	public static ArrayList<CCDAAllergyObs> readAllergyObservation(NodeList allergyObservationNodeList,XPath xPath) throws XPathExpressionException,TransformerException
+	public static ArrayList<CCDAAllergyObs> readAllergyObservation(NodeList allergyObservationNodeList,XPath xPath, List<CCDAID> idList) throws XPathExpressionException,TransformerException
 	{
 		ArrayList<CCDAAllergyObs> allergyObservationList = null;
 		if(!ApplicationUtil.isNodeListEmpty(allergyObservationNodeList))
@@ -111,6 +120,14 @@ public class MediactionAllergiesProcessor {
 			allergyObservationElement.setAttribute("xmlns:xsi", "http://www.w3.org/2001/XMLSchema-instance");
 			allergyObservation.setLineNumber(allergyObservationElement.getUserData("lineNumber") + " - " + allergyObservationElement.getUserData("endLineNumber") );
 			allergyObservation.setXmlString(ApplicationUtil.nodeToString((Node)allergyObservationElement));
+			
+			if(ApplicationUtil.readID((Element) xPath.compile("./id[not(@nullFlavor)]").
+					evaluate(allergyObservationElement, XPathConstants.NODE),"allergyObservation")!= null)
+			{
+				idList.add(ApplicationUtil.readID((Element) xPath.compile("./id[not(@nullFlavor)]").
+					evaluate(allergyObservationElement, XPathConstants.NODE),"allergyObservation"));
+			}
+			
 			allergyObservation.setTemplateId(ApplicationUtil.readTemplateIdList((NodeList) xPath.compile("./templateId[not(@nullFlavor)]").
 												evaluate(allergyObservationElement, XPathConstants.NODESET)));
 			
@@ -139,6 +156,13 @@ public class MediactionAllergiesProcessor {
 				allergyReaction.setTemplateIds(ApplicationUtil.readTemplateIdList((NodeList) xPath.compile("./templateId[not(@nullFlavor)]").
 													evaluate(allergyReactionElement, XPathConstants.NODESET)));
 				
+				if(ApplicationUtil.readID((Element) xPath.compile("./id[not(@nullFlavor)]").
+						evaluate(allergyReactionElement, XPathConstants.NODE),"allergyReaction")!= null)
+				{
+					idList.add(ApplicationUtil.readID((Element) xPath.compile("./id[not(@nullFlavor)]").
+						evaluate(allergyReactionElement, XPathConstants.NODE),"allergyReaction"));
+				}
+				
 				allergyReaction.setReactionCode(ApplicationUtil.readCode((Element) xPath.compile("./value[not(@nullFlavor)]").
 						evaluate(allergyReactionElement, XPathConstants.NODE)));
 				
@@ -157,6 +181,13 @@ public class MediactionAllergiesProcessor {
 						evaluate(allergySeverityElement, XPathConstants.NODESET)));
 				allergySeverity.setSeverity(ApplicationUtil.readCode((Element) xPath.compile("./value[not(@nullFlavor)]").
 						evaluate(allergySeverityElement, XPathConstants.NODE)));
+				
+				if(ApplicationUtil.readID((Element) xPath.compile("./id[not(@nullFlavor)]").
+						evaluate(allergySeverityElement, XPathConstants.NODE),"allergySeverity")!= null)
+				{
+					idList.add(ApplicationUtil.readID((Element) xPath.compile("./id[not(@nullFlavor)]").
+						evaluate(allergySeverityElement, XPathConstants.NODE),"allergySeverity"));
+				}
 				
 				allergyObservation.setSeverity(allergySeverity);
 			}

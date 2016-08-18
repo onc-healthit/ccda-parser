@@ -1,6 +1,7 @@
 package org.sitenv.ccdaparsing.processing;
 
 import java.util.ArrayList;
+import java.util.List;
 
 import javax.xml.transform.TransformerException;
 import javax.xml.xpath.XPath;
@@ -10,6 +11,7 @@ import javax.xml.xpath.XPathExpressionException;
 import org.sitenv.ccdaparsing.model.CCDAEncounter;
 import org.sitenv.ccdaparsing.model.CCDAEncounterActivity;
 import org.sitenv.ccdaparsing.model.CCDAEncounterDiagnosis;
+import org.sitenv.ccdaparsing.model.CCDAID;
 import org.sitenv.ccdaparsing.model.CCDAProblemObs;
 import org.sitenv.ccdaparsing.model.CCDAServiceDeliveryLoc;
 import org.sitenv.ccdaparsing.util.ApplicationConstants;
@@ -21,7 +23,7 @@ import org.w3c.dom.NodeList;
 
 public class EncounterDiagnosesProcessor {
 	
-	public static CCDAEncounter retrieveEncounterDetails(XPath xPath , Document doc) throws XPathExpressionException,TransformerException
+	public static CCDAEncounter retrieveEncounterDetails(XPath xPath , Document doc,List<CCDAID> idLIst) throws XPathExpressionException,TransformerException
 	{
 		Element sectionElement = (Element) xPath.compile(ApplicationConstants.ENCOUNTER_EXPRESSION).evaluate(doc, XPathConstants.NODE);
 		CCDAEncounter encounters = null;
@@ -33,7 +35,7 @@ public class EncounterDiagnosesProcessor {
 			encounters.setSectionCode(ApplicationUtil.readCode((Element) xPath.compile("./code[not(@nullFlavor)]").
 					evaluate(sectionElement, XPathConstants.NODE)));
 			encounters.setEncActivities(readEncounterActivity((NodeList) xPath.compile("./entry/encounter[not(@nullFlavor)]").
-					evaluate(sectionElement, XPathConstants.NODESET), xPath));
+					evaluate(sectionElement, XPathConstants.NODESET), xPath,idLIst));
 			sectionElement.setAttribute("xmlns:xsi", "http://www.w3.org/2001/XMLSchema-instance");
 			encounters.setLineNumber(sectionElement.getUserData("lineNumber") + " - " + sectionElement.getUserData("endLineNumber") );
 			encounters.setXmlString(ApplicationUtil.nodeToString((Node)sectionElement));
@@ -53,7 +55,7 @@ public class EncounterDiagnosesProcessor {
 	}
 	
 	
-	public static ArrayList<CCDAEncounterActivity> readEncounterActivity(NodeList encounterActivityNodeList , XPath xPath) throws XPathExpressionException,TransformerException
+	public static ArrayList<CCDAEncounterActivity> readEncounterActivity(NodeList encounterActivityNodeList , XPath xPath,List<CCDAID> idList) throws XPathExpressionException,TransformerException
 	{
 		ArrayList<CCDAEncounterActivity> encounterActivityList = new ArrayList<>();
 		CCDAEncounterActivity encounterActivity;
@@ -70,6 +72,14 @@ public class EncounterDiagnosesProcessor {
 				encounterActivity.setEncounterTypeCode(ApplicationUtil.readCode((Element) xPath.compile("./code[not(@nullFlavor)]").
 										evaluate(encounterActivityElement, XPathConstants.NODE)));
 				
+				if(ApplicationUtil.readID((Element) xPath.compile("./id[not(@nullFlavor)]").
+								evaluate(encounterActivityElement, XPathConstants.NODE),"encounterActivity") != null)
+				{
+				
+					idList.add(ApplicationUtil.readID((Element) xPath.compile("./id[not(@nullFlavor)]").
+								evaluate(encounterActivityElement, XPathConstants.NODE),"encounterActivity"));
+				}
+				
 				encounterActivityElement.setAttribute("xmlns:xsi", "http://www.w3.org/2001/XMLSchema-instance");
 				encounterActivity.setLineNumber(encounterActivityElement.getUserData("lineNumber") + " - " + encounterActivityElement.getUserData("endLineNumber") );
 				encounterActivity.setXmlString(ApplicationUtil.nodeToString((Node)encounterActivityElement));
@@ -85,24 +95,24 @@ public class EncounterDiagnosesProcessor {
 															evaluate(encounterActivityElement, XPathConstants.NODE)));
 				
 				encounterActivity.setSdLocs(readServiceDeliveryLocators((NodeList) xPath.compile("./participant/participantRole[not(@nullFlavor)]").
-																evaluate(encounterActivityElement, XPathConstants.NODESET), xPath));
+																evaluate(encounterActivityElement, XPathConstants.NODESET), xPath, idList));
 				
 				NodeList encounterDiagnosisNodeList = (NodeList) xPath.compile("./entryRelationship/act[not(@nullFlavor)]").
 								evaluate(encounterActivityElement, XPathConstants.NODESET);
 				
-				encounterActivity.setDiagnoses(readEncounterDiagnosis(encounterDiagnosisNodeList,xPath));
+				encounterActivity.setDiagnoses(readEncounterDiagnosis(encounterDiagnosisNodeList,xPath,idList));
 				
 				NodeList indicationNodeList = (NodeList) xPath.compile("./entryRelationship/observation[not(@nullFlavor)]").
 								evaluate(encounterActivityElement, XPathConstants.NODESET);
 				
-				encounterActivity.setIndications(readProblemObservation(indicationNodeList, xPath));
+				encounterActivity.setIndications(readProblemObservation(indicationNodeList, xPath,idList));
 				encounterActivityList.add(encounterActivity);
 			}
 		}
 		return encounterActivityList;
 	}
 	
-	public static ArrayList<CCDAEncounterDiagnosis> readEncounterDiagnosis(NodeList encounterDiagnosisNodeList, XPath xPath) throws XPathExpressionException,TransformerException
+	public static ArrayList<CCDAEncounterDiagnosis> readEncounterDiagnosis(NodeList encounterDiagnosisNodeList, XPath xPath,List<CCDAID> idList) throws XPathExpressionException,TransformerException
 	{
 		ArrayList<CCDAEncounterDiagnosis> encounterDiagnosisList = null;
 		if(encounterDiagnosisNodeList.getLength() > 0)
@@ -120,19 +130,27 @@ public class EncounterDiagnosesProcessor {
 			encounterDiagnosis.setTemplateId(ApplicationUtil.readTemplateIdList((NodeList) xPath.compile("./templateId[not(@nullFlavor)]").
 					evaluate(encounterDiagnosisElement, XPathConstants.NODESET)));
 			
+			if(ApplicationUtil.readID((Element) xPath.compile("./id[not(@nullFlavor)]").
+					evaluate(encounterDiagnosisElement, XPathConstants.NODE),"encounterDiagnosis")!= null)
+			{
+			
+				idList.add(ApplicationUtil.readID((Element) xPath.compile("./id[not(@nullFlavor)]").
+					evaluate(encounterDiagnosisElement, XPathConstants.NODE),"encounterDiagnosis"));
+			}
+			
 			encounterDiagnosis.setEntryCode(ApplicationUtil.readCode((Element) xPath.compile("./code[not(@nullFlavor)]").
 									evaluate(encounterDiagnosisElement, XPathConstants.NODE)));
 			
 			NodeList problemObservationNodeList = (NodeList) xPath.compile("./entryRelationship/observation[not(@nullFlavor)]").
 										evaluate(encounterDiagnosisElement, XPathConstants.NODESET);
-			encounterDiagnosis.setProblemObs(readProblemObservation(problemObservationNodeList,xPath));
+			encounterDiagnosis.setProblemObs(readProblemObservation(problemObservationNodeList,xPath,idList));
 			encounterDiagnosisList.add(encounterDiagnosis);
 		}
 		
 		return encounterDiagnosisList;
 	}
 	
-	public static ArrayList<CCDAServiceDeliveryLoc> readServiceDeliveryLocators(NodeList serviceDeliveryLocNodeList, XPath xPath) throws XPathExpressionException,TransformerException
+	public static ArrayList<CCDAServiceDeliveryLoc> readServiceDeliveryLocators(NodeList serviceDeliveryLocNodeList, XPath xPath,List<CCDAID> idList) throws XPathExpressionException,TransformerException
 	{
 		ArrayList<CCDAServiceDeliveryLoc> serviceDeliveryLocsList = null;
 		if(serviceDeliveryLocNodeList.getLength() > 0)
@@ -151,6 +169,14 @@ public class EncounterDiagnosesProcessor {
 			serviceDeliveryLoc.setLocationCode(ApplicationUtil.readCode((Element) xPath.compile("./code[not(@nullFlavor)]").
 											evaluate(serviceDeliveryLocElement, XPathConstants.NODE)));
 			
+			if(ApplicationUtil.readID((Element) xPath.compile("./id[not(@nullFlavor)]").
+					evaluate(serviceDeliveryLocElement, XPathConstants.NODE),"encounterServiceDeliveryLocation")!= null)
+			{
+			
+				idList.add(ApplicationUtil.readID((Element) xPath.compile("./id[not(@nullFlavor)]").
+					evaluate(serviceDeliveryLocElement, XPathConstants.NODE),"encounterServiceDeliveryLocation"));
+			}
+			
 			serviceDeliveryLoc.setName(ApplicationUtil.readTextContext((Element) xPath.compile("./playingEntity/name[not(@nullFlavor)]").
 					evaluate(serviceDeliveryLocElement, XPathConstants.NODE)));
 			
@@ -165,7 +191,7 @@ public class EncounterDiagnosesProcessor {
 		return serviceDeliveryLocsList;
 	}
 	
-	public static ArrayList<CCDAProblemObs> readProblemObservation(NodeList problemObservationNodeList, XPath xPath) throws XPathExpressionException,TransformerException
+	public static ArrayList<CCDAProblemObs> readProblemObservation(NodeList problemObservationNodeList, XPath xPath,List<CCDAID> idList) throws XPathExpressionException,TransformerException
 	{
 		ArrayList<CCDAProblemObs> problemObservationList = null;
 		if(problemObservationNodeList.getLength() > 0)
@@ -186,6 +212,13 @@ public class EncounterDiagnosesProcessor {
 			
 			problemObservation.setProblemType(ApplicationUtil.readCode((Element) xPath.compile("./code[not(@nullFlavor)]").
 									evaluate(problemObservationElement, XPathConstants.NODE)));
+			
+			if(ApplicationUtil.readID((Element) xPath.compile("./id[not(@nullFlavor)]").
+					evaluate(problemObservationElement, XPathConstants.NODE),"encounterServiceDeliveryLocation")!= null)
+			{
+				idList.add(ApplicationUtil.readID((Element) xPath.compile("./id[not(@nullFlavor)]").
+					evaluate(problemObservationElement, XPathConstants.NODE),"encounterServiceDeliveryLocation"));
+			}
 			
 			problemObservation.setTranslationProblemType(ApplicationUtil.readCodeList((NodeList) xPath.compile("./code/translation[not(@nullFlavor)]").
 									evaluate(problemObservationElement, XPathConstants.NODESET)));
