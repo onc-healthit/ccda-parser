@@ -2,6 +2,7 @@ package org.sitenv.ccdaparsing.tests;
 
 import java.io.File;
 import java.util.ArrayList;
+import java.util.List;
 
 import javax.xml.parsers.DocumentBuilder;
 import javax.xml.parsers.DocumentBuilderFactory;
@@ -17,6 +18,7 @@ import org.sitenv.ccdaparsing.model.CCDADataElement;
 import org.sitenv.ccdaparsing.model.CCDAEffTime;
 import org.sitenv.ccdaparsing.model.CCDAEncounter;
 import org.sitenv.ccdaparsing.model.CCDAEncounterActivity;
+import org.sitenv.ccdaparsing.model.CCDAID;
 import org.sitenv.ccdaparsing.model.CCDAII;
 import org.sitenv.ccdaparsing.model.CCDAProblemObs;
 import org.sitenv.ccdaparsing.model.CCDAServiceDeliveryLoc;
@@ -31,6 +33,7 @@ public class EncounterDiagnosisTest {
 	private ArrayList<CCDAII>    templateIds;
 	private CCDACode  sectionCode;
 	private static ArrayList<CCDAEncounterActivity> encActivities;
+	private static List<CCDAID> idList = new ArrayList<CCDAID>();
 	
 	
 	@BeforeClass
@@ -41,7 +44,7 @@ public class EncounterDiagnosisTest {
 		DocumentBuilder builder = factory.newDocumentBuilder();
 		Document doc = builder.parse(new File(CCDA_DOC));
 		XPath xPath =  XPathFactory.newInstance().newXPath();
-		encounter = EncounterDiagnosesProcessor.retrieveEncounterDetails(xPath, doc);
+		encounter = EncounterDiagnosesProcessor.retrieveEncounterDetails(xPath, doc,idList);
 		
 		encActivities = new ArrayList<CCDAEncounterActivity>();
 		CCDAEncounterActivity encActivityOne = new CCDAEncounterActivity();

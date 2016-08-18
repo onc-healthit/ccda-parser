@@ -2,6 +2,7 @@ package org.sitenv.ccdaparsing.tests;
 
 import java.io.File;
 import java.util.ArrayList;
+import java.util.List;
 
 import javax.xml.parsers.DocumentBuilder;
 import javax.xml.parsers.DocumentBuilderFactory;
@@ -19,6 +20,7 @@ import org.sitenv.ccdaparsing.model.CCDAAllergySeverity;
 import org.sitenv.ccdaparsing.model.CCDACode;
 import org.sitenv.ccdaparsing.model.CCDADataElement;
 import org.sitenv.ccdaparsing.model.CCDAEffTime;
+import org.sitenv.ccdaparsing.model.CCDAID;
 import org.sitenv.ccdaparsing.model.CCDAII;
 import org.sitenv.ccdaparsing.processing.MediactionAllergiesProcessor;
 import org.w3c.dom.Document;
@@ -30,6 +32,7 @@ public class MedicationAllergies {
 	private ArrayList<CCDAII>    templateIds;
 	private CCDACode  sectionCode;
 	private static ArrayList<CCDAAllergyConcern> allergyConcernList;
+	private static List<CCDAID> idList = new ArrayList<CCDAID>();
 	
 	
 	@BeforeClass
@@ -40,7 +43,7 @@ public class MedicationAllergies {
 		DocumentBuilder builder = factory.newDocumentBuilder();
 		Document doc = builder.parse(new File(CCDA_DOC));
 		XPath xPath =  XPathFactory.newInstance().newXPath();
-		allergies = MediactionAllergiesProcessor.retrieveAllergiesDetails(xPath, doc);
+		allergies = MediactionAllergiesProcessor.retrieveAllergiesDetails(xPath, doc,idList);
 		
 		allergyConcernList = new ArrayList<>();
 		CCDAAllergyConcern allergyConcern = new CCDAAllergyConcern();
