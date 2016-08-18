@@ -1,12 +1,14 @@
 package org.sitenv.ccdaparsing.processing;
 
 import java.util.ArrayList;
+import java.util.List;
 
 import javax.xml.transform.TransformerException;
 import javax.xml.xpath.XPath;
 import javax.xml.xpath.XPathConstants;
 import javax.xml.xpath.XPathExpressionException;
 
+import org.sitenv.ccdaparsing.model.CCDAID;
 import org.sitenv.ccdaparsing.model.CCDAProblem;
 import org.sitenv.ccdaparsing.model.CCDAProblemConcern;
 import org.sitenv.ccdaparsing.model.CCDAProblemObs;
@@ -20,7 +22,7 @@ import org.w3c.dom.NodeList;
 
 public class ProblemProcessor {
 	
-	public static CCDAProblem retrieveProblemDetails(XPath xPath , Document doc) throws XPathExpressionException,TransformerException
+	public static CCDAProblem retrieveProblemDetails(XPath xPath , Document doc, List<CCDAID> idList) throws XPathExpressionException,TransformerException
 	{
 		CCDAProblem problems = null;
 		Element sectionElement = (Element) xPath.compile(ApplicationConstants.PROBLEM_EXPRESSION).evaluate(doc, XPathConstants.NODE);
@@ -32,7 +34,7 @@ public class ProblemProcessor {
 			problems.setSectionCode(ApplicationUtil.readCode((Element) xPath.compile("./code[not(@nullFlavor)]").
 					evaluate(sectionElement, XPathConstants.NODE)));
 			problems.setProblemConcerns(readProblemConcern((NodeList) xPath.compile("./entry/act[not(@nullFlavor)]").
-					evaluate(sectionElement, XPathConstants.NODESET), xPath));
+					evaluate(sectionElement, XPathConstants.NODESET), xPath,idList));
 			
 			sectionElement.setAttribute("xmlns:xsi", "http://www.w3.org/2001/XMLSchema-instance");
 			problems.setLineNumber(sectionElement.getUserData("lineNumber") + " - " + sectionElement.getUserData("endLineNumber") );
@@ -52,7 +54,7 @@ public class ProblemProcessor {
 		return problems;
 	}
 	
-	public static ArrayList<CCDAProblemConcern> readProblemConcern(NodeList problemConcernNodeList, XPath xPath) throws XPathExpressionException,TransformerException
+	public static ArrayList<CCDAProblemConcern> readProblemConcern(NodeList problemConcernNodeList, XPath xPath, List<CCDAID> idList) throws XPathExpressionException,TransformerException
 	{
 		ArrayList<CCDAProblemConcern> problemConcernList = new ArrayList<>();
 		CCDAProblemConcern problemConcern;
@@ -82,14 +84,21 @@ public class ProblemProcessor {
 			problemConcern.setEffTime(ApplicationUtil.readEffectivetime((Element) xPath.compile("./effectiveTime[not(@nullFlavor)]").
 								evaluate(problemConcernElement, XPathConstants.NODE), xPath));
 			
+			if(ApplicationUtil.readID((Element) xPath.compile("./id[not(@nullFlavor)]").
+					evaluate(problemConcernElement, XPathConstants.NODE),"problemConcern")!= null)
+			{
+				idList.add(ApplicationUtil.readID((Element) xPath.compile("./id[not(@nullFlavor)]").
+					evaluate(problemConcernElement, XPathConstants.NODE),"problemConcern"));
+			}
+			
 			problemConcern.setProblemObservations(readProblemObservation((NodeList) xPath.compile(ApplicationConstants.PROBLEM_OBS_EXPRESSION).
-					evaluate(problemConcernElement, XPathConstants.NODESET), xPath));
+					evaluate(problemConcernElement, XPathConstants.NODESET), xPath,idList));
 			problemConcernList.add(problemConcern);
 		}
 		return problemConcernList;
 	}
 	
-	public static ArrayList<CCDAProblemObs> readProblemObservation(NodeList problemObservationNodeList , XPath xPath) throws XPathExpressionException,TransformerException
+	public static ArrayList<CCDAProblemObs> readProblemObservation(NodeList problemObservationNodeList , XPath xPath, List<CCDAID> idList) throws XPathExpressionException,TransformerException
 	{
 		
 		ArrayList<CCDAProblemObs> problemObservationList = null;
@@ -124,6 +133,13 @@ public class ProblemProcessor {
 					evaluate(problemObservationElement, XPathConstants.NODE)));
 			problemObservation.setStatusCode(ApplicationUtil.readCode((Element) xPath.compile("./statusCode[not(@nullFlavor)]").
 					evaluate(problemObservationElement, XPathConstants.NODE)));
+			
+			if(ApplicationUtil.readID((Element) xPath.compile("./id[not(@nullFlavor)]").
+					evaluate(problemObservationElement, XPathConstants.NODE),"problemObservation")!= null)
+			{
+				idList.add(ApplicationUtil.readID((Element) xPath.compile("./id[not(@nullFlavor)]").
+					evaluate(problemObservationElement, XPathConstants.NODE),"problemObservation"));
+			}
 			problemObservationList.add(problemObservation);
 		}
 		

@@ -1,10 +1,13 @@
 package org.sitenv.ccdaparsing.processing;
 
+import java.util.List;
+
 import javax.xml.transform.TransformerException;
 import javax.xml.xpath.XPath;
 import javax.xml.xpath.XPathConstants;
 import javax.xml.xpath.XPathExpressionException;
 
+import org.sitenv.ccdaparsing.model.CCDAID;
 import org.sitenv.ccdaparsing.model.CCDALabResult;
 import org.sitenv.ccdaparsing.util.ApplicationConstants;
 import org.sitenv.ccdaparsing.util.ApplicationUtil;
@@ -14,7 +17,7 @@ import org.w3c.dom.NodeList;
 
 public class LaboratoryTestProcessor {
 	
-	public static CCDALabResult retrieveLabTests(XPath xPath , Document doc) throws XPathExpressionException,TransformerException
+	public static CCDALabResult retrieveLabTests(XPath xPath , Document doc, List<CCDAID> idList) throws XPathExpressionException,TransformerException
 	{
 		CCDALabResult labTests = null;
 		
@@ -29,7 +32,7 @@ public class LaboratoryTestProcessor {
 					evaluate(sectionElement, XPathConstants.NODE)));
 		
 			labTests.setResultOrg(LaboratoryResultsProcessor.readResultOrganizer((NodeList) xPath.compile(ApplicationConstants.LAB_TESTS_EXPRESSION).
-													evaluate(sectionElement, XPathConstants.NODESET),xPath));
+													evaluate(sectionElement, XPathConstants.NODESET),xPath,idList));
 			labTests.setIsLabTestInsteadOfResult(true);
 		}
 		return labTests;

@@ -1,12 +1,14 @@
 package org.sitenv.ccdaparsing.processing;
 
 import java.util.ArrayList;
+import java.util.List;
 
 import javax.xml.transform.TransformerException;
 import javax.xml.xpath.XPath;
 import javax.xml.xpath.XPathConstants;
 import javax.xml.xpath.XPathExpressionException;
 
+import org.sitenv.ccdaparsing.model.CCDAID;
 import org.sitenv.ccdaparsing.model.CCDAImmunization;
 import org.sitenv.ccdaparsing.model.CCDAImmunizationActivity;
 import org.sitenv.ccdaparsing.model.CCDAOrganization;
@@ -19,7 +21,7 @@ import org.w3c.dom.NodeList;
 
 public class ImmunizationProcessor {
 	
-	public static CCDAImmunization retrieveImmunizationDetails(XPath xPath , Document doc) throws XPathExpressionException,TransformerException
+	public static CCDAImmunization retrieveImmunizationDetails(XPath xPath , Document doc,List<CCDAID> idList) throws XPathExpressionException,TransformerException
 	{
 		CCDAImmunization immunizations = null;
 		Element sectionElement = (Element) xPath.compile(ApplicationConstants.IMMUNIZATION_EXPRESSION).evaluate(doc, XPathConstants.NODE);
@@ -33,7 +35,7 @@ public class ImmunizationProcessor {
 			immunizations.setSectionCode(ApplicationUtil.readCode((Element) xPath.compile("./code[not(@nullFlavor)]").
 					evaluate(sectionElement, XPathConstants.NODE)));
 			immunizations.setImmActivity(readImmunization((NodeList) xPath.compile("./entry[not(@nullFlavor)]").
-					evaluate(sectionElement, XPathConstants.NODESET), xPath));
+					evaluate(sectionElement, XPathConstants.NODESET), xPath,idList));
 			sectionElement.setAttribute("xmlns:xsi", "http://www.w3.org/2001/XMLSchema-instance");
 			immunizations.setLineNumber(sectionElement.getUserData("lineNumber") + " - " + sectionElement.getUserData("endLineNumber") );
 			immunizations.setXmlString(ApplicationUtil.nodeToString((Node)sectionElement));
@@ -51,7 +53,7 @@ public class ImmunizationProcessor {
 		return immunizations;
 	}
 	
-	public static ArrayList<CCDAImmunizationActivity> readImmunization(NodeList entryNodeList, XPath xPath) throws XPathExpressionException,TransformerException
+	public static ArrayList<CCDAImmunizationActivity> readImmunization(NodeList entryNodeList, XPath xPath,List<CCDAID> idList) throws XPathExpressionException,TransformerException
 	{
 		ArrayList<CCDAImmunizationActivity> immunizationActivityList = new ArrayList<>();
 		CCDAImmunizationActivity immunizationActivity;
@@ -70,6 +72,13 @@ public class ImmunizationProcessor {
 				immunizationActivityElement.setAttribute("xmlns:xsi", "http://www.w3.org/2001/XMLSchema-instance");
 				immunizationActivity.setLineNumber(immunizationActivityElement.getUserData("lineNumber") + " - " + immunizationActivityElement.getUserData("endLineNumber") );
 				immunizationActivity.setXmlString(ApplicationUtil.nodeToString((Node)immunizationActivityElement));
+				
+				if(ApplicationUtil.readID((Element) xPath.compile("./id[not(@nullFlavor)]").
+						evaluate(immunizationActivityElement, XPathConstants.NODE),"immunizatonActivity")!= null)
+				{
+					idList.add(ApplicationUtil.readID((Element) xPath.compile("./id[not(@nullFlavor)]").
+						evaluate(immunizationActivityElement, XPathConstants.NODE),"immunizatonActivity"));
+				}
 				
 				immunizationActivity.setTemplateIds(ApplicationUtil.readTemplateIdList((NodeList) xPath.compile("./templateId[not(@nullFlavor)]").
 													evaluate(immunizationActivityElement, XPathConstants.NODESET)));
@@ -96,7 +105,7 @@ public class ImmunizationProcessor {
 							evaluate(immunizationActivityElement, XPathConstants.NODE)));
 				
 				immunizationActivity.setConsumable(MedicationProcessor.readMedicationInformation((Element) xPath.compile("./consumable/manufacturedProduct[not(@nullFlavor)]").
-						   evaluate(immunizationActivityElement, XPathConstants.NODE), xPath));
+						   evaluate(immunizationActivityElement, XPathConstants.NODE), xPath,idList));
 				
 				
 				Element represntOrgElement = (Element) xPath.compile("./performer/assignedEntity/representedOrganization[not(@nullFlavor)]").

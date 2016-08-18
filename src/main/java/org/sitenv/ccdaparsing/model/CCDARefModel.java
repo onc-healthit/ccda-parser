@@ -20,6 +20,7 @@ public class CCDARefModel {
 	private CCDAGoals          goals;
 	private CCDAHealthConcerns hcs;
 	private ArrayList<CCDAUDI> udi;
+	private ArrayList<CCDAID> idList; 
 	private boolean isEmpty;
 	
 	
@@ -126,6 +127,12 @@ public class CCDARefModel {
 		this.isEmpty = isEmpty;
 	}
 	
+	public ArrayList<CCDAID> getIdList() {
+		return idList;
+	}
+	public void setIdList(ArrayList<CCDAID> idList) {
+		this.idList = idList;
+	}
 	@Override
 	public int hashCode() {
 		final int prime = 31;

@@ -2,6 +2,7 @@ package org.sitenv.ccdaparsing.tests;
 
 import java.io.File;
 import java.util.ArrayList;
+import java.util.List;
 
 import javax.xml.parsers.DocumentBuilder;
 import javax.xml.parsers.DocumentBuilderFactory;
@@ -15,6 +16,7 @@ import org.sitenv.ccdaparsing.model.CCDAAddress;
 import org.sitenv.ccdaparsing.model.CCDACode;
 import org.sitenv.ccdaparsing.model.CCDAConsumable;
 import org.sitenv.ccdaparsing.model.CCDADataElement;
+import org.sitenv.ccdaparsing.model.CCDAID;
 import org.sitenv.ccdaparsing.model.CCDAII;
 import org.sitenv.ccdaparsing.model.CCDAImmunization;
 import org.sitenv.ccdaparsing.model.CCDAImmunizationActivity;
@@ -30,6 +32,7 @@ public class ImmunizationTest {
 	private ArrayList<CCDAII>    templateIds;
 	private CCDACode  sectionCode;
 	private static ArrayList<CCDAImmunizationActivity> immuActivities;
+	private static List<CCDAID> idList = new ArrayList<CCDAID>();
 	
 	
 	@BeforeClass
@@ -40,7 +43,7 @@ public class ImmunizationTest {
 		DocumentBuilder builder = factory.newDocumentBuilder();
 		Document doc = builder.parse(new File(CCDA_DOC));
 		XPath xPath =  XPathFactory.newInstance().newXPath();
-		immunizations = ImmunizationProcessor.retrieveImmunizationDetails(xPath, doc);
+		immunizations = ImmunizationProcessor.retrieveImmunizationDetails(xPath, doc,idList);
 		
 		immuActivities = new ArrayList<>();
 		CCDAImmunizationActivity immuActivityOne = new CCDAImmunizationActivity();
