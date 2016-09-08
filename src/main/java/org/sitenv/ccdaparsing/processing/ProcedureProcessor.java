@@ -139,12 +139,12 @@ public class ProcedureProcessor {
 				assignedEntity.setTelecom(ApplicationUtil.readDataElementList((NodeList) xPath.compile("./telecom[not(@nullFlavor)]").
 													evaluate(performerEntityElement, XPathConstants.NODESET)));
 				
-				if(ApplicationUtil.readID((Element) xPath.compile("./id[not(@nullFlavor)]").
+				/*if(ApplicationUtil.readID((Element) xPath.compile("./id[not(@nullFlavor)]").
 						evaluate(performerEntityElement, XPathConstants.NODE),"procedurePerformer")!= null)
 				{
 					idList.add(ApplicationUtil.readID((Element) xPath.compile("./id[not(@nullFlavor)]").
 						evaluate(performerEntityElement, XPathConstants.NODE),"procedurePerformer"));
-				}
+				}*/
 					
 				Element represntOrgElement = (Element) xPath.compile("./representedOrganization[not(@nullFlavor)]").
 													evaluate(performerEntityElement, XPathConstants.NODE);
