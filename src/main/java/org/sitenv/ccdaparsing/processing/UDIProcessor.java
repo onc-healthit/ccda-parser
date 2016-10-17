@@ -14,7 +14,7 @@ public class UDIProcessor {
 	{
 		ArrayList<CCDAUDI> patientUDIList = null;
 		
-		if(procedures != null)
+		if(procedures != null && procedures.getProcActsProcs()!= null)
 		{
 			patientUDIList = new ArrayList<>();
 			for ( CCDAProcActProc procedureActivity : procedures.getProcActsProcs())
@@ -23,10 +23,8 @@ public class UDIProcessor {
 				{
 					patientUDIList.addAll(procedureActivity.getPatientUDI());
 				}
-				
 			}
 		}
-		
 		return patientUDIList;
 	}
 
