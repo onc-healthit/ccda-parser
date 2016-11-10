@@ -24,6 +24,15 @@ public class CCDAII extends CCDADataElement{
 	{
 	}
 	
+	public CCDAII(String rootValue) {
+		this.rootValue = rootValue;
+	}
+	
+	public CCDAII(String rootValue, String extValue) {
+		this(rootValue);
+		this.extValue = extValue;
+	}
+	
 	@Override
 	public boolean equals(Object obj) {
 
@@ -37,5 +46,14 @@ public class CCDAII extends CCDADataElement{
 		return  (this.rootValue == obj2.getRootValue() || (this.rootValue != null && this.rootValue.equals(obj2.getRootValue()))) && 
 				(this.extValue == obj2.getExtValue() || (this.extValue != null && this.extValue.equals(obj2.getExtValue())));
 		
+	}
+	
+	@Override
+	public String toString() {
+		StringBuffer sb = new StringBuffer();
+		sb.append(getClass().getSimpleName() + System.lineSeparator());
+		sb.append("rootValue: " + rootValue + System.lineSeparator());
+		sb.append("extValue:  " + extValue);
+		return sb.toString();
 	}
 }
