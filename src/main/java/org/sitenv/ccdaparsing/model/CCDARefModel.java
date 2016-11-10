@@ -20,7 +20,8 @@ public class CCDARefModel {
 	private CCDAGoals          goals;
 	private CCDAHealthConcerns hcs;
 	private ArrayList<CCDAUDI> udi;
-	private ArrayList<CCDAID> idList; 
+	private ArrayList<CCDAID>  idList;
+	private UsrhSubType        usrhSubType;
 	private boolean isEmpty;
 	
 	
@@ -133,6 +134,12 @@ public class CCDARefModel {
 	public void setIdList(ArrayList<CCDAID> idList) {
 		this.idList = idList;
 	}
+	public UsrhSubType getUsrhSubType() {
+		return usrhSubType;
+	}	
+	public void setUsrhSubType(UsrhSubType usrhSubType) {
+		this.usrhSubType = usrhSubType;
+	}
 	@Override
 	public int hashCode() {
 		final int prime = 31;
@@ -162,6 +169,8 @@ public class CCDARefModel {
 		result = prime * result + ((udi == null) ? 0 : udi.hashCode());
 		result = prime * result
 				+ ((vitalSigns == null) ? 0 : vitalSigns.hashCode());
+		result = prime * result
+				+ ((usrhSubType == null) ? 0 : usrhSubType.hashCode());		
 		return result;
 	}
 	@Override
@@ -253,6 +262,11 @@ public class CCDARefModel {
 				return false;
 		} else if (!vitalSigns.equals(other.vitalSigns))
 			return false;
+		if (usrhSubType == null) {
+			if (other.usrhSubType != null)
+				return false;
+		} else if (!usrhSubType.equals(other.usrhSubType))
+			return false;		
 		return true;
 	}
 	

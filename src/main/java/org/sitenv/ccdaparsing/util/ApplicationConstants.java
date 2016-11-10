@@ -2,6 +2,8 @@ package org.sitenv.ccdaparsing.util;
 
 public class ApplicationConstants {
 	
+	public static String USRH_SUB_TYPE_EXPRESSION = "/ClinicalDocument/templateId[starts-with(@root, '2.16.840.1.113883.10.20') and @root!='2.16.840.1.113883.10.20.22.1.1']";
+	
 	public static String SDTC_EXPRESSION = "/ClinicalDocument/templateId[@root='2.16.840.1.113883.10.20.22.1.1' and @extension='2015-08-01']/"
 			+ "ancestor::ClinicalDocument[1]/recordTarget/patientRole/patient/sdtc:raceCode";
 	
@@ -56,4 +58,5 @@ public class ApplicationConstants {
 	
 	public final static String LINE_NUMBER_KEY_NAME = "lineNumber";
     public final static String END_LINE_NUMBER_KEY_NAME = "endLineNumber";
+    
 }

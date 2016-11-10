@@ -60,8 +60,11 @@ public class ApplicationUtil {
 		}
 		return code;
 	}
-	
-	public static CCDAII readTemplateID(Element templateElement)throws TransformerException
+
+	public static CCDAII readTemplateID(Element templateElement) throws TransformerException {
+		return readTemplateID(templateElement, true);
+	}	
+	public static CCDAII readTemplateID(Element templateElement, boolean setXmlAndLinNumber) throws TransformerException
 	{
 		CCDAII templateID = null;
 		
@@ -77,8 +80,11 @@ public class ApplicationUtil {
 				templateID.setExtValue(templateElement.getAttribute("extension"));
 			}
 			
-			templateID.setXmlString(nodeToString((Node)templateElement));
-			templateID.setLineNumber(templateElement.getUserData("lineNumber").toString());
+			if(setXmlAndLinNumber) {
+				templateID.setXmlString(nodeToString((Node)templateElement));
+				templateID.setLineNumber(templateElement.getUserData("lineNumber").toString());
+			}
+			
 		}
 		return templateID;
 	}
@@ -102,8 +108,11 @@ public class ApplicationUtil {
 		}
 		return id;
 	}
-	
-	public static ArrayList<CCDAII> readTemplateIdList(NodeList templateIDNodeList)throws TransformerException
+		
+	public static ArrayList<CCDAII> readTemplateIdList(NodeList templateIDNodeList) throws TransformerException {
+		return readTemplateIdList(templateIDNodeList, true);
+	}	
+	public static ArrayList<CCDAII> readTemplateIdList(NodeList templateIDNodeList, boolean setXmlAndLinNumber) throws TransformerException
 	{
 		ArrayList<CCDAII> templateList = null;
 		if( ! isNodeListEmpty(templateIDNodeList))
@@ -113,7 +122,11 @@ public class ApplicationUtil {
 		Element templateElement;
 		for (int i = 0; i < templateIDNodeList.getLength(); i++) {
 			templateElement = (Element) templateIDNodeList.item(i);
-			templateList.add(readTemplateID(templateElement));
+			if(setXmlAndLinNumber) {
+				templateList.add(readTemplateID(templateElement));
+			} else {
+				templateList.add(readTemplateID(templateElement, false));
+			}
 		}
 		return templateList;
 	} 

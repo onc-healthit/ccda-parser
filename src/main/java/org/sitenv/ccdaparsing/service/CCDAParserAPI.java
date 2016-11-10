@@ -29,6 +29,7 @@ import org.sitenv.ccdaparsing.processing.ProblemProcessor;
 import org.sitenv.ccdaparsing.processing.ProcedureProcessor;
 import org.sitenv.ccdaparsing.processing.SmokingStatusProcessor;
 import org.sitenv.ccdaparsing.processing.UDIProcessor;
+import org.sitenv.ccdaparsing.processing.UsrhSubTypeProcessor;
 import org.sitenv.ccdaparsing.processing.VitalSignProcessor;
 import org.sitenv.ccdaparsing.util.PositionalXMLReader;
 import org.w3c.dom.Document;
@@ -68,6 +69,7 @@ public class CCDAParserAPI {
 				refModel.setPlanOfTreatment(POTProcessor.retrievePOTDetails(xPath, doc,idList));
 				refModel.setGoals(GoalsProcessor.retrieveGoalsDetails(xPath, doc));
 				refModel.setHcs(HealthConcernsProcessor.retrieveHealthConcernDetails(xPath, doc));
+				refModel.setUsrhSubType(UsrhSubTypeProcessor.retrieveUsrhSubTypeDetails(xPath, doc));
 				refModel.setIdList(idList);
 			}
 			else
