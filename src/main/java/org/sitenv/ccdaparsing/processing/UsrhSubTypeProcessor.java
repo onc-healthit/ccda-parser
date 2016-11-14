@@ -8,8 +8,10 @@ import javax.xml.xpath.XPathConstants;
 import javax.xml.xpath.XPathExpressionException;
 
 import org.sitenv.ccdaparsing.model.CCDAII;
+import org.sitenv.ccdaparsing.model.UsrhII;
 import org.sitenv.ccdaparsing.model.UsrhSubType;
 import org.sitenv.ccdaparsing.util.ApplicationConstants;
+import org.sitenv.ccdaparsing.util.ApplicationConstants.UsrhIISubTypes;
 import org.sitenv.ccdaparsing.util.ApplicationUtil;
 import org.w3c.dom.Document;
 import org.w3c.dom.NodeList;
