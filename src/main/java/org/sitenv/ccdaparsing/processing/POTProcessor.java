@@ -24,6 +24,11 @@ public class POTProcessor {
 		if(sectionElement != null)
 		{
 			pot = new CCDAPOT();
+			if(ApplicationUtil.checkForNullFlavourNI(sectionElement))
+			{
+				pot.setSectionNullFlavourWithNI(true);
+				return pot;
+			}
 			pot.setTemplateId(ApplicationUtil.readTemplateIdList((NodeList) xPath.compile("./templateId[not(@nullFlavor)]").
 									evaluate(sectionElement, XPathConstants.NODESET)));
 		

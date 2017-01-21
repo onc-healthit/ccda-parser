@@ -30,6 +30,11 @@ public class MediactionAllergiesProcessor {
 		if(sectionElement != null)
 		{
 			allergies = new CCDAAllergy();
+			if(ApplicationUtil.checkForNullFlavourNI(sectionElement))
+			{
+				allergies.setSectionNullFlavourWithNI(true);
+				return allergies;
+			}
 			allergies.setSectionTemplateId(ApplicationUtil.readTemplateIdList((NodeList) xPath.compile("./templateId[not(@nullFlavor)]").
 							evaluate(sectionElement, XPathConstants.NODESET)));
 			allergies.setSectionCode(ApplicationUtil.readCode((Element) xPath.compile("./code[not(@nullFlavor)]").
@@ -44,10 +49,7 @@ public class MediactionAllergiesProcessor {
 			
 			if(textElement!=null)
 			{
-				allergies.getReferenceLinks().addAll((ApplicationUtil.readSectionTextReferences((NodeList) xPath.compile(".//td[not(@nullFlavor)]").
-					evaluate(textElement, XPathConstants.NODESET))));
-			
-				allergies.getReferenceLinks().addAll((ApplicationUtil.readSectionTextReferences((NodeList) xPath.compile(".//content[not(@nullFlavor)]").
+				allergies.getReferenceLinks().addAll((ApplicationUtil.readSectionTextReferences((NodeList) xPath.compile(".//*[not(@nullFlavor) and @ID]").
 					evaluate(textElement, XPathConstants.NODESET))));
 			}
 		}

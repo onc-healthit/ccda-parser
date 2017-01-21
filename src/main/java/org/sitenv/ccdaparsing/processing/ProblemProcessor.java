@@ -29,6 +29,11 @@ public class ProblemProcessor {
 		if(sectionElement != null)
 		{
 			problems = new CCDAProblem();
+			if(ApplicationUtil.checkForNullFlavourNI(sectionElement))
+			{
+				problems.setSectionNullFlavourWithNI(true);
+				return problems;
+			}
 			problems.setSectionTemplateId(ApplicationUtil.readTemplateIdList((NodeList) xPath.compile("./templateId[not(@nullFlavor)]").
 											evaluate(sectionElement, XPathConstants.NODESET)));
 			problems.setSectionCode(ApplicationUtil.readCode((Element) xPath.compile("./code[not(@nullFlavor)]").
@@ -44,10 +49,7 @@ public class ProblemProcessor {
 			
 			if(textElement!=null)
 			{
-				problems.getReferenceLinks().addAll((ApplicationUtil.readSectionTextReferences((NodeList) xPath.compile(".//td[not(@nullFlavor)]").
-					evaluate(textElement, XPathConstants.NODESET))));
-			
-				problems.getReferenceLinks().addAll((ApplicationUtil.readSectionTextReferences((NodeList) xPath.compile(".//content[not(@nullFlavor)]").
+				problems.getReferenceLinks().addAll((ApplicationUtil.readSectionTextReferences((NodeList) xPath.compile(".//*[not(@nullFlavor) and @ID]").
 					evaluate(textElement, XPathConstants.NODESET))));
 			}
 		}

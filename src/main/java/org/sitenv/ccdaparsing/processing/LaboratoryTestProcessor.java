@@ -25,6 +25,11 @@ public class LaboratoryTestProcessor {
 		if(sectionElement != null)
 		{
 			labTests = new CCDALabResult();
+			if(ApplicationUtil.checkForNullFlavourNI(sectionElement))
+			{
+				labTests.setSectionNullFlavourWithNI(true);
+				return labTests;
+			}
 			labTests.setResultSectionTempalteIds(ApplicationUtil.readTemplateIdList((NodeList) xPath.compile("./templateId[not(@nullFlavor)]").
 								evaluate(sectionElement, XPathConstants.NODESET)));
 			

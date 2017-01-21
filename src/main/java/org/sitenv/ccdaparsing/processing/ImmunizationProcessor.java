@@ -29,6 +29,11 @@ public class ImmunizationProcessor {
 		if(sectionElement != null)
 		{
 			immunizations = new CCDAImmunization();
+			if(ApplicationUtil.checkForNullFlavourNI(sectionElement))
+			{
+				immunizations.setSectionNullFlavourWithNI(true);
+				return immunizations;
+			}
 			immunizations.setTemplateIds(ApplicationUtil.readTemplateIdList((NodeList) xPath.compile("./templateId[not(@nullFlavor)]").
 					evaluate(sectionElement, XPathConstants.NODESET)));
 			
@@ -44,9 +49,7 @@ public class ImmunizationProcessor {
 			
 			if(textElement!=null)
 			{
-				immunizations.getReferenceLinks().addAll((ApplicationUtil.readSectionTextReferences((NodeList) xPath.compile(".//td[not(@nullFlavor)]").
-					evaluate(textElement, XPathConstants.NODESET))));
-				immunizations.getReferenceLinks().addAll((ApplicationUtil.readSectionTextReferences((NodeList) xPath.compile(".//content[not(@nullFlavor)]").
+				immunizations.getReferenceLinks().addAll((ApplicationUtil.readSectionTextReferences((NodeList) xPath.compile(".//*[not(@nullFlavor) and @ID]").
 					evaluate(textElement, XPathConstants.NODESET))));
 			}
 		}

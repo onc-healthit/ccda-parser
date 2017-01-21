@@ -28,6 +28,11 @@ public class SmokingStatusProcessor {
 		if(sectionElement != null)
 		{
 			socailHistory = new CCDASocialHistory();
+			if(ApplicationUtil.checkForNullFlavourNI(sectionElement))
+			{
+				socailHistory.setSectionNullFlavourWithNI(true);
+				return socailHistory;
+			}
 			socailHistory.setSectionTemplateIds(ApplicationUtil.readTemplateIdList((NodeList) xPath.compile("./templateId[not(@nullFlavor)]").
 						evaluate(sectionElement, XPathConstants.NODESET)));
 			
@@ -50,10 +55,7 @@ public class SmokingStatusProcessor {
 			
 			if(textElement!=null)
 			{
-				socailHistory.getReferenceLinks().addAll((ApplicationUtil.readSectionTextReferences((NodeList) xPath.compile(".//td[not(@nullFlavor)]").
-					evaluate(textElement, XPathConstants.NODESET))));
-			
-				socailHistory.getReferenceLinks().addAll((ApplicationUtil.readSectionTextReferences((NodeList) xPath.compile(".//content[not(@nullFlavor)]").
+				socailHistory.getReferenceLinks().addAll((ApplicationUtil.readSectionTextReferences((NodeList) xPath.compile(".//*[not(@nullFlavor) and @ID]").
 					evaluate(textElement, XPathConstants.NODESET))));
 			}
 		
