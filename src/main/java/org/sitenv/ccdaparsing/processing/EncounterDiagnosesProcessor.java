@@ -172,13 +172,13 @@ public class EncounterDiagnosesProcessor {
 			serviceDeliveryLoc.setLocationCode(ApplicationUtil.readCode((Element) xPath.compile("./code[not(@nullFlavor)]").
 											evaluate(serviceDeliveryLocElement, XPathConstants.NODE)));
 			
-			if(ApplicationUtil.readID((Element) xPath.compile("./id[not(@nullFlavor)]").
+			/*if(ApplicationUtil.readID((Element) xPath.compile("./id[not(@nullFlavor)]").
 					evaluate(serviceDeliveryLocElement, XPathConstants.NODE),"encounterServiceDeliveryLocation")!= null)
 			{
 			
 				idList.add(ApplicationUtil.readID((Element) xPath.compile("./id[not(@nullFlavor)]").
 					evaluate(serviceDeliveryLocElement, XPathConstants.NODE),"encounterServiceDeliveryLocation"));
-			}
+			}*/
 			
 			serviceDeliveryLoc.setName(ApplicationUtil.readTextContext((Element) xPath.compile("./playingEntity/name[not(@nullFlavor)]").
 					evaluate(serviceDeliveryLocElement, XPathConstants.NODE)));
