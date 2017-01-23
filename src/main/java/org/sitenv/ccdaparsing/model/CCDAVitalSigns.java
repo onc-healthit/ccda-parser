@@ -4,10 +4,19 @@ import java.util.ArrayList;
 
 public class CCDAVitalSigns extends CCDAXmlSnippet{
 	
+	private boolean isSectionNullFlavourWithNI;
 	private ArrayList<CCDAII>			templateIds;
 	private CCDACode					sectionCode;
 	private ArrayList<CCDAVitalOrg>		vitalsOrg;
 	private ArrayList<String> referenceLinks;
+	
+	public boolean isSectionNullFlavourWithNI() {
+		return isSectionNullFlavourWithNI;
+	}
+
+	public void setSectionNullFlavourWithNI(boolean isSectionNullFlavourWithNI) {
+		this.isSectionNullFlavourWithNI = isSectionNullFlavourWithNI;
+	}
 
 	public ArrayList<CCDAII> getTemplateIds() {
 		return templateIds;

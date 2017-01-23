@@ -4,10 +4,19 @@ import java.util.ArrayList;
 
 public class CCDAAllergy extends CCDAXmlSnippet {
 
+	private boolean isSectionNullFlavourWithNI;
 	private ArrayList<CCDAII>       		sectionTemplateId;
 	private CCDACode                 		sectionCode;
 	private ArrayList<CCDAAllergyConcern>	allergyConcern;
 	private ArrayList<String> referenceLinks;
+	
+	public boolean isSectionNullFlavourWithNI() {
+		return isSectionNullFlavourWithNI;
+	}
+
+	public void setSectionNullFlavourWithNI(boolean isSectionNullFlavourWithNI) {
+		this.isSectionNullFlavourWithNI = isSectionNullFlavourWithNI;
+	}
 	
 	public ArrayList<CCDAII> getSectionTemplateId() {
 		return sectionTemplateId;

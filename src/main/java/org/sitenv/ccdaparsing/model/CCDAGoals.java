@@ -4,9 +4,19 @@ import java.util.ArrayList;
 
 public class CCDAGoals {
 	
+	private boolean isSectionNullFlavourWithNI;
 	private ArrayList<CCDAII>    templateId;
 	private CCDACode  sectionCode;
 	private CCDADataElement narrativeText;
+	
+	public boolean isSectionNullFlavourWithNI() {
+		return isSectionNullFlavourWithNI;
+	}
+
+	public void setSectionNullFlavourWithNI(boolean isSectionNullFlavourWithNI) {
+		this.isSectionNullFlavourWithNI = isSectionNullFlavourWithNI;
+	}
+	
 	public ArrayList<CCDAII> getTemplateId() {
 		return templateId;
 	}

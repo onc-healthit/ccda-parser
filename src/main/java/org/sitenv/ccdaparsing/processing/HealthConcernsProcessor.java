@@ -21,6 +21,11 @@ public class HealthConcernsProcessor {
 		if (sectionElement != null)
 		{
 			healthConcern = new CCDAHealthConcerns();
+			if(ApplicationUtil.checkForNullFlavourNI(sectionElement))
+			{
+				healthConcern.setSectionNullFlavourWithNI(true);
+				return healthConcern;
+			}
 			healthConcern.setTemplateId(ApplicationUtil.readTemplateIdList((NodeList) xPath.compile("./templateId[not(@nullFlavor)]").
 					evaluate(sectionElement, XPathConstants.NODESET)));
 			

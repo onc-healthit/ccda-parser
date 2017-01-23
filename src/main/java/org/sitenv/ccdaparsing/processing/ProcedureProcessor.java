@@ -31,6 +31,11 @@ public class ProcedureProcessor {
 		if(sectionElement !=null)
 		{
 			procedures = new CCDAProcedure();
+			if(ApplicationUtil.checkForNullFlavourNI(sectionElement))
+			{
+				procedures.setSectionNullFlavourWithNI(true);
+				return procedures;
+			}
 			procedures.setSectionTemplateId(ApplicationUtil.readTemplateIdList((NodeList) xPath.
 							compile("./templateId[not(@nullFlavor)]").evaluate(sectionElement, XPathConstants.NODESET)));
 			procedures.setSectionCode(ApplicationUtil.readCode((Element) xPath.compile("./code[not(@nullFlavor)]").
@@ -46,10 +51,7 @@ public class ProcedureProcessor {
 			
 			if(textElement!=null)
 			{
-				procedures.getReferenceLinks().addAll((ApplicationUtil.readSectionTextReferences((NodeList) xPath.compile(".//td[not(@nullFlavor)]").
-					evaluate(textElement, XPathConstants.NODESET))));
-			
-				procedures.getReferenceLinks().addAll((ApplicationUtil.readSectionTextReferences((NodeList) xPath.compile(".//content[not(@nullFlavor)]").
+				procedures.getReferenceLinks().addAll((ApplicationUtil.readSectionTextReferences((NodeList) xPath.compile(".//*[not(@nullFlavor) and @ID]").
 					evaluate(textElement, XPathConstants.NODESET))));
 			}
 

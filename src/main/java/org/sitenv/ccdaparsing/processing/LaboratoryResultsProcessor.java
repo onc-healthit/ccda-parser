@@ -30,6 +30,11 @@ public class LaboratoryResultsProcessor {
 		if(sectionElement != null)
 		{
 			labResults = new CCDALabResult();
+			if(ApplicationUtil.checkForNullFlavourNI(sectionElement))
+			{
+				labResults.setSectionNullFlavourWithNI(true);
+				return labResults;
+			}
 			labResults.setResultSectionTempalteIds(ApplicationUtil.readTemplateIdList((NodeList) xPath.compile("./templateId[not(@nullFlavor)]").
 													evaluate(sectionElement, XPathConstants.NODESET)));
 			
@@ -46,11 +51,9 @@ public class LaboratoryResultsProcessor {
 			
 			if(textElement!=null)
 			{
-				labResults.getReferenceLinks().addAll((ApplicationUtil.readSectionTextReferences((NodeList) xPath.compile(".//td[not(@nullFlavor)]").
+				labResults.getReferenceLinks().addAll((ApplicationUtil.readSectionTextReferences((NodeList) xPath.compile(".//*[not(@nullFlavor) and @ID]").
 					evaluate(sectionElement, XPathConstants.NODESET))));
 			
-				labResults.getReferenceLinks().addAll((ApplicationUtil.readSectionTextReferences((NodeList) xPath.compile(".//content[not(@nullFlavor)]").
-					evaluate(textElement, XPathConstants.NODESET))));
 			}
 			labResults.setIsLabTestInsteadOfResult(false);
 		}

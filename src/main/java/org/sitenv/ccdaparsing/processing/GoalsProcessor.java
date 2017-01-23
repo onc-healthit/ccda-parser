@@ -22,6 +22,11 @@ public class GoalsProcessor {
 		if(sectionElement != null)
 		{
 			goals = new CCDAGoals();
+			if(ApplicationUtil.checkForNullFlavourNI(sectionElement))
+			{
+				goals.setSectionNullFlavourWithNI(true);
+				return goals;
+			}
 			goals.setTemplateId(ApplicationUtil.readTemplateIdList((NodeList) xPath.compile("./templateId[not(@nullFlavor)]").
 										evaluate(sectionElement, XPathConstants.NODESET)));
 			

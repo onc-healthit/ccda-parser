@@ -4,6 +4,7 @@ import java.util.ArrayList;
 
 public class CCDAPOT extends CCDAXmlSnippet{
 	
+	private boolean isSectionNullFlavourWithNI;
 	private ArrayList<CCDAII>    templateId;
 	private CCDACode  sectionCode;
 	private CCDADataElement  narrativeText;
@@ -12,6 +13,14 @@ public class CCDAPOT extends CCDAXmlSnippet{
 	private ArrayList<CCDAMedicationActivity> plannedMedicationActivity; 
 	private ArrayList<CCDAEncounterActivity> plannedEncounter;
 	
+	
+	public boolean isSectionNullFlavourWithNI() {
+		return isSectionNullFlavourWithNI;
+	}
+
+	public void setSectionNullFlavourWithNI(boolean isSectionNullFlavourWithNI) {
+		this.isSectionNullFlavourWithNI = isSectionNullFlavourWithNI;
+	}
 	
 	public ArrayList<CCDAII> getTemplateId() {
 		return templateId;

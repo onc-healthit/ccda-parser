@@ -29,6 +29,11 @@ public class MedicationProcessor {
 		if(sectionElement != null)
 		{
 			medications = new CCDAMedication();
+			if(ApplicationUtil.checkForNullFlavourNI(sectionElement))
+			{
+				medications.setSectionNullFlavourWithNI(true);
+				return medications;
+			}
 			medications.setTemplateIds(ApplicationUtil.readTemplateIdList((NodeList) xPath.compile("./templateId[not(@nullFlavor)]").
 						evaluate(sectionElement, XPathConstants.NODESET)));
 			medications.setSectionCode(ApplicationUtil.readCode((Element) xPath.compile("./code[not(@nullFlavor)]").
@@ -44,10 +49,7 @@ public class MedicationProcessor {
 			
 			if(textElement!=null)
 			{
-				medications.getReferenceLinks().addAll((ApplicationUtil.readSectionTextReferences((NodeList) xPath.compile(".//td[not(@nullFlavor)]").
-					evaluate(textElement, XPathConstants.NODESET))));
-			
-				medications.getReferenceLinks().addAll((ApplicationUtil.readSectionTextReferences((NodeList) xPath.compile(".//content[not(@nullFlavor)]").
+				medications.getReferenceLinks().addAll((ApplicationUtil.readSectionTextReferences((NodeList) xPath.compile(".//*[not(@nullFlavor) and @ID]").
 					evaluate(textElement, XPathConstants.NODESET))));
 			}
 		}

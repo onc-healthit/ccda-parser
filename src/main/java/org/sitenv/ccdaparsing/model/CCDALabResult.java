@@ -9,6 +9,7 @@ public class CCDALabResult extends CCDAXmlSnippet{
 	private ArrayList<CCDALabResultOrg>	resultOrg;
 	private Boolean						isLabTestInsteadOfResult;
 	private ArrayList<String> referenceLinks;
+	private boolean isSectionNullFlavourWithNI;
 	
 	public CCDALabResult()
 	{
@@ -61,6 +62,14 @@ public class CCDALabResult extends CCDAXmlSnippet{
 
 	public void setReferenceLinks(ArrayList<String> referenceLinks) {
 		this.referenceLinks = referenceLinks;
+	}
+	
+	public boolean isSectionNullFlavourWithNI() {
+		return isSectionNullFlavourWithNI;
+	}
+
+	public void setSectionNullFlavourWithNI(boolean isSectionNullFlavourWithNI) {
+		this.isSectionNullFlavourWithNI = isSectionNullFlavourWithNI;
 	}
 
 	@Override

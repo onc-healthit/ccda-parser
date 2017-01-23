@@ -30,6 +30,11 @@ public class EncounterDiagnosesProcessor {
 		if(sectionElement != null)
 		{
 			encounters = new CCDAEncounter();
+			if(ApplicationUtil.checkForNullFlavourNI(sectionElement))
+			{
+				encounters.setSectionNullFlavourWithNI(true);
+				return encounters;
+			}
 			encounters.setTemplateId(ApplicationUtil.readTemplateIdList((NodeList) xPath.compile("./templateId[not(@nullFlavor)]").
 					evaluate(sectionElement, XPathConstants.NODESET)));
 			encounters.setSectionCode(ApplicationUtil.readCode((Element) xPath.compile("./code[not(@nullFlavor)]").
@@ -45,9 +50,7 @@ public class EncounterDiagnosesProcessor {
 			if(textElement!=null)
 			{
 			
-				encounters.getReferenceLinks().addAll((ApplicationUtil.readSectionTextReferences((NodeList) xPath.compile(".//td[not(@nullFlavor)]").
-					evaluate(textElement, XPathConstants.NODESET))));
-				encounters.getReferenceLinks().addAll((ApplicationUtil.readSectionTextReferences((NodeList) xPath.compile(".//content[not(@nullFlavor)]").
+				encounters.getReferenceLinks().addAll((ApplicationUtil.readSectionTextReferences((NodeList) xPath.compile(".//*[not(@nullFlavor) and @ID]").
 					evaluate(textElement, XPathConstants.NODESET))));
 			}
 		}
@@ -169,13 +172,13 @@ public class EncounterDiagnosesProcessor {
 			serviceDeliveryLoc.setLocationCode(ApplicationUtil.readCode((Element) xPath.compile("./code[not(@nullFlavor)]").
 											evaluate(serviceDeliveryLocElement, XPathConstants.NODE)));
 			
-			if(ApplicationUtil.readID((Element) xPath.compile("./id[not(@nullFlavor)]").
+			/*if(ApplicationUtil.readID((Element) xPath.compile("./id[not(@nullFlavor)]").
 					evaluate(serviceDeliveryLocElement, XPathConstants.NODE),"encounterServiceDeliveryLocation")!= null)
 			{
 			
 				idList.add(ApplicationUtil.readID((Element) xPath.compile("./id[not(@nullFlavor)]").
 					evaluate(serviceDeliveryLocElement, XPathConstants.NODE),"encounterServiceDeliveryLocation"));
-			}
+			}*/
 			
 			serviceDeliveryLoc.setName(ApplicationUtil.readTextContext((Element) xPath.compile("./playingEntity/name[not(@nullFlavor)]").
 					evaluate(serviceDeliveryLocElement, XPathConstants.NODE)));

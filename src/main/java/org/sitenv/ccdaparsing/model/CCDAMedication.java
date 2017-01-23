@@ -4,11 +4,20 @@ import java.util.ArrayList;
 
 public class CCDAMedication extends CCDAXmlSnippet{
 
+	private boolean isSectionNullFlavourWithNI;
 	private ArrayList<CCDAII>     				templateIds;
 	private CCDACode                 			sectionCode;
 	private ArrayList<CCDAMedicationActivity>  	medActivities;
 	private ArrayList<String> referenceLinks;
 	
+	public boolean isSectionNullFlavourWithNI() {
+		return isSectionNullFlavourWithNI;
+	}
+
+	public void setSectionNullFlavourWithNI(boolean isSectionNullFlavourWithNI) {
+		this.isSectionNullFlavourWithNI = isSectionNullFlavourWithNI;
+	}
+
 	public ArrayList<CCDAII> getTemplateIds() {
 		return templateIds;
 	}

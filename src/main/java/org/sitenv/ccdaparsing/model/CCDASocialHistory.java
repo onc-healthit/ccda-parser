@@ -4,11 +4,20 @@ import java.util.ArrayList;
 
 public class CCDASocialHistory extends CCDAXmlSnippet{
 
+	private boolean isSectionNullFlavourWithNI;
 	private ArrayList<CCDAII>					sectionTemplateIds;
 	private CCDACode							sectionCode;
 	private ArrayList<CCDASmokingStatus>		smokingStatus;
 	private ArrayList<CCDATobaccoUse>			tobaccoUse;
 	private ArrayList<String> referenceLinks;
+	
+	public boolean isSectionNullFlavourWithNI() {
+		return isSectionNullFlavourWithNI;
+	}
+
+	public void setSectionNullFlavourWithNI(boolean isSectionNullFlavourWithNI) {
+		this.isSectionNullFlavourWithNI = isSectionNullFlavourWithNI;
+	}
 	
 	public CCDASocialHistory()
 	{

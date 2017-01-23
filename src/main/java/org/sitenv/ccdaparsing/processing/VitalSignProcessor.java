@@ -29,6 +29,11 @@ public class VitalSignProcessor {
 		if(sectionElement != null)
 		{
 			vitalSigns = new CCDAVitalSigns();
+			if(ApplicationUtil.checkForNullFlavourNI(sectionElement))
+			{
+				vitalSigns.setSectionNullFlavourWithNI(true);
+				return vitalSigns;
+			}
 			vitalSigns.setTemplateIds(ApplicationUtil.readTemplateIdList((NodeList) xPath.compile("./templateId[not(@nullFlavor)]").
 					evaluate(sectionElement, XPathConstants.NODESET)));
 			vitalSigns.setSectionCode(ApplicationUtil.readCode((Element) xPath.compile("./code[not(@nullFlavor)]").
@@ -44,10 +49,7 @@ public class VitalSignProcessor {
 			
 			if(textElement!=null)
 			{
-				vitalSigns.getReferenceLinks().addAll((ApplicationUtil.readSectionTextReferences((NodeList) xPath.compile(".//td[not(@nullFlavor)]").
-					evaluate(textElement, XPathConstants.NODESET))));
-			
-				vitalSigns.getReferenceLinks().addAll((ApplicationUtil.readSectionTextReferences((NodeList) xPath.compile(".//content[not(@nullFlavor)]").
+				vitalSigns.getReferenceLinks().addAll((ApplicationUtil.readSectionTextReferences((NodeList) xPath.compile(".//*[not(@nullFlavor) and @ID]").
 					evaluate(textElement, XPathConstants.NODESET))));
 			}
 		}

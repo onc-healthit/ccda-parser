@@ -468,4 +468,9 @@ public class ApplicationUtil {
 	    xform.transform(new DOMSource(node), new StreamResult(buf));
 	    return(buf.toString());
 	}
+	
+	public static boolean checkForNullFlavourNI(Element element)
+	{
+		return element!=null && element.getAttribute("nullFlavor").equalsIgnoreCase("NI");
+	}
 }
