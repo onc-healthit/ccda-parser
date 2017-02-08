@@ -1,11 +1,10 @@
 package org.sitenv.ccdaparsing.model;
 
-public class CCDAID {
+public class CCDAID extends CCDAXmlSnippet {
 	
 	private String parentElementName;
 	private String root;
-	private String lineNumber;
-	private String xmlString;
+	private String extension;
 
 	public String getParentElementName() {
 		return parentElementName;
@@ -23,26 +22,24 @@ public class CCDAID {
 		this.root = root;
 	}
 	
-	public String getLineNumber() {
-		return lineNumber;
+	public String getExtension() {
+		return extension;
 	}
 
-	public void setLineNumber(String lineNumber) {
-		this.lineNumber = lineNumber;
-	}
-
-	public String getXmlString() {
-		return xmlString;
-	}
-
-	public void setXmlString(String xmlString) {
-		this.xmlString = xmlString;
+	public void setExtension(String extension) {
+		this.extension = extension;
 	}
 
 	@Override
 	public int hashCode() {
 		final int prime = 31;
-		int result = 1;
+		int result = super.hashCode();
+		result = prime * result
+				+ ((extension == null) ? 0 : extension.hashCode());
+		result = prime
+				* result
+				+ ((parentElementName == null) ? 0 : parentElementName
+						.hashCode());
 		result = prime * result + ((root == null) ? 0 : root.hashCode());
 		return result;
 	}
@@ -51,11 +48,21 @@ public class CCDAID {
 	public boolean equals(Object obj) {
 		if (this == obj)
 			return true;
-		if (obj == null)
+		if (!super.equals(obj))
 			return false;
 		if (getClass() != obj.getClass())
 			return false;
 		CCDAID other = (CCDAID) obj;
+		if (extension == null) {
+			if (other.extension != null)
+				return false;
+		} else if (!extension.equals(other.extension))
+			return false;
+		if (parentElementName == null) {
+			if (other.parentElementName != null)
+				return false;
+		} else if (!parentElementName.equals(other.parentElementName))
+			return false;
 		if (root == null) {
 			if (other.root != null)
 				return false;
@@ -63,5 +70,4 @@ public class CCDAID {
 			return false;
 		return true;
 	}
-
 }

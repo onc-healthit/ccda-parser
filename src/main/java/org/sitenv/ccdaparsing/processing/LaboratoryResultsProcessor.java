@@ -160,12 +160,27 @@ public class LaboratoryResultsProcessor {
 					{
 						CCDACode valueCode =  ApplicationUtil.readCode(resultValue);
 						resultObservation.setResults(new CCDAPQ(valueCode.getCode(),"CD"));
-					}else if(xsiType.equalsIgnoreCase("PQ"))
+					}else if(xsiType.equalsIgnoreCase("CO"))
+					{
+						CCDACode valueCode =  ApplicationUtil.readCode(resultValue);
+						resultObservation.setResults(new CCDAPQ(valueCode.getCode(),"CO"));
+					}
+					else if(xsiType.equalsIgnoreCase("PQ"))
 					{
 						resultObservation.setResults(ApplicationUtil.readQuantity(resultValue));
-					}else if (xsiType.equalsIgnoreCase("ST"))
+						resultObservation.getResults().setXsiType("PQ");
+					}else if (xsiType.equalsIgnoreCase("IVL_PQ"))
+					{
+						resultObservation.setResults(ApplicationUtil.readQuantity(resultValue));
+						resultObservation.getResults().setXsiType("IVL_PQ");
+					}
+					else if (xsiType.equalsIgnoreCase("ST"))
 					{
 						resultObservation.setResults(new CCDAPQ(resultValue.getTextContent(),"ST"));
+					}
+					else if (xsiType.equalsIgnoreCase("ED"))
+					{
+						resultObservation.setResults(new CCDAPQ(resultValue.getTextContent(),"ED"));
 					}
 				}
 			}
