@@ -61,7 +61,7 @@ public class SmokingStatusTest {
 		smokingStatusCode.setXpath("CD");
 		smokingStatusCode.setDisplayName("Current every day smoker");
 		
-		smokingStatus.setObservationTime(new CCDADataElement("20110227"));
+		smokingStatus.setObservationTime(new CCDAEffTime("20110227"));
 		smokingStatus.setSmokingStatusCode(smokingStatusCode);
 		smokingStatus.setSmokingStatusTemplateIds(smokingStatusTemplateIds);
 		smokingStatusList.add(smokingStatus);

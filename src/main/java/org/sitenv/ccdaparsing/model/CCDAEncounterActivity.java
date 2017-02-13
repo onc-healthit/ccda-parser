@@ -6,7 +6,7 @@ public class CCDAEncounterActivity extends CCDAXmlSnippet {
 
 	private ArrayList<CCDAII>                 templateId;
 	private CCDACode                          encounterTypeCode;
-	private CCDADataElement                       effectiveTime;
+	private CCDAEffTime                       effectiveTime;
 	private ArrayList<CCDAEncounterDiagnosis> diagnoses;
 	private ArrayList<CCDAServiceDeliveryLoc> sdLocs;
 	private ArrayList<CCDAProblemObs> indications;
@@ -28,11 +28,11 @@ public class CCDAEncounterActivity extends CCDAXmlSnippet {
 		this.encounterTypeCode = encounterTypeCode;
 	}
 
-	public CCDADataElement getEffectiveTime() {
+	public CCDAEffTime getEffectiveTime() {
 		return effectiveTime;
 	}
 
-	public void setEffectiveTime(CCDADataElement effectiveTime) {
+	public void setEffectiveTime(CCDAEffTime effectiveTime) {
 		this.effectiveTime = effectiveTime;
 	}
 
@@ -76,7 +76,7 @@ public class CCDAEncounterActivity extends CCDAXmlSnippet {
 	@Override
 	public int hashCode() {
 		final int prime = 31;
-		int result = 1;
+		int result = super.hashCode();
 		result = prime * result
 				+ ((diagnoses == null) ? 0 : diagnoses.hashCode());
 		result = prime * result
@@ -87,6 +87,8 @@ public class CCDAEncounterActivity extends CCDAXmlSnippet {
 						.hashCode());
 		result = prime * result
 				+ ((indications == null) ? 0 : indications.hashCode());
+		result = prime * result
+				+ ((referenceTexts == null) ? 0 : referenceTexts.hashCode());
 		result = prime * result + ((sdLocs == null) ? 0 : sdLocs.hashCode());
 		result = prime * result
 				+ ((templateId == null) ? 0 : templateId.hashCode());
@@ -97,7 +99,7 @@ public class CCDAEncounterActivity extends CCDAXmlSnippet {
 	public boolean equals(Object obj) {
 		if (this == obj)
 			return true;
-		if (obj == null)
+		if (!super.equals(obj))
 			return false;
 		if (getClass() != obj.getClass())
 			return false;
@@ -121,6 +123,11 @@ public class CCDAEncounterActivity extends CCDAXmlSnippet {
 			if (other.indications != null)
 				return false;
 		} else if (!indications.equals(other.indications))
+			return false;
+		if (referenceTexts == null) {
+			if (other.referenceTexts != null)
+				return false;
+		} else if (!referenceTexts.equals(other.referenceTexts))
 			return false;
 		if (sdLocs == null) {
 			if (other.sdLocs != null)

@@ -92,8 +92,8 @@ public class ImmunizationProcessor {
 				immunizationActivity.getReferenceTexts().addAll(ApplicationUtil.readTextReferences((NodeList) xPath.compile(".//text/reference[not(@nullFlavor)]").
 						evaluate(immunizationActivityElement, XPathConstants.NODESET)));
 				
-				immunizationActivity.setTime(ApplicationUtil.readDataElement((Element) xPath.compile("./effectiveTime[not(@nullFlavor)]").
-						evaluate(immunizationActivityElement, XPathConstants.NODE)));
+				immunizationActivity.setTime(ApplicationUtil.readEffectivetime((Element) xPath.compile("./effectiveTime[not(@nullFlavor)]").
+						evaluate(immunizationActivityElement, XPathConstants.NODE),xPath));
 				
 				immunizationActivity.setRouteCode(ApplicationUtil.readCode((Element) xPath.compile("./routeCode[not(@nullFlavor)]").
 						evaluate(immunizationActivityElement, XPathConstants.NODE)));

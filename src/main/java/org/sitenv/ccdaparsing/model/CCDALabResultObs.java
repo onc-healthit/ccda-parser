@@ -7,7 +7,7 @@ public class CCDALabResultObs extends CCDAXmlSnippet{
 	private ArrayList<CCDAII>   			templateIds;
 	private CCDACode						labCode;
 	private CCDACode						statusCode;
-	private CCDADataElement					measurementTime;
+	private CCDAEffTime					measurementTime;
 	private CCDAPQ							results;
 	private CCDACode						resultCode;
 	private CCDACode						interpretationCode;
@@ -42,11 +42,11 @@ public class CCDALabResultObs extends CCDAXmlSnippet{
 		this.statusCode = statusCode;
 	}
 
-	public CCDADataElement getMeasurementTime() {
+	public CCDAEffTime getMeasurementTime() {
 		return measurementTime;
 	}
 
-	public void setMeasurementTime(CCDADataElement measurementTime) {
+	public void setMeasurementTime(CCDAEffTime measurementTime) {
 		this.measurementTime = measurementTime;
 	}
 
@@ -85,7 +85,7 @@ public class CCDALabResultObs extends CCDAXmlSnippet{
 	@Override
 	public int hashCode() {
 		final int prime = 31;
-		int result = 1;
+		int result = super.hashCode();
 		result = prime
 				* result
 				+ ((interpretationCode == null) ? 0 : interpretationCode
@@ -109,7 +109,7 @@ public class CCDALabResultObs extends CCDAXmlSnippet{
 	public boolean equals(Object obj) {
 		if (this == obj)
 			return true;
-		if (obj == null)
+		if (!super.equals(obj))
 			return false;
 		if (getClass() != obj.getClass())
 			return false;
@@ -156,6 +156,5 @@ public class CCDALabResultObs extends CCDAXmlSnippet{
 			return false;
 		return true;
 	}
-	
 }
 

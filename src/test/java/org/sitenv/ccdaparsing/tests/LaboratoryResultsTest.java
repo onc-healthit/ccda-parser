@@ -127,7 +127,7 @@ public class LaboratoryResultsTest {
 		
 		resultsObsOne.setResultCode(resultCode);
 		resultsObsOne.setStatusCode(statusCode);
-		resultsObsOne.setMeasurementTime(new CCDADataElement("20150622"));
+		resultsObsOne.setMeasurementTime(new CCDAEffTime("20150622"));
 		
 		CCDACode interpretationCode = new CCDACode();
 		interpretationCode.setCode("N");
@@ -141,7 +141,7 @@ public class LaboratoryResultsTest {
 		
 		resultsObsTwo.setTemplateIds(resultsObsTemplateIds);
 		resultsObsTwo.setInterpretationCode(interpretationCode);
-		resultsObsTwo.setMeasurementTime(new CCDADataElement("20150622"));
+		resultsObsTwo.setMeasurementTime(new CCDAEffTime("20150622"));
 		
 		ArrayList<CCDAPQ> referenceRangeList = new ArrayList<CCDAPQ>();
 		CCDAPQ referenceRangeOne = new CCDAPQ();

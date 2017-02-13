@@ -134,6 +134,7 @@ public class MedicationProcessor {
 		if (!ApplicationUtil.isEmpty(duration.getAttribute("value")))
 		{
 			medicationDuration.setSingleAdministration(duration.getAttribute("value"));
+			medicationDuration.setSingleAdministrationValuePresent(true);
 		}else
 		{
 			medicationDuration = ApplicationUtil.readEffectivetime(duration,xPath);

@@ -142,8 +142,8 @@ public class LaboratoryResultsProcessor {
 			resultObservation.setStatusCode(ApplicationUtil.readCode((Element) xPath.compile("./statusCode[not(@nullFlavor)]").
 					evaluate(resultObservationElement, XPathConstants.NODE)));
 			
-			resultObservation.setMeasurementTime(ApplicationUtil.readDataElement((Element) xPath.compile("./effectiveTime[not(@nullFlavor)]").
-					evaluate(resultObservationElement, XPathConstants.NODE)));
+			resultObservation.setMeasurementTime(ApplicationUtil.readEffectivetime((Element) xPath.compile("./effectiveTime[not(@nullFlavor)]").
+					evaluate(resultObservationElement, XPathConstants.NODE), xPath));
 			
 			resultObservation.setInterpretationCode(ApplicationUtil.readCode((Element) xPath.compile("./interpretationCode[not(@nullFlavor)]").
 					evaluate(resultObservationElement, XPathConstants.NODE)));

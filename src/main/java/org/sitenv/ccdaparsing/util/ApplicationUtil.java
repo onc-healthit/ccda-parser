@@ -144,6 +144,15 @@ public class ApplicationUtil {
 		{
 			effectiveTime = new CCDAEffTime();
 			
+			if(!isEmpty(effectiveTimeElement.getAttribute("value")))
+			{
+				effectiveTime.setValue(effectiveTimeElement.getAttribute("value"));
+				effectiveTime.setValuePresent(true);
+			}else
+			{
+				effectiveTime.setValuePresent(false);
+			}
+			
 			effectiveTime.setLow(readDataElement((Element) xPath.compile("./low[not(@nullFlavor)]").
 	    				evaluate(effectiveTimeElement, XPathConstants.NODE)));
 			effectiveTime.setHigh(readDataElement((Element) xPath.compile("./high[not(@nullFlavor)]").
