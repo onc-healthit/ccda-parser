@@ -94,7 +94,7 @@ public class VitalSignTest {
 		
 		vitalObsOne.setInterpretationCode(interpretationCode);
 		
-		CCDADataElement measurementTime = new CCDADataElement("20150622");
+		CCDAEffTime measurementTime = new CCDAEffTime("20150622");
 		vitalObsOne.setMeasurementTime(measurementTime);
 		vitalObsOne.setStatusCode(statusCode);
 		

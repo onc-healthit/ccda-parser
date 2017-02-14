@@ -94,8 +94,8 @@ public class EncounterDiagnosesProcessor {
 				encounterActivity.getReferenceTexts().addAll(ApplicationUtil.readTextReferences((NodeList) xPath.compile(".//text/reference[not(@nullFlavor)]").
 						evaluate(encounterActivityElement, XPathConstants.NODESET)));
 				
-				encounterActivity.setEffectiveTime(ApplicationUtil.readDataElement((Element) xPath.compile("./effectiveTime[not(@nullFlavor)]").
-															evaluate(encounterActivityElement, XPathConstants.NODE)));
+				encounterActivity.setEffectiveTime(ApplicationUtil.readEffectivetime((Element) xPath.compile("./effectiveTime[not(@nullFlavor)]").
+															evaluate(encounterActivityElement, XPathConstants.NODE),xPath));
 				
 				encounterActivity.setSdLocs(readServiceDeliveryLocators((NodeList) xPath.compile("./participant/participantRole[not(@nullFlavor)]").
 																evaluate(encounterActivityElement, XPathConstants.NODESET), xPath, idList));

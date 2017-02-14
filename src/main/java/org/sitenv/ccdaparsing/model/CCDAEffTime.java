@@ -6,10 +6,15 @@ public class CCDAEffTime extends CCDAXmlSnippet{
 	private Boolean         lowPresent;
 	private CCDADataElement high;
 	private Boolean         highPresent;
-	private CCDADataElement value;
+	private String value;
 	private Boolean         valuePresent;
 	private String singleAdministration;
+	private boolean singleAdministrationValuePresent;
 	
+	public CCDAEffTime(String value)
+	{
+		this.value = value;
+	}
 	
 	public CCDADataElement getLow() {
 		return low;
@@ -43,11 +48,11 @@ public class CCDAEffTime extends CCDAXmlSnippet{
 		this.highPresent = highPresent;
 	}
 
-	public CCDADataElement getValue() {
+	public String getValue() {
 		return value;
 	}
 
-	public void setValue(CCDADataElement value) {
+	public void setValue(String value) {
 		this.value = value;
 	}
 
@@ -66,6 +71,15 @@ public class CCDAEffTime extends CCDAXmlSnippet{
 	public void setSingleAdministration(String singleAdministration) {
 		this.singleAdministration = singleAdministration;
 	}
+	
+	public boolean isSingleAdministrationValuePresent() {
+		return singleAdministrationValuePresent;
+	}
+
+	public void setSingleAdministrationValuePresent(
+			boolean singleAdministrationValuePresent) {
+		this.singleAdministrationValuePresent = singleAdministrationValuePresent;
+	}
 
 	public CCDAEffTime()
 	{
@@ -75,7 +89,7 @@ public class CCDAEffTime extends CCDAXmlSnippet{
 	@Override
 	public int hashCode() {
 		final int prime = 31;
-		int result = 1;
+		int result = super.hashCode();
 		result = prime * result + ((high == null) ? 0 : high.hashCode());
 		result = prime * result
 				+ ((highPresent == null) ? 0 : highPresent.hashCode());
@@ -86,6 +100,8 @@ public class CCDAEffTime extends CCDAXmlSnippet{
 				* result
 				+ ((singleAdministration == null) ? 0 : singleAdministration
 						.hashCode());
+		result = prime * result
+				+ (singleAdministrationValuePresent ? 1231 : 1237);
 		result = prime * result + ((value == null) ? 0 : value.hashCode());
 		result = prime * result
 				+ ((valuePresent == null) ? 0 : valuePresent.hashCode());
@@ -96,7 +112,7 @@ public class CCDAEffTime extends CCDAXmlSnippet{
 	public boolean equals(Object obj) {
 		if (this == obj)
 			return true;
-		if (obj == null)
+		if (!super.equals(obj))
 			return false;
 		if (getClass() != obj.getClass())
 			return false;
@@ -126,6 +142,8 @@ public class CCDAEffTime extends CCDAXmlSnippet{
 				return false;
 		} else if (!singleAdministration.equals(other.singleAdministration))
 			return false;
+		if (singleAdministrationValuePresent != other.singleAdministrationValuePresent)
+			return false;
 		if (value == null) {
 			if (other.value != null)
 				return false;
@@ -138,6 +156,4 @@ public class CCDAEffTime extends CCDAXmlSnippet{
 			return false;
 		return true;
 	}
-	
-	
 }

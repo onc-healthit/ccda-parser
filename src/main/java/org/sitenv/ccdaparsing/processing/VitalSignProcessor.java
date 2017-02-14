@@ -136,8 +136,8 @@ public class VitalSignProcessor {
 			vitalObservation.setStatusCode(ApplicationUtil.readCode((Element) xPath.compile("./statusCode[not(@nullFlavor)]").
 					evaluate(resultObservationElement, XPathConstants.NODE)));
 			
-			vitalObservation.setMeasurementTime(ApplicationUtil.readDataElement((Element) xPath.compile("./effectiveTime[not(@nullFlavor)]").
-					evaluate(resultObservationElement, XPathConstants.NODE)));
+			vitalObservation.setMeasurementTime(ApplicationUtil.readEffectivetime((Element) xPath.compile("./effectiveTime[not(@nullFlavor)]").
+					evaluate(resultObservationElement, XPathConstants.NODE),xPath));
 			
 			vitalObservation.setInterpretationCode(ApplicationUtil.readCode((Element) xPath.compile("./interpretationCode[not(@nullFlavor)]").
 					evaluate(resultObservationElement, XPathConstants.NODE)));
@@ -156,6 +156,7 @@ public class VitalSignProcessor {
 					}else if(xsiType.equalsIgnoreCase("PQ"))
 					{
 						vitalObservation.setVsResult(ApplicationUtil.readQuantity(vsResult));
+						vitalObservation.getVsResult().setXsiType("PQ");
 					}else if (xsiType.equalsIgnoreCase("ST"))
 					{
 						vitalObservation.setVsResult(new CCDAPQ(vsResult.getTextContent(),"ST"));

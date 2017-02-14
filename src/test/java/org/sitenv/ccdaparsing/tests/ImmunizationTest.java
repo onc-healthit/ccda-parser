@@ -16,6 +16,7 @@ import org.sitenv.ccdaparsing.model.CCDAAddress;
 import org.sitenv.ccdaparsing.model.CCDACode;
 import org.sitenv.ccdaparsing.model.CCDAConsumable;
 import org.sitenv.ccdaparsing.model.CCDADataElement;
+import org.sitenv.ccdaparsing.model.CCDAEffTime;
 import org.sitenv.ccdaparsing.model.CCDAID;
 import org.sitenv.ccdaparsing.model.CCDAII;
 import org.sitenv.ccdaparsing.model.CCDAImmunization;
@@ -58,7 +59,7 @@ public class ImmunizationTest {
 		immuActivitiesTemplateIds.add(immuActivitiesTemplateIdTwo);
 		
 		immuActivityOne.setTemplateIds(immuActivitiesTemplateIds);
-		immuActivityOne.setTime(new CCDADataElement("20140510"));
+		immuActivityOne.setTime(new CCDAEffTime("20140510"));
 		
 		CCDACode routeCode = new CCDACode();
 		routeCode.setCode("C28161");
@@ -128,7 +129,7 @@ public class ImmunizationTest {
 		CCDAImmunizationActivity immuActivityTwo = new CCDAImmunizationActivity();
 		
 		immuActivityTwo.setTemplateIds(immuActivitiesTemplateIds);
-		immuActivityTwo.setTime(new CCDADataElement("20120104"));
+		immuActivityTwo.setTime(new CCDAEffTime("20120104"));
 		immuActivityTwo.setRouteCode(routeCode);
 		immuActivityTwo.setDoseQuantity(doseQuantity);
 		
@@ -158,7 +159,7 @@ public class ImmunizationTest {
 		CCDAImmunizationActivity immuActivityThree = new CCDAImmunizationActivity();
 		
 		immuActivityThree.setTemplateIds(immuActivitiesTemplateIds);
-		immuActivityThree.setTime(new CCDADataElement("20150622"));
+		immuActivityThree.setTime(new CCDAEffTime("20150622"));
 		immuActivityThree.setRouteCode(routeCode);
 		
 		CCDAConsumable consumableThree = new CCDAConsumable();

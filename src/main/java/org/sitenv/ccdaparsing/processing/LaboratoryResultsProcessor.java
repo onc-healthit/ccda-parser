@@ -142,8 +142,8 @@ public class LaboratoryResultsProcessor {
 			resultObservation.setStatusCode(ApplicationUtil.readCode((Element) xPath.compile("./statusCode[not(@nullFlavor)]").
 					evaluate(resultObservationElement, XPathConstants.NODE)));
 			
-			resultObservation.setMeasurementTime(ApplicationUtil.readDataElement((Element) xPath.compile("./effectiveTime[not(@nullFlavor)]").
-					evaluate(resultObservationElement, XPathConstants.NODE)));
+			resultObservation.setMeasurementTime(ApplicationUtil.readEffectivetime((Element) xPath.compile("./effectiveTime[not(@nullFlavor)]").
+					evaluate(resultObservationElement, XPathConstants.NODE), xPath));
 			
 			resultObservation.setInterpretationCode(ApplicationUtil.readCode((Element) xPath.compile("./interpretationCode[not(@nullFlavor)]").
 					evaluate(resultObservationElement, XPathConstants.NODE)));
@@ -160,12 +160,27 @@ public class LaboratoryResultsProcessor {
 					{
 						CCDACode valueCode =  ApplicationUtil.readCode(resultValue);
 						resultObservation.setResults(new CCDAPQ(valueCode.getCode(),"CD"));
-					}else if(xsiType.equalsIgnoreCase("PQ"))
+					}else if(xsiType.equalsIgnoreCase("CO"))
+					{
+						CCDACode valueCode =  ApplicationUtil.readCode(resultValue);
+						resultObservation.setResults(new CCDAPQ(valueCode.getCode(),"CO"));
+					}
+					else if(xsiType.equalsIgnoreCase("PQ"))
 					{
 						resultObservation.setResults(ApplicationUtil.readQuantity(resultValue));
-					}else if (xsiType.equalsIgnoreCase("ST"))
+						resultObservation.getResults().setXsiType("PQ");
+					}else if (xsiType.equalsIgnoreCase("IVL_PQ"))
+					{
+						resultObservation.setResults(ApplicationUtil.readQuantity(resultValue));
+						resultObservation.getResults().setXsiType("IVL_PQ");
+					}
+					else if (xsiType.equalsIgnoreCase("ST"))
 					{
 						resultObservation.setResults(new CCDAPQ(resultValue.getTextContent(),"ST"));
+					}
+					else if (xsiType.equalsIgnoreCase("ED"))
+					{
+						resultObservation.setResults(new CCDAPQ(resultValue.getTextContent(),"ED"));
 					}
 				}
 			}

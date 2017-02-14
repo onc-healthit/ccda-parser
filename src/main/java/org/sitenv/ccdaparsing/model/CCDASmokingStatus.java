@@ -6,7 +6,7 @@ public class CCDASmokingStatus extends CCDAXmlSnippet{
 
 	private ArrayList<CCDAII>					smokingStatusTemplateIds;
 	private CCDACode							smokingStatusCode;
-	private CCDADataElement						observationTime;
+	private CCDAEffTime						observationTime;
 	private ArrayList<CCDADataElement> referenceTexts;
 	
 	public CCDASmokingStatus()
@@ -30,14 +30,14 @@ public class CCDASmokingStatus extends CCDAXmlSnippet{
 		this.smokingStatusCode = smokingStatusCode;
 	}
 
-	public CCDADataElement getObservationTime() {
+	public CCDAEffTime getObservationTime() {
 		return observationTime;
 	}
 
-	public void setObservationTime(CCDADataElement observationTime) {
+	public void setObservationTime(CCDAEffTime observationTime) {
 		this.observationTime = observationTime;
 	}
-	
+
 	public ArrayList<CCDADataElement> getReferenceTexts() {
 		if(this.referenceTexts == null)
 		{
@@ -54,9 +54,11 @@ public class CCDASmokingStatus extends CCDAXmlSnippet{
 	@Override
 	public int hashCode() {
 		final int prime = 31;
-		int result = 1;
+		int result = super.hashCode();
 		result = prime * result
 				+ ((observationTime == null) ? 0 : observationTime.hashCode());
+		result = prime * result
+				+ ((referenceTexts == null) ? 0 : referenceTexts.hashCode());
 		result = prime
 				* result
 				+ ((smokingStatusCode == null) ? 0 : smokingStatusCode
@@ -72,7 +74,7 @@ public class CCDASmokingStatus extends CCDAXmlSnippet{
 	public boolean equals(Object obj) {
 		if (this == obj)
 			return true;
-		if (obj == null)
+		if (!super.equals(obj))
 			return false;
 		if (getClass() != obj.getClass())
 			return false;
@@ -81,6 +83,11 @@ public class CCDASmokingStatus extends CCDAXmlSnippet{
 			if (other.observationTime != null)
 				return false;
 		} else if (!observationTime.equals(other.observationTime))
+			return false;
+		if (referenceTexts == null) {
+			if (other.referenceTexts != null)
+				return false;
+		} else if (!referenceTexts.equals(other.referenceTexts))
 			return false;
 		if (smokingStatusCode == null) {
 			if (other.smokingStatusCode != null)
@@ -95,6 +102,4 @@ public class CCDASmokingStatus extends CCDAXmlSnippet{
 			return false;
 		return true;
 	}
-	
-	
 }

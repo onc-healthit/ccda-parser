@@ -4,7 +4,7 @@ import java.util.ArrayList;
 
 public class CCDAImmunizationActivity extends CCDAXmlSnippet {
 	private ArrayList<CCDAII>     				templateIds;
-	private CCDADataElement							time;
+	private CCDAEffTime							time;
 	private CCDACode							routeCode;
 	private CCDACode							approachSiteCode;
 	private CCDAPQ								doseQuantity;
@@ -26,11 +26,11 @@ public class CCDAImmunizationActivity extends CCDAXmlSnippet {
 		this.templateIds = templateIds;
 	}
 
-	public CCDADataElement getTime() {
+	public CCDAEffTime getTime() {
 		return time;
 	}
 
-	public void setTime(CCDADataElement time) {
+	public void setTime(CCDAEffTime time) {
 		this.time = time;
 	}
 
@@ -98,7 +98,7 @@ public class CCDAImmunizationActivity extends CCDAXmlSnippet {
 	@Override
 	public int hashCode() {
 		final int prime = 31;
-		int result = 1;
+		int result = super.hashCode();
 		result = prime * result
 				+ ((adminUnitCode == null) ? 0 : adminUnitCode.hashCode());
 		result = prime
@@ -111,6 +111,8 @@ public class CCDAImmunizationActivity extends CCDAXmlSnippet {
 		result = prime * result
 				+ ((organization == null) ? 0 : organization.hashCode());
 		result = prime * result
+				+ ((referenceTexts == null) ? 0 : referenceTexts.hashCode());
+		result = prime * result
 				+ ((routeCode == null) ? 0 : routeCode.hashCode());
 		result = prime * result
 				+ ((templateIds == null) ? 0 : templateIds.hashCode());
@@ -122,7 +124,7 @@ public class CCDAImmunizationActivity extends CCDAXmlSnippet {
 	public boolean equals(Object obj) {
 		if (this == obj)
 			return true;
-		if (obj == null)
+		if (!super.equals(obj))
 			return false;
 		if (getClass() != obj.getClass())
 			return false;
@@ -151,6 +153,11 @@ public class CCDAImmunizationActivity extends CCDAXmlSnippet {
 			if (other.organization != null)
 				return false;
 		} else if (!organization.equals(other.organization))
+			return false;
+		if (referenceTexts == null) {
+			if (other.referenceTexts != null)
+				return false;
+		} else if (!referenceTexts.equals(other.referenceTexts))
 			return false;
 		if (routeCode == null) {
 			if (other.routeCode != null)

@@ -101,6 +101,11 @@ public class ApplicationUtil {
 				id.setRoot(idElement.getAttribute("root"));
 			}
 			
+			if(!isEmpty(idElement.getAttribute("extension")))
+			{
+				id.setExtension(idElement.getAttribute("extension"));
+			}
+			
 			id.setParentElementName(parentElement);
 			
 			id.setXmlString(nodeToString((Node)idElement));
@@ -138,6 +143,15 @@ public class ApplicationUtil {
 		if(effectiveTimeElement != null)
 		{
 			effectiveTime = new CCDAEffTime();
+			
+			if(!isEmpty(effectiveTimeElement.getAttribute("value")))
+			{
+				effectiveTime.setValue(effectiveTimeElement.getAttribute("value"));
+				effectiveTime.setValuePresent(true);
+			}else
+			{
+				effectiveTime.setValuePresent(false);
+			}
 			
 			effectiveTime.setLow(readDataElement((Element) xPath.compile("./low[not(@nullFlavor)]").
 	    				evaluate(effectiveTimeElement, XPathConstants.NODE)));
@@ -315,7 +329,6 @@ public class ApplicationUtil {
 			{
 				quantity.setValue(quantityElement.getAttribute("value"));
 			}
-			quantity.setXsiType("PQ");
 			quantityElement.setAttribute("xmlns:xsi", "http://www.w3.org/2001/XMLSchema-instance");
 			quantity.setXmlString(nodeToString((Node)quantityElement));
 			quantity.setLineNumber(quantityElement.getUserData("lineNumber").toString());

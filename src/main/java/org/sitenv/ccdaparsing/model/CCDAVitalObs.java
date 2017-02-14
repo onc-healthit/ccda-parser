@@ -6,7 +6,7 @@ public class CCDAVitalObs extends CCDAXmlSnippet{
 	private ArrayList<CCDAII>   			templateIds;
 	private CCDACode						vsCode;
 	private CCDACode						statusCode;
-	private CCDADataElement					measurementTime;
+	private CCDAEffTime					measurementTime;
 	private CCDAPQ							vsResult;
 	private CCDACode						interpretationCode;
 	private ArrayList<CCDAPQ>			    referenceValue;
@@ -40,11 +40,11 @@ public class CCDAVitalObs extends CCDAXmlSnippet{
 		this.statusCode = statusCode;
 	}
 
-	public CCDADataElement getMeasurementTime() {
+	public CCDAEffTime getMeasurementTime() {
 		return measurementTime;
 	}
 
-	public void setMeasurementTime(CCDADataElement measurementTime) {
+	public void setMeasurementTime(CCDAEffTime measurementTime) {
 		this.measurementTime = measurementTime;
 	}
 
@@ -75,7 +75,7 @@ public class CCDAVitalObs extends CCDAXmlSnippet{
 	@Override
 	public int hashCode() {
 		final int prime = 31;
-		int result = 1;
+		int result = super.hashCode();
 		result = prime
 				* result
 				+ ((interpretationCode == null) ? 0 : interpretationCode
@@ -98,7 +98,7 @@ public class CCDAVitalObs extends CCDAXmlSnippet{
 	public boolean equals(Object obj) {
 		if (this == obj)
 			return true;
-		if (obj == null)
+		if (!super.equals(obj))
 			return false;
 		if (getClass() != obj.getClass())
 			return false;

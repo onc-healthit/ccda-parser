@@ -101,8 +101,8 @@ public class SmokingStatusProcessor {
 			smokingStatus.setSmokingStatusCode(ApplicationUtil.readCode((Element) xPath.compile("./value[not(@nullFlavor)]").
 					evaluate(smokingStatusElement, XPathConstants.NODE)));
 			
-			smokingStatus.setObservationTime(ApplicationUtil.readDataElement((Element) xPath.compile("./effectiveTime[not(@nullFlavor)]").
-					evaluate(smokingStatusElement, XPathConstants.NODE)));
+			smokingStatus.setObservationTime(ApplicationUtil.readEffectivetime((Element) xPath.compile("./effectiveTime[not(@nullFlavor)]").
+					evaluate(smokingStatusElement, XPathConstants.NODE),xPath));
 			
 			smokingStatusList.add(smokingStatus);
 		}

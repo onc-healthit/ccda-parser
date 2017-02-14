@@ -71,7 +71,7 @@ public class EncounterDiagnosisTest {
 		encActivityOne.setEncounterTypeCode(encounterTypeCode);
 		
 		// Creating Effective time Object
-		CCDADataElement effectiveTime = new CCDADataElement();
+		CCDAEffTime effectiveTime = new CCDAEffTime();
 		effectiveTime.setValue("20150622");
 		encActivityOne.setEffectiveTime(effectiveTime);
 		

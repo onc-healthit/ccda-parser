@@ -100,7 +100,7 @@ public class LaboratoryTestTestCases {
 		
 		resultsObsOne.setResultCode(resultCode);
 		resultsObsOne.setStatusCode(statusCode);
-		resultsObsOne.setMeasurementTime(new CCDADataElement("20150622"));
+		resultsObsOne.setMeasurementTime(new CCDAEffTime("20150622"));
 		
 		
 		resultsObsList.add(resultsObsOne);
