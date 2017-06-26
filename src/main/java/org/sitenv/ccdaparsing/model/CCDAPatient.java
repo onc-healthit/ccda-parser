@@ -1,6 +1,9 @@
 package org.sitenv.ccdaparsing.model;
 
 import java.util.ArrayList;
+import java.util.List;
+
+import org.w3c.dom.Element;
 
 public class CCDAPatient extends CCDAXmlSnippet{
 	private CCDADataElement firstName;
@@ -20,6 +23,9 @@ public class CCDAPatient extends CCDAXmlSnippet{
 	private CCDADataElement sex;
 	private ArrayList<CCDADataElement> telecom;
 	private CCDAAddress birthPlace;
+	private List<Element> givenNameElementList; 
+	private boolean givenNameContainsQualifier;
+	private CCDADataElement patientLegalNameElement;
 	
 	public CCDADataElement getFirstName() {
 		return firstName;
@@ -163,6 +169,34 @@ public class CCDAPatient extends CCDAXmlSnippet{
 
 	public void setSdtcRaceCodes(ArrayList<CCDACode> sdtcRaceCodes) {
 		this.sdtcRaceCodes = sdtcRaceCodes;
+	}
+	
+	public List<Element> getGivenNameElementList() {
+		if(givenNameElementList == null)
+		{
+			givenNameElementList = new ArrayList<Element>();
+		}
+		return givenNameElementList;
+	}
+
+	public void setGivenNameElementList(List<Element> givenNameElementList) {
+		this.givenNameElementList = givenNameElementList;
+	}
+
+	public boolean isGivenNameContainsQualifier() {
+		return givenNameContainsQualifier;
+	}
+
+	public void setGivenNameContainsQualifier(boolean givenNameContainsQualifier) {
+		this.givenNameContainsQualifier = givenNameContainsQualifier;
+	}
+	
+	public CCDADataElement getPatientLegalNameElement() {
+		return patientLegalNameElement;
+	}
+
+	public void setPatientLegalNameElement(CCDADataElement patientLegalNameElement) {
+		this.patientLegalNameElement = patientLegalNameElement;
 	}
 
 	@Override

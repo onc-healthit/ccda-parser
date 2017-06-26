@@ -9,6 +9,7 @@ public class CCDASocialHistory extends CCDAXmlSnippet{
 	private CCDACode							sectionCode;
 	private ArrayList<CCDASmokingStatus>		smokingStatus;
 	private ArrayList<CCDATobaccoUse>			tobaccoUse;
+	private CCDASocialHistoryGenderObs          socialHistoryGenderObs;
 	private ArrayList<String> referenceLinks;
 	
 	public boolean isSectionNullFlavourWithNI() {
@@ -66,6 +67,14 @@ public class CCDASocialHistory extends CCDAXmlSnippet{
 
 	public void setReferenceLinks(ArrayList<String> referenceLinks) {
 		this.referenceLinks = referenceLinks;
+	}
+	
+	public CCDASocialHistoryGenderObs getSocialHistoryGenderObs() {
+		return socialHistoryGenderObs;
+	}
+
+	public void setSocialHistoryGenderObs(CCDASocialHistoryGenderObs socialHistoryGenderObs) {
+		this.socialHistoryGenderObs = socialHistoryGenderObs;
 	}
 
 	@Override
