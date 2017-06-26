@@ -32,6 +32,7 @@ public class ApplicationConstants {
     public static String SMOKING_EXPRESSION = "/ClinicalDocument/component/structuredBody/component/section[(not(@nullFlavor) or @nullFlavor='NI') and templateId[@root='2.16.840.1.113883.10.20.22.2.17']]";
     public static String SMOKING_STATUS_EXPRESSION = "./entry/observation[not(@nullFlavor) and templateId[@root='2.16.840.1.113883.10.20.22.4.78']]";
     public static String TOBACCOUSE_EXPRESSION = "./entry/observation[not(@nullFlavor) and templateId[@root='2.16.840.1.113883.10.20.22.4.85']]";
+    public static String SOCIAL_HISTORY_GENDER_EXPRESSION = "./entry/observation[not(@nullFlavor) and templateId[@root='2.16.840.1.113883.10.20.22.4.200']]";
     
     public static String RESULTS_EXPRESSION = "/ClinicalDocument/component/structuredBody/component/section[(not(@nullFlavor) or @nullFlavor='NI') and templateId[@root='2.16.840.1.113883.10.20.22.2.3.1']]";
     public static String LAB_RESULTS_EXPRESSION = "./entry/organizer[not(@nullFlavor) and statusCode[@code='completed']]";

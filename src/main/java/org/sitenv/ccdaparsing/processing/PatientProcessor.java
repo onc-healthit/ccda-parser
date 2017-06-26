@@ -7,6 +7,7 @@ import javax.xml.xpath.XPath;
 import javax.xml.xpath.XPathConstants;
 import javax.xml.xpath.XPathExpressionException;
 
+import org.sitenv.ccdaparsing.model.CCDADataElement;
 import org.sitenv.ccdaparsing.model.CCDAPL;
 import org.sitenv.ccdaparsing.model.CCDAPatient;
 import org.sitenv.ccdaparsing.util.ApplicationConstants;
@@ -42,8 +43,8 @@ public class PatientProcessor {
 	            patient.setBirthPlace(ApplicationUtil.readAddress((Element) xPath.compile("./patient/birthplace/place/addr[not(@nullFlavor)]").
 	    				evaluate(patientRoleElement, XPathConstants.NODE), xPath));
 	            
-	            //Getting name of the patient
-	            readName((Element) xPath.compile("./patient/name[not(@nullFlavor)]").
+	            //Getting Legal name of the patient
+	            readName((Element) xPath.compile("./patient/name[not(@nullFlavor) and @use='L']").
 	    				evaluate(patientRoleElement, XPathConstants.NODE), patient , xPath);
 	           
 	            //Get Gender of the patient
@@ -98,10 +99,16 @@ public class PatientProcessor {
 	}
 	
 	
-	public static void readName(Element nameElement,CCDAPatient patient,XPath xPath) throws XPathExpressionException
+	public static void readName(Element nameElement,CCDAPatient patient,XPath xPath) throws XPathExpressionException,TransformerException
 	{
+		CCDADataElement patientLegalNameElement;
 		if(nameElement != null)
 		{
+			patientLegalNameElement = new CCDADataElement();
+			nameElement.setAttribute("xmlns:xsi", "http://www.w3.org/2001/XMLSchema-instance");
+			patientLegalNameElement.setLineNumber(nameElement.getUserData("lineNumber") + " - " + nameElement.getUserData("endLineNumber") );
+			patientLegalNameElement.setXmlString(ApplicationUtil.nodeToString((Node)nameElement));
+			patient.setPatientLegalNameElement(patientLegalNameElement);
 			NodeList giveNameNodeList = (NodeList) xPath.compile("./given[not(@nullFlavor)]").
 					evaluate(nameElement, XPathConstants.NODESET);
 			for (int i = 0; i < giveNameNodeList.getLength(); i++) {
@@ -109,10 +116,14 @@ public class PatientProcessor {
 				if(!ApplicationUtil.isEmpty(givenNameElement.getAttribute("qualifier")))
 				{
 					patient.setPreviousName(ApplicationUtil.readTextContext(givenNameElement));
+					patient.setGivenNameContainsQualifier(true);
+					patient.getGivenNameElementList().add(givenNameElement);
 				}else if (i == 0) {
 					patient.setFirstName(ApplicationUtil.readTextContext(givenNameElement));
+					patient.getGivenNameElementList().add(givenNameElement);
 				}else {
 					patient.setMiddleName(ApplicationUtil.readTextContext(givenNameElement));
+					patient.getGivenNameElementList().add(givenNameElement);
 				}
 			}
 			

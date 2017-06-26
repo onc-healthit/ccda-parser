@@ -11,6 +11,7 @@ import javax.xml.xpath.XPathExpressionException;
 import org.sitenv.ccdaparsing.model.CCDAID;
 import org.sitenv.ccdaparsing.model.CCDASmokingStatus;
 import org.sitenv.ccdaparsing.model.CCDASocialHistory;
+import org.sitenv.ccdaparsing.model.CCDASocialHistoryGenderObs;
 import org.sitenv.ccdaparsing.model.CCDATobaccoUse;
 import org.sitenv.ccdaparsing.util.ApplicationConstants;
 import org.sitenv.ccdaparsing.util.ApplicationUtil;
@@ -47,6 +48,9 @@ public class SmokingStatusProcessor {
 			NodeList tobaccoUseNodeList = (NodeList) xPath.compile(ApplicationConstants.TOBACCOUSE_EXPRESSION).
 				evaluate(sectionElement, XPathConstants.NODESET);
 			
+			Element genderObsElement = (Element) xPath.compile(ApplicationConstants.SOCIAL_HISTORY_GENDER_EXPRESSION).
+					evaluate(sectionElement, XPathConstants.NODE);
+			
 			sectionElement.setAttribute("xmlns:xsi", "http://www.w3.org/2001/XMLSchema-instance");
 			socailHistory.setLineNumber(sectionElement.getUserData("lineNumber") + " - " + sectionElement.getUserData("endLineNumber") );
 			socailHistory.setXmlString(ApplicationUtil.nodeToString((Node)sectionElement));
@@ -60,6 +64,8 @@ public class SmokingStatusProcessor {
 			}
 		
 			socailHistory.setTobaccoUse(readTobaccoUse(tobaccoUseNodeList , xPath,idList));
+			
+			socailHistory.setSocialHistoryGenderObs(readGenderCode(genderObsElement , xPath,idList));
 		}
 		
 		return socailHistory;
@@ -145,6 +151,39 @@ public class SmokingStatusProcessor {
 			tobaccoUseList.add(tobaccoUse);
 		}
 		return tobaccoUseList;
+	}
+	
+	public static CCDASocialHistoryGenderObs readGenderCode(Element genderObsElement, XPath xPath,List<CCDAID> idList)
+			throws XPathExpressionException, TransformerException {
+		CCDASocialHistoryGenderObs genderObs = null;
+		Element idElement =null;
+		if (genderObsElement != null) {
+
+			genderObs = new CCDASocialHistoryGenderObs();
+
+			genderObsElement.setAttribute("xmlns:xsi", "http://www.w3.org/2001/XMLSchema-instance");
+			genderObs.setLineNumber(
+					genderObsElement.getUserData("lineNumber") + " - " + genderObsElement.getUserData("endLineNumber"));
+			genderObs.setXmlString(ApplicationUtil.nodeToString((Node) genderObsElement));
+			
+			idElement = (Element) xPath.compile("./id[not(@nullFlavor)]").
+					evaluate(genderObsElement, XPathConstants.NODE);
+			if(idElement!= null)
+			{
+				idList.add(ApplicationUtil.readID(idElement,"SocialHistoryGenderObservation"));
+			}
+
+			genderObs.setGenderObservationTemplateIds(ApplicationUtil.readTemplateIdList((NodeList) xPath
+					.compile("./templateId[not(@nullFlavor)]").evaluate(genderObsElement, XPathConstants.NODESET)));
+
+			genderObs.setGenderCode(ApplicationUtil.readCode((Element) xPath.compile("./code[not(@nullFlavor)]")
+					.evaluate(genderObsElement, XPathConstants.NODE)));
+
+			genderObs.setGenderValue(ApplicationUtil.readCode((Element) xPath.compile("./value[not(@nullFlavor)]")
+					.evaluate(genderObsElement, XPathConstants.NODE)));
+
+		}
+		return genderObs;
 	}
 
 }
