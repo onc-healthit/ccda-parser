@@ -268,6 +268,20 @@ public class ApplicationUtil {
 		return textReferences;
 	}
 	
+	public static CCDADataElement readTextReference(Element referenceTextElement) throws XPathExpressionException,TransformerException
+	{
+		CCDADataElement dataElement= null;
+		
+		if(referenceTextElement != null)
+		{
+			dataElement = new CCDADataElement();
+			dataElement.setValue(referenceTextElement.getAttribute("value"));
+			dataElement.setXmlString(nodeToString((Node)referenceTextElement));
+			dataElement.setLineNumber(referenceTextElement.getUserData("lineNumber").toString());
+		}
+		return dataElement;
+	}
+	
 	public static CCDADataElement readDataElement(Element nodeElement)throws TransformerException
 	{
 		CCDADataElement dataElement = null;

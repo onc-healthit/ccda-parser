@@ -23,6 +23,7 @@ public class PatientProcessor {
 	public static CCDAPatient retrievePatientDetails(XPath xPath , Document doc) throws XPathExpressionException,TransformerException
 	{
 		CCDAPatient patient = null;
+		Element patientDodElement = null;
 		NodeList nodeList = (NodeList) xPath.compile(ApplicationConstants.PATIENT_EXPRESSION).evaluate(doc, XPathConstants.NODESET);
 		
 		for (int i = 0; i < nodeList.getLength(); i++) {
@@ -76,6 +77,16 @@ public class PatientProcessor {
 	            
 	            patient.setTelecom(ApplicationUtil.readDataElementList((NodeList) xPath.compile("./telecom[not(@nullFlavor)]").
 	            					evaluate(patientRoleElement, XPathConstants.NODESET)));
+	            
+	            patientDodElement = (Element) xPath.compile(ApplicationConstants.DOD_EXPRESSION).
+	    				evaluate(doc, XPathConstants.NODE);
+	            
+	            if(patientDodElement != null)
+	            {
+	            
+	            	patient.setDod(ApplicationUtil.readEffectivetime((Element) xPath.compile("./effectiveTime[not(@nullFlavor)]").
+	    				evaluate(patientDodElement, XPathConstants.NODE),xPath));
+	            }
 	   }
 	    
 	   return patient;

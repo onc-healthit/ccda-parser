@@ -12,6 +12,7 @@ public class CCDAPatient extends CCDAXmlSnippet{
 	private CCDADataElement previousName;
 	private CCDADataElement suffix;
 	private CCDADataElement dob;
+	private CCDAEffTime dod;
 	private ArrayList<CCDAAddress> addresses;
 	private ArrayList<CCDAPL> languageCommunication;
 	private CCDACode raceCodes;
@@ -26,6 +27,10 @@ public class CCDAPatient extends CCDAXmlSnippet{
 	private List<Element> givenNameElementList; 
 	private boolean givenNameContainsQualifier;
 	private CCDADataElement patientLegalNameElement;
+	
+	public CCDAPatient()
+	{
+	}
 	
 	public CCDADataElement getFirstName() {
 		return firstName;
@@ -106,11 +111,7 @@ public class CCDAPatient extends CCDAXmlSnippet{
 	public void setSex(CCDADataElement sex) {
 		this.sex = sex;
 	}
-
-	public CCDAPatient()
-	{
-	}
-
+	
 	public ArrayList<CCDADataElement> getTelecom() {
 		return telecom;
 	}
@@ -197,6 +198,14 @@ public class CCDAPatient extends CCDAXmlSnippet{
 
 	public void setPatientLegalNameElement(CCDADataElement patientLegalNameElement) {
 		this.patientLegalNameElement = patientLegalNameElement;
+	}
+	
+	public CCDAEffTime getDod() {
+		return dod;
+	}
+
+	public void setDod(CCDAEffTime dod) {
+		this.dod = dod;
 	}
 
 	@Override

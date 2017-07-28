@@ -13,6 +13,7 @@ import org.sitenv.ccdaparsing.model.CCDAEffTime;
 import org.sitenv.ccdaparsing.model.CCDAID;
 import org.sitenv.ccdaparsing.model.CCDAMedication;
 import org.sitenv.ccdaparsing.model.CCDAMedicationActivity;
+import org.sitenv.ccdaparsing.model.CCDAMedicationSubstanceAdminstration;
 import org.sitenv.ccdaparsing.util.ApplicationConstants;
 import org.sitenv.ccdaparsing.util.ApplicationUtil;
 import org.w3c.dom.Document;
@@ -118,6 +119,10 @@ public class MedicationProcessor {
 			
 			medicationActivity.setConsumable(readMedicationInformation((Element) xPath.compile("./consumable/manufacturedProduct[not(@nullFlavor)]").
 					evaluate(entryElement, XPathConstants.NODE), xPath,idList));
+			
+			medicationActivity.setMedSubAdmin(readMedicationSubAdmin((Element) xPath.compile(ApplicationConstants.MEDICATION_SUBSTANCE_EXPRESSION).
+					evaluate(entryElement, XPathConstants.NODE), xPath));
+			
 			medicationList.add(medicationActivity);
 		}
 		return medicationList;
@@ -179,9 +184,21 @@ public class MedicationProcessor {
 					evaluate(medicationInforamtionElement, XPathConstants.NODE),"medicationInformation"));
 			}
 		}
-		
-		
 		return consumable;
 	}
-
+	
+	public static CCDAMedicationSubstanceAdminstration readMedicationSubAdmin(Element subAdminElement, XPath xPath)throws XPathExpressionException,TransformerException
+	{
+		CCDAMedicationSubstanceAdminstration medicationSubstanceAdmin = null;
+		if(subAdminElement != null)
+		{
+			medicationSubstanceAdmin = new CCDAMedicationSubstanceAdminstration();
+			medicationSubstanceAdmin.setLineNumber(subAdminElement.getUserData("lineNumber") + " - " + subAdminElement.getUserData("endLineNumber") );
+			medicationSubstanceAdmin.setXmlString(ApplicationUtil.nodeToString((Node)subAdminElement));
+			
+			medicationSubstanceAdmin.setReferenceText(ApplicationUtil.readTextReference((Element) xPath.compile("./text/reference[not(@nullFlavor)]").
+					evaluate(subAdminElement, XPathConstants.NODE)));
+		}
+		return medicationSubstanceAdmin;
+	}
 }
