@@ -29,7 +29,7 @@ public class PatientProcessor {
 		for (int i = 0; i < nodeList.getLength(); i++) {
 	    	
 			Element patientRoleElement = (Element) nodeList.item(i);
-		    
+		    //patientRoleElement.setAttribute("xmlns:sdtc", "urn:hl7-org:sdtc");
 	        	
 	        	patient= new CCDAPatient();
 	        	
@@ -78,14 +78,13 @@ public class PatientProcessor {
 	            patient.setTelecom(ApplicationUtil.readDataElementList((NodeList) xPath.compile("./telecom[not(@nullFlavor)]").
 	            					evaluate(patientRoleElement, XPathConstants.NODESET)));
 	            
-	            patientDodElement = (Element) xPath.compile(ApplicationConstants.DOD_EXPRESSION).
-	    				evaluate(doc, XPathConstants.NODE);
+	            patientDodElement = (Element) xPath.compile("./patient/deceasedTime[not(@nullFlavor)]").
+	    				evaluate(patientRoleElement, XPathConstants.NODE);
 	            
 	            if(patientDodElement != null)
 	            {
 	            
-	            	patient.setDod(ApplicationUtil.readEffectivetime((Element) xPath.compile("./effectiveTime[not(@nullFlavor)]").
-	    				evaluate(patientDodElement, XPathConstants.NODE),xPath));
+	            	patient.setDod(ApplicationUtil.readEffectivetime(patientDodElement,xPath));
 	            }
 	   }
 	    
