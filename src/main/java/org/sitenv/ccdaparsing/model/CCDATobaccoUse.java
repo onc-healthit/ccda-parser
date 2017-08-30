@@ -7,7 +7,7 @@ public class CCDATobaccoUse extends CCDAXmlSnippet{
 	private CCDACode							tobaccoUseSectionCode;
 	private CCDACode							tobaccoUseCode;
 	private CCDAEffTime							tobaccoUseTime;
-	private ArrayList<CCDADataElement> referenceTexts;
+	private CCDADataElement referenceText;
 	
 	public ArrayList<CCDAII> getTobaccoUseTemplateIds() {
 		return tobaccoUseTemplateIds;
@@ -41,17 +41,12 @@ public class CCDATobaccoUse extends CCDAXmlSnippet{
 		this.tobaccoUseTime = tobaccoUseTime;
 	}
 	
-	public ArrayList<CCDADataElement> getReferenceTexts() {
-		if(this.referenceTexts == null)
-		{
-			this.referenceTexts = new ArrayList<CCDADataElement>();
-		}
-		
-		return referenceTexts;
+	public CCDADataElement getReferenceText() {
+		return referenceText;
 	}
 
-	public void setReferenceTexts(ArrayList<CCDADataElement> referenceTexts) {
-		this.referenceTexts = referenceTexts;
+	public void setReferenceText(CCDADataElement referenceText) {
+		this.referenceText = referenceText;
 	}
 
 	public CCDATobaccoUse()

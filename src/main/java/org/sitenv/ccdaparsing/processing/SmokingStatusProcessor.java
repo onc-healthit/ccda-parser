@@ -95,11 +95,8 @@ public class SmokingStatusProcessor {
 					evaluate(smokingStatusElement, XPathConstants.NODE),"smokingStatus"));
 			}
 			
-			smokingStatus.getReferenceTexts().addAll(ApplicationUtil.readTextReferences((NodeList) xPath.compile(".//originalText/reference[not(@nullFlavor)]").
-					evaluate(smokingStatusElement, XPathConstants.NODESET)));
-
-			smokingStatus.getReferenceTexts().addAll(ApplicationUtil.readTextReferences((NodeList) xPath.compile(".//text/reference[not(@nullFlavor)]").
-					evaluate(smokingStatusElement, XPathConstants.NODESET)));
+			smokingStatus.setReferenceText(ApplicationUtil.readTextReference((Element) xPath.compile(ApplicationConstants.REFERENCE_TEXT_EXPRESSION).
+					evaluate(smokingStatusElement, XPathConstants.NODE)));
 			
 			smokingStatus.setSmokingStatusTemplateIds(ApplicationUtil.readTemplateIdList((NodeList) xPath.compile("./templateId[not(@nullFlavor)]").
 														evaluate(smokingStatusElement, XPathConstants.NODESET)));
@@ -135,6 +132,9 @@ public class SmokingStatusProcessor {
 			tobaccoUse.setTobaccoUseTemplateIds(ApplicationUtil.readTemplateIdList((NodeList) xPath.compile("./templateId[not(@nullFlavor)]").
 														evaluate(tobaccoUseElement, XPathConstants.NODESET)));
 			
+			tobaccoUse.setReferenceText(ApplicationUtil.readTextReference((Element) xPath.compile(ApplicationConstants.REFERENCE_TEXT_EXPRESSION).
+					evaluate(tobaccoUseElement, XPathConstants.NODE)));
+			
 			if(ApplicationUtil.readID((Element) xPath.compile("./id[not(@nullFlavor)]").
 					evaluate(tobaccoUseElement, XPathConstants.NODE),"TobaccoUse")!= null)
 			{
@@ -165,6 +165,9 @@ public class SmokingStatusProcessor {
 			genderObs.setLineNumber(
 					genderObsElement.getUserData("lineNumber") + " - " + genderObsElement.getUserData("endLineNumber"));
 			genderObs.setXmlString(ApplicationUtil.nodeToString((Node) genderObsElement));
+			
+			genderObs.setReferenceText(ApplicationUtil.readTextReference((Element) xPath.compile(ApplicationConstants.REFERENCE_TEXT_EXPRESSION).
+					evaluate(genderObsElement, XPathConstants.NODE)));
 			
 			idElement = (Element) xPath.compile("./id[not(@nullFlavor)]").
 					evaluate(genderObsElement, XPathConstants.NODE);

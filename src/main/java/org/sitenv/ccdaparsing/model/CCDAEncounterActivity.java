@@ -10,7 +10,7 @@ public class CCDAEncounterActivity extends CCDAXmlSnippet {
 	private ArrayList<CCDAEncounterDiagnosis> diagnoses;
 	private ArrayList<CCDAServiceDeliveryLoc> sdLocs;
 	private ArrayList<CCDAProblemObs> indications;
-	private ArrayList<CCDADataElement> referenceTexts;
+	private CCDADataElement referenceText;
 	
 	public ArrayList<CCDAII> getTemplateId() {
 		return templateId;
@@ -60,17 +60,12 @@ public class CCDAEncounterActivity extends CCDAXmlSnippet {
 		this.indications = indications;
 	}
 	
-	public ArrayList<CCDADataElement> getReferenceTexts() {
-		if(this.referenceTexts == null)
-		{
-			this.referenceTexts = new ArrayList<CCDADataElement>();
-		}
-		
-		return referenceTexts;
+	public CCDADataElement getReferenceText() {
+		return referenceText;
 	}
 
-	public void setReferenceTexts(ArrayList<CCDADataElement> referenceTexts) {
-		this.referenceTexts = referenceTexts;
+	public void setReferenceText(CCDADataElement referenceText) {
+		this.referenceText = referenceText;
 	}
 
 	@Override
@@ -88,7 +83,7 @@ public class CCDAEncounterActivity extends CCDAXmlSnippet {
 		result = prime * result
 				+ ((indications == null) ? 0 : indications.hashCode());
 		result = prime * result
-				+ ((referenceTexts == null) ? 0 : referenceTexts.hashCode());
+				+ ((referenceText == null) ? 0 : referenceText.hashCode());
 		result = prime * result + ((sdLocs == null) ? 0 : sdLocs.hashCode());
 		result = prime * result
 				+ ((templateId == null) ? 0 : templateId.hashCode());
@@ -124,10 +119,10 @@ public class CCDAEncounterActivity extends CCDAXmlSnippet {
 				return false;
 		} else if (!indications.equals(other.indications))
 			return false;
-		if (referenceTexts == null) {
-			if (other.referenceTexts != null)
+		if (referenceText == null) {
+			if (other.referenceText != null)
 				return false;
-		} else if (!referenceTexts.equals(other.referenceTexts))
+		} else if (!referenceText.equals(other.referenceText))
 			return false;
 		if (sdLocs == null) {
 			if (other.sdLocs != null)

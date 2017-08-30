@@ -7,6 +7,7 @@ public class CCDASocialHistoryGenderObs extends CCDAXmlSnippet {
 	private ArrayList<CCDAII> genderObservationTemplateIds;
 	private CCDACode genderCode;
 	private CCDACode genderValue;
+	private CCDADataElement referenceText;
 
 	public ArrayList<CCDAII> getGenderObservationTemplateIds() {
 		return genderObservationTemplateIds;
@@ -32,4 +33,11 @@ public class CCDASocialHistoryGenderObs extends CCDAXmlSnippet {
 		this.genderValue = genderValue;
 	}
 
+	public CCDADataElement getReferenceText() {
+		return referenceText;
+	}
+
+	public void setReferenceText(CCDADataElement referenceText) {
+		this.referenceText = referenceText;
+	}
 }

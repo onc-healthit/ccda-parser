@@ -71,11 +71,8 @@ public class ProblemProcessor {
 			problemConcern.setTemplateId(ApplicationUtil.readTemplateIdList((NodeList) xPath.compile("./templateId[not(@nullFlavor)]").
 										evaluate(problemConcernElement, XPathConstants.NODESET)));
 			
-			problemConcern.getReferenceTexts().addAll(ApplicationUtil.readTextReferences((NodeList) xPath.compile(".//originalText/reference[not(@nullFlavor)]").
-					evaluate(problemConcernElement, XPathConstants.NODESET)));
-
-			problemConcern.getReferenceTexts().addAll(ApplicationUtil.readTextReferences((NodeList) xPath.compile(".//text/reference[not(@nullFlavor)]").
-					evaluate(problemConcernElement, XPathConstants.NODESET)));
+			problemConcern.setReferenceText(ApplicationUtil.readTextReference((Element) xPath.compile(ApplicationConstants.REFERENCE_TEXT_EXPRESSION).
+					evaluate(problemConcernElement, XPathConstants.NODE)));
 			
 			problemConcern.setConcernCode(ApplicationUtil.readCode((Element) xPath.compile("./code[not(@nullFlavor)]").
 					evaluate(problemConcernElement, XPathConstants.NODE)));
@@ -118,6 +115,10 @@ public class ProblemProcessor {
 			problemObservationElement.setAttribute("xmlns:xsi", "http://www.w3.org/2001/XMLSchema-instance");
 			problemObservation.setLineNumber(problemObservationElement.getUserData("lineNumber") + " - " + problemObservationElement.getUserData("endLineNumber") );
 			problemObservation.setXmlString(ApplicationUtil.nodeToString((Node)problemObservationElement));
+			
+			problemObservation.setReferenceText(ApplicationUtil.readTextReference((Element) xPath.compile(ApplicationConstants.REFERENCE_TEXT_EXPRESSION).
+					evaluate(problemObservationElement, XPathConstants.NODE)));
+			
 			
 			problemObservation.setTemplateId(ApplicationUtil.readTemplateIdList((NodeList) xPath.compile("./templateId[not(@nullFlavor)]").
 					evaluate(problemObservationElement, XPathConstants.NODESET)));

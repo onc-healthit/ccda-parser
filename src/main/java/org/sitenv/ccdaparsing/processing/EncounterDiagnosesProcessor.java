@@ -88,11 +88,8 @@ public class EncounterDiagnosesProcessor {
 				encounterActivity.setXmlString(ApplicationUtil.nodeToString((Node)encounterActivityElement));
 				
 				
-				encounterActivity.getReferenceTexts().addAll(ApplicationUtil.readTextReferences((NodeList) xPath.compile(".//originalText/reference[not(@nullFlavor)]").
-															evaluate(encounterActivityElement, XPathConstants.NODESET)));
-				
-				encounterActivity.getReferenceTexts().addAll(ApplicationUtil.readTextReferences((NodeList) xPath.compile(".//text/reference[not(@nullFlavor)]").
-						evaluate(encounterActivityElement, XPathConstants.NODESET)));
+				encounterActivity.setReferenceText(ApplicationUtil.readTextReference((Element) xPath.compile(ApplicationConstants.REFERENCE_TEXT_EXPRESSION).
+															evaluate(encounterActivityElement, XPathConstants.NODE)));
 				
 				encounterActivity.setEffectiveTime(ApplicationUtil.readEffectivetime((Element) xPath.compile("./effectiveTime[not(@nullFlavor)]").
 															evaluate(encounterActivityElement, XPathConstants.NODE),xPath));
@@ -132,6 +129,10 @@ public class EncounterDiagnosesProcessor {
 			encounterDiagnosis.setXmlString(ApplicationUtil.nodeToString((Node)encounterDiagnosisElement));
 			encounterDiagnosis.setTemplateId(ApplicationUtil.readTemplateIdList((NodeList) xPath.compile("./templateId[not(@nullFlavor)]").
 					evaluate(encounterDiagnosisElement, XPathConstants.NODESET)));
+			
+			encounterDiagnosis.setReferenceText(ApplicationUtil.readTextReference((Element) xPath.compile(ApplicationConstants.REFERENCE_TEXT_EXPRESSION).
+					evaluate(encounterDiagnosisElement, XPathConstants.NODE)));
+
 			
 			if(ApplicationUtil.readID((Element) xPath.compile("./id[not(@nullFlavor)]").
 					evaluate(encounterDiagnosisElement, XPathConstants.NODE),"encounterDiagnosis")!= null)
@@ -215,6 +216,9 @@ public class EncounterDiagnosesProcessor {
 			
 			problemObservation.setProblemType(ApplicationUtil.readCode((Element) xPath.compile("./code[not(@nullFlavor)]").
 									evaluate(problemObservationElement, XPathConstants.NODE)));
+			
+			problemObservation.setReferenceText(ApplicationUtil.readTextReference((Element) xPath.compile(ApplicationConstants.REFERENCE_TEXT_EXPRESSION).
+					evaluate(problemObservationElement, XPathConstants.NODE)));
 			
 			if(ApplicationUtil.readID((Element) xPath.compile("./id[not(@nullFlavor)]").
 					evaluate(problemObservationElement, XPathConstants.NODE),"encounterServiceDeliveryLocation")!= null)

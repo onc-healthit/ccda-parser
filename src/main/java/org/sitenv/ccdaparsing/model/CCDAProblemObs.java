@@ -10,6 +10,7 @@ public class CCDAProblemObs extends CCDAXmlSnippet{
 	private CCDAEffTime          effTime;
 	private CCDACode             problemCode;
 	private CCDACode  		     statusCode;
+	private CCDADataElement referenceText;
 	
 	public ArrayList<CCDAII> getTemplateId() {
 		return templateId;
@@ -57,6 +58,14 @@ public class CCDAProblemObs extends CCDAXmlSnippet{
 
 	public void setStatusCode(CCDACode statusCode) {
 		this.statusCode = statusCode;
+	}
+	
+	public CCDADataElement getReferenceText() {
+		return referenceText;
+	}
+
+	public void setReferenceText(CCDADataElement referenceText) {
+		this.referenceText = referenceText;
 	}
 
 	public CCDAProblemObs()

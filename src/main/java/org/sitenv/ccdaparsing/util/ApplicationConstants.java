@@ -58,6 +58,8 @@ public class ApplicationConstants {
     public static String HEALTHCONCERN_EXPRESSION = "/ClinicalDocument/component/structuredBody/component/section[(not(@nullFlavor) or @nullFlavor='NI') and templateId[@root='2.16.840.1.113883.10.20.22.2.58']]";
     public static String CTM_EXPRESSION = "/ClinicalDocument/documentationOf/serviceEvent/performer[not(@nullFlavor)]";
     
+    public static String REFERENCE_TEXT_EXPRESSION = "./code/originalText/reference[not(@nullFlavor)] | ./text/reference[not(@nullFlavor)] | ./participant/participantRole/playingEntity/code/originalText/reference[not(@nullFlavor)]";
+    
     
     public static String PROBLEMS_TEM_ID = "2.16.840.1.113883.10.20.22.2.5.1";
 	public static String MEDICATION_TEM_ID = "2.16.840.1.113883.10.20.22.2.1.1";

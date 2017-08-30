@@ -86,11 +86,8 @@ public class ImmunizationProcessor {
 				immunizationActivity.setTemplateIds(ApplicationUtil.readTemplateIdList((NodeList) xPath.compile("./templateId[not(@nullFlavor)]").
 													evaluate(immunizationActivityElement, XPathConstants.NODESET)));
 				
-				immunizationActivity.getReferenceTexts().addAll(ApplicationUtil.readTextReferences((NodeList) xPath.compile(".//originalText/reference[not(@nullFlavor)]").
-						evaluate(immunizationActivityElement, XPathConstants.NODESET)));
-
-				immunizationActivity.getReferenceTexts().addAll(ApplicationUtil.readTextReferences((NodeList) xPath.compile(".//text/reference[not(@nullFlavor)]").
-						evaluate(immunizationActivityElement, XPathConstants.NODESET)));
+				immunizationActivity.setReferenceText(ApplicationUtil.readTextReference((Element) xPath.compile(ApplicationConstants.REFERENCE_TEXT_EXPRESSION).
+						evaluate(immunizationActivityElement, XPathConstants.NODE)));
 				
 				immunizationActivity.setTime(ApplicationUtil.readEffectivetime((Element) xPath.compile("./effectiveTime[not(@nullFlavor)]").
 						evaluate(immunizationActivityElement, XPathConstants.NODE),xPath));

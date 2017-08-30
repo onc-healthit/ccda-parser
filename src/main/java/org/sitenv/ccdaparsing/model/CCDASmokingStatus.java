@@ -7,7 +7,7 @@ public class CCDASmokingStatus extends CCDAXmlSnippet{
 	private ArrayList<CCDAII>					smokingStatusTemplateIds;
 	private CCDACode							smokingStatusCode;
 	private CCDAEffTime						observationTime;
-	private ArrayList<CCDADataElement> referenceTexts;
+	private CCDADataElement referenceText;
 	
 	public CCDASmokingStatus()
 	{
@@ -38,17 +38,12 @@ public class CCDASmokingStatus extends CCDAXmlSnippet{
 		this.observationTime = observationTime;
 	}
 
-	public ArrayList<CCDADataElement> getReferenceTexts() {
-		if(this.referenceTexts == null)
-		{
-			this.referenceTexts = new ArrayList<CCDADataElement>();
-		}
-		
-		return referenceTexts;
+	public CCDADataElement getReferenceText() {
+		return referenceText;
 	}
 
-	public void setReferenceTexts(ArrayList<CCDADataElement> referenceTexts) {
-		this.referenceTexts = referenceTexts;
+	public void setReferenceText(CCDADataElement referenceText) {
+		this.referenceText = referenceText;
 	}
 
 	@Override
@@ -57,8 +52,6 @@ public class CCDASmokingStatus extends CCDAXmlSnippet{
 		int result = super.hashCode();
 		result = prime * result
 				+ ((observationTime == null) ? 0 : observationTime.hashCode());
-		result = prime * result
-				+ ((referenceTexts == null) ? 0 : referenceTexts.hashCode());
 		result = prime
 				* result
 				+ ((smokingStatusCode == null) ? 0 : smokingStatusCode
@@ -84,10 +77,10 @@ public class CCDASmokingStatus extends CCDAXmlSnippet{
 				return false;
 		} else if (!observationTime.equals(other.observationTime))
 			return false;
-		if (referenceTexts == null) {
-			if (other.referenceTexts != null)
+		if (referenceText == null) {
+			if (other.referenceText != null)
 				return false;
-		} else if (!referenceTexts.equals(other.referenceTexts))
+		} else if (!referenceText.equals(other.referenceText))
 			return false;
 		if (smokingStatusCode == null) {
 			if (other.smokingStatusCode != null)

@@ -83,11 +83,8 @@ public class MedicationProcessor {
 					evaluate(entryElement, XPathConstants.NODE),"medicationActivity"));
 			}
 			
-			medicationActivity.getReferenceTexts().addAll(ApplicationUtil.readTextReferences((NodeList) xPath.compile(".//originalText/reference[not(@nullFlavor)]").
-					evaluate(entryElement, XPathConstants.NODESET)));
-
-			medicationActivity.getReferenceTexts().addAll(ApplicationUtil.readTextReferences((NodeList) xPath.compile(".//text/reference[not(@nullFlavor)]").
-					evaluate(entryElement, XPathConstants.NODESET)));
+			medicationActivity.setReferenceText(ApplicationUtil.readTextReference((Element) xPath.compile(ApplicationConstants.REFERENCE_TEXT_EXPRESSION).
+					evaluate(entryElement, XPathConstants.NODE)));
 			
 			NodeList effectiveTime = (NodeList) xPath.compile("./effectiveTime[not(@nullFlavor)]").evaluate(entryElement, XPathConstants.NODESET);
 			

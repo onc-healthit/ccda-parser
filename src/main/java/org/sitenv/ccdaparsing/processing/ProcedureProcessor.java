@@ -87,11 +87,8 @@ public class ProcedureProcessor {
 			procedure.setSectionTemplateId(ApplicationUtil.readTemplateIdList((NodeList) xPath.compile("./templateId[not(@nullFlavor)]").
 										evaluate(procedureElement, XPathConstants.NODESET)));
 			
-			procedure.getReferenceTexts().addAll(ApplicationUtil.readTextReferences((NodeList) xPath.compile(".//originalText/reference[not(@nullFlavor)]").
-					evaluate(procedureElement, XPathConstants.NODESET)));
-
-			procedure.getReferenceTexts().addAll(ApplicationUtil.readTextReferences((NodeList) xPath.compile(".//text/reference[not(@nullFlavor)]").
-					evaluate(procedureElement, XPathConstants.NODESET)));
+			procedure.setReferenceText(ApplicationUtil.readTextReference((Element) xPath.compile(ApplicationConstants.REFERENCE_TEXT_EXPRESSION).
+					evaluate(procedureElement, XPathConstants.NODE)));
 			
 			procedure.setProcCode(ApplicationUtil.readCode((Element) xPath.compile("./code[not(@nullFlavor)]").
 					evaluate(procedureElement, XPathConstants.NODE)));

@@ -83,11 +83,8 @@ public class MediactionAllergiesProcessor {
 					evaluate(allergyConcernElement, XPathConstants.NODE),"allergyConcern"));
 			}
 			
-			allergyConcern.getReferenceTexts().addAll(ApplicationUtil.readTextReferences((NodeList) xPath.compile(".//originalText/reference[not(@nullFlavor)]").
-					evaluate(allergyConcernElement, XPathConstants.NODESET)));
-
-			allergyConcern.getReferenceTexts().addAll(ApplicationUtil.readTextReferences((NodeList) xPath.compile(".//text/reference[not(@nullFlavor)]").
-					evaluate(allergyConcernElement, XPathConstants.NODESET)));
+			allergyConcern.setReferenceText(ApplicationUtil.readTextReference((Element) xPath.compile(ApplicationConstants.REFERENCE_TEXT_EXPRESSION).
+					evaluate(allergyConcernElement, XPathConstants.NODE)));
 			
 			allergyConcern.setConcernCode(ApplicationUtil.readCode((Element) xPath.compile("./code[not(@nullFlavor)]").
 					evaluate(allergyConcernElement, XPathConstants.NODE)));
@@ -130,6 +127,9 @@ public class MediactionAllergiesProcessor {
 					evaluate(allergyObservationElement, XPathConstants.NODE),"allergyObservation"));
 			}
 			
+			allergyObservation.setReferenceText(ApplicationUtil.readTextReference((Element) xPath.compile(ApplicationConstants.REFERENCE_TEXT_EXPRESSION).
+					evaluate(allergyObservationElement, XPathConstants.NODE)));
+			
 			allergyObservation.setTemplateId(ApplicationUtil.readTemplateIdList((NodeList) xPath.compile("./templateId[not(@nullFlavor)]").
 												evaluate(allergyObservationElement, XPathConstants.NODESET)));
 			
@@ -165,34 +165,42 @@ public class MediactionAllergiesProcessor {
 						evaluate(allergyReactionElement, XPathConstants.NODE),"allergyReaction"));
 				}
 				
+				allergyReaction.setReferenceText(ApplicationUtil.readTextReference((Element) xPath.compile(ApplicationConstants.REFERENCE_TEXT_EXPRESSION).
+						evaluate(allergyReactionElement, XPathConstants.NODE)));
+				
 				allergyReaction.setReactionCode(ApplicationUtil.readCode((Element) xPath.compile("./value[not(@nullFlavor)]").
 						evaluate(allergyReactionElement, XPathConstants.NODE)));
+				
+				Element allergySeverityElement = (Element) xPath.compile(ApplicationConstants.ALLERGY_SEVERITY_EXPRESSION).
+						evaluate(allergyObservationElement, XPathConstants.NODE);
+				
+				if(allergySeverityElement != null)
+				{
+					CCDAAllergySeverity allergySeverity = new CCDAAllergySeverity();
+					allergySeverity.setTemplateIds(ApplicationUtil.readTemplateIdList((NodeList) xPath.compile("./templateId[not(@nullFlavor)]").
+							evaluate(allergySeverityElement, XPathConstants.NODESET)));
+					allergySeverity.setSeverity(ApplicationUtil.readCode((Element) xPath.compile("./value[not(@nullFlavor)]").
+							evaluate(allergySeverityElement, XPathConstants.NODE)));
+					
+					allergySeverity.setReferenceText(ApplicationUtil.readTextReference((Element) xPath.compile(ApplicationConstants.REFERENCE_TEXT_EXPRESSION).
+							evaluate(allergySeverityElement, XPathConstants.NODE)));
+					
+					if(ApplicationUtil.readID((Element) xPath.compile("./id[not(@nullFlavor)]").
+							evaluate(allergySeverityElement, XPathConstants.NODE),"allergySeverity")!= null)
+					{
+						idList.add(ApplicationUtil.readID((Element) xPath.compile("./id[not(@nullFlavor)]").
+							evaluate(allergySeverityElement, XPathConstants.NODE),"allergySeverity"));
+					}
+					
+					allergyReaction.setSeverity(allergySeverity);
+				}
 				
 				allergyReactionList.add(allergyReaction);
 			}
 			
 			allergyObservation.setReactions(allergyReactionList);
 			
-			Element allergySeverityElement = (Element) xPath.compile(ApplicationConstants.ALLERGY_SEVERITY_EXPRESSION).
-					evaluate(allergyObservationElement, XPathConstants.NODE);
 			
-			if(allergySeverityElement != null)
-			{
-				CCDAAllergySeverity allergySeverity = new CCDAAllergySeverity();
-				allergySeverity.setTemplateIds(ApplicationUtil.readTemplateIdList((NodeList) xPath.compile("./templateId[not(@nullFlavor)]").
-						evaluate(allergySeverityElement, XPathConstants.NODESET)));
-				allergySeverity.setSeverity(ApplicationUtil.readCode((Element) xPath.compile("./value[not(@nullFlavor)]").
-						evaluate(allergySeverityElement, XPathConstants.NODE)));
-				
-				if(ApplicationUtil.readID((Element) xPath.compile("./id[not(@nullFlavor)]").
-						evaluate(allergySeverityElement, XPathConstants.NODE),"allergySeverity")!= null)
-				{
-					idList.add(ApplicationUtil.readID((Element) xPath.compile("./id[not(@nullFlavor)]").
-						evaluate(allergySeverityElement, XPathConstants.NODE),"allergySeverity"));
-				}
-				
-				allergyObservation.setSeverity(allergySeverity);
-			}
 			
 			allergyObservationList.add(allergyObservation);
 		}

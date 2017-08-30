@@ -11,7 +11,7 @@ public class CCDAImmunizationActivity extends CCDAXmlSnippet {
 	private CCDACode							adminUnitCode;
 	private CCDAConsumable						consumable;
 	private CCDAOrganization					organization;
-	private ArrayList<CCDADataElement> referenceTexts;
+	private CCDADataElement referenceText;
 	
 	public CCDAImmunizationActivity()
 	{
@@ -82,17 +82,12 @@ public class CCDAImmunizationActivity extends CCDAXmlSnippet {
 		this.organization = organization;
 	}
 	
-	public ArrayList<CCDADataElement> getReferenceTexts() {
-		if(this.referenceTexts == null)
-		{
-			this.referenceTexts = new ArrayList<CCDADataElement>();
-		}
-		
-		return referenceTexts;
+	public CCDADataElement getReferenceText() {
+		return referenceText;
 	}
 
-	public void setReferenceTexts(ArrayList<CCDADataElement> referenceTexts) {
-		this.referenceTexts = referenceTexts;
+	public void setReferenceText(CCDADataElement referenceText) {
+		this.referenceText = referenceText;
 	}
 
 	@Override
@@ -111,7 +106,7 @@ public class CCDAImmunizationActivity extends CCDAXmlSnippet {
 		result = prime * result
 				+ ((organization == null) ? 0 : organization.hashCode());
 		result = prime * result
-				+ ((referenceTexts == null) ? 0 : referenceTexts.hashCode());
+				+ ((referenceText == null) ? 0 : referenceText.hashCode());
 		result = prime * result
 				+ ((routeCode == null) ? 0 : routeCode.hashCode());
 		result = prime * result
@@ -154,10 +149,10 @@ public class CCDAImmunizationActivity extends CCDAXmlSnippet {
 				return false;
 		} else if (!organization.equals(other.organization))
 			return false;
-		if (referenceTexts == null) {
-			if (other.referenceTexts != null)
+		if (referenceText == null) {
+			if (other.referenceText != null)
 				return false;
-		} else if (!referenceTexts.equals(other.referenceTexts))
+		} else if (!referenceText.equals(other.referenceText))
 			return false;
 		if (routeCode == null) {
 			if (other.routeCode != null)

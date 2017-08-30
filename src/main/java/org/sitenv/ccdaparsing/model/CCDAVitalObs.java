@@ -10,6 +10,7 @@ public class CCDAVitalObs extends CCDAXmlSnippet{
 	private CCDAPQ							vsResult;
 	private CCDACode						interpretationCode;
 	private ArrayList<CCDAPQ>			    referenceValue;
+	private CCDADataElement referenceText;
 	
 	public CCDAVitalObs()
 	{
@@ -70,6 +71,14 @@ public class CCDAVitalObs extends CCDAXmlSnippet{
 
 	public void setReferenceValue(ArrayList<CCDAPQ> referenceValue) {
 		this.referenceValue = referenceValue;
+	}
+	
+	public CCDADataElement getReferenceText() {
+		return referenceText;
+	}
+
+	public void setReferenceText(CCDADataElement referenceText) {
+		this.referenceText = referenceText;
 	}
 
 	@Override

@@ -7,6 +7,7 @@ public class CCDAAllergyReaction extends CCDAXmlSnippet {
 	private ArrayList<CCDAII>			templateIds;
 	private CCDACode					reactionCode;
 	private CCDADataElement referenceText;
+	private CCDAAllergySeverity			severity;
 	
 	public CCDADataElement getReferenceText() {
 		return referenceText;
@@ -30,6 +31,14 @@ public class CCDAAllergyReaction extends CCDAXmlSnippet {
 
 	public void setReactionCode(CCDACode reactionCode) {
 		this.reactionCode = reactionCode;
+	}
+	
+	public CCDAAllergySeverity getSeverity() {
+		return severity;
+	}
+
+	public void setSeverity(CCDAAllergySeverity severity) {
+		this.severity = severity;
 	}
 
 	public CCDAAllergyReaction()
