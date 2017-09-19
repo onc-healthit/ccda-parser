@@ -12,6 +12,7 @@ public class CCDALabResultObs extends CCDAXmlSnippet{
 	private CCDACode						resultCode;
 	private CCDACode						interpretationCode;
 	private ArrayList<CCDAPQ>		    	referenceRange;
+	private CCDADataElement referenceText;
 	
 	public CCDALabResultObs()
 	{
@@ -80,6 +81,14 @@ public class CCDALabResultObs extends CCDAXmlSnippet{
 
 	public void setReferenceRange(ArrayList<CCDAPQ> referenceRange) {
 		this.referenceRange = referenceRange;
+	}
+	
+	public CCDADataElement getReferenceText() {
+		return referenceText;
+	}
+
+	public void setReferenceText(CCDADataElement referenceText) {
+		this.referenceText = referenceText;
 	}
 
 	@Override

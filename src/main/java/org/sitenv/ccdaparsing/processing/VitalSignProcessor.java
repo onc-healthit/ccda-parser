@@ -80,11 +80,8 @@ public class VitalSignProcessor {
 					evaluate(vitalOrganizerElement, XPathConstants.NODE),"vitalOrganizer"));
 			}
 			
-			vitalOrganizer.getReferenceTexts().addAll(ApplicationUtil.readTextReferences((NodeList) xPath.compile(".//originalText/reference[not(@nullFlavor)]").
-					evaluate(vitalOrganizerElement, XPathConstants.NODESET)));
-
-			vitalOrganizer.getReferenceTexts().addAll(ApplicationUtil.readTextReferences((NodeList) xPath.compile(".//text/reference[not(@nullFlavor)]").
-					evaluate(vitalOrganizerElement, XPathConstants.NODESET)));
+			vitalOrganizer.setReferenceText(ApplicationUtil.readTextReference((Element) xPath.compile(ApplicationConstants.REFERENCE_TEXT_EXPRESSION).
+					evaluate(vitalOrganizerElement, XPathConstants.NODE)));
 			
 			vitalOrganizer.setOrgCode(ApplicationUtil.readCode((Element) xPath.compile("./code[not(@nullFlavor)]").
 					evaluate(vitalOrganizerElement, XPathConstants.NODE)));
@@ -126,6 +123,9 @@ public class VitalSignProcessor {
 				idList.add(ApplicationUtil.readID((Element) xPath.compile("./id[not(@nullFlavor)]").
 					evaluate(resultObservationElement, XPathConstants.NODE),"vitalObservation"));
 			}
+			
+			vitalObservation.setReferenceText(ApplicationUtil.readTextReference((Element) xPath.compile(ApplicationConstants.REFERENCE_TEXT_EXPRESSION).
+					evaluate(resultObservationElement, XPathConstants.NODE)));
 			
 			vitalObservation.setTemplateIds(ApplicationUtil.readTemplateIdList((NodeList) xPath.compile("./templateId[not(@nullFlavor)]").
 					evaluate(resultObservationElement, XPathConstants.NODESET)));

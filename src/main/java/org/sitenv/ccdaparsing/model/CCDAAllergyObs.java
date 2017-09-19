@@ -9,8 +9,8 @@ public class CCDAAllergyObs extends CCDAXmlSnippet {
 	private CCDACode             			allergySubstance;
 	private CCDAEffTime          			effTime;
 	private ArrayList<CCDAAllergyReaction>  reactions;
-	private CCDAAllergySeverity				severity;
 	private Boolean							negationInd;
+	private CCDADataElement referenceText;
 	
 	public Boolean getNegationInd() {
 		return negationInd;
@@ -69,17 +69,15 @@ public class CCDAAllergyObs extends CCDAXmlSnippet {
 	public void setReactions(ArrayList<CCDAAllergyReaction> reactions) {
 		this.reactions = reactions;
 	}
-
-
-	public CCDAAllergySeverity getSeverity() {
-		return severity;
-	}
-
-
-	public void setSeverity(CCDAAllergySeverity severity) {
-		this.severity = severity;
-	}
 	
+	public CCDADataElement getReferenceText() {
+		return referenceText;
+	}
+
+	public void setReferenceText(CCDADataElement referenceText) {
+		this.referenceText = referenceText;
+	}
+
 	public CCDAAllergyObs()
 	{
 		
@@ -101,8 +99,6 @@ public class CCDAAllergyObs extends CCDAXmlSnippet {
 				+ ((negationInd == null) ? 0 : negationInd.hashCode());
 		result = prime * result
 				+ ((reactions == null) ? 0 : reactions.hashCode());
-		result = prime * result
-				+ ((severity == null) ? 0 : severity.hashCode());
 		result = prime * result
 				+ ((templateId == null) ? 0 : templateId.hashCode());
 		return result;
@@ -141,11 +137,6 @@ public class CCDAAllergyObs extends CCDAXmlSnippet {
 			if (other.reactions != null)
 				return false;
 		} else if (!reactions.equals(other.reactions))
-			return false;
-		if (severity == null) {
-			if (other.severity != null)
-				return false;
-		} else if (!severity.equals(other.severity))
 			return false;
 		if (templateId == null) {
 			if (other.templateId != null)

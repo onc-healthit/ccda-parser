@@ -17,6 +17,8 @@ public class ApplicationConstants {
 	public static String RACE_CODES = "/ClinicalDocument/templateId[@root='2.16.840.1.113883.10.20.22.1.1' and @extension='2015-08-01']/"
 			+ "ancestor::ClinicalDocument[1]/recordTarget/patientRole/patient/raceCode[not(@nullFlavor)]";
 	
+	public static String DOD_EXPRESSION = "/ClinicalDocument/observation[(not(@nullFlavor) or @nullFlavor='NI') and templateId[@root='2.16.840.1.113883.10.20.22.4.79']]";
+	
 	public static String ALLERGIES_EXPRESSION = "/ClinicalDocument/component/structuredBody/component/section[(not(@nullFlavor) or @nullFlavor='NI') and templateId[@root='2.16.840.1.113883.10.20.22.2.6.1']]";
     public static String ALLERGY_REACTION_EXPRESSION ="./entryRelationship/observation[not(@nullFlavor) and templateId[@root='2.16.840.1.113883.10.20.22.4.9']]";
     public static String ALLERGY_SEVERITY_EXPRESSION ="./entryRelationship/observation[not(@nullFlavor) and templateId[@root='2.16.840.1.113883.10.20.22.4.8']]";
@@ -28,6 +30,8 @@ public class ApplicationConstants {
     public static String PROBLEM_OBS_EXPRESSION = "./entryRelationship/observation[not(@nullFlavor) and templateId[@root='2.16.840.1.113883.10.20.22.4.4']]";
     
     public static String MEDICATION_EXPRESSION = "/ClinicalDocument/component/structuredBody/component/section[(not(@nullFlavor) or @nullFlavor='NI') and templateId[@root='2.16.840.1.113883.10.20.22.2.1.1']]";
+    public static String MEDICATION_SUBSTANCE_EXPRESSION = "./entryRelationship/substanceAdministration[not(@nullFlavor) and templateId[@root='2.16.840.1.113883.10.20.22.4.147']]";
+    
     
     public static String SMOKING_EXPRESSION = "/ClinicalDocument/component/structuredBody/component/section[(not(@nullFlavor) or @nullFlavor='NI') and templateId[@root='2.16.840.1.113883.10.20.22.2.17']]";
     public static String SMOKING_STATUS_EXPRESSION = "./entry/observation[not(@nullFlavor) and templateId[@root='2.16.840.1.113883.10.20.22.4.78']]";
@@ -53,6 +57,8 @@ public class ApplicationConstants {
     public static String GOALS_EXPRESSION = "/ClinicalDocument/component/structuredBody/component/section[(not(@nullFlavor) or @nullFlavor='NI') and templateId[@root='2.16.840.1.113883.10.20.22.2.60']]";
     public static String HEALTHCONCERN_EXPRESSION = "/ClinicalDocument/component/structuredBody/component/section[(not(@nullFlavor) or @nullFlavor='NI') and templateId[@root='2.16.840.1.113883.10.20.22.2.58']]";
     public static String CTM_EXPRESSION = "/ClinicalDocument/documentationOf/serviceEvent/performer[not(@nullFlavor)]";
+    
+    public static String REFERENCE_TEXT_EXPRESSION = "./code/originalText/reference[not(@nullFlavor)] | ./text/reference[not(@nullFlavor)] | ./participant/participantRole/playingEntity/code/originalText/reference[not(@nullFlavor)]";
     
     
     public static String PROBLEMS_TEM_ID = "2.16.840.1.113883.10.20.22.2.5.1";
@@ -109,6 +115,23 @@ public class ApplicationConstants {
 				UNSTRUCTURED_DOCUMENT, CARE_PLAN, REFERRAL_NOTE,
 				TRANSFER_SUMMARY,
 				US_REALM_HEADER_PATIENT_GENERATED_DOCUMENT));
+    }
+    
+    public enum CCDADocumentNamespaces {
+        sdtc ("urn:hl7-org:sdtc"),
+        v3 ("urn:hl7-org:v3"),
+        defaultNameSpaceForCcda ("urn:hl7-org:v3"),
+        voc ("urn:hl7-org:v3/voc");
+
+        private final String namespace;
+
+        CCDADocumentNamespaces(final String namespace) {
+            this.namespace = namespace;
+        }
+
+        public String getNamespace() {
+            return namespace;
+        }
     }
     
 }

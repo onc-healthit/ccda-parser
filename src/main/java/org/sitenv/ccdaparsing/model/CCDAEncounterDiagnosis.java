@@ -7,6 +7,7 @@ public class CCDAEncounterDiagnosis extends CCDAXmlSnippet {
 	private ArrayList<CCDAII>         templateId;
 	private CCDACode                  entryCode;
 	private ArrayList<CCDAProblemObs> problemObs;
+	private CCDADataElement referenceText;
 
 	
 	public ArrayList<CCDAII> getTemplateId() {
@@ -36,6 +37,15 @@ public class CCDAEncounterDiagnosis extends CCDAXmlSnippet {
 
 	public void setProblemObs(ArrayList<CCDAProblemObs> problemObs) {
 		this.problemObs = problemObs;
+	}
+	
+	public CCDADataElement getReferenceText() {
+		return referenceText;
+	}
+
+
+	public void setReferenceText(CCDADataElement referenceText) {
+		this.referenceText = referenceText;
 	}
 
 

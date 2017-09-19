@@ -13,7 +13,8 @@ public class CCDAMedicationActivity extends CCDAXmlSnippet{
 	private CCDAPQ								rateQuantity;
 	private CCDACode							adminUnitCode;
 	private CCDAConsumable						consumable;
-	private ArrayList<CCDADataElement> referenceTexts;
+	private CCDADataElement referenceText;
+	private CCDAMedicationSubstanceAdminstration medSubAdmin;
 	
 	public ArrayList<CCDAII> getTemplateIds() {
 		return templateIds;
@@ -87,17 +88,20 @@ public class CCDAMedicationActivity extends CCDAXmlSnippet{
 		this.consumable = consumable;
 	}
 	
-	public ArrayList<CCDADataElement> getReferenceTexts() {
-		if(this.referenceTexts == null)
-		{
-			this.referenceTexts = new ArrayList<CCDADataElement>();
-		}
-		
-		return referenceTexts;
+	public CCDADataElement getReferenceText() {
+		return referenceText;
 	}
 
-	public void setReferenceTexts(ArrayList<CCDADataElement> referenceTexts) {
-		this.referenceTexts = referenceTexts;
+	public void setReferenceText(CCDADataElement referenceText) {
+		this.referenceText = referenceText;
+	}
+
+	public CCDAMedicationSubstanceAdminstration getMedSubAdmin() {
+		return medSubAdmin;
+	}
+
+	public void setMedSubAdmin(CCDAMedicationSubstanceAdminstration medSubAdmin) {
+		this.medSubAdmin = medSubAdmin;
 	}
 
 	@Override

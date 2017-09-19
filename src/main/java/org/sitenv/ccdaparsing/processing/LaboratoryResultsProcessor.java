@@ -88,11 +88,8 @@ public class LaboratoryResultsProcessor {
 			labResultOrg.setTemplateIds(ApplicationUtil.readTemplateIdList((NodeList) xPath.compile("./templateId[not(@nullFlavor)]").
 										evaluate(labResultOrgElement, XPathConstants.NODESET)));
 			
-			labResultOrg.getReferenceTexts().addAll(ApplicationUtil.readTextReferences((NodeList) xPath.compile(".//originalText/reference[not(@nullFlavor)]").
-					evaluate(labResultOrgElement, XPathConstants.NODESET)));
-
-			labResultOrg.getReferenceTexts().addAll(ApplicationUtil.readTextReferences((NodeList) xPath.compile(".//text/reference[not(@nullFlavor)]").
-					evaluate(labResultOrgElement, XPathConstants.NODESET)));
+			labResultOrg.setReferenceText(ApplicationUtil.readTextReference((Element) xPath.compile(ApplicationConstants.REFERENCE_TEXT_EXPRESSION).
+					evaluate(labResultOrgElement, XPathConstants.NODE)));
 			
 			labResultOrg.setOrgCode(ApplicationUtil.readCode((Element) xPath.compile("./code[not(@nullFlavor)]").
 					evaluate(labResultOrgElement, XPathConstants.NODE)));
@@ -124,6 +121,9 @@ public class LaboratoryResultsProcessor {
 			resultObservationElement.setAttribute("xmlns:xsi", "http://www.w3.org/2001/XMLSchema-instance");
 			resultObservation.setLineNumber(resultObservationElement.getUserData("lineNumber") + " - " + resultObservationElement.getUserData("endLineNumber") );
 			resultObservation.setXmlString(ApplicationUtil.nodeToString((Node)resultObservationElement));
+			
+			resultObservation.setReferenceText(ApplicationUtil.readTextReference((Element) xPath.compile(ApplicationConstants.REFERENCE_TEXT_EXPRESSION).
+					evaluate(resultObservationElement, XPathConstants.NODE)));
 			
 			if(ApplicationUtil.readID((Element) xPath.compile("./id[not(@nullFlavor)]").
 					evaluate(resultObservationElement, XPathConstants.NODE),"resultObservation")!= null)
