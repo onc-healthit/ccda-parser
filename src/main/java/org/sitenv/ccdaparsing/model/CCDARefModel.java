@@ -4,6 +4,7 @@ import java.util.ArrayList;
 
 public class CCDARefModel {
 	
+	private CCDAII  docTemplateId;
 	private CCDAPatient        patient;
 	private CCDACareTeamMember members;
 	private CCDAEncounter      encounter;
@@ -24,7 +25,12 @@ public class CCDARefModel {
 	private UsrhSubType        usrhSubType;
 	private boolean isEmpty;
 	
-	
+	public CCDAII getDocTemplateId() {
+		return docTemplateId;
+	}
+	public void setDocTemplateId(CCDAII docTemplateId) {
+		this.docTemplateId = docTemplateId;
+	}
 	public CCDAPatient getPatient() {
 		return patient;
 	}

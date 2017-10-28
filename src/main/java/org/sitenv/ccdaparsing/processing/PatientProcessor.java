@@ -8,6 +8,7 @@ import javax.xml.xpath.XPathConstants;
 import javax.xml.xpath.XPathExpressionException;
 
 import org.sitenv.ccdaparsing.model.CCDADataElement;
+import org.sitenv.ccdaparsing.model.CCDAII;
 import org.sitenv.ccdaparsing.model.CCDAPL;
 import org.sitenv.ccdaparsing.model.CCDAPatient;
 import org.sitenv.ccdaparsing.util.ApplicationConstants;
@@ -18,6 +19,12 @@ import org.w3c.dom.Node;
 import org.w3c.dom.NodeList;
 
 public class PatientProcessor {
+	
+	
+	public static CCDAII retrieveDocTemplateId(XPath xPath , Document doc) throws XPathExpressionException,TransformerException{
+		Element templateIdElement = (Element) xPath.compile(ApplicationConstants.DOC_TEMPLATEID_EXPRESSION).evaluate(doc, XPathConstants.NODE);
+		return ApplicationUtil.readTemplateID(templateIdElement);
+	}
 	
 	
 	public static CCDAPatient retrievePatientDetails(XPath xPath , Document doc) throws XPathExpressionException,TransformerException
