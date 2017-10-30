@@ -39,7 +39,7 @@ public class MediactionAllergiesProcessor {
 							evaluate(sectionElement, XPathConstants.NODESET)));
 			allergies.setSectionCode(ApplicationUtil.readCode((Element) xPath.compile("./code[not(@nullFlavor)]").
 					evaluate(sectionElement, XPathConstants.NODE)));
-			allergies.setAllergyConcern(readAllergyConcern((NodeList) xPath.compile("./entry/act[not(@nullFlavor)]").
+			allergies.setAllergyConcern(readAllergyConcern((NodeList) xPath.compile("./entry/act[not(@nullFlavor) and templateId[@root!='2.16.840.1.113883.10.20.22.4.64']]").
 					evaluate(sectionElement, XPathConstants.NODESET), xPath,idList));
 			sectionElement.setAttribute("xmlns:xsi", "http://www.w3.org/2001/XMLSchema-instance");
 			allergies.setLineNumber(sectionElement.getUserData("lineNumber") + " - " + sectionElement.getUserData("endLineNumber") );
