@@ -53,6 +53,7 @@ public class CCDAParserAPI {
 			Document doc = PositionalXMLReader.readXML(inputStream);
 			if(doc.getDocumentElement()!= null && doc.getDocumentElement().getChildNodes().getLength()>1)
 			{
+				refModel.setDocTemplateId(PatientProcessor.retrieveDocTemplateId(xPath, doc));
 				refModel.setPatient(PatientProcessor.retrievePatientDetails(xPath, doc));
 				refModel.setEncounter(EncounterDiagnosesProcessor.retrieveEncounterDetails(xPath, doc,idList));
 				refModel.setProblem(ProblemProcessor.retrieveProblemDetails(xPath, doc,idList));
