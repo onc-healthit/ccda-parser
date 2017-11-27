@@ -8,11 +8,12 @@ import org.sitenv.ccdaparsing.service.CCDAParserAPI;
 
 public class RunParser {
 
-	public static String fileLocation = "C:/Projects/Drajer/mounika/mounika/Nullflavour/Scenario_1_Epic.xml";
-	public static void main(String[] args)throws Exception {
+	public String fileLocation = "C:/Projects/Drajer/mounika/mounika/Nullflavour/Scenario_1_Epic.xml";
+	private CCDAParserAPI cCDAParserAPI = new CCDAParserAPI();
+	public void main(String[] args)throws Exception {
 		
 		InputStream inputStream = new FileInputStream(new File(fileLocation));
-		CCDAParserAPI.parseCCDA2_1(inputStream);
+		cCDAParserAPI.parseCCDA2_1(inputStream);
 	}
 
 }

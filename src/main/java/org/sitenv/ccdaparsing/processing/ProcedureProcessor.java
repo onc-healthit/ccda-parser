@@ -2,12 +2,14 @@ package org.sitenv.ccdaparsing.processing;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.concurrent.Future;
 
 import javax.xml.transform.TransformerException;
 import javax.xml.xpath.XPath;
 import javax.xml.xpath.XPathConstants;
 import javax.xml.xpath.XPathExpressionException;
 
+import org.apache.log4j.Logger;
 import org.sitenv.ccdaparsing.model.CCDAAssignedEntity;
 import org.sitenv.ccdaparsing.model.CCDAID;
 import org.sitenv.ccdaparsing.model.CCDAOrganization;
@@ -17,24 +19,34 @@ import org.sitenv.ccdaparsing.model.CCDAServiceDeliveryLoc;
 import org.sitenv.ccdaparsing.model.CCDAUDI;
 import org.sitenv.ccdaparsing.util.ApplicationConstants;
 import org.sitenv.ccdaparsing.util.ApplicationUtil;
+import org.springframework.scheduling.annotation.Async;
+import org.springframework.scheduling.annotation.AsyncResult;
+import org.springframework.stereotype.Service;
 import org.w3c.dom.Document;
 import org.w3c.dom.Element;
 import org.w3c.dom.Node;
 import org.w3c.dom.NodeList;
 
+@Service
 public class ProcedureProcessor {
 	
-	public static CCDAProcedure retrievePrcedureDetails(XPath xPath , Document doc, List<CCDAID> idList) throws XPathExpressionException,TransformerException
+	private static final Logger logger = Logger.getLogger(ProcedureProcessor.class);
+	
+	@Async()
+	public Future<CCDAProcedure> retrievePrcedureDetails(XPath xPath , Document doc) throws XPathExpressionException,TransformerException
 	{
+		long startTime = System.currentTimeMillis();
+    	logger.info("Procedure parsing Start time:"+ startTime);
 		CCDAProcedure procedures = null;
 		Element sectionElement = (Element) xPath.compile(ApplicationConstants.PROCEDURE_EXPRESSION).evaluate(doc, XPathConstants.NODE);
+		List<CCDAID> idList = new ArrayList<>();
 		if(sectionElement !=null)
 		{
 			procedures = new CCDAProcedure();
 			if(ApplicationUtil.checkForNullFlavourNI(sectionElement))
 			{
 				procedures.setSectionNullFlavourWithNI(true);
-				return procedures;
+				return new AsyncResult<CCDAProcedure>(procedures);
 			}
 			procedures.setSectionTemplateId(ApplicationUtil.readTemplateIdList((NodeList) xPath.
 							compile("./templateId[not(@nullFlavor)]").evaluate(sectionElement, XPathConstants.NODESET)));
@@ -54,12 +66,14 @@ public class ProcedureProcessor {
 				procedures.getReferenceLinks().addAll((ApplicationUtil.readSectionTextReferences((NodeList) xPath.compile(".//*[not(@nullFlavor) and @ID]").
 					evaluate(textElement, XPathConstants.NODESET))));
 			}
+			procedures.setIdList(idList);
 
 		}
-		return procedures;
+		logger.info("Procedure parsing End time:"+ (System.currentTimeMillis() - startTime));
+		return new AsyncResult<CCDAProcedure>(procedures);
 	}
 	
-	public static ArrayList<CCDAProcActProc> readProcedures(NodeList proceduresNodeList , XPath xPath , List<CCDAID> idList) throws XPathExpressionException,TransformerException
+	public ArrayList<CCDAProcActProc> readProcedures(NodeList proceduresNodeList , XPath xPath , List<CCDAID> idList) throws XPathExpressionException,TransformerException
 	{
 		ArrayList<CCDAProcActProc> proceduresList = null;
 		if(!ApplicationUtil.isNodeListEmpty(proceduresNodeList))
@@ -117,7 +131,7 @@ public class ProcedureProcessor {
 		return proceduresList;
 	}
 	
-	public static ArrayList<CCDAAssignedEntity> readPerformerList(NodeList performerEntityNodeList , XPath xPath, List<CCDAID> idList) throws XPathExpressionException,TransformerException
+	public ArrayList<CCDAAssignedEntity> readPerformerList(NodeList performerEntityNodeList , XPath xPath, List<CCDAID> idList) throws XPathExpressionException,TransformerException
 	{ 
 		ArrayList<CCDAAssignedEntity> assignedEntityList = null;
 		if(!ApplicationUtil.isNodeListEmpty(performerEntityNodeList))
@@ -171,7 +185,7 @@ public class ProcedureProcessor {
 		
 	}
 	
-	public static ArrayList<CCDAUDI> readUDI(NodeList deviceNodeList, XPath xPath, List<CCDAID> idList) throws XPathExpressionException,TransformerException
+	public ArrayList<CCDAUDI> readUDI(NodeList deviceNodeList, XPath xPath, List<CCDAID> idList) throws XPathExpressionException,TransformerException
 	{
 		ArrayList<CCDAUDI> deviceList =  null;
 		if(!ApplicationUtil.isNodeListEmpty(deviceNodeList))
@@ -209,7 +223,7 @@ public class ProcedureProcessor {
 		
 	}
 	
-	public static ArrayList<CCDAServiceDeliveryLoc> readServiceDeliveryLocators(NodeList serviceDeliveryLocNodeList, XPath xPath, List<CCDAID> idList) throws XPathExpressionException,TransformerException
+	public ArrayList<CCDAServiceDeliveryLoc> readServiceDeliveryLocators(NodeList serviceDeliveryLocNodeList, XPath xPath, List<CCDAID> idList) throws XPathExpressionException,TransformerException
 	{
 		ArrayList<CCDAServiceDeliveryLoc> serviceDeliveryLocsList = null;
 		if(!ApplicationUtil.isNodeListEmpty(serviceDeliveryLocNodeList))

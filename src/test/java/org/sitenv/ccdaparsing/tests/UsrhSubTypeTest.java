@@ -8,7 +8,6 @@ import javax.xml.xpath.XPath;
 import javax.xml.xpath.XPathFactory;
 
 import org.junit.Assert;
-import org.junit.BeforeClass;
 import org.junit.Test;
 import org.sitenv.ccdaparsing.model.UsrhSubType;
 import org.sitenv.ccdaparsing.processing.UsrhSubTypeProcessor;
@@ -28,19 +27,20 @@ public class UsrhSubTypeTest {
 	//	And a break at this equal comparison:
 	//	xmlII.getRootValue() 2.16.840.1.113883.10.20.22.1.2
 	//	constantUsrhII.getRootValue() 2.16.840.1.113883.10.20.22.1.2
-	private static final String PATH = "src/test/resources/";
-	private static final String REAL_CCDA_DOC_CCD = PATH + "170.315_b1_toc_amb_ccd_r21_sample1_v1.xml";
-	private static final String TEST_DOC_NO_TYPE = PATH + "UsrhSubTypeTest_NoDocType.xml";
-	private static final String TEST_DOC_UD = PATH + "UsrhSubTypeTest_UnstructuredDocument.xml";
-	private static final String TEST_DOC_CP = PATH + "UsrhSubTypeTest_CarePlan.xml";
-	private static UsrhSubType usrhSubType;
+	private final String PATH = "src/test/resources/";
+	private final String REAL_CCDA_DOC_CCD = PATH + "170.315_b1_toc_amb_ccd_r21_sample1_v1.xml";
+	private final String TEST_DOC_NO_TYPE = PATH + "UsrhSubTypeTest_NoDocType.xml";
+	private final String TEST_DOC_UD = PATH + "UsrhSubTypeTest_UnstructuredDocument.xml";
+	private final String TEST_DOC_CP = PATH + "UsrhSubTypeTest_CarePlan.xml";
+	private UsrhSubType usrhSubType;
+	private UsrhSubTypeProcessor usrhSubTypeProcessor = new UsrhSubTypeProcessor();
 	
-	private static void setup(String ccdaDoc) throws Exception {
+	private void setup(String ccdaDoc) throws Exception {
 		DocumentBuilderFactory factory = DocumentBuilderFactory.newInstance();
 		DocumentBuilder builder = factory.newDocumentBuilder();
 		Document doc = builder.parse(new File(ccdaDoc));
 		XPath xPath = XPathFactory.newInstance().newXPath();
-		usrhSubType = UsrhSubTypeProcessor.retrieveUsrhSubTypeDetails(xPath, doc);
+		usrhSubType = usrhSubTypeProcessor.retrieveUsrhSubTypeDetails(xPath, doc).get();
 	}
 
 	@Test

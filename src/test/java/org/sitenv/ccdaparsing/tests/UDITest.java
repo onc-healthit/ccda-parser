@@ -2,7 +2,6 @@ package org.sitenv.ccdaparsing.tests;
 
 import java.io.File;
 import java.util.ArrayList;
-import java.util.List;
 
 import javax.xml.parsers.DocumentBuilder;
 import javax.xml.parsers.DocumentBuilderFactory;
@@ -13,7 +12,6 @@ import org.junit.Assert;
 import org.junit.BeforeClass;
 import org.junit.Test;
 import org.sitenv.ccdaparsing.model.CCDACode;
-import org.sitenv.ccdaparsing.model.CCDAID;
 import org.sitenv.ccdaparsing.model.CCDAII;
 import org.sitenv.ccdaparsing.model.CCDAProcedure;
 import org.sitenv.ccdaparsing.model.CCDAUDI;
@@ -23,23 +21,23 @@ import org.w3c.dom.Document;
 
 public class UDITest {
 	
-	private static String CCDA_DOC = "src/test/resources/170.315_b1_toc_amb_ccd_r21_sample1_v1.xml";
-	private static CCDAProcedure procedures;
-	private static ArrayList<CCDAUDI>  patientUDIList;
-	private static  ArrayList<CCDAUDI>  udiList;
-	private static List<CCDAID> idList = new ArrayList<CCDAID>();
-	
+	private String CCDA_DOC = "src/test/resources/170.315_b1_toc_amb_ccd_r21_sample1_v1.xml";
+	private CCDAProcedure procedures;
+	private ArrayList<CCDAUDI>  patientUDIList;
+	private ArrayList<CCDAUDI>  udiList;
+	private ProcedureProcessor procedureProcessor = new ProcedureProcessor();
+	private UDIProcessor uDIProcessor = new UDIProcessor();
 	
 	@BeforeClass
-	public static void setUp() throws Exception {
+	public void setUp() throws Exception {
 		// removed fields to ensure no side effects with DocumentRoot
 		DocumentBuilderFactory factory = 
 				DocumentBuilderFactory.newInstance();
 		DocumentBuilder builder = factory.newDocumentBuilder();
 		Document doc = builder.parse(new File(CCDA_DOC));
 		XPath xPath =  XPathFactory.newInstance().newXPath();
-		procedures = ProcedureProcessor.retrievePrcedureDetails(xPath, doc,idList);
-		patientUDIList = UDIProcessor.retrieveUDIDetails(procedures);
+		procedures = procedureProcessor.retrievePrcedureDetails(xPath, doc).get();
+		patientUDIList = uDIProcessor.retrieveUDIDetails(procedures);
 		
 		udiList = new ArrayList<>();
 		CCDAUDI udiOne = new CCDAUDI();

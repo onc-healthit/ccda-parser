@@ -1,6 +1,7 @@
 package org.sitenv.ccdaparsing.model;
 
 import java.util.ArrayList;
+import java.util.List;
 
 public class CCDAEncounter extends CCDAXmlSnippet {
 
@@ -9,6 +10,7 @@ public class CCDAEncounter extends CCDAXmlSnippet {
 	private CCDACode  sectionCode;
 	private ArrayList<CCDAEncounterActivity> encActivities;
 	private ArrayList<String> referenceLinks;
+	private List<CCDAID> idLIst;
 	
 	public boolean isSectionNullFlavourWithNI() {
 		return isSectionNullFlavourWithNI;
@@ -52,6 +54,14 @@ public class CCDAEncounter extends CCDAXmlSnippet {
 
 	public void setReferenceLinks(ArrayList<String> referenceLinks) {
 		this.referenceLinks = referenceLinks;
+	}
+	
+	public List<CCDAID> getIdLIst() {
+		return idLIst;
+	}
+
+	public void setIdLIst(List<CCDAID> idLIst) {
+		this.idLIst = idLIst;
 	}
 
 	@Override

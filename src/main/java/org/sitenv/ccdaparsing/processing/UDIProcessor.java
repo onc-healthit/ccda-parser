@@ -7,10 +7,12 @@ import javax.xml.xpath.XPathExpressionException;
 import org.sitenv.ccdaparsing.model.CCDAProcActProc;
 import org.sitenv.ccdaparsing.model.CCDAProcedure;
 import org.sitenv.ccdaparsing.model.CCDAUDI;
+import org.springframework.stereotype.Service;
 
+@Service
 public class UDIProcessor {
 	
-	public static ArrayList<CCDAUDI> retrieveUDIDetails(CCDAProcedure procedures) throws XPathExpressionException
+	public ArrayList<CCDAUDI> retrieveUDIDetails(CCDAProcedure procedures) throws XPathExpressionException
 	{
 		ArrayList<CCDAUDI> patientUDIList = null;
 		

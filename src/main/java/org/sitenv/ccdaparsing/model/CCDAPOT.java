@@ -1,6 +1,7 @@
 package org.sitenv.ccdaparsing.model;
 
 import java.util.ArrayList;
+import java.util.List;
 
 public class CCDAPOT extends CCDAXmlSnippet{
 	
@@ -12,6 +13,7 @@ public class CCDAPOT extends CCDAXmlSnippet{
 	private ArrayList<CCDAProcActProc> plannedProcedure; 
 	private ArrayList<CCDAMedicationActivity> plannedMedicationActivity; 
 	private ArrayList<CCDAEncounterActivity> plannedEncounter;
+	private List<CCDAID> idList;
 	
 	
 	public boolean isSectionNullFlavourWithNI() {
@@ -66,6 +68,14 @@ public class CCDAPOT extends CCDAXmlSnippet{
 			ArrayList<CCDAEncounterActivity> plannedEncounter) {
 		this.plannedEncounter = plannedEncounter;
 	}
+	public List<CCDAID> getIdList() {
+		return idList;
+	}
+
+	public void setIdList(List<CCDAID> idList) {
+		this.idList = idList;
+	}
+
 	@Override
 	public int hashCode() {
 		final int prime = 31;

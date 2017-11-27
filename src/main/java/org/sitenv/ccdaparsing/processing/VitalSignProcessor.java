@@ -2,12 +2,14 @@ package org.sitenv.ccdaparsing.processing;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.concurrent.Future;
 
 import javax.xml.transform.TransformerException;
 import javax.xml.xpath.XPath;
 import javax.xml.xpath.XPathConstants;
 import javax.xml.xpath.XPathExpressionException;
 
+import org.apache.log4j.Logger;
 import org.sitenv.ccdaparsing.model.CCDAID;
 import org.sitenv.ccdaparsing.model.CCDAPQ;
 import org.sitenv.ccdaparsing.model.CCDAVitalObs;
@@ -15,24 +17,35 @@ import org.sitenv.ccdaparsing.model.CCDAVitalOrg;
 import org.sitenv.ccdaparsing.model.CCDAVitalSigns;
 import org.sitenv.ccdaparsing.util.ApplicationConstants;
 import org.sitenv.ccdaparsing.util.ApplicationUtil;
+import org.springframework.scheduling.annotation.Async;
+import org.springframework.scheduling.annotation.AsyncResult;
+import org.springframework.stereotype.Service;
 import org.w3c.dom.Document;
 import org.w3c.dom.Element;
 import org.w3c.dom.Node;
 import org.w3c.dom.NodeList;
 
+@Service
 public class VitalSignProcessor {
 	
-	public static CCDAVitalSigns retrieveVitalSigns(XPath xPath , Document doc, List<CCDAID> idList) throws XPathExpressionException,TransformerException
+	private static final Logger logger = Logger.getLogger(VitalSignProcessor.class);
+	
+	@Async()
+	public Future<CCDAVitalSigns> retrieveVitalSigns(XPath xPath , Document doc) throws XPathExpressionException,TransformerException
 	{
+		long startTime = System.currentTimeMillis();
+		logger.info("Vitals parsing Start time:"+ startTime);
+		
 		CCDAVitalSigns vitalSigns = null;
 		Element sectionElement = (Element) xPath.compile(ApplicationConstants.VITALSIGNS_EXPRESSION).evaluate(doc, XPathConstants.NODE);
+		List<CCDAID> idList = new ArrayList<>();
 		if(sectionElement != null)
 		{
 			vitalSigns = new CCDAVitalSigns();
 			if(ApplicationUtil.checkForNullFlavourNI(sectionElement))
 			{
 				vitalSigns.setSectionNullFlavourWithNI(true);
-				return vitalSigns;
+				return new AsyncResult<CCDAVitalSigns>(vitalSigns);
 			}
 			vitalSigns.setTemplateIds(ApplicationUtil.readTemplateIdList((NodeList) xPath.compile("./templateId[not(@nullFlavor)]").
 					evaluate(sectionElement, XPathConstants.NODESET)));
@@ -52,12 +65,14 @@ public class VitalSignProcessor {
 				vitalSigns.getReferenceLinks().addAll((ApplicationUtil.readSectionTextReferences((NodeList) xPath.compile(".//*[not(@nullFlavor) and @ID]").
 					evaluate(textElement, XPathConstants.NODESET))));
 			}
+			vitalSigns.setIdList(idList);
 		}
-		return vitalSigns;
+		logger.info("Vitals parsing End time:"+ (System.currentTimeMillis() - startTime));
+		return new AsyncResult<CCDAVitalSigns>(vitalSigns);
 	}
 	
 	
-	public static ArrayList<CCDAVitalOrg> readVitalOrganizer(NodeList vitalOrganizerNodeList, XPath xPath, List<CCDAID> idList) throws XPathExpressionException,TransformerException
+	public ArrayList<CCDAVitalOrg> readVitalOrganizer(NodeList vitalOrganizerNodeList, XPath xPath, List<CCDAID> idList) throws XPathExpressionException,TransformerException
 	{
 		ArrayList<CCDAVitalOrg> vitalOrganizerList = new ArrayList<>();
 		CCDAVitalOrg vitalOrganizer;
@@ -102,7 +117,7 @@ public class VitalSignProcessor {
 		return vitalOrganizerList;
 	}
 	
-	public static ArrayList<CCDAVitalObs> readVitalObservation(NodeList vitalObservationNodeList , XPath xPath, List<CCDAID> idList) throws XPathExpressionException,TransformerException
+	public ArrayList<CCDAVitalObs> readVitalObservation(NodeList vitalObservationNodeList , XPath xPath, List<CCDAID> idList) throws XPathExpressionException,TransformerException
 	{
 		
 		ArrayList<CCDAVitalObs> vitalObservationList = new ArrayList<>();

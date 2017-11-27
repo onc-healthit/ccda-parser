@@ -19,22 +19,23 @@ import org.w3c.dom.Document;
 
 public class HealthConernTest {
 	
-	private static String CCDA_DOC = "src/test/resources/170.315_b1_toc_amb_ccd_r21_sample1_v1.xml";
-	private static CCDAHealthConcerns healthConcerns;
+	private String CCDA_DOC = "src/test/resources/170.315_b1_toc_amb_ccd_r21_sample1_v1.xml";
+	private CCDAHealthConcerns healthConcerns;
 	private ArrayList<CCDAII>    templateIds;
 	private CCDACode  sectionCode;
 	//private CCDADataElement narrativeText;
+	private HealthConcernsProcessor healthConcernsProcessor = new HealthConcernsProcessor();
 	
 	
 	@BeforeClass
-	public static void setUp() throws Exception {
+	public void setUp() throws Exception {
 		// removed fields to ensure no side effects with DocumentRoot
 		DocumentBuilderFactory factory = 
 				DocumentBuilderFactory.newInstance();
 		DocumentBuilder builder = factory.newDocumentBuilder();
 		Document doc = builder.parse(new File(CCDA_DOC));
 		XPath xPath =  XPathFactory.newInstance().newXPath();
-		healthConcerns = HealthConcernsProcessor.retrieveHealthConcernDetails(xPath, doc);
+		healthConcerns = healthConcernsProcessor.retrieveHealthConcernDetails(xPath, doc).get();
 	}
 	
 	

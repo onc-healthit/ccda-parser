@@ -2,12 +2,14 @@ package org.sitenv.ccdaparsing.processing;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.concurrent.Future;
 
 import javax.xml.transform.TransformerException;
 import javax.xml.xpath.XPath;
 import javax.xml.xpath.XPathConstants;
 import javax.xml.xpath.XPathExpressionException;
 
+import org.apache.log4j.Logger;
 import org.sitenv.ccdaparsing.model.CCDAAllergy;
 import org.sitenv.ccdaparsing.model.CCDAAllergyConcern;
 import org.sitenv.ccdaparsing.model.CCDAAllergyObs;
@@ -16,24 +18,35 @@ import org.sitenv.ccdaparsing.model.CCDAAllergySeverity;
 import org.sitenv.ccdaparsing.model.CCDAID;
 import org.sitenv.ccdaparsing.util.ApplicationConstants;
 import org.sitenv.ccdaparsing.util.ApplicationUtil;
+import org.springframework.scheduling.annotation.Async;
+import org.springframework.scheduling.annotation.AsyncResult;
+import org.springframework.stereotype.Service;
 import org.w3c.dom.Document;
 import org.w3c.dom.Element;
 import org.w3c.dom.Node;
 import org.w3c.dom.NodeList;
 
+@Service
 public class MediactionAllergiesProcessor {
 	
-	public static CCDAAllergy retrieveAllergiesDetails(XPath xPath , Document doc, List<CCDAID> idList) throws XPathExpressionException,TransformerException
+	private static final Logger logger = Logger.getLogger(MediactionAllergiesProcessor.class);
+	
+	@Async()
+	public Future<CCDAAllergy> retrieveAllergiesDetails(XPath xPath , Document doc) throws XPathExpressionException,TransformerException
 	{
+		long startTime = System.currentTimeMillis();
+    	logger.info("Allergies parsing Start time:"+ startTime);
+		
 		CCDAAllergy allergies = null;
 		Element sectionElement = (Element) xPath.compile(ApplicationConstants.ALLERGIES_EXPRESSION).evaluate(doc, XPathConstants.NODE);
+		List<CCDAID> idList = new ArrayList<>();
 		if(sectionElement != null)
 		{
 			allergies = new CCDAAllergy();
 			if(ApplicationUtil.checkForNullFlavourNI(sectionElement))
 			{
 				allergies.setSectionNullFlavourWithNI(true);
-				return allergies;
+				return new AsyncResult<CCDAAllergy>(allergies);
 			}
 			allergies.setSectionTemplateId(ApplicationUtil.readTemplateIdList((NodeList) xPath.compile("./templateId[not(@nullFlavor)]").
 							evaluate(sectionElement, XPathConstants.NODESET)));
@@ -52,11 +65,14 @@ public class MediactionAllergiesProcessor {
 				allergies.getReferenceLinks().addAll((ApplicationUtil.readSectionTextReferences((NodeList) xPath.compile(".//*[not(@nullFlavor) and @ID]").
 					evaluate(textElement, XPathConstants.NODESET))));
 			}
+			allergies.setIdList(idList);
+			
 		}
-		return allergies;
+		logger.info("Allergies parsing End time:"+ (System.currentTimeMillis() - startTime));
+		return new AsyncResult<CCDAAllergy>(allergies);
 	}
 	
-	public static ArrayList<CCDAAllergyConcern> readAllergyConcern(NodeList allergyConcernNodeList, XPath xPath, List<CCDAID> idList) throws XPathExpressionException,TransformerException
+	public ArrayList<CCDAAllergyConcern> readAllergyConcern(NodeList allergyConcernNodeList, XPath xPath, List<CCDAID> idList) throws XPathExpressionException,TransformerException
 	{
 		ArrayList<CCDAAllergyConcern> allergyConcernList = null;
 		if(!ApplicationUtil.isNodeListEmpty(allergyConcernNodeList))
@@ -104,7 +120,7 @@ public class MediactionAllergiesProcessor {
 	}
 	
 	
-	public static ArrayList<CCDAAllergyObs> readAllergyObservation(NodeList allergyObservationNodeList,XPath xPath, List<CCDAID> idList) throws XPathExpressionException,TransformerException
+	public ArrayList<CCDAAllergyObs> readAllergyObservation(NodeList allergyObservationNodeList,XPath xPath, List<CCDAID> idList) throws XPathExpressionException,TransformerException
 	{
 		ArrayList<CCDAAllergyObs> allergyObservationList = null;
 		if(!ApplicationUtil.isNodeListEmpty(allergyObservationNodeList))

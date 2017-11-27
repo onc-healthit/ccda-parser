@@ -1,6 +1,7 @@
 package org.sitenv.ccdaparsing.model;
 
 import java.util.ArrayList;
+import java.util.List;
 
 public class CCDAVitalSigns extends CCDAXmlSnippet{
 	
@@ -9,6 +10,7 @@ public class CCDAVitalSigns extends CCDAXmlSnippet{
 	private CCDACode					sectionCode;
 	private ArrayList<CCDAVitalOrg>		vitalsOrg;
 	private ArrayList<String> referenceLinks;
+	List<CCDAID> idList;
 	
 	public boolean isSectionNullFlavourWithNI() {
 		return isSectionNullFlavourWithNI;
@@ -52,6 +54,14 @@ public class CCDAVitalSigns extends CCDAXmlSnippet{
 
 	public void setReferenceLinks(ArrayList<String> referenceLinks) {
 		this.referenceLinks = referenceLinks;
+	}
+	
+	public List<CCDAID> getIdList() {
+		return idList;
+	}
+
+	public void setIdList(List<CCDAID> idList) {
+		this.idList = idList;
 	}
 
 	public CCDAVitalSigns()

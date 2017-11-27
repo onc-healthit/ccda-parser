@@ -1,6 +1,7 @@
 package org.sitenv.ccdaparsing.model;
 
 import java.util.ArrayList;
+import java.util.List;
 
 public class CCDASocialHistory extends CCDAXmlSnippet{
 
@@ -11,6 +12,7 @@ public class CCDASocialHistory extends CCDAXmlSnippet{
 	private ArrayList<CCDATobaccoUse>			tobaccoUse;
 	private CCDASocialHistoryGenderObs          socialHistoryGenderObs;
 	private ArrayList<String> referenceLinks;
+	private List<CCDAID> idList;
 	
 	public boolean isSectionNullFlavourWithNI() {
 		return isSectionNullFlavourWithNI;
@@ -75,6 +77,14 @@ public class CCDASocialHistory extends CCDAXmlSnippet{
 
 	public void setSocialHistoryGenderObs(CCDASocialHistoryGenderObs socialHistoryGenderObs) {
 		this.socialHistoryGenderObs = socialHistoryGenderObs;
+	}
+	
+	public List<CCDAID> getIdList() {
+		return idList;
+	}
+
+	public void setIdList(List<CCDAID> idList) {
+		this.idList = idList;
 	}
 
 	@Override

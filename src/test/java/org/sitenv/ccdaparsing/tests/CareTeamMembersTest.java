@@ -20,19 +20,20 @@ import org.w3c.dom.Document;
 
 public class CareTeamMembersTest {
 	
-	private static String CCDA_DOC = "src/test/resources/170.315_b1_toc_amb_ccd_r21_sample1_v1.xml";
-	private static CCDACareTeamMember careTeamMember;
-	private static ArrayList<CCDAParticipant> members;
+	private String CCDA_DOC = "src/test/resources/170.315_b1_toc_amb_ccd_r21_sample1_v1.xml";
+	private CCDACareTeamMember careTeamMember;
+	private ArrayList<CCDAParticipant> members;
+	private CareTeamMemberProcessor careTeamMemberProcessor = new CareTeamMemberProcessor();
 	
 	@BeforeClass
-	public static void setUp() throws Exception {
+	public void setUp() throws Exception {
 		// removed fields to ensure no side effects with DocumentRoot
 		DocumentBuilderFactory factory = 
 				DocumentBuilderFactory.newInstance();
 		DocumentBuilder builder = factory.newDocumentBuilder();
 		Document doc = builder.parse(new File(CCDA_DOC));
 		XPath xPath =  XPathFactory.newInstance().newXPath();
-		careTeamMember = CareTeamMemberProcessor.retrieveCTMDetails(xPath, doc);
+		careTeamMember = careTeamMemberProcessor.retrieveCTMDetails(xPath, doc).get();
 		
 		members = new ArrayList<CCDAParticipant>();
 		CCDAParticipant memberOne = new CCDAParticipant();

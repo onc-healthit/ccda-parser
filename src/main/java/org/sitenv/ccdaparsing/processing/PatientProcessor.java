@@ -1,34 +1,44 @@
 package org.sitenv.ccdaparsing.processing;
 
 import java.util.ArrayList;
+import java.util.concurrent.Future;
 
 import javax.xml.transform.TransformerException;
 import javax.xml.xpath.XPath;
 import javax.xml.xpath.XPathConstants;
 import javax.xml.xpath.XPathExpressionException;
 
+import org.apache.log4j.Logger;
 import org.sitenv.ccdaparsing.model.CCDADataElement;
 import org.sitenv.ccdaparsing.model.CCDAII;
 import org.sitenv.ccdaparsing.model.CCDAPL;
 import org.sitenv.ccdaparsing.model.CCDAPatient;
 import org.sitenv.ccdaparsing.util.ApplicationConstants;
 import org.sitenv.ccdaparsing.util.ApplicationUtil;
+import org.springframework.scheduling.annotation.Async;
+import org.springframework.scheduling.annotation.AsyncResult;
+import org.springframework.stereotype.Service;
 import org.w3c.dom.Document;
 import org.w3c.dom.Element;
 import org.w3c.dom.Node;
 import org.w3c.dom.NodeList;
 
+@Service
 public class PatientProcessor {
 	
+	private static final Logger logger = Logger.getLogger(PatientProcessor.class);
 	
-	public static CCDAII retrieveDocTemplateId(XPath xPath , Document doc) throws XPathExpressionException,TransformerException{
+	public CCDAII retrieveDocTemplateId(XPath xPath , Document doc) throws XPathExpressionException,TransformerException{
 		Element templateIdElement = (Element) xPath.compile(ApplicationConstants.DOC_TEMPLATEID_EXPRESSION).evaluate(doc, XPathConstants.NODE);
 		return ApplicationUtil.readTemplateID(templateIdElement);
 	}
 	
 	
-	public static CCDAPatient retrievePatientDetails(XPath xPath , Document doc) throws XPathExpressionException,TransformerException
+	@Async()
+	public Future<CCDAPatient> retrievePatientDetails(XPath xPath , Document doc) throws XPathExpressionException,TransformerException
 	{
+		long startTime = System.currentTimeMillis();
+    	logger.info("Patient parsing Start time:"+ startTime);
 		CCDAPatient patient = null;
 		Element patientDodElement = null;
 		NodeList nodeList = (NodeList) xPath.compile(ApplicationConstants.PATIENT_EXPRESSION).evaluate(doc, XPathConstants.NODESET);
@@ -94,11 +104,13 @@ public class PatientProcessor {
 	            	patient.setDod(ApplicationUtil.readEffectivetime(patientDodElement,xPath));
 	            }
 	   }
+		
+		logger.info("Patient parsing End time:"+ (System.currentTimeMillis() - startTime));
 	    
-	   return patient;
+		return new AsyncResult<CCDAPatient>(patient);
 	}
 	
-	public static void readRaceCodes(NodeList raceCodeList, CCDAPatient patient)throws TransformerException
+	public void readRaceCodes(NodeList raceCodeList, CCDAPatient patient)throws TransformerException
 	{
 		Element raceCodeElement= null;
 		for (int i = 0; i < raceCodeList.getLength(); i++) {
@@ -116,7 +128,7 @@ public class PatientProcessor {
 	}
 	
 	
-	public static void readName(Element nameElement,CCDAPatient patient,XPath xPath) throws XPathExpressionException,TransformerException
+	public void readName(Element nameElement,CCDAPatient patient,XPath xPath) throws XPathExpressionException,TransformerException
 	{
 		CCDADataElement patientLegalNameElement;
 		if(nameElement != null)
@@ -152,7 +164,7 @@ public class PatientProcessor {
 	}
 	
 	
-	public static ArrayList<CCDAPL> readPreferredLanguage(NodeList languageCommElementList , XPath xPath) throws XPathExpressionException,TransformerException
+	public ArrayList<CCDAPL> readPreferredLanguage(NodeList languageCommElementList , XPath xPath) throws XPathExpressionException,TransformerException
 	{
 		ArrayList<CCDAPL> preferredLanguageList = new ArrayList<>();
 		CCDAPL preferredLanguage = null;

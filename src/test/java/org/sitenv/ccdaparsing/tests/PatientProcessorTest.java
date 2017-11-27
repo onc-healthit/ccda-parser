@@ -39,9 +39,10 @@ public class PatientProcessorTest {
 	private CCDACode religiousAffiliationCode;
 	private ArrayList<CCDADataElement> telecomList;
 	private CCDAAddress birthPlace;
+	private PatientProcessor patientProcessor = new PatientProcessor();
 
 	@BeforeClass
-	public static void setUp() throws Exception {
+	public void setUp() throws Exception {
 		// removed fields to ensure no side effects with DocumentRoot
 		DocumentBuilderFactory factory = DocumentBuilderFactory.newInstance();
 		factory.setNamespaceAware(false);
@@ -49,7 +50,7 @@ public class PatientProcessorTest {
 		final Document doc = builder.parse(new File(CCDA_DOC));
 		XPath xPath = XPathFactory.newInstance().newXPath();
 		// xPath.setNamespaceContext(ApplicationUtil.ctx);
-		patient = PatientProcessor.retrievePatientDetails(xPath, doc);
+		patient = patientProcessor.retrievePatientDetails(xPath, doc).get();
 	}
 
 	private void setNames() {

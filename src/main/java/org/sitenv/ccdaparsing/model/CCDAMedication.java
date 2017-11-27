@@ -1,6 +1,7 @@
 package org.sitenv.ccdaparsing.model;
 
 import java.util.ArrayList;
+import java.util.List;
 
 public class CCDAMedication extends CCDAXmlSnippet{
 
@@ -9,6 +10,7 @@ public class CCDAMedication extends CCDAXmlSnippet{
 	private CCDACode                 			sectionCode;
 	private ArrayList<CCDAMedicationActivity>  	medActivities;
 	private ArrayList<String> referenceLinks;
+	private List<CCDAID> idList;
 	
 	public boolean isSectionNullFlavourWithNI() {
 		return isSectionNullFlavourWithNI;
@@ -57,6 +59,14 @@ public class CCDAMedication extends CCDAXmlSnippet{
 
 	public void setMedActivities(ArrayList<CCDAMedicationActivity> medActivities) {
 		this.medActivities = medActivities;
+	}
+	
+	public List<CCDAID> getIdList() {
+		return idList;
+	}
+
+	public void setIdList(List<CCDAID> idList) {
+		this.idList = idList;
 	}
 
 	@Override

@@ -1,6 +1,7 @@
 package org.sitenv.ccdaparsing.model;
 
 import java.util.ArrayList;
+import java.util.List;
 
 public class CCDALabResult extends CCDAXmlSnippet{
 
@@ -10,6 +11,7 @@ public class CCDALabResult extends CCDAXmlSnippet{
 	private Boolean						isLabTestInsteadOfResult;
 	private ArrayList<String> referenceLinks;
 	private boolean isSectionNullFlavourWithNI;
+	private List<CCDAID> idList = new ArrayList<>();
 	
 	public CCDALabResult()
 	{
@@ -70,6 +72,14 @@ public class CCDALabResult extends CCDAXmlSnippet{
 
 	public void setSectionNullFlavourWithNI(boolean isSectionNullFlavourWithNI) {
 		this.isSectionNullFlavourWithNI = isSectionNullFlavourWithNI;
+	}
+	
+	public List<CCDAID> getIdList() {
+		return idList;
+	}
+
+	public void setIdList(List<CCDAID> idList) {
+		this.idList = idList;
 	}
 
 	@Override

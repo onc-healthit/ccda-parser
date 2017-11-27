@@ -1,6 +1,7 @@
 package org.sitenv.ccdaparsing.model;
 
 import java.util.ArrayList;
+import java.util.List;
 
 public class CCDAProcedure extends CCDAXmlSnippet{
 	
@@ -9,6 +10,7 @@ public class CCDAProcedure extends CCDAXmlSnippet{
 	private CCDACode                 		sectionCode;
 	private ArrayList<CCDAProcActProc>		procActsProcs;
 	private ArrayList<String> referenceLinks;
+	private List<CCDAID> idList;
 	
 	
 	
@@ -59,6 +61,14 @@ public class CCDAProcedure extends CCDAXmlSnippet{
 
 	public void setReferenceLinks(ArrayList<String> referenceLinks) {
 		this.referenceLinks = referenceLinks;
+	}
+	
+	public List<CCDAID> getIdList() {
+		return idList;
+	}
+
+	public void setIdList(List<CCDAID> idList) {
+		this.idList = idList;
 	}
 
 	@Override
