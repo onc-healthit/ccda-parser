@@ -2,7 +2,6 @@ package org.sitenv.ccdaparsing.tests;
 
 import java.io.File;
 import java.util.ArrayList;
-import java.util.List;
 
 import javax.xml.parsers.DocumentBuilder;
 import javax.xml.parsers.DocumentBuilderFactory;
@@ -15,7 +14,6 @@ import org.junit.Test;
 import org.sitenv.ccdaparsing.model.CCDACode;
 import org.sitenv.ccdaparsing.model.CCDADataElement;
 import org.sitenv.ccdaparsing.model.CCDAEffTime;
-import org.sitenv.ccdaparsing.model.CCDAID;
 import org.sitenv.ccdaparsing.model.CCDAII;
 import org.sitenv.ccdaparsing.model.CCDALabResult;
 import org.sitenv.ccdaparsing.model.CCDALabResultObs;
@@ -25,23 +23,23 @@ import org.sitenv.ccdaparsing.processing.LaboratoryResultsProcessor;
 import org.w3c.dom.Document;
 
 public class LaboratoryResultsTest {
-	private static String CCDA_DOC = "src/test/resources/170.315_b1_toc_amb_ccd_r21_sample1_v1.xml";
-	private static CCDALabResult labResults;
+	private String CCDA_DOC = "src/test/resources/170.315_b1_toc_amb_ccd_r21_sample1_v1.xml";
+	private CCDALabResult labResults;
 	private ArrayList<CCDAII>    templateIds;
 	private CCDACode  sectionCode;
-	private static ArrayList<CCDALabResultOrg> resultOrgList;
-	private static List<CCDAID> idList = new ArrayList<CCDAID>();
+	private ArrayList<CCDALabResultOrg> resultOrgList;
+	private LaboratoryResultsProcessor laboratoryResultsProcessor = new LaboratoryResultsProcessor();
 	
 	
 	@BeforeClass
-	public static void setUp() throws Exception {
+	public void setUp() throws Exception {
 		// removed fields to ensure no side effects with DocumentRoot
 		DocumentBuilderFactory factory = 
 				DocumentBuilderFactory.newInstance();
 		DocumentBuilder builder = factory.newDocumentBuilder();
 		Document doc = builder.parse(new File(CCDA_DOC));
 		XPath xPath =  XPathFactory.newInstance().newXPath();
-		labResults = LaboratoryResultsProcessor.retrieveLabResults(xPath, doc,idList);
+		labResults = laboratoryResultsProcessor.retrieveLabResults(xPath, doc).get();
 	}
 	
 	private void setLabResultsSectionCode()
@@ -66,7 +64,7 @@ public class LaboratoryResultsTest {
 	 }
 	
 	@BeforeClass
-	public static void setLabResultsOrg()
+	public void setLabResultsOrg()
 	{
 		
 		resultOrgList = new ArrayList<>();

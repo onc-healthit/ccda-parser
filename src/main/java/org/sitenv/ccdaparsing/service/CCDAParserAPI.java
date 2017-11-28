@@ -4,6 +4,8 @@ import java.io.FileNotFoundException;
 import java.io.IOException;
 import java.io.InputStream;
 import java.util.ArrayList;
+import java.util.concurrent.Future;
+import java.util.concurrent.TimeUnit;
 
 import org.apache.log4j.Logger;
 
@@ -12,8 +14,23 @@ import javax.xml.xpath.XPath;
 import javax.xml.xpath.XPathExpressionException;
 import javax.xml.xpath.XPathFactory;
 
+import org.sitenv.ccdaparsing.model.CCDAAllergy;
+import org.sitenv.ccdaparsing.model.CCDACareTeamMember;
+import org.sitenv.ccdaparsing.model.CCDAEncounter;
+import org.sitenv.ccdaparsing.model.CCDAGoals;
+import org.sitenv.ccdaparsing.model.CCDAHealthConcerns;
 import org.sitenv.ccdaparsing.model.CCDAID;
+import org.sitenv.ccdaparsing.model.CCDAImmunization;
+import org.sitenv.ccdaparsing.model.CCDALabResult;
+import org.sitenv.ccdaparsing.model.CCDAMedication;
+import org.sitenv.ccdaparsing.model.CCDAPOT;
+import org.sitenv.ccdaparsing.model.CCDAPatient;
+import org.sitenv.ccdaparsing.model.CCDAProblem;
+import org.sitenv.ccdaparsing.model.CCDAProcedure;
 import org.sitenv.ccdaparsing.model.CCDARefModel;
+import org.sitenv.ccdaparsing.model.CCDASocialHistory;
+import org.sitenv.ccdaparsing.model.CCDAVitalSigns;
+import org.sitenv.ccdaparsing.model.UsrhSubType;
 import org.sitenv.ccdaparsing.processing.CareTeamMemberProcessor;
 import org.sitenv.ccdaparsing.processing.EncounterDiagnosesProcessor;
 import org.sitenv.ccdaparsing.processing.GoalsProcessor;
@@ -32,9 +49,12 @@ import org.sitenv.ccdaparsing.processing.UDIProcessor;
 import org.sitenv.ccdaparsing.processing.UsrhSubTypeProcessor;
 import org.sitenv.ccdaparsing.processing.VitalSignProcessor;
 import org.sitenv.ccdaparsing.util.PositionalXMLReader;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Service;
 import org.w3c.dom.Document;
 import org.xml.sax.SAXException;
 
+@Service
 public class CCDAParserAPI {
 
 	private static final Logger logger = Logger.getLogger(CCDAParserAPI.class);
@@ -42,35 +62,270 @@ public class CCDAParserAPI {
 	private static XPath xPath = XPathFactory.newInstance().newXPath();
 	
 	//private static String filePath = "C:/Projects/Dragon/CCDAParser/170.315_b1_toc_amb_ccd_r21_sample1_v1.xml";
+	
+	@Autowired
+	PatientProcessor patientProcessor;
+	
+	@Autowired
+	EncounterDiagnosesProcessor encounterDiagnosesProcessor;
+	
+	@Autowired
+	ProblemProcessor problemProcessor;
+	
+	@Autowired
+	MedicationProcessor medicationProcessor;
+	
+	@Autowired
+	MediactionAllergiesProcessor mediactionAllergiesProcessor;
+	
+	@Autowired
+	SmokingStatusProcessor smokingStatusProcessor;
+	
+	@Autowired
+	LaboratoryTestProcessor laboratoryTestProcessor;
+	
+	@Autowired
+	LaboratoryResultsProcessor laboratoryResultsProcessor;
+	
+	@Autowired
+	VitalSignProcessor vitalSignProcessor;
+	
+	@Autowired
+	ProcedureProcessor procedureProcessor;
+	
+	@Autowired
+	CareTeamMemberProcessor careTeamMemberProcessor;
+	
+	@Autowired
+	ImmunizationProcessor immunizationProcessor;
+	
+	@Autowired
+	UDIProcessor uDIProcessor;
+	
+	@Autowired
+	POTProcessor pOTProcessor;
+	
+	@Autowired
+	GoalsProcessor goalsProcessor;
+	
+	@Autowired
+	HealthConcernsProcessor healthConcernsProcessor;
+	
+	@Autowired
+	UsrhSubTypeProcessor usrhSubTypeProcessor;
+	
 	 
-	public static CCDARefModel parseCCDA2_1(InputStream inputStream) {
+	public CCDARefModel parseCCDA2_1(InputStream inputStream) {
 		
 		CCDARefModel refModel = new CCDARefModel();
-		ArrayList<CCDAID> idList = new ArrayList<CCDAID>();
+		Future<CCDAPatient> patient=null;
+		Future<CCDAEncounter> encounters=null;
+		Future<CCDAProblem> problems=null;
+		Future<CCDAMedication> medications=null;
+		Future<CCDAAllergy> allergies=null;
+		Future<CCDASocialHistory> smokingStatus=null;
+		Future<CCDALabResult> labTests=null;
+		Future<CCDALabResult> labResults=null;
+		Future<CCDAVitalSigns> vitals=null;
+		Future<CCDAProcedure> procedures=null;
+		Future<CCDACareTeamMember> careTeamMembers=null;
+		Future<CCDAImmunization> immunizations=null;
+		Future<CCDAPOT> pot=null;
+		Future<CCDAGoals> goals=null;
+		Future<CCDAHealthConcerns> healthConcerns=null;
+		Future<UsrhSubType> usrhSubType=null;
+		ArrayList<CCDAID> idList = new ArrayList<>();
+		logger.info("Parsing CCDA document");
+    	long startTime = System.currentTimeMillis();
+    	logger.info("All section parsing Start time:"+ startTime);
+		long maxWaitTime = 300000;
+		long minWaitTime = 5000;
+		boolean isTimeOut = false;
+		
 	    try {
-			    
-	    	logger.info("Parsing CCDA document");
 			Document doc = PositionalXMLReader.readXML(inputStream);
 			if(doc.getDocumentElement()!= null && doc.getDocumentElement().getChildNodes().getLength()>1)
 			{
-				refModel.setDocTemplateId(PatientProcessor.retrieveDocTemplateId(xPath, doc));
-				refModel.setPatient(PatientProcessor.retrievePatientDetails(xPath, doc));
-				refModel.setEncounter(EncounterDiagnosesProcessor.retrieveEncounterDetails(xPath, doc,idList));
-				refModel.setProblem(ProblemProcessor.retrieveProblemDetails(xPath, doc,idList));
-				refModel.setMedication(MedicationProcessor.retrieveMedicationDetails(xPath, doc,idList));
-				refModel.setAllergy(MediactionAllergiesProcessor.retrieveAllergiesDetails(xPath, doc,idList));
-				refModel.setSmokingStatus(SmokingStatusProcessor.retrieveSmokingStatusDetails(xPath, doc,idList));
-				refModel.setLabTests(LaboratoryTestProcessor.retrieveLabTests(xPath, doc,idList));
-				refModel.setLabResults(LaboratoryResultsProcessor.retrieveLabResults(xPath, doc,idList));
-				refModel.setVitalSigns(VitalSignProcessor.retrieveVitalSigns(xPath, doc,idList));
-				refModel.setProcedure(ProcedureProcessor.retrievePrcedureDetails(xPath, doc,idList));
-				refModel.setMembers(CareTeamMemberProcessor.retrieveCTMDetails(xPath, doc));
-				refModel.setImmunization(ImmunizationProcessor.retrieveImmunizationDetails(xPath, doc,idList));
-				refModel.setUdi(UDIProcessor.retrieveUDIDetails(refModel.getProcedure()));
-				refModel.setPlanOfTreatment(POTProcessor.retrievePOTDetails(xPath, doc,idList));
-				refModel.setGoals(GoalsProcessor.retrieveGoalsDetails(xPath, doc));
-				refModel.setHcs(HealthConcernsProcessor.retrieveHealthConcernDetails(xPath, doc));
-				refModel.setUsrhSubType(UsrhSubTypeProcessor.retrieveUsrhSubTypeDetails(xPath, doc));
+				refModel.setDocTemplateId(patientProcessor.retrieveDocTemplateId(xPath, doc));
+				patient=patientProcessor.retrievePatientDetails(xPath, doc);
+				encounters = encounterDiagnosesProcessor.retrieveEncounterDetails(xPath, doc);
+				problems = problemProcessor.retrieveProblemDetails(xPath, doc);
+				medications = medicationProcessor.retrieveMedicationDetails(xPath, doc);
+				allergies = mediactionAllergiesProcessor.retrieveAllergiesDetails(xPath, doc);
+				smokingStatus = smokingStatusProcessor.retrieveSmokingStatusDetails(xPath, doc);
+				labTests = laboratoryTestProcessor.retrieveLabTests(xPath, doc);
+				labResults = laboratoryResultsProcessor.retrieveLabResults(xPath, doc);
+				vitals = vitalSignProcessor.retrieveVitalSigns(xPath, doc);
+				procedures = procedureProcessor.retrievePrcedureDetails(xPath, doc);
+				careTeamMembers = careTeamMemberProcessor.retrieveCTMDetails(xPath, doc);
+				immunizations = immunizationProcessor.retrieveImmunizationDetails(xPath, doc);
+				pot = pOTProcessor.retrievePOTDetails(xPath, doc);
+				goals = goalsProcessor.retrieveGoalsDetails(xPath, doc);
+				healthConcerns = healthConcernsProcessor.retrieveHealthConcernDetails(xPath, doc);
+				usrhSubType = usrhSubTypeProcessor.retrieveUsrhSubTypeDetails(xPath, doc);
+				
+				if(patient!=null){
+					try{
+						refModel.setPatient(patient.get(maxWaitTime, TimeUnit.MILLISECONDS));
+					}catch (Exception e) {
+						isTimeOut = true;
+					}
+				}
+				
+				if(encounters!=null){
+					try{
+						refModel.setEncounter(encounters.get(isTimeOut?minWaitTime:maxWaitTime, TimeUnit.MILLISECONDS));
+						if(refModel.getEncounter()!=null){
+							idList.addAll(refModel.getEncounter().getIdLIst());
+						}
+					}catch (Exception e) {
+						isTimeOut = true;
+					}
+				}
+				
+				if(problems!=null){
+					try{
+						refModel.setProblem(problems.get(isTimeOut?minWaitTime:maxWaitTime, TimeUnit.MILLISECONDS));
+						if(refModel.getProblem()!=null){
+							idList.addAll(refModel.getProblem().getIdList());
+						}
+					}catch (Exception e) {
+						isTimeOut = true;
+					}
+				}
+				
+				if(medications!=null){
+					try{
+						refModel.setMedication(medications.get(isTimeOut?minWaitTime:maxWaitTime, TimeUnit.MILLISECONDS));
+						if(refModel.getMedication()!=null){
+							idList.addAll(refModel.getMedication().getIdList());
+						}
+					}catch (Exception e) {
+						isTimeOut = true;
+					}
+				}
+				
+				if(allergies!=null){
+					try{
+						refModel.setAllergy(allergies.get(isTimeOut?minWaitTime:maxWaitTime, TimeUnit.MILLISECONDS));
+						if(refModel.getAllergy()!=null){
+							idList.addAll(refModel.getAllergy().getIdList());
+						}
+					}catch (Exception e) {
+						isTimeOut = true;
+					}
+				}
+				
+				if(smokingStatus!=null){
+					try{
+						refModel.setSmokingStatus(smokingStatus.get(isTimeOut?minWaitTime:maxWaitTime, TimeUnit.MILLISECONDS));
+						if(refModel.getSmokingStatus()!=null){
+							idList.addAll(refModel.getSmokingStatus().getIdList());
+						}
+					}catch (Exception e) {
+						isTimeOut = true;
+					}
+				}
+				
+				if(labTests!=null){
+					try{
+						refModel.setLabTests(labTests.get(isTimeOut?minWaitTime:maxWaitTime, TimeUnit.MILLISECONDS));
+						if(refModel.getLabTests()!=null){
+							idList.addAll(refModel.getLabTests().getIdList());
+						}
+					}catch (Exception e) {
+						isTimeOut = true;
+					}
+				}
+				
+				if(labResults!=null){
+					try{
+						refModel.setLabResults(labResults.get(isTimeOut?minWaitTime:maxWaitTime, TimeUnit.MILLISECONDS));
+						if(refModel.getLabResults()!=null){
+							idList.addAll(refModel.getLabResults().getIdList());
+						}
+					}catch (Exception e) {
+						isTimeOut = true;
+					}
+				}
+				
+				if(vitals!=null){
+					try{
+						refModel.setVitalSigns(vitals.get(isTimeOut?minWaitTime:maxWaitTime, TimeUnit.MILLISECONDS));
+						if(refModel.getVitalSigns()!=null){
+							idList.addAll(refModel.getVitalSigns().getIdList());
+						}
+					}catch (Exception e) {
+						isTimeOut = true;
+					}
+				}
+				
+				if(procedures!=null){
+					try{
+						refModel.setProcedure(procedures.get(isTimeOut?minWaitTime:maxWaitTime, TimeUnit.MILLISECONDS));
+						if(refModel.getProcedure()!=null){
+							idList.addAll(refModel.getProcedure().getIdList());
+						}
+					}catch (Exception e) {
+						isTimeOut = true;
+					}
+				}
+				
+				if(careTeamMembers!=null){
+					try{
+						refModel.setMembers(careTeamMembers.get(isTimeOut?minWaitTime:maxWaitTime, TimeUnit.MILLISECONDS));
+					}catch (Exception e) {
+						isTimeOut = true;
+					}
+				}
+				
+				if(immunizations!=null){
+					try{
+						refModel.setImmunization(immunizations.get(isTimeOut?minWaitTime:maxWaitTime, TimeUnit.MILLISECONDS));
+						if(refModel.getImmunization()!=null){
+							idList.addAll(refModel.getImmunization().getIdList());
+						}
+					}catch (Exception e) {
+						isTimeOut = true;
+					}
+				}
+				refModel.setUdi(uDIProcessor.retrieveUDIDetails(refModel.getProcedure()));
+				
+				if(pot!=null){
+					try{
+						refModel.setPlanOfTreatment(pot.get(isTimeOut?minWaitTime:maxWaitTime, TimeUnit.MILLISECONDS));
+						if(refModel.getPlanOfTreatment()!=null){
+							idList.addAll(refModel.getPlanOfTreatment().getIdList());
+						}
+					}catch (Exception e) {
+						isTimeOut = true;
+					}
+				}
+				
+				if(goals!=null){
+					try{
+						refModel.setGoals(goals.get(isTimeOut?minWaitTime:maxWaitTime, TimeUnit.MILLISECONDS));
+					}catch (Exception e) {
+						isTimeOut = true;
+					}
+				}
+				
+				if(healthConcerns!=null){
+					try{
+						refModel.setHcs(healthConcerns.get(isTimeOut?minWaitTime:maxWaitTime, TimeUnit.MILLISECONDS));
+					}catch (Exception e) {
+						isTimeOut = true;
+					}
+				}
+				
+				if(usrhSubType!=null){
+					try{
+						refModel.setUsrhSubType(usrhSubType.get(isTimeOut?minWaitTime:maxWaitTime, TimeUnit.MILLISECONDS));
+					}catch (Exception e) {
+						isTimeOut = true;
+					}
+				}
+				
 				refModel.setIdList(idList);
 			}
 			else
@@ -106,6 +361,7 @@ public class CCDAParserAPI {
 	    	{
 	            logger.error(te);
 	    	}
+	    logger.info("All Section End time:"+ (System.currentTimeMillis() - startTime));
 	    
 	    return refModel;
 	

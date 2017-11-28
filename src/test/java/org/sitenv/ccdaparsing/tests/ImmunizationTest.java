@@ -2,7 +2,6 @@ package org.sitenv.ccdaparsing.tests;
 
 import java.io.File;
 import java.util.ArrayList;
-import java.util.List;
 
 import javax.xml.parsers.DocumentBuilder;
 import javax.xml.parsers.DocumentBuilderFactory;
@@ -17,7 +16,6 @@ import org.sitenv.ccdaparsing.model.CCDACode;
 import org.sitenv.ccdaparsing.model.CCDAConsumable;
 import org.sitenv.ccdaparsing.model.CCDADataElement;
 import org.sitenv.ccdaparsing.model.CCDAEffTime;
-import org.sitenv.ccdaparsing.model.CCDAID;
 import org.sitenv.ccdaparsing.model.CCDAII;
 import org.sitenv.ccdaparsing.model.CCDAImmunization;
 import org.sitenv.ccdaparsing.model.CCDAImmunizationActivity;
@@ -28,23 +26,23 @@ import org.w3c.dom.Document;
 
 public class ImmunizationTest {
 	
-	private static String CCDA_DOC = "src/test/resources/170.315_b1_toc_amb_ccd_r21_sample1_v1.xml";
-	private static CCDAImmunization immunizations;
+	private String CCDA_DOC = "src/test/resources/170.315_b1_toc_amb_ccd_r21_sample1_v1.xml";
+	private CCDAImmunization immunizations;
 	private ArrayList<CCDAII>    templateIds;
 	private CCDACode  sectionCode;
-	private static ArrayList<CCDAImmunizationActivity> immuActivities;
-	private static List<CCDAID> idList = new ArrayList<CCDAID>();
+	private ArrayList<CCDAImmunizationActivity> immuActivities;
+	private ImmunizationProcessor immunizationProcessor = new ImmunizationProcessor();
 	
 	
 	@BeforeClass
-	public static void setUp() throws Exception {
+	public void setUp() throws Exception {
 		// removed fields to ensure no side effects with DocumentRoot
 		DocumentBuilderFactory factory = 
 				DocumentBuilderFactory.newInstance();
 		DocumentBuilder builder = factory.newDocumentBuilder();
 		Document doc = builder.parse(new File(CCDA_DOC));
 		XPath xPath =  XPathFactory.newInstance().newXPath();
-		immunizations = ImmunizationProcessor.retrieveImmunizationDetails(xPath, doc,idList);
+		immunizations = immunizationProcessor.retrieveImmunizationDetails(xPath, doc).get();
 		
 		immuActivities = new ArrayList<>();
 		CCDAImmunizationActivity immuActivityOne = new CCDAImmunizationActivity();

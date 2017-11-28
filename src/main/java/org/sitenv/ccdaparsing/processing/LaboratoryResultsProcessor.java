@@ -2,12 +2,14 @@ package org.sitenv.ccdaparsing.processing;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.concurrent.Future;
 
 import javax.xml.transform.TransformerException;
 import javax.xml.xpath.XPath;
 import javax.xml.xpath.XPathConstants;
 import javax.xml.xpath.XPathExpressionException;
 
+import org.apache.log4j.Logger;
 import org.sitenv.ccdaparsing.model.CCDACode;
 import org.sitenv.ccdaparsing.model.CCDAID;
 import org.sitenv.ccdaparsing.model.CCDALabResult;
@@ -16,24 +18,35 @@ import org.sitenv.ccdaparsing.model.CCDALabResultOrg;
 import org.sitenv.ccdaparsing.model.CCDAPQ;
 import org.sitenv.ccdaparsing.util.ApplicationConstants;
 import org.sitenv.ccdaparsing.util.ApplicationUtil;
+import org.springframework.scheduling.annotation.Async;
+import org.springframework.scheduling.annotation.AsyncResult;
+import org.springframework.stereotype.Service;
 import org.w3c.dom.Document;
 import org.w3c.dom.Element;
 import org.w3c.dom.Node;
 import org.w3c.dom.NodeList;
 
+@Service
 public class LaboratoryResultsProcessor {
 	
-	public static CCDALabResult retrieveLabResults(XPath xPath , Document doc, List<CCDAID> idList) throws XPathExpressionException,TransformerException
+	private static final Logger logger = Logger.getLogger(LaboratoryResultsProcessor.class);
+	
+	@Async()
+	public Future<CCDALabResult> retrieveLabResults(XPath xPath , Document doc) throws XPathExpressionException,TransformerException
 	{
+		long startTime = System.currentTimeMillis();
+    	logger.info("lab results parsing Start time:"+ startTime);
+    	
 		CCDALabResult labResults = null;
 		Element sectionElement = (Element) xPath.compile(ApplicationConstants.RESULTS_EXPRESSION).evaluate(doc, XPathConstants.NODE);
+		List<CCDAID> idList = new ArrayList<>();
 		if(sectionElement != null)
 		{
 			labResults = new CCDALabResult();
 			if(ApplicationUtil.checkForNullFlavourNI(sectionElement))
 			{
 				labResults.setSectionNullFlavourWithNI(true);
-				return labResults;
+				return new AsyncResult<CCDALabResult>(labResults);
 			}
 			labResults.setResultSectionTempalteIds(ApplicationUtil.readTemplateIdList((NodeList) xPath.compile("./templateId[not(@nullFlavor)]").
 													evaluate(sectionElement, XPathConstants.NODESET)));
@@ -56,12 +69,14 @@ public class LaboratoryResultsProcessor {
 			
 			}
 			labResults.setIsLabTestInsteadOfResult(false);
+			labResults.setIdList(idList);
 		}
-		return labResults;
+		logger.info("lab results parsing End time:"+ (System.currentTimeMillis() - startTime));
+		return new AsyncResult<CCDALabResult>(labResults);
 	}
 	
 	
-	public static ArrayList<CCDALabResultOrg> readResultOrganizer(NodeList resultOrganizerNodeList, XPath xPath, List<CCDAID> idList) throws XPathExpressionException,TransformerException
+	public ArrayList<CCDALabResultOrg> readResultOrganizer(NodeList resultOrganizerNodeList, XPath xPath, List<CCDAID> idList) throws XPathExpressionException,TransformerException
 	{
 		ArrayList<CCDALabResultOrg> labResultOrgList = new ArrayList<>();
 		CCDALabResultOrg labResultOrg;
@@ -107,7 +122,7 @@ public class LaboratoryResultsProcessor {
 		return labResultOrgList;
 	}
 	
-	public static ArrayList<CCDALabResultObs> readResultObservation(NodeList resultObservationNodeList , XPath xPath, List<CCDAID> idList) throws XPathExpressionException,TransformerException
+	public ArrayList<CCDALabResultObs> readResultObservation(NodeList resultObservationNodeList , XPath xPath, List<CCDAID> idList) throws XPathExpressionException,TransformerException
 	{
 		
 		ArrayList<CCDALabResultObs> resultObservationList = new ArrayList<>();

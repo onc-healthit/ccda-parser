@@ -1,6 +1,7 @@
 package org.sitenv.ccdaparsing.processing;
 
 import java.util.List;
+import java.util.concurrent.Future;
 
 import javax.xml.transform.TransformerException;
 import javax.xml.xpath.XPath;
@@ -13,12 +14,17 @@ import org.sitenv.ccdaparsing.model.UsrhSubType;
 import org.sitenv.ccdaparsing.util.ApplicationConstants;
 import org.sitenv.ccdaparsing.util.ApplicationConstants.UsrhIISubTypes;
 import org.sitenv.ccdaparsing.util.ApplicationUtil;
+import org.springframework.scheduling.annotation.Async;
+import org.springframework.scheduling.annotation.AsyncResult;
+import org.springframework.stereotype.Service;
 import org.w3c.dom.Document;
 import org.w3c.dom.NodeList;
 
+@Service
 public class UsrhSubTypeProcessor {
-
-	public static UsrhSubType retrieveUsrhSubTypeDetails(XPath xPath, Document doc)
+	
+	@Async()
+	public Future<UsrhSubType> retrieveUsrhSubTypeDetails(XPath xPath, Document doc)
 			throws XPathExpressionException {		
 		List<CCDAII> iiElements = null;
 		try {
@@ -28,10 +34,10 @@ public class UsrhSubTypeProcessor {
 		} catch (TransformerException e) {
 			e.printStackTrace();
 		}		
-		return extractUsrhSubType(iiElements);
+		return   new AsyncResult<UsrhSubType>(extractUsrhSubType(iiElements));
 	}
 	
-	private static UsrhSubType extractUsrhSubType(List<CCDAII> iiElements) {
+	private UsrhSubType extractUsrhSubType(List<CCDAII> iiElements) {
 		UsrhSubType resultingDocumentType = null;
 		if (iiElements != null && iiElements.size() > 0) {
 			//compare extracted templateID root values with the constant document type root values

@@ -1,24 +1,36 @@
 package org.sitenv.ccdaparsing.processing;
 
 import java.util.ArrayList;
+import java.util.concurrent.Future;
 
 import javax.xml.transform.TransformerException;
 import javax.xml.xpath.XPath;
 import javax.xml.xpath.XPathConstants;
 import javax.xml.xpath.XPathExpressionException;
 
+import org.apache.log4j.Logger;
 import org.sitenv.ccdaparsing.model.CCDACareTeamMember;
 import org.sitenv.ccdaparsing.model.CCDAParticipant;
 import org.sitenv.ccdaparsing.util.ApplicationConstants;
 import org.sitenv.ccdaparsing.util.ApplicationUtil;
+import org.springframework.scheduling.annotation.Async;
+import org.springframework.scheduling.annotation.AsyncResult;
+import org.springframework.stereotype.Service;
 import org.w3c.dom.Document;
 import org.w3c.dom.Element;
 import org.w3c.dom.NodeList;
 
+@Service
 public class CareTeamMemberProcessor {
 	
-	public static CCDACareTeamMember retrieveCTMDetails(XPath xPath , Document doc) throws XPathExpressionException,TransformerException
+	private static final Logger logger = Logger.getLogger(CareTeamMemberProcessor.class);
+	
+	@Async()
+	public Future<CCDACareTeamMember> retrieveCTMDetails(XPath xPath , Document doc) throws XPathExpressionException,TransformerException
 	{
+		long startTime = System.currentTimeMillis();
+    	logger.info("care team members parsing Start time:"+ startTime);
+    	
 		NodeList performerNodeList = (NodeList) xPath.compile(ApplicationConstants.CTM_EXPRESSION).evaluate(doc, XPathConstants.NODESET);
 		CCDACareTeamMember careTeamMember = new CCDACareTeamMember();
 		ArrayList<CCDAParticipant> participantList = new ArrayList<>();
@@ -39,11 +51,12 @@ public class CareTeamMemberProcessor {
 			participantList.add(participant);
 		}
 		careTeamMember.setMembers(participantList);
+		logger.info("care team members parsing End time:"+ (System.currentTimeMillis() - startTime));
 		
-		return careTeamMember;
+		return new AsyncResult<CCDACareTeamMember>(careTeamMember);
 	}
 	
-	public static void readName(Element nameElement,CCDAParticipant participant,XPath xPath) throws XPathExpressionException
+	private void readName(Element nameElement,CCDAParticipant participant,XPath xPath) throws XPathExpressionException
 	{
 		if(nameElement != null)
 		{

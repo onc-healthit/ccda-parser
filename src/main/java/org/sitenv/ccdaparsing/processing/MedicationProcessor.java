@@ -2,12 +2,14 @@ package org.sitenv.ccdaparsing.processing;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.concurrent.Future;
 
 import javax.xml.transform.TransformerException;
 import javax.xml.xpath.XPath;
 import javax.xml.xpath.XPathConstants;
 import javax.xml.xpath.XPathExpressionException;
 
+import org.apache.log4j.Logger;
 import org.sitenv.ccdaparsing.model.CCDAConsumable;
 import org.sitenv.ccdaparsing.model.CCDAEffTime;
 import org.sitenv.ccdaparsing.model.CCDAID;
@@ -16,24 +18,35 @@ import org.sitenv.ccdaparsing.model.CCDAMedicationActivity;
 import org.sitenv.ccdaparsing.model.CCDAMedicationSubstanceAdminstration;
 import org.sitenv.ccdaparsing.util.ApplicationConstants;
 import org.sitenv.ccdaparsing.util.ApplicationUtil;
+import org.springframework.scheduling.annotation.Async;
+import org.springframework.scheduling.annotation.AsyncResult;
+import org.springframework.stereotype.Service;
 import org.w3c.dom.Document;
 import org.w3c.dom.Element;
 import org.w3c.dom.Node;
 import org.w3c.dom.NodeList;
 
+@Service
 public class MedicationProcessor {
 	
-	public static CCDAMedication retrieveMedicationDetails(XPath xPath , Document doc, List<CCDAID> idList) throws XPathExpressionException,TransformerException
+	private static final Logger logger = Logger.getLogger(MedicationProcessor.class);
+	
+	@Async()
+	public Future<CCDAMedication> retrieveMedicationDetails(XPath xPath , Document doc) throws XPathExpressionException,TransformerException
 	{
+		long startTime = System.currentTimeMillis();
+    	logger.info("Medications parsing Start time:"+ startTime);
+		
 		CCDAMedication medications = null;
 		Element sectionElement = (Element) xPath.compile(ApplicationConstants.MEDICATION_EXPRESSION).evaluate(doc, XPathConstants.NODE);
+		List<CCDAID> idList = new ArrayList<>();
 		if(sectionElement != null)
 		{
 			medications = new CCDAMedication();
 			if(ApplicationUtil.checkForNullFlavourNI(sectionElement))
 			{
 				medications.setSectionNullFlavourWithNI(true);
-				return medications;
+				return new AsyncResult<CCDAMedication>(medications);
 			}
 			medications.setTemplateIds(ApplicationUtil.readTemplateIdList((NodeList) xPath.compile("./templateId[not(@nullFlavor)]").
 						evaluate(sectionElement, XPathConstants.NODESET)));
@@ -53,11 +66,14 @@ public class MedicationProcessor {
 				medications.getReferenceLinks().addAll((ApplicationUtil.readSectionTextReferences((NodeList) xPath.compile(".//*[not(@nullFlavor) and @ID]").
 					evaluate(textElement, XPathConstants.NODESET))));
 			}
+			medications.setIdList(idList);
+			
 		}
-		return medications;
+		logger.info("Medications parsing End time:"+ (System.currentTimeMillis() - startTime));
+		return new AsyncResult<CCDAMedication>(medications);
 	}
 	
-	public static ArrayList<CCDAMedicationActivity> readMedication(NodeList entryNodeList, XPath xPath, List<CCDAID> idList) throws XPathExpressionException,TransformerException
+	public ArrayList<CCDAMedicationActivity> readMedication(NodeList entryNodeList, XPath xPath, List<CCDAID> idList) throws XPathExpressionException,TransformerException
 	{
 		ArrayList<CCDAMedicationActivity> medicationList = null;
 		if(!ApplicationUtil.isNodeListEmpty(entryNodeList))
@@ -125,7 +141,7 @@ public class MedicationProcessor {
 		return medicationList;
 	}
 	
-	public static CCDAEffTime readDuration(Element duration, XPath xPath)throws XPathExpressionException,TransformerException
+	public CCDAEffTime readDuration(Element duration, XPath xPath)throws XPathExpressionException,TransformerException
 	{
 		CCDAEffTime medicationDuration = null;
 		if(duration != null)
@@ -145,7 +161,7 @@ public class MedicationProcessor {
 		
 	}
 	
-	public static CCDAConsumable readMedicationInformation(Element medicationInforamtionElement,XPath xPath, List<CCDAID> idList) throws XPathExpressionException,TransformerException
+	public CCDAConsumable readMedicationInformation(Element medicationInforamtionElement,XPath xPath, List<CCDAID> idList) throws XPathExpressionException,TransformerException
 	{
 		
 		CCDAConsumable consumable = null;
@@ -184,7 +200,7 @@ public class MedicationProcessor {
 		return consumable;
 	}
 	
-	public static CCDAMedicationSubstanceAdminstration readMedicationSubAdmin(Element subAdminElement, XPath xPath)throws XPathExpressionException,TransformerException
+	public CCDAMedicationSubstanceAdminstration readMedicationSubAdmin(Element subAdminElement, XPath xPath)throws XPathExpressionException,TransformerException
 	{
 		CCDAMedicationSubstanceAdminstration medicationSubstanceAdmin = null;
 		if(subAdminElement != null)
