@@ -4,16 +4,24 @@ import java.io.File;
 import java.io.FileInputStream;
 import java.io.InputStream;
 
+import org.sitenv.ccdaparsing.configuration.CCDAParsingAPIConfiguration;
+import org.sitenv.ccdaparsing.model.CCDARefModel;
 import org.sitenv.ccdaparsing.service.CCDAParserAPI;
+import org.springframework.context.ApplicationContext;
+import org.springframework.context.annotation.AnnotationConfigApplicationContext;
 
 public class RunParser {
 
-	public String fileLocation = "C:/Projects/Drajer/mounika/mounika/Nullflavour/Scenario_1_Epic.xml";
-	private CCDAParserAPI cCDAParserAPI = new CCDAParserAPI();
-	public void main(String[] args)throws Exception {
-		
+	public static String fileLocation = "C:/Projects/Drajer/mounika/mounika/Nullflavour/Scenario_1_Epic.xml";
+
+	public static void main(String[] args)throws Exception {
+		ApplicationContext context = new AnnotationConfigApplicationContext(CCDAParsingAPIConfiguration.class);
+		CCDAParserAPI cCDAParserAPI = context.getBean(CCDAParserAPI.class);
+
 		InputStream inputStream = new FileInputStream(new File(fileLocation));
-		cCDAParserAPI.parseCCDA2_1(inputStream);
+		CCDARefModel refModel = cCDAParserAPI.parseCCDA2_1(inputStream);
+
+		System.out.println(refModel);
 	}
 
 }
