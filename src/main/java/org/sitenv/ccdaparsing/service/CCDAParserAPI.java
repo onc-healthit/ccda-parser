@@ -336,6 +336,9 @@ public class CCDAParserAPI {
 				if(familyHistory!=null){
 					try{
 						refModel.setFamilyHistory(familyHistory.get(isTimeOut?minWaitTime:maxWaitTime, TimeUnit.MILLISECONDS));
+						if(refModel.getFamilyHistory()!=null){
+							idList.addAll(refModel.getFamilyHistory().getIdList());
+						}
 					}catch (Exception e) {
 						isTimeOut = true;
 					}
