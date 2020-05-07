@@ -56,7 +56,7 @@ public class ApplicationUtil {
 			
 			codeElement.setAttribute("xmlns:xsi", "http://www.w3.org/2001/XMLSchema-instance");
 			code.setXmlString(nodeToString((Node)codeElement));
-			code.setLineNumber(codeElement.getUserData("lineNumber").toString());
+			code.setLineNumber((String) codeElement.getUserData("lineNumber"));
 		}
 		return code;
 	}
@@ -82,7 +82,7 @@ public class ApplicationUtil {
 			
 			if(setXmlAndLinNumber) {
 				templateID.setXmlString(nodeToString((Node)templateElement));
-				templateID.setLineNumber(templateElement.getUserData("lineNumber").toString());
+				templateID.setLineNumber((String) templateElement.getUserData("lineNumber"));
 			}
 			
 		}
@@ -109,7 +109,7 @@ public class ApplicationUtil {
 			id.setParentElementName(parentElement);
 			
 			id.setXmlString(nodeToString((Node)idElement));
-			id.setLineNumber(idElement.getUserData("lineNumber").toString());
+			id.setLineNumber((String) idElement.getUserData("lineNumber"));
 		}
 		return id;
 	}
@@ -171,7 +171,7 @@ public class ApplicationUtil {
 			
 			effectiveTimeElement.setAttribute("xmlns:xsi", "http://www.w3.org/2001/XMLSchema-instance");
 			effectiveTime.setXmlString(nodeToString((Node)effectiveTimeElement));
-			effectiveTime.setLineNumber(effectiveTimeElement.getUserData("lineNumber").toString() + " - " + effectiveTimeElement.getUserData("endLineNumber"));
+			effectiveTime.setLineNumber(effectiveTimeElement.getUserData("lineNumber") + " - " + effectiveTimeElement.getUserData("endLineNumber"));
 				
 		}
 		return effectiveTime;
@@ -277,7 +277,7 @@ public class ApplicationUtil {
 			dataElement = new CCDADataElement();
 			dataElement.setValue(referenceTextElement.getAttribute("value"));
 			dataElement.setXmlString(nodeToString((Node)referenceTextElement));
-			dataElement.setLineNumber(referenceTextElement.getUserData("lineNumber").toString());
+			dataElement.setLineNumber((String) referenceTextElement.getUserData("lineNumber"));
 		}
 		return dataElement;
 	}
@@ -307,7 +307,7 @@ public class ApplicationUtil {
 			
 			nodeElement.setAttribute("xmlns:xsi", "http://www.w3.org/2001/XMLSchema-instance");
 			dataElement.setXmlString(nodeToString((Node)nodeElement));
-			dataElement.setLineNumber(nodeElement.getUserData("lineNumber").toString());
+			dataElement.setLineNumber((String) nodeElement.getUserData("lineNumber"));
 		}
 		
 		
@@ -345,7 +345,7 @@ public class ApplicationUtil {
 			}
 			quantityElement.setAttribute("xmlns:xsi", "http://www.w3.org/2001/XMLSchema-instance");
 			quantity.setXmlString(nodeToString((Node)quantityElement));
-			quantity.setLineNumber(quantityElement.getUserData("lineNumber").toString());
+			quantity.setLineNumber((String) quantityElement.getUserData("lineNumber"));
 		}
 		return quantity;
 	}
