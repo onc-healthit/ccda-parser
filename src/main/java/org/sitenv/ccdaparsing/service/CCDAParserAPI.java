@@ -4,8 +4,10 @@ import java.io.FileNotFoundException;
 import java.io.IOException;
 import java.io.InputStream;
 import java.util.ArrayList;
+import java.util.concurrent.ExecutionException;
 import java.util.concurrent.Future;
 import java.util.concurrent.TimeUnit;
+import java.util.concurrent.TimeoutException;
 
 import org.apache.log4j.Logger;
 
@@ -22,6 +24,7 @@ import org.sitenv.ccdaparsing.model.CCDAHealthConcerns;
 import org.sitenv.ccdaparsing.model.CCDAID;
 import org.sitenv.ccdaparsing.model.CCDAImmunization;
 import org.sitenv.ccdaparsing.model.CCDALabResult;
+import org.sitenv.ccdaparsing.model.CCDAMedicalEquipment;
 import org.sitenv.ccdaparsing.model.CCDAMedication;
 import org.sitenv.ccdaparsing.model.CCDAPOT;
 import org.sitenv.ccdaparsing.model.CCDAPatient;
@@ -39,6 +42,7 @@ import org.sitenv.ccdaparsing.processing.ImmunizationProcessor;
 import org.sitenv.ccdaparsing.processing.LaboratoryResultsProcessor;
 import org.sitenv.ccdaparsing.processing.LaboratoryTestProcessor;
 import org.sitenv.ccdaparsing.processing.MediactionAllergiesProcessor;
+import org.sitenv.ccdaparsing.processing.MedicalEquipmentProcessor;
 import org.sitenv.ccdaparsing.processing.MedicationProcessor;
 import org.sitenv.ccdaparsing.processing.POTProcessor;
 import org.sitenv.ccdaparsing.processing.PatientProcessor;
@@ -114,6 +118,9 @@ public class CCDAParserAPI {
 	@Autowired
 	UsrhSubTypeProcessor usrhSubTypeProcessor;
 	
+	@Autowired
+	MedicalEquipmentProcessor medicalEquipmentProcessor;
+	
 	 
 	public CCDARefModel parseCCDA2_1(InputStream inputStream) {
 		
@@ -134,6 +141,7 @@ public class CCDAParserAPI {
 		Future<CCDAGoals> goals=null;
 		Future<CCDAHealthConcerns> healthConcerns=null;
 		Future<UsrhSubType> usrhSubType=null;
+		Future<CCDAMedicalEquipment> medicalEquipments=null;
 		ArrayList<CCDAID> idList = new ArrayList<>();
 		logger.info("Parsing CCDA document");
     	long startTime = System.currentTimeMillis();
@@ -163,6 +171,7 @@ public class CCDAParserAPI {
 				goals = goalsProcessor.retrieveGoalsDetails(xPath, doc);
 				healthConcerns = healthConcernsProcessor.retrieveHealthConcernDetails(xPath, doc);
 				usrhSubType = usrhSubTypeProcessor.retrieveUsrhSubTypeDetails(xPath, doc);
+				medicalEquipments = medicalEquipmentProcessor.retrieveMedicalEquipments(xPath, doc);
 				
 				if(patient!=null){
 					try{
@@ -323,6 +332,17 @@ public class CCDAParserAPI {
 						refModel.setUsrhSubType(usrhSubType.get(isTimeOut?minWaitTime:maxWaitTime, TimeUnit.MILLISECONDS));
 					}catch (Exception e) {
 						isTimeOut = true;
+					}
+				}
+				
+				if(medicalEquipments!=null){
+					try {
+						refModel.setMedicationEquipments(medicalEquipments.get(isTimeOut?minWaitTime:maxWaitTime, TimeUnit.MILLISECONDS));
+					} catch (InterruptedException | ExecutionException | TimeoutException e) {
+						isTimeOut = true;
+					}
+					if(refModel.getMedicationEquipments()!=null){
+						idList.addAll(refModel.getMedicationEquipments().getIds());
 					}
 				}
 				
