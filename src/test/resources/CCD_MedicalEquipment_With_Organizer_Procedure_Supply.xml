@@ -1,0 +1,188 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<?xml-stylesheet type="text/xsl" href="CDA.xsl"?>
+<ClinicalDocument xmlns="urn:hl7-org:v3" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+				  xsi:schemaLocation="C:\XML\CDA_SDTC_Schema\infrastructure\cda\CDA_SDTC.xsd"
+				  xmlns:voc="urn:hl7-org:v3/voc" xmlns:sdtc="urn:hl7-org:sdtc">
+	<!-- Medical Equipment Section Only (With Multiple Implants) -->
+	<component>
+		<structuredBody>
+			<component>
+                <section>
+                    <!-- Medical Equipment Section (V2) -->
+                    <templateId root="2.16.840.1.113883.10.20.22.2.23" extension="2014-06-09"/>
+                    <templateId root="2.16.840.1.113883.10.20.22.2.23"/>
+                    <code code="46264-8" codeSystem="2.16.840.1.113883.6.1" codeSystemName="LOINC"/>
+                    <title>MEDICAL EQUIPMENT</title>
+                    <text>
+                        <content styleCode="Bold">Medical Equipment</content>
+                        <list>
+                            <item>Implanted Devices: Cardiac PaceMaker July 3, 2013</item>
+                            <item>Implanted Devices: Upper GI Prosthesis, January 3, 2013</item>
+                            <item>Cane, February 2, 2003</item>
+                        </list>
+                        <content ID="Eqpt1">Biliary Stent, May 5, 2013</content>
+                    </text>
+                    <entry>
+                        <!--  Medical Equipment Organizer -->
+                        <organizer classCode="CLUSTER" moodCode="EVN">
+                            <templateId root="2.16.840.1.113883.10.20.22.4.135"/>
+                            <id root="3e414708-0e61-4d48-8863-484a2d473a02"/>
+                            <code code="40388003" codeSystem="2.16.840.1.113883.6.96" codeSystemName="SNOMED CT"
+                                  displayName="Implant">
+                                <originalText>Implants</originalText>
+                            </code>
+                            <statusCode code="completed"/>
+                            <effectiveTime xsi:type="IVL_TS">
+                                <low value="20070103"/>
+                                <high nullFlavor="UNK"/>
+                            </effectiveTime>
+                            <component>
+                                <!-- Non-medicinal supply activity V2 template ******* -->
+                                <supply classCode="SPLY" moodCode="EVN">
+                                    <templateId root="2.16.840.1.113883.10.20.22.4.50" extension="2014-06-09"/>
+                                    <templateId root="2.16.840.1.113883.10.20.22.4.50"/>
+                                    <id root="39b5f1b4-a8e1-4ad7-8849-0deab10c97b1"/>
+                                    <statusCode code="completed"/>
+                                    <effectiveTime xsi:type="IVL_TS">
+                                        <high value="20130703"/>
+                                    </effectiveTime>
+                                    <quantity value="1"/>
+                                    <participant typeCode="PRD">
+                                        <participantRole classCode="MANU">
+                                            <templateId root="2.16.840.1.113883.10.20.22.4.37"/>
+                                            <!-- Product instance template -->
+                                            <id root="24993f33-6222-41ce-add6-37a9d3da6acb"/>
+                                            <playingDevice>
+                                                <code code="14106009" displayName="cardiac pacemaker, device (physical object)"
+                                                      codeSystem="2.16.840.1.113883.6.96" codeSystemName="SNOMED CT">
+                                                    <originalText>Cardiac Pacemaker</originalText>
+                                                </code>
+                                            </playingDevice>
+                                            <scopingEntity>
+                                                <id root="eb936010-7b17-11db-9fe1-0800200c9b65"/>
+                                                <desc>Good Health Durable Medical Equipment</desc>
+                                            </scopingEntity>
+                                        </participantRole>
+                                    </participant>
+                                </supply>
+                            </component>
+                            <component>
+                                <supply classCode="SPLY" moodCode="EVN">
+                                    <templateId root="2.16.840.1.113883.10.20.22.4.50" extension="2014-06-09"/>
+                                    <templateId root="2.16.840.1.113883.10.20.22.4.50"/>
+                                    <!-- Non-medicinal supply activity V2 template ******* -->
+                                    <id root="39b5f1b4-a8e1-4ad7-8849-0deab10c97b1"/>
+                                    <statusCode code="completed"/>
+                                    <effectiveTime xsi:type="IVL_TS">
+                                        <high value="20130103"/>
+                                    </effectiveTime>
+                                    <quantity value="1"/>
+                                    <participant typeCode="PRD">
+                                        <participantRole classCode="MANU">
+                                            <templateId root="2.16.840.1.113883.10.20.22.4.37"/>
+                                            <!-- Product instance template -->
+                                            <id root="24993f33-6222-41ce-add6-37a9d3da6acb"/>
+                                            <playingDevice>
+                                                <code code="303406003"
+                                                      displayName="upper gastrointestinal prosthesis (physical object)"
+                                                      codeSystem="2.16.840.1.113883.6.96" codeSystemName="SNOMED CT">
+                                                    <originalText>Upper GI Prosthesis</originalText>
+                                                </code>
+                                            </playingDevice>
+                                            <scopingEntity>
+                                                <id root="eb936010-7b17-11db-9fe1-0800200c9b65"/>
+                                                <desc>Good Health Durable Medical Equipment</desc>
+                                            </scopingEntity>
+                                        </participantRole>
+                                    </participant>
+                                </supply>
+                            </component>
+                        </organizer>
+                    </entry>
+                    <entry>
+                        <supply classCode="SPLY" moodCode="EVN">
+                            <templateId root="2.16.840.1.113883.10.20.22.4.50" extension="2014-06-09"/>
+                            <templateId root="2.16.840.1.113883.10.20.22.4.50"/>
+                            <!-- Non-medicinal supply activity V2 template ******* -->
+                            <id root="cf75f5be-1da0-4256-8276-94b7fc73f9f9"/>
+                            <statusCode code="completed"/>
+                            <effectiveTime xsi:type="IVL_TS">
+                                <high value="20030202"/>
+                            </effectiveTime>
+                            <quantity value="1"/>
+                            <participant typeCode="PRD">
+                                <participantRole classCode="MANU">
+                                    <templateId root="2.16.840.1.113883.10.20.22.4.37"/>
+                                    <!-- Product instance template -->
+                                    <id root="24993f33-6222-41ce-add6-37a9d3da6acb"/>
+                                    <playingDevice>
+                                        <code code="87405001" displayName="cane" codeSystem="2.16.840.1.113883.6.96"
+                                              codeSystemName="SNOMED CT">
+                                            <originalText>Upper GI Prosthesis</originalText>
+                                        </code>
+                                    </playingDevice>
+                                    <scopingEntity>
+                                        <id root="eb936010-7b17-11db-9fe1-0800200c9b65"/>
+                                        <desc>Good Health Durable Medical Equipment</desc>
+                                    </scopingEntity>
+                                </participantRole>
+                            </participant>
+                        </supply>
+                    </entry>
+                    <entry>
+                        <procedure classCode="PROC" moodCode="EVN">
+                            <!-- Procedure Activity Procedure V2-->
+                            <templateId root="2.16.840.1.113883.10.20.22.4.14" extension="2014-06-09"/>
+                            <templateId root="2.16.840.1.113883.10.20.22.4.14"/>
+                            <id root="d5b614bd-01ce-410d-8726-e1fd01dcc72a"/>
+                            <code code="103716009" codeSystem="2.16.840.1.113883.6.96" codeSystemName="SNOMED CT"
+                                  displayName="Stent Placement">
+                                <originalText>
+                                    <reference value="#Proc1"/>
+                                </originalText>
+                            </code>
+                            <statusCode code="completed"/>
+                            <effectiveTime value="20130512"/>
+                            <targetSiteCode code="28273000" displayName="bile duct" codeSystem="2.16.840.1.113883.6.96"
+                                            codeSystemName="SNOMED CT"/>
+                            <specimen typeCode="SPC">
+                                <specimenRole classCode="SPEC">
+                                    <id root="a6d7b927-2b70-43c7-bdf3-0e7c4133062c"/>
+                                    <specimenPlayingEntity>
+                                        <code code="57259009" codeSystem="2.16.840.1.113883.6.96" codeSystemName="SNOMED CT"
+                                              displayName="gallbladder bile"/>
+                                    </specimenPlayingEntity>
+                                </specimenRole>
+                            </specimen>
+                            <performer>
+                                <assignedEntity>
+                                    <id root="2.16.840.1.113883.19" extension="1234"/>
+                                    <addr>
+                                        <streetAddressLine>1004 Health Care Drive</streetAddressLine>
+                                        <city>Ann Arbor</city>
+                                        <state>MI</state>
+                                        <postalCode>02368</postalCode>
+                                        <country>US</country>
+                                    </addr>
+                                    <telecom use="WP" value="tel: +1(555)-555-5004"/>
+                                    <representedOrganization>
+                                        <id root="2.16.840.1.113883.19.5"/>
+                                        <name>Community Health and Hospitals</name>
+                                        <telecom use="WP" value="tel:+1(555)-555-5005"/>
+                                        <addr>
+                                            <streetAddressLine>1003 Health Care Drive</streetAddressLine>
+                                            <city>Ann Arbor</city>
+                                            <state>MI</state>
+                                            <postalCode>02368</postalCode>
+                                            <country>US</country>
+                                        </addr>
+                                    </representedOrganization>
+                                </assignedEntity>
+                            </performer>
+                        </procedure>
+                    </entry>
+                </section>
+			</component>
+		</structuredBody>
+	</component>
+</ClinicalDocument>
