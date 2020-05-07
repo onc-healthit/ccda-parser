@@ -1,0 +1,640 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!--
+ Title:        Continuity of Care Document (CCD)
+ Filename:     C-CDA_R2.1_CCD.xml
+ Added By: kushalvermaecw
+
+ Added on: 05-06-2020 Wednesday (Adding Family History Section)
+ 	Modified Log goes here...
+ ********************************************************
+ Disclaimer: This sample file contains representative data elements to represent a Continuity of Care Document (CCD).
+ The file depicts a fictional character's health data. Any resemblance to a real person is coincidental.
+ To illustrate as many data elements as possible, the clinical scenario may not be plausible.
+ The data in this sample file is not intended to represent real patients, people or clinical events.
+ This sample is designed to be used in conjunction with the C-CDA Clinical Notes Implementation Guide.
+ ********************************************************
+ -->
+<ClinicalDocument xmlns="urn:hl7-org:v3" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="C:\XML\CDA_SDTC_Schema\infrastructure\cda\CDA_SDTC.xsd"
+                  xmlns:voc="urn:hl7-org:v3/voc" xmlns:sdtc="urn:hl7-org:sdtc">
+    <realmCode code="US"/>
+    <typeId extension="POCD_HD000040" root="2.16.840.1.113883.1.3"/>
+    <!-- US Realm Header ID-->
+    <templateId root="2.16.840.1.113883.10.20.22.1.1" extension="2015-08-01"/>
+    <templateId root="2.16.840.1.113883.10.20.22.1.1"/>
+    <!-- CCD template ID-->
+    <templateId root="2.16.840.1.113883.10.20.22.1.2" extension="2015-08-01"/>
+    <templateId root="2.16.840.1.113883.10.20.22.1.2"/>
+    <!-- Globally unique identifier for the document  -->
+    <id extension="TT988" root="2.16.840.1.113883.19.5.99999.1"/>
+    <code code="34133-9" displayName="Summarization of Episode Note" codeSystem="2.16.840.1.113883.6.1" codeSystemName="LOINC"/>
+    <!-- Title of this document -->
+    <title>C-CDA_2-1_remaning_section_test</title>
+    <effectiveTime value="20150622"/>
+    <confidentialityCode code="N" displayName="normal" codeSystem="2.16.840.1.113883.5.25" codeSystemName="Confidentiality"/>
+    <languageCode code="en-US"/>
+    <setId extension="sTT988" root="2.16.840.1.113883.19.5.99999.19"/>
+    <!-- Version of this document -->
+    <versionNumber value="1"/>
+    <recordTarget>
+        <patientRole>
+            <id extension="444222222" root="2.16.840.1.113883.4.1"/>
+            <!-- Example Social Security Number using the actual SSN OID. -->
+            <addr use="HP">
+                <!-- HP is "primary home" from codeSystem 2.16.840.1.113883.5.1119 -->
+                <streetAddressLine>1357 Amber Dr</streetAddressLine>
+                <city>Beaverton</city>
+                <state>OR</state>
+                <postalCode>97006</postalCode>
+                <country>US</country>
+                <!-- US is "United States" from ISO 3166-1 Country Codes: 1.0.3166.1 -->
+            </addr>
+            <telecom value="tel:+1(555)-777-1234" use="MC"/>
+            <telecom value="tel:+1(555)-723-1544" use="HP"/>
+            <!-- HP is "primary home" from HL7 AddressUse 2.16.840.1.113883.5.1119 -->
+            <patient>
+                <name use="L">
+                    <given>Alice</given>
+                    <given qualifier="BR">Alicia</given>
+                    <given>Jones</given>
+                    <family>Newman</family>
+                    <suffix>Jr</suffix>
+                </name>
+                <administrativeGenderCode code="F" displayName="Female" codeSystem="2.16.840.1.113883.5.1" codeSystemName="AdministrativeGender"/>
+                <!-- Date of birth need only be precise to the day -->
+                <birthTime value="19700501"/>
+                <maritalStatusCode code="M" displayName="Married" codeSystem="2.16.840.1.113883.5.2" codeSystemName="MaritalStatusCode"/>
+                <religiousAffiliationCode code="1013" displayName="Christian (non-Catholic, non-specific)" codeSystem="2.16.840.1.113883.5.1076" codeSystemName="HL7 Religious Affiliation"/>
+                <!-- CDC Race and Ethnicity code set contains the five minimum race and ethnicity
+                    categories defined by OMB Standards -->
+                <raceCode code="2106-3" displayName="White" codeSystem="2.16.840.1.113883.6.238" codeSystemName="Race &amp; Ethnicity - CDC"/>
+                <!-- The raceCode extension is only used if raceCode is valued -->
+                <sdtc:raceCode code="1019-9" displayName="White Mountain Apache" codeSystem="2.16.840.1.113883.6.238" codeSystemName="Race &amp; Ethnicity - CDC"/>
+                <ethnicGroupCode code="2186-5" displayName="Not Hispanic or Latino" codeSystem="2.16.840.1.113883.6.238" codeSystemName="Race &amp; Ethnicity - CDC"/>
+                <guardian>
+                    <code code="GUARD" displayName="guardian" codeSystem="2.16.840.1.113883.5.111" codeSystemName="RoleCode"/> <!--changed code system, code, name and codesystemname to remove error for code under guardian as per new IG AM-->
+                    <addr use="HP">
+                        <streetAddressLine>1357 Amber Dr</streetAddressLine>
+                        <city>Beaverton</city>
+                        <state>OR</state>
+                        <postalCode>97006</postalCode>
+                        <country>US</country>
+                    </addr>
+                    <telecom value="tel:+1(555)555-2008" use="MC"/>
+                    <guardianPerson>
+                        <name>
+                            <given>Boris</given>
+                            <given qualifier="CL">Bo</given>
+                            <family>Betterhalf</family>
+                        </name>
+                    </guardianPerson>
+                </guardian>
+                <birthplace>
+                    <place>
+                        <addr>
+                            <streetAddressLine>1357 Amber Dr</streetAddressLine>
+                            <city>Beaverton</city>
+                            <state>OR</state>
+                            <postalCode>97006</postalCode>
+                            <country>US</country>
+                        </addr>
+                    </place>
+                </birthplace>
+                <languageCommunication>
+                    <languageCode code="eng"/>
+                    <modeCode code="ESP" displayName="Expressed spoken"
+                              codeSystem="2.16.840.1.113883.5.60" codeSystemName="LanguageAbilityMode"/>
+                    <preferenceInd value="true"/>
+                </languageCommunication>
+            </patient>
+            <providerOrganization>
+                <id extension="99999999" root="2.16.840.1.113883.4.6"/>
+                <name>Neighborhood Physicians Practice</name>
+                <telecom use="WP" value="tel:+1(555)-555-5000"/>
+                <addr>
+                    <streetAddressLine>2472 Rocky place</streetAddressLine>
+                    <city>Beaverton</city>
+                    <state>OR</state>
+                    <postalCode>97006</postalCode>
+                    <country>US</country>
+                </addr>
+            </providerOrganization>
+        </patientRole>
+    </recordTarget>
+    <!-- The author represents the person who provides the content in the document -->
+    <author>
+        <time value="20150622"/>
+        <assignedAuthor>
+            <id extension="111111" root="2.16.840.1.113883.4.6"/>
+            <code code="200000000X" codeSystem="2.16.840.1.113883.6.101"
+                  displayName="Allopathic &amp; Osteopathic Physicians"/>
+            <addr>
+                <streetAddressLine>2472 Rocky place</streetAddressLine>
+                <city>Beaverton</city>
+                <state>OR</state>
+                <postalCode>97006</postalCode>
+                <country>US</country>
+            </addr>
+            <telecom use="WP" value="tel:+1(555)-555-1002"/>
+            <assignedPerson>
+                <name>
+                    <prefix>Dr</prefix>
+                    <given>Albert</given>
+                    <family>Davis</family>
+                </name>
+            </assignedPerson>
+        </assignedAuthor>
+    </author>
+    <!-- The dataEnterer transferred the content created by the author into the document -->
+    <dataEnterer>
+        <assignedEntity>
+            <id root="2.16.840.1.113883.4.6" extension="999999943252"/>
+            <addr>
+                <streetAddressLine>2472 Rocky place</streetAddressLine>
+                <city>Beaverton</city>
+                <state>OR</state>
+                <postalCode>97006</postalCode>
+                <country>US</country>
+            </addr>
+            <telecom use="WP" value="tel:+1(555)-555-1002"/>
+            <assignedPerson>
+                <name>
+                    <given>Tracy</given>
+                    <family>Davis</family>
+                </name>
+            </assignedPerson>
+        </assignedEntity>
+    </dataEnterer>
+    <!-- The informant represents any sources of information for document content -->
+    <informant>
+        <assignedEntity>
+            <id extension="KP00017" root="2.16.840.1.113883.19.5"/>
+            <addr>
+                <streetAddressLine>2472 Rocky place</streetAddressLine>
+                <city>Beaverton</city>
+                <state>OR</state>
+                <postalCode>97006</postalCode>
+                <country>US</country>
+            </addr>
+            <telecom use="WP" value="tel:+1(555)-555-1002"/>
+            <assignedPerson>
+                <name>
+                    <given>Albert</given>
+                    <family>Davis</family>
+                </name>
+            </assignedPerson>
+        </assignedEntity>
+    </informant>
+    <informant>
+        <relatedEntity classCode="PRS">
+            <!-- classCode PRS represents a person with personal relationship with the patient. -->
+            <code code="SPS" displayName="SPOUSE" codeSystem="2.16.840.1.113883.1.11.19563"
+                  codeSystemName="Personal Relationship Role Type Value Set"/>
+            <relatedPerson>
+                <name>
+                    <given>Matthew</given>
+                    <family>Newman</family>
+                </name>
+            </relatedPerson>
+        </relatedEntity>
+    </informant>
+    <!-- The custodian represents the organization charged with maintaining the original source document -->
+    <custodian>
+        <assignedCustodian>
+            <representedCustodianOrganization>
+                <id extension="99999999" root="2.16.840.1.113883.4.6"/>
+                <name>Neighborhood Physicians Practice</name>
+                <telecom value="tel:+1(555)-555-1002" use="WP"/>
+                <addr use="WP">
+                    <streetAddressLine>2472 Rocky place</streetAddressLine>
+                    <city>Beaverton</city>
+                    <state>OR</state>
+                    <postalCode>97006</postalCode>
+                    <country>US</country>
+                </addr>
+            </representedCustodianOrganization>
+        </assignedCustodian>
+    </custodian>
+    <!-- The informationRecipient represents the intended recipient of the document -->
+    <informationRecipient>
+        <intendedRecipient>
+            <informationRecipient>
+                <name>
+                    <prefix>Dr</prefix>
+                    <given>Albert</given>
+                    <family>Davis</family>
+                </name>
+            </informationRecipient>
+            <receivedOrganization>
+                <name>Neighborhood Physicians Practice</name>
+            </receivedOrganization>
+        </intendedRecipient>
+    </informationRecipient>
+    <!-- The legalAuthenticator represents the individual who is responsible for the document -->
+    <legalAuthenticator>
+        <time value="20150622"/>
+        <signatureCode code="S"/>
+        <assignedEntity>
+            <id extension="999999999" root="2.16.840.1.113883.4.6"/>
+            <addr>
+                <streetAddressLine>2472 Rocky place</streetAddressLine>
+                <city>Beaverton</city>
+                <state>OR</state>
+                <postalCode>97006</postalCode>
+                <country>US</country>
+            </addr>
+            <telecom use="WP" value="tel:+1(555)-555-1002"/>
+            <assignedPerson>
+                <name>
+                    <prefix>Dr</prefix>
+                    <given>Albert</given>
+                    <family>Davis</family>
+                </name>
+            </assignedPerson>
+        </assignedEntity>
+    </legalAuthenticator>
+    <!-- The authenticator represents the individual attesting to the accuracy of information in the document-->
+    <authenticator>
+        <time value="20150622"/>
+        <signatureCode code="S"/>
+        <assignedEntity>
+            <id extension="999999999" root="2.16.840.1.113883.4.6"/>
+            <addr>
+                <streetAddressLine>2472 Rocky place</streetAddressLine>
+                <city>Beaverton</city>
+                <state>OR</state>
+                <postalCode>97006</postalCode>
+                <country>US</country>
+            </addr>
+            <telecom use="WP" value="tel:+1(555)-555-1002"/>
+            <assignedPerson>
+                <name>
+                    <prefix>Dr</prefix>
+                    <given>Albert</given>
+                    <family>Davis</family>
+                </name>
+            </assignedPerson>
+        </assignedEntity>
+    </authenticator>
+    <!-- The participant represents supporting entities -->
+    <participant typeCode="IND">
+        <!-- patient's grandfather -->
+        <associatedEntity classCode="PRS">
+            <code code="GPARNT" displayName="grandparent" codeSystem="2.16.840.1.113883.1.11.19563"
+                  codeSystemName="Personal Relationship Role Type Value Set"/>
+            <addr use="HP">
+                <!-- HP is "primary home" from codeSystem 2.16.840.1.113883.5.1119 -->
+                <streetAddressLine>1357 Amber Dr</streetAddressLine>
+                <city>Beaverton</city>
+                <state>OR</state>
+                <postalCode>97006</postalCode>
+                <country>US</country>
+                <!-- US is "United States" from ISO 3166-1 Country Codes: 1.0.3166.1 -->
+            </addr>
+            <telecom value="tel:+1(555)-723-1544" use="HP"/>
+            <associatedPerson>
+                <name>
+                    <prefix>Mr</prefix>
+                    <given>Rick</given>
+                    <family>Holler</family>
+                </name>
+            </associatedPerson>
+        </associatedEntity>
+    </participant>
+    <!-- Note: Entities playing multiple roles are recorded in multiple participants -->
+    <participant typeCode="IND">
+        <!-- patient's spouse -->
+        <associatedEntity classCode="PRS">
+            <code code="SPS" displayName="SPOUSE" codeSystem="2.16.840.1.113883.1.11.19563"
+                  codeSystemName="Personal Relationship Role Type Value Set"/>
+            <addr use="HP">
+                <!-- HP is "primary home" from codeSystem 2.16.840.1.113883.5.1119 -->
+                <streetAddressLine>1357 Amber Dr</streetAddressLine>
+                <city>Beaverton</city>
+                <state>OR</state>
+                <postalCode>97006</postalCode>
+                <country>US</country>
+                <!-- US is "United States" from ISO 3166-1 Country Codes: 1.0.3166.1 -->
+            </addr>
+            <telecom value="tel:+1(555)-723-1544" use="HP"/>
+            <associatedPerson>
+                <name>
+                    <prefix>Mr</prefix>
+                    <given>Matthew</given>
+                    <family>Newman</family>
+                </name>
+            </associatedPerson>
+        </associatedEntity>
+    </participant>
+    <documentationOf>
+        <serviceEvent classCode="PCPR">
+            <code code="386661006" codeSystem="2.16.840.1.113883.6.96" codeSystemName="SNOMED-CT"
+                  displayName="Fever"/>
+            <!-- The effectiveTime reflects the provision of care summarized in the document.
+                In this scenario, the provision of care summarized is the lifetime for the patient -->
+            <effectiveTime>
+                <low value="19700501"/>
+                <!-- The low value represents when the summarized provision of care began.
+                    In this scenario, the patient's date of birth -->
+                <high value="20150622"/>
+                <!-- The high value represents when the summarized provision of care being ended.
+                    In this scenario, when chart summary was created -->
+            </effectiveTime>
+            <!-- since there are two Care Team members we need two performer elements. -db -->
+            <!-- Note: example of Care Team here:
+            https://github.com/gecole/HL7-Task-Force-Examples/blob/master/CareTeamToC170.314b2Ambulatory.xml
+            db -->
+            <performer typeCode="PRF">
+                <functionCode code="PCP" codeSystem="2.16.840.1.113883.5.88" codeSystemName="ParticipationFunction" displayName="Primary Care Provider">
+                    <originalText>Primary Care Provider</originalText>
+                </functionCode>
+                <assignedEntity>
+                    <id extension="5555555555" root="2.16.840.1.113883.4.6"/>
+                    <code code="207QA0505X" displayName="Adult Medicine" codeSystem="2.16.840.1.113883.6.101" codeSystemName="Healthcare Provider Taxonomy (HIPAA)"/>
+                    <addr>
+                        <streetAddressLine>2472 Rocky place</streetAddressLine>
+                        <city>Beaverton</city>
+                        <state>OR</state>
+                        <postalCode>97006</postalCode>
+                        <country>US</country>
+                    </addr>
+                    <telecom use="WP" value="tel:+1(555)-555-1002"/>
+                    <assignedPerson>
+                        <name>
+                            <prefix qualifier="TITLE">Dr</prefix>
+                            <given>Albert</given>
+                            <family>Davis</family>
+                        </name>
+                    </assignedPerson>
+                    <representedOrganization>
+                        <id extension="99999999" root="2.16.840.1.113883.4.6"/>
+                        <name>Neighborhood Physicians Practice</name>
+                        <telecom value="tel:+1(555)-555-5000" use="WP"/>
+                        <addr>
+                            <streetAddressLine>2472 Rocky place</streetAddressLine>
+                            <city>Beaverton</city>
+                            <state>OR</state>
+                            <postalCode>97006</postalCode>
+                            <country>US</country>
+                        </addr>
+                    </representedOrganization>
+                </assignedEntity>
+            </performer>
+            <performer typeCode="PRF">
+                <!-- we do not have a function code for this person since recording as RN for now -->
+                <time>
+                    <low nullFlavor="UNK"/>
+                </time>
+                <assignedEntity>
+                    <!-- this provider has an id, but it is not an NPI  -->
+                    <id extension="91138" root="1.3.6.1.4.1.22812.4.99930.4"/>
+                    <!-- the provider is a Registered Nurse - may not be so -->
+                    <!-- note: we don't know what Tracy is from the test data
+                         but since not specified, RN should not be an issue -db -->
+                    <code codeSystem="2.16.840.1.113883.6.101" codeSystemName="NUCC Health Care Provider Taxonomy" code="163W00000X" displayName="Registered Nurse"/>
+                    <addr>
+                        <streetAddressLine>2472 Rocky place</streetAddressLine>
+                        <city>Beaverton</city>
+                        <state>OR</state>
+                        <postalCode>97006</postalCode>
+                        <country>US</country>
+                    </addr>
+                    <telecom use="WP" value="tel:+1(555)-555-1002"/>
+                    <assignedPerson>
+                        <name>
+                            <given>Tracy</given>
+                            <family>Davis</family>
+                        </name>
+                    </assignedPerson>
+                </assignedEntity>
+            </performer>
+        </serviceEvent>
+    </documentationOf>
+    <!-- added componentOf to represent encounter and to represent length of stay better as per SME suggestion -db -->
+    <componentOf>
+        <encompassingEncounter>
+            <id extension="9937012" root="2.16.840.1.113883.19"/>
+            <effectiveTime>
+                <!-- represents length of time spent in hospital -db -->
+                <low value="201506220800"/>
+                <high value="201506220830"/>
+            </effectiveTime>
+        </encompassingEncounter>
+    </componentOf>
+    <!-- ******************************************************** CDA Body ******************************************************** -->
+    <component>
+        <structuredBody>
+            <!-- ***************** FAMILY HISTORY *************** -->
+            <!-- edited as per test doc - all data relevant -db -->
+            <component>
+                <section>
+                    <templateId root="2.16.840.1.113883.10.20.22.2.15"/>
+                    <templateId root="2.16.840.1.113883.10.20.22.2.15" extension="2015-08-01"/>
+                    <code code="10157-6" codeSystemName="LOINC" codeSystem="2.16.840.1.113883.6.1" displayName="Family History"/>
+                    <title>Family History</title>
+                    <text>
+                        <!-- Narrative may be structured in any manner, but clear references between the narrative and discrete entries are encouraged -->
+                        <table>
+                            <thead>
+                                <tr>
+                                    <th>Family Member</th>
+                                    <th>Relation</th>
+                                    <th>Problem</th>
+                                    <th>Age of Onset</th>
+                                    <th>Comments</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <tr>
+                                    <td rowspan="2">Lucas Valieri</td>
+                                    <td ID="FH1rel" rowspan="2">Dad</td>
+                                    <td ID="FH1prob1">Stroke</td>
+                                    <td ID="FH1prob1age">72</td>
+                                    <td ID="FH1prob1comment">Cause of death, January 2003</td>
+                                </tr>
+                                <tr>
+                                    <td ID="FH1prob2">High Blood Pressure</td>
+                                    <td/>
+                                    <td/>
+                                </tr>
+                                <tr>
+                                    <td>Mia Jones</td>
+                                    <td ID="FH2rel">Mom</td>
+                                    <td ID="FH2prob">No known problems</td>
+                                    <td/>
+                                    <td/>
+                                </tr>
+                            </tbody>
+                        </table>
+                    </text>
+                    <!-- Father died of a stroke -->
+                    <entry>
+                        <!-- Organizes the Father's medical history -->
+                        <organizer classCode="CLUSTER" moodCode="EVN">
+                            <templateId root="2.16.840.1.113883.10.20.22.4.45"/>
+                            <templateId root="2.16.840.1.113883.10.20.22.4.45" extension="2015-08-01"/>
+                            <!-- Unique identifier for this family member's HISTORY (not the individual) -->
+                            <id root="01faa204-db62-4610-864f-cb50b650d0fa" />
+                            <statusCode code="completed"/>
+                            <subject typeCode="SBJ">
+                                <relatedSubject classCode="PRS">
+                                    <!-- Identifies subject's relationship to recordTarget (i.e. Patient) -->
+                                    <code code="FTH" codeSystem="2.16.840.1.113883.5.111" codeSystemName="HL7 RoleCode" displayName="Natural Parent">
+                                        <originalText>
+                                            <reference value="#FH1rel"/>
+                                        </originalText>
+                                    </code>
+                                    <subject>
+                                        <!-- Unique ID for the father as an individual -->
+                                        <sdtc:id extension="98765432-1" root="1.3.6.1.4.1.16517.1" xmlns:sdtc="urn:hl7-org:sdtc" />
+                                        <!-- Father's name; could be sent formatted or as a string like this -->
+                                        <name>Lucas Valieri</name>
+                                        <administrativeGenderCode code="M" codeSystem="2.16.840.1.113883.5.1"/>
+                                        <!-- Father's birth date/time, SHOULD be sent. In this example, we did not know the
+                                             father's birth date, so we assert that the birthTime is "Unknown" -->
+                                        <birthTime nullFlavor="UNK" />
+                                        <!-- Identifies the father's living status as deceased. -->
+                                        <sdtc:deceasedInd value="true" xmlns:sdtc="urn:hl7-org:sdtc" />
+                                        <!-- Date and optional time of death (only needed if deceasedInd="true") -->
+                                        <sdtc:deceasedTime value="200301" />
+                                    </subject>
+                                </relatedSubject>
+                            </subject>
+                            <!-- Stroke observation -->
+                            <component>
+                                <observation classCode="OBS" moodCode="EVN">
+                                    <templateId root="2.16.840.1.113883.10.20.22.4.46"/>
+                                    <templateId root="2.16.840.1.113883.10.20.22.4.46" extension="2015-08-01"/>
+                                    <!-- Unique ID for this individual observation -->
+                                    <id root="02faa204-db62-4610-864f-cb50b650d0fa" />
+                                    <code code="64572001" codeSystem="2.16.840.1.113883.6.96" displayName="Condition" >
+                                        <translation code="75315-2" codeSystem="2.16.840.1.113883.6.1" displayName="Condition Family Member" />
+                                    </code>
+                                    <text>
+                                        <reference value="#FH1prob1" />
+                                    </text>
+                                    <statusCode code="completed"/>
+                                    <!-- Date of the stroke -->
+                                    <effectiveTime value="200301" />
+                                    <!-- The actual finding on the father.
+                                         Note: this is deliberately NOT set to 275104002-Family History of Stroke,
+                                         since we are saying the father had a "stroke" not a "family history of stroke".
+                                         Family History of Stroke would be a valid code to add to the recordTarget's problem list.-->
+                                    <value xsi:type="CD" code="230690007" codeSystem="2.16.840.1.113883.6.96" displayName="Stroke">
+                                        <originalText>
+                                            <reference value="#FH1prob1"/>
+                                        </originalText>
+                                    </value>
+                                    <!-- Age at the time of the event -->
+                                    <entryRelationship typeCode="SUBJ" inversionInd="true">
+                                        <observation classCode="OBS" moodCode="EVN">
+                                            <templateId root="2.16.840.1.113883.10.20.22.4.31"/>
+                                            <code code="445518008" displayName="Age at Onset" codeSystem="2.16.840.1.113883.6.96" codeSystemName="SNOMED CT" />
+                                            <text>
+                                                <reference value="#FH1prob1age"/>
+                                            </text>
+                                            <statusCode code="completed"/>
+                                            <!-- 'a' is UCUM for Years -->
+                                            <value xsi:type="PQ" unit="a" value="72"/>
+                                        </observation>
+                                    </entryRelationship>
+                                    <!-- This finding was the cause of death -->
+                                    <entryRelationship typeCode="CAUS">
+                                        <observation classCode="OBS" moodCode="EVN">
+                                            <templateId root="2.16.840.1.113883.10.20.22.4.47"/>
+                                            <code code="ASSERTION" codeSystem="2.16.840.1.113883.5.4" />
+                                            <text>
+                                                <reference value="#FH1prob1comment"/>
+                                            </text>
+                                            <statusCode code="completed"/>
+                                            <value xsi:type="CD" code="419099009" codeSystem="2.16.840.1.113883.6.96" codeSystemName="SNOMED CT" displayName="Dead"/>
+                                        </observation>
+                                    </entryRelationship>
+                                </observation>
+                            </component>
+                            <!-- High Blood Pressure observation -->
+                            <component>
+                                <observation classCode="OBS" moodCode="EVN">
+                                    <templateId root="2.16.840.1.113883.10.20.22.4.46"/>
+                                    <templateId root="2.16.840.1.113883.10.20.22.4.46" extension="2015-08-01"/>
+                                    <!-- Unique ID for this individual observation -->
+                                    <id root="04faa204-db62-4610-864f-cb50b650d0fa" />
+                                    <code code="64572001" codeSystem="2.16.840.1.113883.6.96" displayName="Condition" >
+                                        <translation code="75315-2" codeSystem="2.16.840.1.113883.6.1" displayName="Condition Family Member" />
+                                    </code>
+                                    <text>
+                                        <reference value="#FH1prob2" />
+                                    </text>
+                                    <statusCode code="completed"/>
+                                    <!-- Date of blood pressure (unknown) -->
+                                    <effectiveTime nullFlavor="UNK" />
+                                    <!-- The actual finding on the father.
+                                        Again, not using 160357008-Family History of Hypertension, since we're stating
+                                        the father HAD hypertension, not a family history of hypertension -->
+                                    <value xsi:type="CD" code="59621000" codeSystem="2.16.840.1.113883.6.96" displayName="Essential Hypertension">
+                                        <originalText>
+                                            <reference value="#FH1prob2"/>
+                                        </originalText>
+                                    </value>
+                                </observation>
+                            </component>
+                        </organizer>
+                    </entry>
+                    <!-- Mother living with no known problems -->
+                    <entry>
+                        <!-- Organizes the Mother's medical history -->
+                        <organizer classCode="CLUSTER" moodCode="EVN">
+                            <templateId root="2.16.840.1.113883.10.20.22.4.45"/>
+                            <templateId root="2.16.840.1.113883.10.20.22.4.45" extension="2015-08-01"/>
+                            <!-- Unique identifier for this family member's HISTORY (not the individual) -->
+                            <id root="03faa204-db62-4610-864f-cb50b650d0fa" />
+                            <statusCode code="completed"/>
+                            <subject>
+                                <relatedSubject classCode="PRS">
+                                    <!-- Identifies subject's relationship to recordTarget (i.e. Patient) -->
+                                    <code code="MTH" codeSystem="2.16.840.1.113883.5.111" codeSystemName="HL7 RoleCode" displayName="Natural Parent">
+                                        <originalText>
+                                            <reference value="#FH2rel"/>
+                                        </originalText>
+                                    </code>
+                                    <subject>
+                                        <!-- Unique ID for the mother as an individual
+                                             (note - different extension than father) -->
+                                        <sdtc:id extension="98765432-2" root="1.3.6.1.4.1.16517.1" xmlns:sdtc="urn:hl7-org:sdtc" />
+                                        <!-- Mother's name; could be sent formatted or as a string like this -->
+                                        <name>Mia Jones</name>
+                                        <administrativeGenderCode code="F" codeSystem="2.16.840.1.113883.5.1"/>
+                                        <!-- Mother's birth time, SHOULD be sent -->
+                                        <birthTime nullFlavor="UNK" />
+                                        <!-- Identifies the mother's living status as living. -->
+                                        <sdtc:deceasedInd value="false" xmlns:sdtc="urn:hl7-org:sdtc" />
+                                    </subject>
+                                </relatedSubject>
+                            </subject>
+                            <component>
+                                <observation classCode="OBS" moodCode="EVN" negationInd="true">
+                                    <!-- Similar to no known problems or allergies,
+                                         the use of negationInd corresponds with the newer Observation.ValueNegationInd
+                                         The negationInd = true negates the value element -->
+                                    <templateId root="2.16.840.1.113883.10.20.22.4.46"/>
+                                    <templateId root="2.16.840.1.113883.10.20.22.4.46" extension="2015-08-01"/>
+                                    <!-- Unique ID for this individual observation -->
+                                    <id root="05faa204-db62-4610-864f-cb50b650d0fa" />
+                                    <code code="64572001" codeSystem="2.16.840.1.113883.6.96" displayName="Condition" >
+                                        <translation code="75315-2" codeSystem="2.16.840.1.113883.6.1" displayName="Condition Family Member" />
+                                    </code>
+                                    <text>
+                                        <reference value="#FH2prob"/>
+                                    </text>
+                                    <statusCode code="completed"/>
+                                    <effectiveTime nullFlavor="NI" />
+                                    <!-- Generic problem; negationInd identifies the mother has having no active problems-->
+                                    <value xsi:type="CD" code="55607006" codeSystem="2.16.840.1.113883.6.96" displayName="Problem" />
+                                </observation>
+                            </component>
+                        </organizer>
+                    </entry>
+                </section>
+            </component>
+        </structuredBody>
+    </component>
+</ClinicalDocument>
