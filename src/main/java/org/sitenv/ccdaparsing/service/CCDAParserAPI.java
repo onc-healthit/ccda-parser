@@ -19,6 +19,7 @@ import javax.xml.xpath.XPathFactory;
 import org.sitenv.ccdaparsing.model.CCDAAllergy;
 import org.sitenv.ccdaparsing.model.CCDACareTeamMember;
 import org.sitenv.ccdaparsing.model.CCDAEncounter;
+import org.sitenv.ccdaparsing.model.CCDAFamilyHistory;
 import org.sitenv.ccdaparsing.model.CCDAGoals;
 import org.sitenv.ccdaparsing.model.CCDAHealthConcerns;
 import org.sitenv.ccdaparsing.model.CCDAID;
@@ -36,6 +37,7 @@ import org.sitenv.ccdaparsing.model.CCDAVitalSigns;
 import org.sitenv.ccdaparsing.model.UsrhSubType;
 import org.sitenv.ccdaparsing.processing.CareTeamMemberProcessor;
 import org.sitenv.ccdaparsing.processing.EncounterDiagnosesProcessor;
+import org.sitenv.ccdaparsing.processing.FamilyHistoryProcessor;
 import org.sitenv.ccdaparsing.processing.GoalsProcessor;
 import org.sitenv.ccdaparsing.processing.HealthConcernsProcessor;
 import org.sitenv.ccdaparsing.processing.ImmunizationProcessor;
@@ -117,6 +119,11 @@ public class CCDAParserAPI {
 	
 	@Autowired
 	UsrhSubTypeProcessor usrhSubTypeProcessor;
+
+	@Autowired
+	FamilyHistoryProcessor familyHistoryProcessor;
+
+
 	
 	@Autowired
 	MedicalEquipmentProcessor medicalEquipmentProcessor;
@@ -141,6 +148,7 @@ public class CCDAParserAPI {
 		Future<CCDAGoals> goals=null;
 		Future<CCDAHealthConcerns> healthConcerns=null;
 		Future<UsrhSubType> usrhSubType=null;
+		Future<CCDAFamilyHistory> familyHistory;
 		Future<CCDAMedicalEquipment> medicalEquipments=null;
 		ArrayList<CCDAID> idList = new ArrayList<>();
 		logger.info("Parsing CCDA document");
@@ -171,6 +179,8 @@ public class CCDAParserAPI {
 				goals = goalsProcessor.retrieveGoalsDetails(xPath, doc);
 				healthConcerns = healthConcernsProcessor.retrieveHealthConcernDetails(xPath, doc);
 				usrhSubType = usrhSubTypeProcessor.retrieveUsrhSubTypeDetails(xPath, doc);
+				familyHistory = familyHistoryProcessor.retrieveFamilyHistoryDetails(xPath, doc);
+
 				medicalEquipments = medicalEquipmentProcessor.retrieveMedicalEquipments(xPath, doc);
 				
 				if(patient!=null){
@@ -334,6 +344,18 @@ public class CCDAParserAPI {
 						isTimeOut = true;
 					}
 				}
+
+				if(familyHistory!=null){
+					try{
+						refModel.setFamilyHistory(familyHistory.get(isTimeOut?minWaitTime:maxWaitTime, TimeUnit.MILLISECONDS));
+						if(refModel.getFamilyHistory()!=null){
+							idList.addAll(refModel.getFamilyHistory().getIdList());
+						}
+					}catch (Exception e) {
+						isTimeOut = true;
+					}
+				}
+
 				
 				if(medicalEquipments!=null){
 					try {

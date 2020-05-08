@@ -23,6 +23,7 @@ public class CCDARefModel {
 	private ArrayList<CCDAUDI> udi;
 	private ArrayList<CCDAID>  idList;
 	private UsrhSubType        usrhSubType;
+	private CCDAFamilyHistory familyHistory;
 	private CCDAMedicalEquipment medicalEquipment;
 	private boolean isEmpty;
 	
@@ -147,6 +148,13 @@ public class CCDARefModel {
 	public void setUsrhSubType(UsrhSubType usrhSubType) {
 		this.usrhSubType = usrhSubType;
 	}
+	public void setFamilyHistory(CCDAFamilyHistory familyHistory) {
+		this.familyHistory = familyHistory;
+	}
+	public CCDAFamilyHistory getFamilyHistory() {
+		return familyHistory;
+	}
+
 	public void setMedicationEquipments(CCDAMedicalEquipment medicalEquipment) {
 		this.medicalEquipment = medicalEquipment;
 	}
@@ -183,6 +191,9 @@ public class CCDARefModel {
 		result = prime * result
 				+ ((vitalSigns == null) ? 0 : vitalSigns.hashCode());
 		result = prime * result
+				+ ((usrhSubType == null) ? 0 : usrhSubType.hashCode());
+		result = prime * result
+				+ ((familyHistory == null) ? 0 : familyHistory.hashCode());
 				+ ((usrhSubType == null) ? 0 : usrhSubType.hashCode());
 		result = prime * result
 				+ ((medicalEquipment == null) ? 0 : medicalEquipment.hashCode());
@@ -281,6 +292,13 @@ public class CCDARefModel {
 			if (other.usrhSubType != null)
 				return false;
 		} else if (!usrhSubType.equals(other.usrhSubType))
+			return false;		
+		if (familyHistory == null) {
+			if (other.familyHistory != null)
+				return false;
+		} else if (!familyHistory.equals(other.familyHistory))
+			return false;
+
 			return false;
 		if (medicalEquipment == null) {
 			if (other.medicalEquipment != null)
