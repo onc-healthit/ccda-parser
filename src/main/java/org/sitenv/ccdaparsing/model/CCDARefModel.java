@@ -194,7 +194,6 @@ public class CCDARefModel {
 				+ ((usrhSubType == null) ? 0 : usrhSubType.hashCode());
 		result = prime * result
 				+ ((familyHistory == null) ? 0 : familyHistory.hashCode());
-				+ ((usrhSubType == null) ? 0 : usrhSubType.hashCode());
 		result = prime * result
 				+ ((medicalEquipment == null) ? 0 : medicalEquipment.hashCode());
 		return result;
@@ -297,8 +296,6 @@ public class CCDARefModel {
 			if (other.familyHistory != null)
 				return false;
 		} else if (!familyHistory.equals(other.familyHistory))
-			return false;
-
 			return false;
 		if (medicalEquipment == null) {
 			if (other.medicalEquipment != null)
