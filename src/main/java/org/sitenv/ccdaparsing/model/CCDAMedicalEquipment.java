@@ -24,6 +24,7 @@ public class CCDAMedicalEquipment extends CCDAXmlSnippet {
     private List<CCDAMedicalEquipmentOrg>       equipmentOrgs;
     private List<CCDANonMedicalSupplyAct>       supplyActivities;
     private List<CCDAProcActProc>               procedureActs;
+    private ArrayList<String>                   referenceLinks;
 
     public List<CCDAID> getIds() {
         return ids == null ? new ArrayList<CCDAID>() : new ArrayList<>(ids);
@@ -79,5 +80,11 @@ public class CCDAMedicalEquipment extends CCDAXmlSnippet {
 
     public List<CCDAProcActProc> getProcedureActs() {
         return procedureActs == null ? new ArrayList<CCDAProcActProc>() : new ArrayList<>(procedureActs);
+    }
+    public ArrayList<String> getReferenceLinks() {
+        return referenceLinks == null ? new ArrayList<String>() : new ArrayList<>(referenceLinks);
+    }
+    public void setReferenceLinks(ArrayList<String> referenceLinks) {
+        this.referenceLinks = referenceLinks == null ? new ArrayList<String>() : new ArrayList<>(referenceLinks);
     }
 }
