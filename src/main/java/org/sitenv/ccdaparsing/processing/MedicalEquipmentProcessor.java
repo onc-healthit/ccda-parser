@@ -54,6 +54,14 @@ public class MedicalEquipmentProcessor {
                     evaluate(sectionElement, XPathConstants.NODESET), xPath,ids));
             medicalEquipments.setOrganizers(readOrganizers((NodeList) xPath.compile("./entry/organizer[not(@nullFlavor)]").
                     evaluate(sectionElement, XPathConstants.NODESET), xPath,ids));
+            medicalEquipments.setLineNumber(sectionElement.getUserData("lineNumber") + " - " + sectionElement.getUserData("endLineNumber"));
+            medicalEquipments.setXmlString(ApplicationUtil.nodeToString((Node) sectionElement));
+            Element textElement = (Element) xPath.compile("./text[not(@nullFlavor)]").evaluate(sectionElement, XPathConstants.NODE);
+
+            if (textElement != null) {
+                medicalEquipments.getReferenceLinks().addAll((ApplicationUtil.readSectionTextReferences((NodeList) xPath.compile(".//*[not(@nullFlavor) and @ID]").
+                        evaluate(textElement, XPathConstants.NODESET))));
+            }
             medicalEquipments.setIds(ids);
         }
         logger.info("medical equipment parsing End time:"+ (System.currentTimeMillis() - startTime));
