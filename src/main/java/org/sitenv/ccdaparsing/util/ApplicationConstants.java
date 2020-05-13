@@ -47,8 +47,8 @@ public class ApplicationConstants {
     public static String VITALSIGNS_EXPRESSION = "/ClinicalDocument/component/structuredBody/component/section[(not(@nullFlavor) or @nullFlavor='NI') and templateId[@root='2.16.840.1.113883.10.20.22.2.4.1']]";
 
     public static final String FAMILYHX_EXPRESSION = "/ClinicalDocument/component/structuredBody/component/section[(not(@nullFlavor) or @nullFlavor='NI') and templateId[@root='2.16.840.1.113883.10.20.22.2.15']]";
+    public static final String ADV_DIRECTIVE_EXPRESSION = "/ClinicalDocument/component/structuredBody/component/section[(not(@nullFlavor) or @nullFlavor='NI') and templateId[@root='2.16.840.1.113883.10.20.22.2.21']]";
 
-    
     public static String PROCEDURE_EXPRESSION = "/ClinicalDocument/component/structuredBody/component/section[(not(@nullFlavor) or @nullFlavor='NI') and templateId[@root='2.16.840.1.113883.10.20.22.2.7.1']]";
     public static String PROCEDURE_UDI_EXPRESSION ="./participant[not(@nullFlavor) and @typeCode='DEV']/participantRole[not(@nullFlavor)]";
     public static String PROCEDURE_SDL_EXPRESSION ="./participant[not(@nullFlavor) and @typeCode='LOC']/participantRole[not(@nullFlavor)]";

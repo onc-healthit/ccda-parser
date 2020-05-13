@@ -19,11 +19,12 @@ public class CCDARefModel {
 	private CCDAProblem        problem;
 	private CCDAPOT            planOfTreatment;
 	private CCDAGoals          goals;
+	private CCDAFamilyHistory familyHistory;
+	private CCDAAdvanceDirective advanceDirective;
 	private CCDAHealthConcerns hcs;
 	private ArrayList<CCDAUDI> udi;
 	private ArrayList<CCDAID>  idList;
 	private UsrhSubType        usrhSubType;
-	private CCDAFamilyHistory familyHistory;
 	private boolean isEmpty;
 
 	public CCDAII getDocTemplateId() {
@@ -116,6 +117,18 @@ public class CCDARefModel {
 	public void setGoals(CCDAGoals goals) {
 		this.goals = goals;
 	}
+	public void setFamilyHistory(CCDAFamilyHistory familyHistory) {
+		this.familyHistory = familyHistory;
+	}
+	public CCDAFamilyHistory getFamilyHistory() {
+		return this.familyHistory;
+	}
+	public void setAdvanceDirective(CCDAAdvanceDirective advanceDirective) {
+		this.advanceDirective = advanceDirective;
+	}
+	public CCDAAdvanceDirective getAdvanceDirective() {
+		return this.advanceDirective;
+	}
 	public CCDAHealthConcerns getHcs() {
 		return hcs;
 	}
@@ -134,7 +147,7 @@ public class CCDARefModel {
 	public void setEmpty(boolean isEmpty) {
 		this.isEmpty = isEmpty;
 	}
-	
+
 	public ArrayList<CCDAID> getIdList() {
 		return idList;
 	}
@@ -143,15 +156,9 @@ public class CCDARefModel {
 	}
 	public UsrhSubType getUsrhSubType() {
 		return usrhSubType;
-	}	
+	}
 	public void setUsrhSubType(UsrhSubType usrhSubType) {
 		this.usrhSubType = usrhSubType;
-	}
-	public void setFamilyHistory(CCDAFamilyHistory familyHistory) {
-		this.familyHistory = familyHistory;
-	}
-	public CCDAFamilyHistory getFamilyHistory() {
-		return familyHistory;
 	}
 
 	@Override
@@ -187,6 +194,8 @@ public class CCDARefModel {
 				+ ((usrhSubType == null) ? 0 : usrhSubType.hashCode());
 		result = prime * result
 				+ ((familyHistory == null) ? 0 : familyHistory.hashCode());
+		result = prime * result
+				+ ((advanceDirective == null) ? 0 : advanceDirective.hashCode());
 		return result;
 	}
 	@Override
@@ -288,10 +297,12 @@ public class CCDARefModel {
 				return false;
 		} else if (!familyHistory.equals(other.familyHistory))
 			return false;
+		if (advanceDirective == null) {
+			if (other.advanceDirective != null)
+				return false;
+		} else if (!advanceDirective.equals(other.advanceDirective))
+			return false;
 
 		return true;
 	}
-
-
-
 }
