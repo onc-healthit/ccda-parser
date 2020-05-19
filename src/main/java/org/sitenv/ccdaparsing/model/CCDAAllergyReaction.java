@@ -4,6 +4,7 @@ import java.util.ArrayList;
 
 public class CCDAAllergyReaction extends CCDAXmlSnippet {
 	
+	private boolean isSectionNullFlavourWithNI;
 	private ArrayList<CCDAII>			templateIds;
 	private CCDACode					reactionCode;
 	private CCDADataElement referenceText;
@@ -39,6 +40,14 @@ public class CCDAAllergyReaction extends CCDAXmlSnippet {
 
 	public void setSeverity(CCDAAllergySeverity severity) {
 		this.severity = severity;
+	}
+	
+	public boolean isSectionNullFlavourWithNI() {
+		return isSectionNullFlavourWithNI;
+	}
+
+	public void setSectionNullFlavourWithNI(boolean isSectionNullFlavourWithNI) {
+		this.isSectionNullFlavourWithNI = isSectionNullFlavourWithNI;
 	}
 
 	public CCDAAllergyReaction()

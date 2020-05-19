@@ -1,6 +1,7 @@
 package org.sitenv.ccdaparsing.processing;
 
 import java.util.ArrayList;
+import java.util.List;
 import java.util.concurrent.Future;
 
 import javax.xml.transform.TransformerException;
@@ -10,9 +11,12 @@ import javax.xml.xpath.XPathExpressionException;
 
 import org.apache.log4j.Logger;
 import org.sitenv.ccdaparsing.model.CCDADataElement;
+import org.sitenv.ccdaparsing.model.CCDAEncompassingEncounter;
 import org.sitenv.ccdaparsing.model.CCDAII;
 import org.sitenv.ccdaparsing.model.CCDAPL;
 import org.sitenv.ccdaparsing.model.CCDAPatient;
+import org.sitenv.ccdaparsing.model.CCDAPatientName;
+import org.sitenv.ccdaparsing.model.CCDAPatientNameElement;
 import org.sitenv.ccdaparsing.util.ApplicationConstants;
 import org.sitenv.ccdaparsing.util.ApplicationUtil;
 import org.springframework.scheduling.annotation.Async;
@@ -31,6 +35,28 @@ public class PatientProcessor {
 	public CCDAII retrieveDocTemplateId(XPath xPath , Document doc) throws XPathExpressionException,TransformerException{
 		Element templateIdElement = (Element) xPath.compile(ApplicationConstants.DOC_TEMPLATEID_EXPRESSION).evaluate(doc, XPathConstants.NODE);
 		return ApplicationUtil.readTemplateID(templateIdElement);
+	}
+	
+	public CCDAEncompassingEncounter retrieveEncompassingEncounter(XPath xPath , Document doc) throws XPathExpressionException,TransformerException{
+		
+		CCDAEncompassingEncounter encompassingEncounter = null;
+		
+		Element encompassingEncounterElement = (Element) xPath.compile(ApplicationConstants.ENCOMPASSING_ENCOUNTER_EXPRESSION).evaluate(doc, XPathConstants.NODE);
+		
+		if(encompassingEncounterElement!=null) {
+		
+			Element idElement = (Element) xPath.compile("./id").evaluate(encompassingEncounterElement, XPathConstants.NODE);
+			encompassingEncounter = new CCDAEncompassingEncounter();
+			encompassingEncounter.setId(ApplicationUtil.readTemplateID(idElement));
+		
+		
+			encompassingEncounter.setEffectiveTime(ApplicationUtil.readEffectivetime((Element) xPath.compile("./effectiveTime").
+											evaluate(encompassingEncounterElement, XPathConstants.NODE), xPath));
+		
+		
+			encompassingEncounter.setCode(ApplicationUtil.readCode((Element) xPath.compile("./code").evaluate(encompassingEncounterElement, XPathConstants.NODE)));
+		}
+		return encompassingEncounter;
 	}
 	
 	
@@ -64,6 +90,10 @@ public class PatientProcessor {
 	            //Getting Legal name of the patient
 	            readName((Element) xPath.compile("./patient/name[not(@nullFlavor) and @use='L']").
 	    				evaluate(patientRoleElement, XPathConstants.NODE), patient , xPath);
+	            
+	          //Getting Legal name of the patient
+	            readNames((NodeList) xPath.compile("./patient/name[not(@nullFlavor)]").
+	    				evaluate(patientRoleElement, XPathConstants.NODESET), patient , xPath);
 	           
 	            //Get Gender of the patient
 	            patient.setAdministrativeGenderCode(ApplicationUtil.readCode((Element) xPath.compile("./patient/administrativeGenderCode[not(@nullFlavor)]").
@@ -127,6 +157,64 @@ public class PatientProcessor {
 		
 	}
 	
+	public void readNames(NodeList nameElements,CCDAPatient patient,XPath xPath) throws XPathExpressionException,TransformerException
+	{
+		List<CCDAPatientName> patientNames = new ArrayList<>();
+		Element patientNameElement = null;
+		CCDAPatientName patientName = null;
+		if(nameElements != null)
+		{
+			for (int i = 0; i < nameElements.getLength(); i++) {
+				patientName = new CCDAPatientName();
+				patientNameElement = (Element) nameElements.item(i);
+				
+				NodeList giveNameNodeList = (NodeList) xPath.compile("./given[not(@nullFlavor)]").
+						evaluate(patientNameElement, XPathConstants.NODESET);
+				
+				if(giveNameNodeList!=null) {
+					List<CCDAPatientNameElement> givenNames = new ArrayList<>();
+					
+					for (int j = 0; j < giveNameNodeList.getLength(); j++) {
+						Element givenNameElement = (Element) giveNameNodeList.item(j);
+						givenNames.add(ApplicationUtil.readPatientNameElement(givenNameElement));
+					}
+					patientName.setGivenName(givenNames);
+				}
+				
+				NodeList familyNameNodeList = (NodeList) xPath.compile("./family[not(@nullFlavor)]").
+						evaluate(patientNameElement, XPathConstants.NODESET);
+				
+				if(familyNameNodeList!=null) {
+					List<CCDAPatientNameElement> familyNames = new ArrayList<>();
+					for (int k = 0; k < familyNameNodeList.getLength(); k++) {
+						Element familyNameElement = (Element) familyNameNodeList.item(k);
+						familyNames.add(ApplicationUtil.readPatientNameElement(familyNameElement));
+					}
+					patientName.setFamilyName(familyNames);
+				}
+				
+				NodeList suffixNodeList = (NodeList) xPath.compile("./suffix[not(@nullFlavor)]").
+						evaluate(patientNameElement, XPathConstants.NODESET);
+				
+				if(suffixNodeList!=null) {
+					List<CCDAPatientNameElement> suffixNames = new ArrayList<>();
+					for (int l = 0; l < suffixNodeList.getLength(); l++) {
+						Element suffixElement = (Element) suffixNodeList.item(l);
+						suffixNames.add(ApplicationUtil.readPatientNameElement(suffixElement));
+					}
+					patientName.setSuffix(suffixNames);
+				}
+				
+				patientName.setUseContext(patientNameElement.getAttribute("use"));
+				//patientNameElement.setAttribute("xmlns:xsi", "http://www.w3.org/2001/XMLSchema-instance");
+				patientName.setLineNumber(patientNameElement.getUserData("lineNumber") + " - " + patientNameElement.getUserData("endLineNumber"));
+				patientName.setXmlString(ApplicationUtil.nodeToString((Node)patientNameElement));
+				patientNames.add(patientName);
+			}
+		}
+		patient.setPatientNames(patientNames);
+	}
+	
 	
 	public void readName(Element nameElement,CCDAPatient patient,XPath xPath) throws XPathExpressionException,TransformerException
 	{
@@ -138,8 +226,10 @@ public class PatientProcessor {
 			patientLegalNameElement.setLineNumber(nameElement.getUserData("lineNumber") + " - " + nameElement.getUserData("endLineNumber") );
 			patientLegalNameElement.setXmlString(ApplicationUtil.nodeToString((Node)nameElement));
 			patient.setPatientLegalNameElement(patientLegalNameElement);
+			
 			NodeList giveNameNodeList = (NodeList) xPath.compile("./given[not(@nullFlavor)]").
 					evaluate(nameElement, XPathConstants.NODESET);
+			
 			for (int i = 0; i < giveNameNodeList.getLength(); i++) {
 				Element givenNameElement = (Element) giveNameNodeList.item(i);
 				if(!ApplicationUtil.isEmpty(givenNameElement.getAttribute("qualifier")))

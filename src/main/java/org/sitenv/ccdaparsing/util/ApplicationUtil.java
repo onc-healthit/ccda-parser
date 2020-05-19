@@ -21,6 +21,7 @@ import org.sitenv.ccdaparsing.model.CCDAFrequency;
 import org.sitenv.ccdaparsing.model.CCDAID;
 import org.sitenv.ccdaparsing.model.CCDAII;
 import org.sitenv.ccdaparsing.model.CCDAPQ;
+import org.sitenv.ccdaparsing.model.CCDAPatientNameElement;
 import org.w3c.dom.Element;
 import org.w3c.dom.Node;
 import org.w3c.dom.NodeList;
@@ -441,6 +442,23 @@ public class ApplicationUtil {
 	public static CCDADataElement readTextContext(Element element)
 	{
 		return element == null ? null : new CCDADataElement(element.getTextContent()) ;
+	}
+	
+	public static CCDAPatientNameElement readPatientNameElement(Element element) throws TransformerException
+	{
+		CCDAPatientNameElement patientNameElement = null;
+		if(element!=null) {
+			patientNameElement = new CCDAPatientNameElement();
+			patientNameElement.setValue(element.getTextContent());
+			if(element.getAttribute("qualifier")!=null) {
+				patientNameElement.setIsQualifierPresent(true);
+				patientNameElement.setQualifierValue(element.getAttribute("qualifier"));
+			}
+			//element.setAttribute("xmlns:xsi", "http://www.w3.org/2001/XMLSchema-instance");
+			patientNameElement.setLineNumber(element.getUserData("lineNumber").toString());
+			patientNameElement.setXmlString(nodeToString((Node)element));
+		}
+		return patientNameElement;
 	}
 	
 	public static CCDAAddress readAddress(Element addrElement , XPath xPath)throws XPathExpressionException

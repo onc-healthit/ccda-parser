@@ -11,6 +11,7 @@ public class CCDAAllergyObs extends CCDAXmlSnippet {
 	private ArrayList<CCDAAllergyReaction>  reactions;
 	private Boolean							negationInd;
 	private CCDADataElement referenceText;
+	private CCDAAuthor author;
 	
 	public Boolean getNegationInd() {
 		return negationInd;
@@ -76,6 +77,14 @@ public class CCDAAllergyObs extends CCDAXmlSnippet {
 
 	public void setReferenceText(CCDADataElement referenceText) {
 		this.referenceText = referenceText;
+	}
+	
+	public CCDAAuthor getAuthor() {
+		return author;
+	}
+
+	public void setAuthor(CCDAAuthor author) {
+		this.author = author;
 	}
 
 	public CCDAAllergyObs()

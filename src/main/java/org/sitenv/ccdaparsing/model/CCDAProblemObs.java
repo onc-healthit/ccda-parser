@@ -11,6 +11,7 @@ public class CCDAProblemObs extends CCDAXmlSnippet{
 	private CCDACode             problemCode;
 	private CCDACode  		     statusCode;
 	private CCDADataElement referenceText;
+	private CCDAAuthor author;
 	
 	public ArrayList<CCDAII> getTemplateId() {
 		return templateId;
@@ -66,6 +67,14 @@ public class CCDAProblemObs extends CCDAXmlSnippet{
 
 	public void setReferenceText(CCDADataElement referenceText) {
 		this.referenceText = referenceText;
+	}
+	
+	public CCDAAuthor getAuthor() {
+		return author;
+	}
+
+	public void setAuthor(CCDAAuthor author) {
+		this.author = author;
 	}
 
 	public CCDAProblemObs()

@@ -12,9 +12,11 @@ public class CCDAMedicationActivity extends CCDAXmlSnippet{
 	private CCDAPQ								doseQuantity;
 	private CCDAPQ								rateQuantity;
 	private CCDACode							adminUnitCode;
+	private CCDACode							statusCode;
 	private CCDAConsumable						consumable;
 	private CCDADataElement referenceText;
 	private CCDAMedicationSubstanceAdminstration medSubAdmin;
+	private CCDAAuthor author;
 	
 	public ArrayList<CCDAII> getTemplateIds() {
 		return templateIds;
@@ -102,6 +104,22 @@ public class CCDAMedicationActivity extends CCDAXmlSnippet{
 
 	public void setMedSubAdmin(CCDAMedicationSubstanceAdminstration medSubAdmin) {
 		this.medSubAdmin = medSubAdmin;
+	}
+	
+	public CCDACode getStatusCode() {
+		return statusCode;
+	}
+
+	public void setStatusCode(CCDACode statusCode) {
+		this.statusCode = statusCode;
+	}
+	
+	public CCDAAuthor getAuthor() {
+		return author;
+	}
+
+	public void setAuthor(CCDAAuthor author) {
+		this.author = author;
 	}
 
 	@Override
