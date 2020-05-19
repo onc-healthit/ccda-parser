@@ -2,6 +2,9 @@ package org.sitenv.ccdaparsing.util;
 
 import java.io.IOException;
 import java.io.InputStream;
+import java.io.InputStreamReader;
+import java.io.Reader;
+import java.nio.charset.StandardCharsets;
 import java.util.Stack;
 
 import javax.xml.parsers.DocumentBuilder;
@@ -14,6 +17,7 @@ import org.w3c.dom.Document;
 import org.w3c.dom.Element;
 import org.w3c.dom.Node;
 import org.xml.sax.Attributes;
+import org.xml.sax.InputSource;
 import org.xml.sax.Locator;
 import org.xml.sax.SAXException;
 import org.xml.sax.helpers.DefaultHandler;
@@ -36,6 +40,10 @@ public class PositionalXMLReader {
         } catch (final ParserConfigurationException e) {
             throw new RuntimeException("Can't create SAX parser / DOM builder.", e);
         }
+
+        Reader reader = new InputStreamReader(is, StandardCharsets.UTF_8);
+        InputSource inputsource = new InputSource(reader);
+        inputsource.setEncoding("UTF-8");
 
         final Stack<Element> elementStack = new Stack<Element>();
         final StringBuilder textBuffer = new StringBuilder();
@@ -91,7 +99,7 @@ public class PositionalXMLReader {
                 }
             }           
         };
-        parser.parse(is, handler);
+        parser.parse(inputsource, handler);
 
         return doc;
     }
