@@ -24,8 +24,9 @@ public class CCDARefModel {
 	private ArrayList<CCDAUDI> udi;
 	private ArrayList<CCDAID>  idList;
 	private UsrhSubType        usrhSubType;
+	private CCDAFamilyHistory familyHistory;
 	private boolean isEmpty;
-	
+
 	public CCDAII getDocTemplateId() {
 		return docTemplateId;
 	}
@@ -154,6 +155,14 @@ public class CCDARefModel {
 	public void setEncompassingEncounter(CCDAEncompassingEncounter encompassingEncounter) {
 		this.encompassingEncounter = encompassingEncounter;
 	}
+
+	public void setFamilyHistory(CCDAFamilyHistory familyHistory) {
+		this.familyHistory = familyHistory;
+	}
+	public CCDAFamilyHistory getFamilyHistory() {
+		return familyHistory;
+	}
+
 	@Override
 	public int hashCode() {
 		final int prime = 31;
@@ -184,7 +193,9 @@ public class CCDARefModel {
 		result = prime * result
 				+ ((vitalSigns == null) ? 0 : vitalSigns.hashCode());
 		result = prime * result
-				+ ((usrhSubType == null) ? 0 : usrhSubType.hashCode());		
+				+ ((usrhSubType == null) ? 0 : usrhSubType.hashCode());
+		result = prime * result
+				+ ((familyHistory == null) ? 0 : familyHistory.hashCode());
 		return result;
 	}
 	@Override
@@ -281,8 +292,15 @@ public class CCDARefModel {
 				return false;
 		} else if (!usrhSubType.equals(other.usrhSubType))
 			return false;		
+		if (familyHistory == null) {
+			if (other.familyHistory != null)
+				return false;
+		} else if (!familyHistory.equals(other.familyHistory))
+			return false;
+
 		return true;
 	}
-	
-	
+
+
+
 }
