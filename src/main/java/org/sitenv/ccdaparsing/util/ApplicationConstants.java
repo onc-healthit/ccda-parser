@@ -21,8 +21,10 @@ public class ApplicationConstants {
 	
 	public static String DOC_TEMPLATEID_EXPRESSION = "/ClinicalDocument/templateId[not(@nullFlavor)]";
 	
+	public static String ENCOMPASSING_ENCOUNTER_EXPRESSION = "/ClinicalDocument/componentOf/encompassingEncounter[not(@nullFlavor)]";
+	
 	public static String ALLERGIES_EXPRESSION = "/ClinicalDocument/component/structuredBody/component/section[(not(@nullFlavor) or @nullFlavor='NI') and templateId[@root='2.16.840.1.113883.10.20.22.2.6.1']]";
-    public static String ALLERGY_REACTION_EXPRESSION ="./entryRelationship/observation[not(@nullFlavor) and templateId[@root='2.16.840.1.113883.10.20.22.4.9']]";
+    public static String ALLERGY_REACTION_EXPRESSION ="./entryRelationship/observation[(not(@nullFlavor) or @nullFlavor='NI') and templateId[@root='2.16.840.1.113883.10.20.22.4.9']]";
     public static String ALLERGY_SEVERITY_EXPRESSION ="./entryRelationship/observation[not(@nullFlavor) and templateId[@root='2.16.840.1.113883.10.20.22.4.8']]";
 	
 	
