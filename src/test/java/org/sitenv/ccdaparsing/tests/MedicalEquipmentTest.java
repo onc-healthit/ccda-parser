@@ -35,7 +35,7 @@ import java.util.concurrent.ExecutionException;
 @ContextConfiguration(classes = {CCDAParsingAPIConfiguration.class})
 public class MedicalEquipmentTest {
 
-    private final static String CCDA_DOC_WITH_MULTIPLE_IMPLANTS = "src/test/resources/CCD_MedicalEquipment_With_Organizer_Procedure_Supply.xml";
+    private final static String CCDA_DOC = "src/test/resources/C-CDA_2-1_remaning_section_test.xml";
 
     @Autowired
     private MedicalEquipmentProcessor medicalEquipmentProcessor;
@@ -45,7 +45,7 @@ public class MedicalEquipmentTest {
 
     @BeforeClass
     public static void setUp() throws IOException, SAXException {
-        doc = PositionalXMLReader.readXML(new FileInputStream(new File(CCDA_DOC_WITH_MULTIPLE_IMPLANTS)));
+        doc = PositionalXMLReader.readXML(new FileInputStream(new File(CCDA_DOC)));
         xPath = XPathFactory.newInstance().newXPath();
     }
 
