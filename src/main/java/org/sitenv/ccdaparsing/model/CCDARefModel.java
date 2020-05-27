@@ -24,8 +24,9 @@ public class CCDARefModel {
 	private ArrayList<CCDAID>  idList;
 	private UsrhSubType        usrhSubType;
 	private CCDAFamilyHistory familyHistory;
+	private CCDAMedicalEquipment medicalEquipment;
 	private boolean isEmpty;
-
+	
 	public CCDAII getDocTemplateId() {
 		return docTemplateId;
 	}
@@ -154,6 +155,12 @@ public class CCDARefModel {
 		return familyHistory;
 	}
 
+	public void setMedicationEquipments(CCDAMedicalEquipment medicalEquipment) {
+		this.medicalEquipment = medicalEquipment;
+	}
+	public CCDAMedicalEquipment getMedicationEquipments() {
+		return medicalEquipment;
+	}
 	@Override
 	public int hashCode() {
 		final int prime = 31;
@@ -187,6 +194,8 @@ public class CCDARefModel {
 				+ ((usrhSubType == null) ? 0 : usrhSubType.hashCode());
 		result = prime * result
 				+ ((familyHistory == null) ? 0 : familyHistory.hashCode());
+		result = prime * result
+				+ ((medicalEquipment == null) ? 0 : medicalEquipment.hashCode());
 		return result;
 	}
 	@Override
@@ -288,10 +297,11 @@ public class CCDARefModel {
 				return false;
 		} else if (!familyHistory.equals(other.familyHistory))
 			return false;
-
+		if (medicalEquipment == null) {
+			if (other.medicalEquipment != null)
+				return false;
+		} else if (!medicalEquipment.equals(other.medicalEquipment))
+			return false;
 		return true;
 	}
-
-
-
 }
