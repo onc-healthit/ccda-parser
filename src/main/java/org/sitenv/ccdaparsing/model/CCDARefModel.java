@@ -21,6 +21,7 @@ public class CCDARefModel {
 	private CCDAGoals          goals;
 	private CCDAFamilyHistory familyHistory;
 	private CCDAAdvanceDirective advanceDirective;
+	private CCDAMedicalEquipment medicalEquipment;
 	private CCDAHealthConcerns hcs;
 	private ArrayList<CCDAUDI> udi;
 	private ArrayList<CCDAID>  idList;
@@ -123,6 +124,12 @@ public class CCDARefModel {
 	public CCDAFamilyHistory getFamilyHistory() {
 		return this.familyHistory;
 	}
+	public void setMedicationEquipments(CCDAMedicalEquipment medicalEquipment) {
+		this.medicalEquipment = medicalEquipment;
+	}
+	public CCDAMedicalEquipment getMedicationEquipments() {
+		return medicalEquipment;
+	}
 	public void setAdvanceDirective(CCDAAdvanceDirective advanceDirective) {
 		this.advanceDirective = advanceDirective;
 	}
@@ -194,6 +201,8 @@ public class CCDARefModel {
 				+ ((usrhSubType == null) ? 0 : usrhSubType.hashCode());
 		result = prime * result
 				+ ((familyHistory == null) ? 0 : familyHistory.hashCode());
+		result = prime * result
+				+ ((medicalEquipment == null) ? 0 : medicalEquipment.hashCode());
 		result = prime * result
 				+ ((advanceDirective == null) ? 0 : advanceDirective.hashCode());
 		return result;
@@ -296,6 +305,11 @@ public class CCDARefModel {
 			if (other.familyHistory != null)
 				return false;
 		} else if (!familyHistory.equals(other.familyHistory))
+			return false;
+		if (medicalEquipment == null) {
+			if (other.medicalEquipment != null)
+				return false;
+		} else if (!medicalEquipment.equals(other.medicalEquipment))
 			return false;
 		if (advanceDirective == null) {
 			if (other.advanceDirective != null)

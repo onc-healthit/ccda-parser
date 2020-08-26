@@ -33,7 +33,8 @@ public class FamilyHistoryProcessor {
 		logger.info("Family History parsing Start time:" + startTime);
 
 		CCDAFamilyHistory familyHistory = null;
-		Element sectionElement = (Element) xPath.compile(ApplicationConstants.FAMILYHX_EXPRESSION).evaluate(doc, XPathConstants.NODE);
+		Element sectionElement = (Element) xPath.compile(ApplicationConstants.FAMILYHX_EXPRESSION)
+				.evaluate(doc, XPathConstants.NODE);
 		List<CCDAID> idList = new ArrayList<>();
 		if (sectionElement != null) {
 			familyHistory = new CCDAFamilyHistory();
@@ -61,6 +62,7 @@ public class FamilyHistoryProcessor {
 			}
 			familyHistory.setIdList(idList);
 		}
+		logger.info("Family History parsing End time:" + (System.currentTimeMillis() - startTime));
 		return new AsyncResult<CCDAFamilyHistory>(familyHistory);
 	}
 
@@ -80,6 +82,14 @@ public class FamilyHistoryProcessor {
 			familyHxOrganizer.setTemplateIds(ApplicationUtil.readTemplateIdList((NodeList) xPath
 					.compile("./templateId[not(@nullFlavor)]")
 					.evaluate(familyHxOrganizerElement, XPathConstants.NODESET)));
+
+			if (ApplicationUtil.readID((Element) xPath.compile("./id[not(@nullFlavor)]").
+					evaluate(familyHxOrganizerElement, XPathConstants.NODE), "vitalOrganizer") != null) {
+				idList.add(ApplicationUtil.readID((Element) xPath.compile("./id[not(@nullFlavor)]").
+						evaluate(familyHxOrganizerElement, XPathConstants.NODE), "vitalOrganizer"));
+			}
+			familyHxOrganizer.setReferenceText(ApplicationUtil.readTextReference((Element) xPath.compile(ApplicationConstants.REFERENCE_TEXT_EXPRESSION).
+					evaluate(familyHxOrganizerElement, XPathConstants.NODE)));
 
 			familyHxOrganizer.setStatusCode(ApplicationUtil.readCode((Element) xPath
 					.compile("./statusCode[not(@nullFlavor)]")
@@ -152,7 +162,7 @@ public class FamilyHistoryProcessor {
 			Element ageObservationElement = (Element) xPath.compile("./entryRelationship[@typeCode=\"SUBJ\"]/observation")
 					.evaluate(familyHxObsElement, XPathConstants.NODE);
 
-			if(ageObservationElement !=null) {
+			if (ageObservationElement != null) {
 				familyHxObservation.setAgeOnSetValue(ApplicationUtil.readQuantity((Element) xPath
 						.compile("./value[not(@nullFlavor)]")
 						.evaluate(ageObservationElement, XPathConstants.NODE)));
@@ -165,7 +175,7 @@ public class FamilyHistoryProcessor {
 			Element causeObservationElement = (Element) xPath.compile("./entryRelationship[@typeCode=\"CAUS\"]/observation")
 					.evaluate(familyHxObsElement, XPathConstants.NODE);
 
-			if(causeObservationElement != null) {
+			if (causeObservationElement != null) {
 				familyHxObservation.setCausedDeathValue(ApplicationUtil.readCode((Element) xPath
 						.compile("./value[not(@nullFlavor)]")
 						.evaluate(causeObservationElement, XPathConstants.NODE)));
