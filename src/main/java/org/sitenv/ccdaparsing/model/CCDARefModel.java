@@ -25,8 +25,10 @@ public class CCDARefModel {
 	private UsrhSubType        usrhSubType;
 	private CCDAFamilyHistory familyHistory;
 	private CCDAMedicalEquipment medicalEquipment;
+	private CCDAFunctionalStatus functionalStatus;
+	private CCDAMentalStatus mentalStatus;
 	private boolean isEmpty;
-	
+
 	public CCDAII getDocTemplateId() {
 		return docTemplateId;
 	}
@@ -135,7 +137,7 @@ public class CCDARefModel {
 	public void setEmpty(boolean isEmpty) {
 		this.isEmpty = isEmpty;
 	}
-	
+
 	public ArrayList<CCDAID> getIdList() {
 		return idList;
 	}
@@ -144,7 +146,7 @@ public class CCDARefModel {
 	}
 	public UsrhSubType getUsrhSubType() {
 		return usrhSubType;
-	}	
+	}
 	public void setUsrhSubType(UsrhSubType usrhSubType) {
 		this.usrhSubType = usrhSubType;
 	}
@@ -154,12 +156,23 @@ public class CCDARefModel {
 	public CCDAFamilyHistory getFamilyHistory() {
 		return familyHistory;
 	}
-
 	public void setMedicationEquipments(CCDAMedicalEquipment medicalEquipment) {
 		this.medicalEquipment = medicalEquipment;
 	}
 	public CCDAMedicalEquipment getMedicationEquipments() {
 		return medicalEquipment;
+	}
+	public void setFunctionalStatus(CCDAFunctionalStatus functionalStatus) {
+		this.functionalStatus = functionalStatus;
+	}
+	public CCDAFunctionalStatus getFunctionalStatus() {
+		return this.functionalStatus;
+	}
+	public void setMentalStatus(CCDAMentalStatus mentalStatus) {
+		this.mentalStatus = mentalStatus;
+	}
+	public CCDAMentalStatus getMentalStatus() {
+		return this.mentalStatus;
 	}
 	@Override
 	public int hashCode() {
@@ -196,6 +209,10 @@ public class CCDARefModel {
 				+ ((familyHistory == null) ? 0 : familyHistory.hashCode());
 		result = prime * result
 				+ ((medicalEquipment == null) ? 0 : medicalEquipment.hashCode());
+		result = prime * result
+				+ ((functionalStatus == null) ? 0 : functionalStatus.hashCode());
+		result = prime * result
+				+ ((mentalStatus == null) ? 0 : mentalStatus.hashCode());
 		return result;
 	}
 	@Override
@@ -302,6 +319,17 @@ public class CCDARefModel {
 				return false;
 		} else if (!medicalEquipment.equals(other.medicalEquipment))
 			return false;
+		if (functionalStatus == null) {
+			if (other.functionalStatus != null)
+				return false;
+		} else if (!functionalStatus.equals(other.functionalStatus))
+			return false;
+		if (mentalStatus == null) {
+			if (other.mentalStatus != null)
+				return false;
+		} else if (!mentalStatus.equals(other.mentalStatus))
+			return false;
+
 		return true;
 	}
 }

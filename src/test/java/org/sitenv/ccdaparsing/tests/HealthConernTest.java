@@ -19,16 +19,16 @@ import org.w3c.dom.Document;
 
 public class HealthConernTest {
 	
-	private String CCDA_DOC = "src/test/resources/170.315_b1_toc_amb_ccd_r21_sample1_v1.xml";
-	private CCDAHealthConcerns healthConcerns;
+	private static String CCDA_DOC = "src/test/resources/170.315_b1_toc_amb_ccd_r21_sample1_v1.xml";
+	private static CCDAHealthConcerns healthConcerns;
 	private ArrayList<CCDAII>    templateIds;
 	private CCDACode  sectionCode;
 	//private CCDADataElement narrativeText;
-	private HealthConcernsProcessor healthConcernsProcessor = new HealthConcernsProcessor();
+	private static HealthConcernsProcessor healthConcernsProcessor = new HealthConcernsProcessor();
 	
 	
 	@BeforeClass
-	public void setUp() throws Exception {
+	public static void setUp() throws Exception {
 		// removed fields to ensure no side effects with DocumentRoot
 		DocumentBuilderFactory factory = 
 				DocumentBuilderFactory.newInstance();
@@ -46,6 +46,7 @@ public class HealthConernTest {
 		sectionCode.setCodeSystem("2.16.840.1.113883.6.1");
 		sectionCode.setCodeSystemName("LOINC");
 		sectionCode.setDisplayName("Health Concerns Document");
+		sectionCode.setXmlString("<code xmlns:xsi=\"http://www.w3.org/2001/XMLSchema-instance\" code=\"75310-3\" codeSystem=\"2.16.840.1.113883.6.1\" codeSystemName=\"LOINC\" displayName=\"Health Concerns Document\"/>");
 	 }
 	
 	private void setHealthConcernsTemplateIds()
