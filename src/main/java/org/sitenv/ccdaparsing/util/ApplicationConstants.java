@@ -65,7 +65,7 @@ public class ApplicationConstants {
     public static String CTM_EXPRESSION = "/ClinicalDocument/documentationOf/serviceEvent/performer[not(@nullFlavor)]";
     
     public static String REFERENCE_TEXT_EXPRESSION = "./code/originalText/reference[not(@nullFlavor)] | ./text/reference[not(@nullFlavor)] | ./participant/participantRole/playingEntity/code/originalText/reference[not(@nullFlavor)]";
-    
+    public static final String MEDICAL_EQUIPMENT_EXPRESSION = "/ClinicalDocument/component/structuredBody/component/section[(not(@nullFlavor) or @nullFlavor='NI') and templateId[@root='2.16.840.1.113883.10.20.22.2.23']]";
     
     public static String PROBLEMS_TEM_ID = "2.16.840.1.113883.10.20.22.2.5.1";
 	public static String MEDICATION_TEM_ID = "2.16.840.1.113883.10.20.22.2.1.1";
@@ -78,6 +78,12 @@ public class ApplicationConstants {
 	
 	public final static String LINE_NUMBER_KEY_NAME = "lineNumber";
     public final static String END_LINE_NUMBER_KEY_NAME = "endLineNumber";
+
+	public static final String TEMPLATE_ID_EXPRESSION      = "./templateId[not(@nullFlavor)]";
+	public static final String CODE_EXPRESSION             = "./code[not(@nullFlavor)]";
+	public static final String EFFECTIVE_EXPRESSION        = "./effectiveTime[not(@nullFlavor)]";
+	public static final String ID_EXPRESSION               = "./id[not(@nullFlavor)]";
+	public static final String STATUS_EXPRESSION           = "./statusCode[not(@nullFlavor)]";
     
     public static final class UsrhIISubTypes {
     	private static final String HL7_GENERAL_PREFIX = "2.16.840.1.113883.10.20";
