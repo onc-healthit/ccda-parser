@@ -155,10 +155,10 @@ public class CCDARefModel {
 		return familyHistory;
 	}
 
-	public void setMedicationEquipments(CCDAMedicalEquipment medicalEquipment) {
+	public void setMedicalEquipment(CCDAMedicalEquipment medicalEquipment) {
 		this.medicalEquipment = medicalEquipment;
 	}
-	public CCDAMedicalEquipment getMedicationEquipments() {
+	public CCDAMedicalEquipment getMedicalEquipment() {
 		return medicalEquipment;
 	}
 	@Override
