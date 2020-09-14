@@ -181,7 +181,7 @@ public class CCDAParserAPI {
 				usrhSubType = usrhSubTypeProcessor.retrieveUsrhSubTypeDetails(xPath, doc);
 				familyHistory = familyHistoryProcessor.retrieveFamilyHistoryDetails(xPath, doc);
 
-				medicalEquipments = medicalEquipmentProcessor.retrieveMedicalEquipments(xPath, doc);
+				medicalEquipments = medicalEquipmentProcessor.retrieveMedicalEquipment(xPath, doc);
 				
 				if(patient!=null){
 					try{
@@ -359,12 +359,12 @@ public class CCDAParserAPI {
 				
 				if(medicalEquipments!=null){
 					try {
-						refModel.setMedicationEquipments(medicalEquipments.get(isTimeOut?minWaitTime:maxWaitTime, TimeUnit.MILLISECONDS));
+						refModel.setMedicationEquipment(medicalEquipments.get(isTimeOut?minWaitTime:maxWaitTime, TimeUnit.MILLISECONDS));
 					} catch (InterruptedException | ExecutionException | TimeoutException e) {
 						isTimeOut = true;
 					}
-					if(refModel.getMedicationEquipments()!=null){
-						idList.addAll(refModel.getMedicationEquipments().getIds());
+					if(refModel.getMedicationEquipment()!=null){
+						idList.addAll(refModel.getMedicationEquipment().getIds());
 					}
 				}
 				
