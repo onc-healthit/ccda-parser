@@ -124,10 +124,10 @@ public class CCDARefModel {
 	public CCDAFamilyHistory getFamilyHistory() {
 		return this.familyHistory;
 	}
-	public void setMedicationEquipments(CCDAMedicalEquipment medicalEquipment) {
+	public void setMedicalEquipment(CCDAMedicalEquipment medicalEquipment) {
 		this.medicalEquipment = medicalEquipment;
 	}
-	public CCDAMedicalEquipment getMedicationEquipments() {
+	public CCDAMedicalEquipment getMedicalEquipment() {
 		return medicalEquipment;
 	}
 	public void setAdvanceDirective(CCDAAdvanceDirective advanceDirective) {
@@ -167,7 +167,7 @@ public class CCDARefModel {
 	public void setUsrhSubType(UsrhSubType usrhSubType) {
 		this.usrhSubType = usrhSubType;
 	}
-
+	}
 	@Override
 	public int hashCode() {
 		final int prime = 31;

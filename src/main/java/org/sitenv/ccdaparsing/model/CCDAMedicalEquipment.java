@@ -87,4 +87,40 @@ public class CCDAMedicalEquipment extends CCDAXmlSnippet {
     public void setReferenceLinks(ArrayList<String> referenceLinks) {
         this.referenceLinks = referenceLinks == null ? new ArrayList<String>() : new ArrayList<>(referenceLinks);
     }
+
+    @Override
+    public boolean equals(Object obj) {
+        if (this == obj) return true;
+        if (!(obj instanceof CCDAMedicalEquipment)) return false;
+        if (!super.equals(obj)) return false;
+
+        CCDAMedicalEquipment other = (CCDAMedicalEquipment) obj;
+
+        if (isSectionNullFlavourWithNI != other.isSectionNullFlavourWithNI) return false;
+        if (templateIds != null ? !templateIds.equals(other.templateIds) : other.templateIds != null) return false;
+        if (sectionCode != null ? !sectionCode.equals(other.sectionCode) : other.sectionCode != null) return false;
+        if (ids != null ? !ids.equals(other.ids) : other.ids != null) return false;
+        if (equipmentOrgs != null ? !equipmentOrgs.equals(other.equipmentOrgs) : other.equipmentOrgs != null)
+            return false;
+        if (supplyActivities != null ? !supplyActivities.equals(other.supplyActivities) : other.supplyActivities != null)
+            return false;
+        if (procedureActs != null ? !procedureActs.equals(other.procedureActs) : other.procedureActs != null)
+            return false;
+        return referenceLinks != null ? referenceLinks.equals(other.referenceLinks) : other.referenceLinks == null;
+    }
+
+    @Override
+    public int hashCode() {
+        int prime = 31;
+        int result = super.hashCode();
+        result = prime * result + (isSectionNullFlavourWithNI ? 1 : 0);
+        result = prime * result + (templateIds != null ? templateIds.hashCode() : 0);
+        result = prime * result + (sectionCode != null ? sectionCode.hashCode() : 0);
+        result = prime * result + (ids != null ? ids.hashCode() : 0);
+        result = prime * result + (equipmentOrgs != null ? equipmentOrgs.hashCode() : 0);
+        result = prime * result + (supplyActivities != null ? supplyActivities.hashCode() : 0);
+        result = prime * result + (procedureActs != null ? procedureActs.hashCode() : 0);
+        result = prime * result + (referenceLinks != null ? referenceLinks.hashCode() : 0);
+        return result;
+    }
 }

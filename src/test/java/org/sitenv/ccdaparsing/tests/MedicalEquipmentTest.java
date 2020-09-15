@@ -52,7 +52,7 @@ public class MedicalEquipmentTest {
     @Before
     public void setUpMedicalEquipmentProcessor() throws XPathExpressionException, TransformerException, ExecutionException, InterruptedException {
         if (medicalEquipment == null) {
-            medicalEquipment = medicalEquipmentProcessor.retrieveMedicalEquipments(xPath, doc).get();
+            medicalEquipment = medicalEquipmentProcessor.retrieveMedicalEquipment(xPath, doc).get();
         }
     }
 

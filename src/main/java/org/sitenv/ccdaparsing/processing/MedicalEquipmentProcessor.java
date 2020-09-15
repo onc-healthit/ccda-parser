@@ -32,7 +32,7 @@ public class MedicalEquipmentProcessor {
     ProcedureProcessor procedureProcessor;
 
     @Async()
-    public Future<CCDAMedicalEquipment> retrieveMedicalEquipments(XPath xPath , Document doc) throws XPathExpressionException, TransformerException {
+    public Future<CCDAMedicalEquipment> retrieveMedicalEquipment(XPath xPath , Document doc) throws XPathExpressionException, TransformerException {
         long startTime = System.currentTimeMillis();
         logger.info("medical equipment parsing Start time:"+ startTime);
         CCDAMedicalEquipment medicalEquipments = null;

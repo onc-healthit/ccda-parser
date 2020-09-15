@@ -364,12 +364,12 @@ public class CCDAParserAPI {
 
 				if(medicalEquipments!=null){
 					try {
-						refModel.setMedicationEquipments(medicalEquipments.get(isTimeOut?minWaitTime:maxWaitTime, TimeUnit.MILLISECONDS));
+						refModel.setMedicalEquipment(medicalEquipments.get(isTimeOut?minWaitTime:maxWaitTime, TimeUnit.MILLISECONDS));
 					} catch (InterruptedException | ExecutionException | TimeoutException e) {
 						isTimeOut = true;
 					}
-					if(refModel.getMedicationEquipments()!=null){
-						idList.addAll(refModel.getMedicationEquipments().getIds());
+					if(refModel.getMedicalEquipment()!=null){
+						idList.addAll(refModel.getMedicalEquipment().getIds());
 					}
 				}
 
