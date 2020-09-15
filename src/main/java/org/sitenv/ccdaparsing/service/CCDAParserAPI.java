@@ -186,7 +186,7 @@ public class CCDAParserAPI {
 				healthConcerns = healthConcernsProcessor.retrieveHealthConcernDetails(xPath, doc);
 				usrhSubType = usrhSubTypeProcessor.retrieveUsrhSubTypeDetails(xPath, doc);
 				familyHistory = familyHistoryProcessor.retrieveFamilyHistoryDetails(xPath, doc);
-				medicalEquipments = medicalEquipmentProcessor.retrieveMedicalEquipments(xPath, doc);
+				medicalEquipments = medicalEquipmentProcessor.retrieveMedicalEquipment(xPath, doc);
 				advanceDirective = advanceDirectiveProcesser.retrieveAdvanceDirectiveDetails(xPath, doc);
 
 				if(patient!=null){

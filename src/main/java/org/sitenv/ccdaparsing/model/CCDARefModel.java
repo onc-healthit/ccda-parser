@@ -167,7 +167,6 @@ public class CCDARefModel {
 	public void setUsrhSubType(UsrhSubType usrhSubType) {
 		this.usrhSubType = usrhSubType;
 	}
-	}
 	@Override
 	public int hashCode() {
 		final int prime = 31;
