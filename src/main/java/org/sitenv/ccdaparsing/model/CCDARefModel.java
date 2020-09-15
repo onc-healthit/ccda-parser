@@ -8,6 +8,7 @@ public class CCDARefModel {
 	private CCDAPatient        patient;
 	private CCDACareTeamMember members;
 	private CCDAEncounter      encounter;
+	private CCDAEncompassingEncounter encompassingEncounter;
 	private CCDAAllergy        allergy;
 	private CCDAMedication     medication;
 	private CCDAImmunization   immunization;
@@ -19,12 +20,13 @@ public class CCDARefModel {
 	private CCDAProblem        problem;
 	private CCDAPOT            planOfTreatment;
 	private CCDAGoals          goals;
+	private CCDAFamilyHistory familyHistory;
+	private CCDAAdvanceDirective advanceDirective;
+	private CCDAMedicalEquipment medicalEquipment;
 	private CCDAHealthConcerns hcs;
 	private ArrayList<CCDAUDI> udi;
 	private ArrayList<CCDAID>  idList;
 	private UsrhSubType        usrhSubType;
-	private CCDAFamilyHistory familyHistory;
-	private CCDAMedicalEquipment medicalEquipment;
 	private CCDAFunctionalStatus functionalStatus;
 	private CCDAMentalStatus mentalStatus;
 	private boolean isEmpty;
@@ -119,6 +121,24 @@ public class CCDARefModel {
 	public void setGoals(CCDAGoals goals) {
 		this.goals = goals;
 	}
+	public void setFamilyHistory(CCDAFamilyHistory familyHistory) {
+		this.familyHistory = familyHistory;
+	}
+	public CCDAFamilyHistory getFamilyHistory() {
+		return this.familyHistory;
+	}
+	public void setMedicalEquipment(CCDAMedicalEquipment medicalEquipment) {
+		this.medicalEquipment = medicalEquipment;
+	}
+	public CCDAMedicalEquipment getMedicalEquipment() {
+		return medicalEquipment;
+	}
+	public void setAdvanceDirective(CCDAAdvanceDirective advanceDirective) {
+		this.advanceDirective = advanceDirective;
+	}
+	public CCDAAdvanceDirective getAdvanceDirective() {
+		return this.advanceDirective;
+	}
 	public CCDAHealthConcerns getHcs() {
 		return hcs;
 	}
@@ -150,17 +170,12 @@ public class CCDARefModel {
 	public void setUsrhSubType(UsrhSubType usrhSubType) {
 		this.usrhSubType = usrhSubType;
 	}
-	public void setFamilyHistory(CCDAFamilyHistory familyHistory) {
-		this.familyHistory = familyHistory;
+	
+	public CCDAEncompassingEncounter getEncompassingEncounter() {
+		return encompassingEncounter;
 	}
-	public CCDAFamilyHistory getFamilyHistory() {
-		return familyHistory;
-	}
-	public void setMedicationEquipments(CCDAMedicalEquipment medicalEquipment) {
-		this.medicalEquipment = medicalEquipment;
-	}
-	public CCDAMedicalEquipment getMedicationEquipments() {
-		return medicalEquipment;
+	public void setEncompassingEncounter(CCDAEncompassingEncounter encompassingEncounter) {
+		this.encompassingEncounter = encompassingEncounter;
 	}
 	public void setFunctionalStatus(CCDAFunctionalStatus functionalStatus) {
 		this.functionalStatus = functionalStatus;
@@ -210,9 +225,7 @@ public class CCDARefModel {
 		result = prime * result
 				+ ((medicalEquipment == null) ? 0 : medicalEquipment.hashCode());
 		result = prime * result
-				+ ((functionalStatus == null) ? 0 : functionalStatus.hashCode());
-		result = prime * result
-				+ ((mentalStatus == null) ? 0 : mentalStatus.hashCode());
+				+ ((advanceDirective == null) ? 0 : advanceDirective.hashCode());
 		return result;
 	}
 	@Override
@@ -319,17 +332,11 @@ public class CCDARefModel {
 				return false;
 		} else if (!medicalEquipment.equals(other.medicalEquipment))
 			return false;
-		if (functionalStatus == null) {
-			if (other.functionalStatus != null)
+		if (advanceDirective == null) {
+			if (other.advanceDirective != null)
 				return false;
-		} else if (!functionalStatus.equals(other.functionalStatus))
+		} else if (!advanceDirective.equals(other.advanceDirective))
 			return false;
-		if (mentalStatus == null) {
-			if (other.mentalStatus != null)
-				return false;
-		} else if (!mentalStatus.equals(other.mentalStatus))
-			return false;
-
 		return true;
 	}
 }

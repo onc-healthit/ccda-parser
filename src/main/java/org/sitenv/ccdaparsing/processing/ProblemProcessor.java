@@ -10,6 +10,7 @@ import javax.xml.xpath.XPathConstants;
 import javax.xml.xpath.XPathExpressionException;
 
 import org.apache.log4j.Logger;
+import org.sitenv.ccdaparsing.model.CCDAAuthor;
 import org.sitenv.ccdaparsing.model.CCDAID;
 import org.sitenv.ccdaparsing.model.CCDAProblem;
 import org.sitenv.ccdaparsing.model.CCDAProblemConcern;
@@ -103,6 +104,19 @@ public class ProblemProcessor {
 				idList.add(ApplicationUtil.readID((Element) xPath.compile("./id[not(@nullFlavor)]").
 					evaluate(problemConcernElement, XPathConstants.NODE),"problemConcern"));
 			}
+			Element authorElement = (Element) xPath.compile("./author[not(@nullFlavor)]").evaluate(problemConcernElement, XPathConstants.NODE);
+			CCDAAuthor ccdaAuthor = null;
+			if(authorElement!=null) {
+				ccdaAuthor = new CCDAAuthor();
+				ccdaAuthor.setTemplateId(ApplicationUtil.readTemplateID((Element) xPath.compile("./templateId[not(@nullFlavor)]").
+					evaluate(authorElement, XPathConstants.NODE)));
+				
+				ccdaAuthor.setTime(ApplicationUtil.readEffectivetime((Element) xPath.compile("./time[not(@nullFlavor)]").
+					evaluate(authorElement, XPathConstants.NODE),xPath));
+				
+			}
+			
+			problemConcern.setAuthor(ccdaAuthor);
 			
 			problemConcern.setProblemObservations(readProblemObservation((NodeList) xPath.compile(ApplicationConstants.PROBLEM_OBS_EXPRESSION).
 					evaluate(problemConcernElement, XPathConstants.NODESET), xPath,idList));
@@ -150,6 +164,19 @@ public class ProblemProcessor {
 					evaluate(problemObservationElement, XPathConstants.NODE)));
 			problemObservation.setStatusCode(ApplicationUtil.readCode((Element) xPath.compile("./statusCode[not(@nullFlavor)]").
 					evaluate(problemObservationElement, XPathConstants.NODE)));
+			
+			Element authorElement = (Element) xPath.compile("./author[not(@nullFlavor)]").evaluate(problemObservationElement, XPathConstants.NODE);
+			CCDAAuthor ccdaAuthor = null;
+			if(authorElement!=null) {
+				ccdaAuthor = new CCDAAuthor();
+				ccdaAuthor.setTemplateId(ApplicationUtil.readTemplateID((Element) xPath.compile("./templateId[not(@nullFlavor)]").
+					evaluate(authorElement, XPathConstants.NODE)));
+				
+				ccdaAuthor.setTime(ApplicationUtil.readEffectivetime((Element) xPath.compile("./time[not(@nullFlavor)]").
+					evaluate(authorElement, XPathConstants.NODE),xPath));
+				
+			}
+			problemObservation.setAuthor(ccdaAuthor);
 			
 			if(ApplicationUtil.readID((Element) xPath.compile("./id[not(@nullFlavor)]").
 					evaluate(problemObservationElement, XPathConstants.NODE),"problemObservation")!= null)

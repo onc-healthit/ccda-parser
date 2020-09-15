@@ -21,8 +21,10 @@ public class ApplicationConstants {
 	
 	public static String DOC_TEMPLATEID_EXPRESSION = "/ClinicalDocument/templateId[not(@nullFlavor)]";
 	
+	public static String ENCOMPASSING_ENCOUNTER_EXPRESSION = "/ClinicalDocument/componentOf/encompassingEncounter[not(@nullFlavor)]";
+	
 	public static String ALLERGIES_EXPRESSION = "/ClinicalDocument/component/structuredBody/component/section[(not(@nullFlavor) or @nullFlavor='NI') and templateId[@root='2.16.840.1.113883.10.20.22.2.6.1']]";
-    public static String ALLERGY_REACTION_EXPRESSION ="./entryRelationship/observation[not(@nullFlavor) and templateId[@root='2.16.840.1.113883.10.20.22.4.9']]";
+    public static String ALLERGY_REACTION_EXPRESSION ="./entryRelationship/observation[(not(@nullFlavor) or @nullFlavor='NI') and templateId[@root='2.16.840.1.113883.10.20.22.4.9']]";
     public static String ALLERGY_SEVERITY_EXPRESSION ="./entryRelationship/observation[not(@nullFlavor) and templateId[@root='2.16.840.1.113883.10.20.22.4.8']]";
 	
 	
@@ -47,7 +49,7 @@ public class ApplicationConstants {
     public static String VITALSIGNS_EXPRESSION = "/ClinicalDocument/component/structuredBody/component/section[(not(@nullFlavor) or @nullFlavor='NI') and templateId[@root='2.16.840.1.113883.10.20.22.2.4.1']]";
 
     public static final String FAMILYHX_EXPRESSION = "/ClinicalDocument/component/structuredBody/component/section[(not(@nullFlavor) or @nullFlavor='NI') and templateId[@root='2.16.840.1.113883.10.20.22.2.15']]";
-    public static final String FUNCTIONAL_STS_EXPRESSION = "/ClinicalDocument/component/structuredBody/component/section[(not(@nullFlavor) or @nullFlavor='NI') and templateId[@root='2.16.840.1.113883.10.20.22.2.14']]";
+    public static final String ADV_DIRECTIVE_EXPRESSION = "/ClinicalDocument/component/structuredBody/component/section[(not(@nullFlavor) or @nullFlavor='NI') and templateId[@root='2.16.840.1.113883.10.20.22.2.21']]";    public static final String FUNCTIONAL_STS_EXPRESSION = "/ClinicalDocument/component/structuredBody/component/section[(not(@nullFlavor) or @nullFlavor='NI') and templateId[@root='2.16.840.1.113883.10.20.22.2.14']]";
     public static final String MENTAL_STS_EXPRESSION = "/ClinicalDocument/component/structuredBody/component/section[(not(@nullFlavor) or @nullFlavor='NI') and templateId[@root='2.16.840.1.113883.10.20.22.2.56']]";
 
     public static String PROCEDURE_EXPRESSION = "/ClinicalDocument/component/structuredBody/component/section[(not(@nullFlavor) or @nullFlavor='NI') and templateId[@root='2.16.840.1.113883.10.20.22.2.7.1']]";

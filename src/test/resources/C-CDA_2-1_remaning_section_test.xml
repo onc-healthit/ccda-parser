@@ -5,7 +5,7 @@
  Added By: kushalvermaecw
 
  Added on: 05-06-2020 Wednesday (Adding Family History Section)
- 05-20-2020:    - Added Medical Equipment Section test data 
+ 05-20-2020:    - Added Medical Equipment Section test data
  ********************************************************
  Disclaimer: This sample file contains representative data elements to represent a Continuity of Care Document (CCD).
  The file depicts a fictional character's health data. Any resemblance to a real person is coincidental.
@@ -814,6 +814,148 @@
                     </entry>
                 </section>
             </component>
+        <!-- ***************** Advanced Directive *************** -->
+            <component>
+                <section>
+                    <templateId root="2.16.840.1.113883.10.20.22.2.21"/>
+                    <templateId extension="2015-08-01" root="2.16.840.1.113883.10.20.22.2.21"/>
+                    <templateId root="2.16.840.1.113883.10.20.22.2.21.1"/>
+                    <templateId extension="2015-08-01" root="2.16.840.1.113883.10.20.22.2.21.1"/>
+                    <code code="42348-3" codeSystem="2.16.840.1.113883.6.1" codeSystemName="LOINC" />
+                    <title>ADVANCE DIRECTIVES</title>
+                    <text>
+                        <table border="1" width="100%">
+                            <thead>
+                                <tr>
+                                    <th>Directive</th>
+                                    <th>Description</th>
+                                    <th>Verification</th>
+                                    <th>Supporting Document(s)</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <tr>
+                                    <td>Resuscitation status</td>
+                                    <td ID="AD1">Do not resuscitate</td>
+                                    <td>Dr. Patricia Primary, Feb 19, 2011</td>
+                                    <td>
+                                        <linkHtml href="AdvanceDirective.b50b7910.pdf">Advance directive</linkHtml>
+                                    </td>
+                                </tr>
+                            </tbody>
+                        </table>
+                    </text>
+                    <entry>
+                        <organizer classCode="CLUSTER" moodCode="EVN">
+                            <templateId root="2.16.840.1.113883.10.20.22.4.108" />
+                            <id root="af6ebdf2-d996-11e2-a5b8-f23c91aec05e" />
+                            <code code="45473-6" codeSystem="2.16.840.1.113883.6.1" codeSystemName="LOINC"
+                                  displayName="advance directive - living will" />
+                            <statusCode code="completed" />
+                            <author>
+                                <templateId root="2.16.840.1.113883.10.20.22.4.119" />
+                                <time value="201308011235-0800" />
+                                <assignedAuthor>
+                                    <id root="20cf14fb-b65c-4c8c-a54d-b0cca834c18c" />
+                                    <code code="163W00000X" displayName="Registered nurse" codeSystem="2.16.840.1.113883.6.101"
+                                          codeSystemName="Healthcare Provider Taxonomy (HIPAA)" />
+                                    <assignedPerson>
+                                        <name>
+                                            <given>Nurse</given>
+                                            <family>Nightingale</family>
+                                            <suffix>RN</suffix>
+                                        </name>
+                                    </assignedPerson>
+                                    <representedOrganization classCode="ORG">
+                                        <id root="2.16.840.1.113883.19.5" />
+                                        <name>Good Health Hospital</name>
+                                    </representedOrganization>
+                                </assignedAuthor>
+                            </author>
+                            <component>
+                                <!-- ** Advance Directive Observation  ** -->
+                                <observation classCode="OBS" moodCode="EVN">
+                                    <templateId root="2.16.840.1.113883.10.20.22.4.48"  />
+                                    <templateId root="1.2.840.114350.1.72.3.1" />
+                                    <id root="9b54c3c9-1673-49c7-aef9-b037ed72ed27" />
+                                    <code code="75278-2" displayName="Advance directive status" codeSystem="2.16.840.1.113883.6.1"
+                                          codeSystemName="LOINC" />
+                                    <statusCode code="completed" />
+                                    <effectiveTime>
+                                        <low value="20110219" />
+                                        <high nullFlavor="NA" />
+                                    </effectiveTime>
+                                    <value xsi:type="CD" code="304253006" displayName="Do not resuscitate"
+                                           codeSystem="2.16.840.1.113883.6.96" />
+                                    <author>
+                                        <templateId root="2.16.840.1.113883.10.20.22.4.119" />
+                                        <time value="201308011235-0800" />
+                                        <assignedAuthor>
+                                            <id root="20cf14fb-b65c-4c8c-a54d-b0cca834c18c" />
+                                            <code code="163W00000X" displayName="Registered nurse" codeSystem="2.16.840.1.113883.6.101"
+                                                  codeSystemName="Healthcare Provider Taxonomy (HIPAA)" />
+                                            <assignedPerson>
+                                                <name>
+                                                    <given>Nurse</given>
+                                                    <family>Nightingale</family>
+                                                    <suffix>RN</suffix>
+                                                </name>
+                                            </assignedPerson>
+                                            <representedOrganization classCode="ORG">
+                                                <id root="2.16.840.1.113883.19.5" />
+                                                <name>Good Health Hospital</name>
+                                            </representedOrganization>
+                                        </assignedAuthor>
+                                    </author>
+                                    <participant typeCode="VRF">
+                                        <time value="201102019" />
+                                        <participantRole>
+                                            <id root="20cf14fb-b65c-4c8c-a54d-b0cca834c18c" />
+                                            <code code="207QA0505X" displayName="Adult Medicine" codeSystem="2.16.840.1.113883.6.101"
+                                                  codeSystemName="Healthcare Provider Taxonomy (HIPAA)" />
+                                            <playingEntity>
+                                                <name>
+                                                    <prefix>Dr.</prefix>
+                                                    <family>Patricia</family>
+                                                    <given>Primary</given>
+                                                </name>
+                                            </playingEntity>
+                                        </participantRole>
+                                    </participant>
+                                    <participant typeCode="CST">
+                                        <participantRole classCode="AGNT">
+                                            <addr>
+                                                <streetAddressLine>1004 Health Drive</streetAddressLine>
+                                                <city>Portland</city>
+                                                <state>OR</state>
+                                                <postalCode>99123</postalCode>
+                                                <country>US</country>
+                                            </addr>
+                                            <telecom use="WP" value="tel:+1(555)555-1004" />
+                                            <playingEntity>
+                                                <name>
+                                                    <prefix>Dr.</prefix>
+                                                    <family>Patricia</family>
+                                                    <given>Primary</given>
+                                                </name>
+                                            </playingEntity>
+                                        </participantRole>
+                                    </participant>
+                                    <reference typeCode="REFR">
+                                        <seperatableInd value="false" />
+                                        <externalDocument>
+                                            <id root="b50b7910-7ffb-4f4c-bbe4-177ed68cbbf3" />
+                                            <text mediaType="application/pdf">
+                                                <reference value="AdvanceDirective.b50b7910.pdf" />
+                                            </text>
+                                        </externalDocument>
+                                    </reference>
+                                </observation>
+                            </component>
+                        </organizer>
+                    </entry>
+                </section>
+            </component>
             <!-- ***************** FUNCTIONAL STATUS *************** -->
             <!-- Functional Status Section (Parsing Title & HTML Only) -->
             <component>
@@ -930,7 +1072,6 @@
                         </table>
                     </text>
                 </section>
-            </component>
-        </structuredBody>
+            </component>        </structuredBody>
     </component>
 </ClinicalDocument>
