@@ -169,6 +169,7 @@ public class CCDAParserAPI {
 			if(doc.getDocumentElement()!= null && doc.getDocumentElement().getChildNodes().getLength()>1)
 			{
 				refModel.setDocTemplateId(patientProcessor.retrieveDocTemplateId(xPath, doc));
+				refModel.setEncompassingEncounter(patientProcessor.retrieveEncompassingEncounter(xPath, doc));
 				patient=patientProcessor.retrievePatientDetails(xPath, doc);
 				encounters = encounterDiagnosesProcessor.retrieveEncounterDetails(xPath, doc);
 				problems = problemProcessor.retrieveProblemDetails(xPath, doc);

@@ -10,6 +10,7 @@ public class CCDAAllergyConcern extends CCDAXmlSnippet {
 	private CCDAEffTime      			effTime;
 	private ArrayList<CCDAAllergyObs>  	allergyObs;
 	private CCDADataElement referenceText;
+	private CCDAAuthor author;
 	
 	public CCDAAllergyConcern()
 	{
@@ -62,6 +63,15 @@ public class CCDAAllergyConcern extends CCDAXmlSnippet {
 
 	public void setReferenceText(CCDADataElement referenceText) {
 		this.referenceText = referenceText;
+	}
+	
+
+	public CCDAAuthor getAuthor() {
+		return author;
+	}
+
+	public void setAuthor(CCDAAuthor author) {
+		this.author = author;
 	}
 
 	@Override

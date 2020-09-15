@@ -10,6 +10,7 @@ public class CCDAProblemConcern extends CCDAXmlSnippet{
 	private CCDAEffTime      			effTime;
 	private ArrayList<CCDAProblemObs>  	problemObservations;
 	private CCDADataElement referenceText;
+	private CCDAAuthor author;
 	
 	public CCDAProblemConcern()
 	{
@@ -62,6 +63,14 @@ public class CCDAProblemConcern extends CCDAXmlSnippet{
 
 	public void setReferenceText(CCDADataElement referenceText) {
 		this.referenceText = referenceText;
+	}
+	
+	public CCDAAuthor getAuthor() {
+		return author;
+	}
+
+	public void setAuthor(CCDAAuthor author) {
+		this.author = author;
 	}
 
 	@Override

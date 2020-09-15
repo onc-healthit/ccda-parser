@@ -27,6 +27,7 @@ public class CCDAPatient extends CCDAXmlSnippet{
 	private List<Element> givenNameElementList; 
 	private boolean givenNameContainsQualifier;
 	private CCDADataElement patientLegalNameElement;
+	private List<CCDAPatientName> patientNames;
 	
 	public CCDAPatient()
 	{
@@ -206,6 +207,18 @@ public class CCDAPatient extends CCDAXmlSnippet{
 
 	public void setDod(CCDAEffTime dod) {
 		this.dod = dod;
+	}
+	
+	public List<CCDAPatientName> getPatientNames() {
+		if(patientNames == null)
+		{
+			patientNames = new ArrayList<CCDAPatientName>();
+		}
+		return patientNames;
+	}
+
+	public void setPatientNames(List<CCDAPatientName> patientNames) {
+		this.patientNames = patientNames;
 	}
 
 	@Override
