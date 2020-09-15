@@ -8,6 +8,7 @@ public class CCDARefModel {
 	private CCDAPatient        patient;
 	private CCDACareTeamMember members;
 	private CCDAEncounter      encounter;
+	private CCDAEncompassingEncounter encompassingEncounter;
 	private CCDAAllergy        allergy;
 	private CCDAMedication     medication;
 	private CCDAImmunization   immunization;
@@ -167,6 +168,15 @@ public class CCDARefModel {
 	public void setUsrhSubType(UsrhSubType usrhSubType) {
 		this.usrhSubType = usrhSubType;
 	}
+	}
+	
+	public CCDAEncompassingEncounter getEncompassingEncounter() {
+		return encompassingEncounter;
+	}
+	public void setEncompassingEncounter(CCDAEncompassingEncounter encompassingEncounter) {
+		this.encompassingEncounter = encompassingEncounter;
+	}
+
 	@Override
 	public int hashCode() {
 		final int prime = 31;
