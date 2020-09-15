@@ -20,14 +20,15 @@ public class CCDARefModel {
 	private CCDAProblem        problem;
 	private CCDAPOT            planOfTreatment;
 	private CCDAGoals          goals;
+	private CCDAFamilyHistory familyHistory;
+	private CCDAAdvanceDirective advanceDirective;
+	private CCDAMedicalEquipment medicalEquipment;
 	private CCDAHealthConcerns hcs;
 	private ArrayList<CCDAUDI> udi;
 	private ArrayList<CCDAID>  idList;
 	private UsrhSubType        usrhSubType;
-	private CCDAFamilyHistory familyHistory;
-	private CCDAMedicalEquipment medicalEquipment;
 	private boolean isEmpty;
-	
+
 	public CCDAII getDocTemplateId() {
 		return docTemplateId;
 	}
@@ -118,6 +119,24 @@ public class CCDARefModel {
 	public void setGoals(CCDAGoals goals) {
 		this.goals = goals;
 	}
+	public void setFamilyHistory(CCDAFamilyHistory familyHistory) {
+		this.familyHistory = familyHistory;
+	}
+	public CCDAFamilyHistory getFamilyHistory() {
+		return this.familyHistory;
+	}
+	public void setMedicalEquipment(CCDAMedicalEquipment medicalEquipment) {
+		this.medicalEquipment = medicalEquipment;
+	}
+	public CCDAMedicalEquipment getMedicalEquipment() {
+		return medicalEquipment;
+	}
+	public void setAdvanceDirective(CCDAAdvanceDirective advanceDirective) {
+		this.advanceDirective = advanceDirective;
+	}
+	public CCDAAdvanceDirective getAdvanceDirective() {
+		return this.advanceDirective;
+	}
 	public CCDAHealthConcerns getHcs() {
 		return hcs;
 	}
@@ -136,7 +155,7 @@ public class CCDARefModel {
 	public void setEmpty(boolean isEmpty) {
 		this.isEmpty = isEmpty;
 	}
-	
+
 	public ArrayList<CCDAID> getIdList() {
 		return idList;
 	}
@@ -145,7 +164,7 @@ public class CCDARefModel {
 	}
 	public UsrhSubType getUsrhSubType() {
 		return usrhSubType;
-	}	
+	}
 	public void setUsrhSubType(UsrhSubType usrhSubType) {
 		this.usrhSubType = usrhSubType;
 	}
@@ -157,19 +176,6 @@ public class CCDARefModel {
 		this.encompassingEncounter = encompassingEncounter;
 	}
 
-	public void setFamilyHistory(CCDAFamilyHistory familyHistory) {
-		this.familyHistory = familyHistory;
-	}
-	public CCDAFamilyHistory getFamilyHistory() {
-		return familyHistory;
-	}
-
-	public void setMedicalEquipment(CCDAMedicalEquipment medicalEquipment) {
-		this.medicalEquipment = medicalEquipment;
-	}
-	public CCDAMedicalEquipment getMedicalEquipment() {
-		return medicalEquipment;
-	}
 	@Override
 	public int hashCode() {
 		final int prime = 31;
@@ -205,6 +211,8 @@ public class CCDARefModel {
 				+ ((familyHistory == null) ? 0 : familyHistory.hashCode());
 		result = prime * result
 				+ ((medicalEquipment == null) ? 0 : medicalEquipment.hashCode());
+		result = prime * result
+				+ ((advanceDirective == null) ? 0 : advanceDirective.hashCode());
 		return result;
 	}
 	@Override
@@ -311,6 +319,12 @@ public class CCDARefModel {
 				return false;
 		} else if (!medicalEquipment.equals(other.medicalEquipment))
 			return false;
+		if (advanceDirective == null) {
+			if (other.advanceDirective != null)
+				return false;
+		} else if (!advanceDirective.equals(other.advanceDirective))
+			return false;
+
 		return true;
 	}
 }
