@@ -168,7 +168,6 @@ public class CCDARefModel {
 	public void setUsrhSubType(UsrhSubType usrhSubType) {
 		this.usrhSubType = usrhSubType;
 	}
-	}
 	
 	public CCDAEncompassingEncounter getEncompassingEncounter() {
 		return encompassingEncounter;
