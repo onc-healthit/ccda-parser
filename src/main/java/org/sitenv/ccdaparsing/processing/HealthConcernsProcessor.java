@@ -44,7 +44,7 @@ public class HealthConcernsProcessor {
 			healthConcern.setSectionCode(ApplicationUtil.readCode((Element) xPath.compile("./code[not(@nullFlavor)]").
 					evaluate(sectionElement, XPathConstants.NODE)));
 			
-			healthConcern.setNarrativeText(ApplicationUtil.readTextContext((Element) xPath.compile("./text[not(@nullFlavor)]").
+			healthConcern.setNarrativeText(ApplicationUtil.readTextContent((Element) xPath.compile("./text[not(@nullFlavor)]").
 					evaluate(sectionElement, XPathConstants.NODE)));
 		}
 		

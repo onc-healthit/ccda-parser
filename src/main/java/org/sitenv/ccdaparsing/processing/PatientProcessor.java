@@ -61,7 +61,7 @@ public class PatientProcessor {
 	
 	
 	@Async()
-	public Future<CCDAPatient> retrievePatientDetails(XPath xPath , Document doc) throws XPathExpressionException,TransformerException
+	public Future<CCDAPatient> retrievePatientDetails(XPath xPath , Document doc) throws XPathExpressionException, TransformerException
 	{
 		long startTime = System.currentTimeMillis();
     	logger.info("Patient parsing Start time:"+ startTime);
@@ -74,7 +74,7 @@ public class PatientProcessor {
 			Element patientRoleElement = (Element) nodeList.item(i);
 		    //patientRoleElement.setAttribute("xmlns:sdtc", "urn:hl7-org:sdtc");
 	        	
-	        	patient= new CCDAPatient();
+	        	patient = new CCDAPatient();
 	        	
 	        	patientRoleElement.setAttribute("xmlns:xsi", "http://www.w3.org/2001/XMLSchema-instance");
 				patient.setLineNumber(patientRoleElement.getUserData("lineNumber") + " - " + patientRoleElement.getUserData("endLineNumber") );
@@ -89,11 +89,11 @@ public class PatientProcessor {
 	            
 	            //Getting Legal name of the patient
 	            readName((Element) xPath.compile("./patient/name[not(@nullFlavor) and @use='L']").
-	    				evaluate(patientRoleElement, XPathConstants.NODE), patient , xPath);
+	    				evaluate(patientRoleElement, XPathConstants.NODE), patient, xPath);
 	            
-	          //Getting Legal name of the patient
+	            //Getting other names
 	            readNames((NodeList) xPath.compile("./patient/name[not(@nullFlavor)]").
-	    				evaluate(patientRoleElement, XPathConstants.NODESET), patient , xPath);
+	    				evaluate(patientRoleElement, XPathConstants.NODESET), patient, xPath);
 	           
 	            //Get Gender of the patient
 	            patient.setAdministrativeGenderCode(ApplicationUtil.readCode((Element) xPath.compile("./patient/administrativeGenderCode[not(@nullFlavor)]").
@@ -140,7 +140,7 @@ public class PatientProcessor {
 		return new AsyncResult<CCDAPatient>(patient);
 	}
 	
-	public void readRaceCodes(NodeList raceCodeList, CCDAPatient patient)throws TransformerException
+	public static void readRaceCodes(NodeList raceCodeList, CCDAPatient patient) throws TransformerException
 	{
 		Element raceCodeElement= null;
 		for (int i = 0; i < raceCodeList.getLength(); i++) {
@@ -157,7 +157,7 @@ public class PatientProcessor {
 		
 	}
 	
-	public void readNames(NodeList nameElements,CCDAPatient patient,XPath xPath) throws XPathExpressionException,TransformerException
+	public static void readNames(NodeList nameElements, CCDAPatient patient, XPath xPath) throws XPathExpressionException, TransformerException
 	{
 		List<CCDAPatientName> patientNames = new ArrayList<>();
 		Element patientNameElement = null;
@@ -168,14 +168,14 @@ public class PatientProcessor {
 				patientName = new CCDAPatientName();
 				patientNameElement = (Element) nameElements.item(i);
 				
-				NodeList giveNameNodeList = (NodeList) xPath.compile("./given[not(@nullFlavor)]").
+				NodeList givenNameNodeList = (NodeList) xPath.compile("./given[not(@nullFlavor)]").
 						evaluate(patientNameElement, XPathConstants.NODESET);
 				
-				if(giveNameNodeList!=null) {
+				if(givenNameNodeList != null) {
 					List<CCDAPatientNameElement> givenNames = new ArrayList<>();
 					
-					for (int j = 0; j < giveNameNodeList.getLength(); j++) {
-						Element givenNameElement = (Element) giveNameNodeList.item(j);
+					for (int j = 0; j < givenNameNodeList.getLength(); j++) {
+						Element givenNameElement = (Element) givenNameNodeList.item(j);
 						givenNames.add(ApplicationUtil.readPatientNameElement(givenNameElement));
 					}
 					patientName.setGivenName(givenNames);
@@ -184,7 +184,7 @@ public class PatientProcessor {
 				NodeList familyNameNodeList = (NodeList) xPath.compile("./family[not(@nullFlavor)]").
 						evaluate(patientNameElement, XPathConstants.NODESET);
 				
-				if(familyNameNodeList!=null) {
+				if(familyNameNodeList != null) {
 					List<CCDAPatientNameElement> familyNames = new ArrayList<>();
 					for (int k = 0; k < familyNameNodeList.getLength(); k++) {
 						Element familyNameElement = (Element) familyNameNodeList.item(k);
@@ -196,7 +196,7 @@ public class PatientProcessor {
 				NodeList suffixNodeList = (NodeList) xPath.compile("./suffix[not(@nullFlavor)]").
 						evaluate(patientNameElement, XPathConstants.NODESET);
 				
-				if(suffixNodeList!=null) {
+				if(suffixNodeList != null) {
 					List<CCDAPatientNameElement> suffixNames = new ArrayList<>();
 					for (int l = 0; l < suffixNodeList.getLength(); l++) {
 						Element suffixElement = (Element) suffixNodeList.item(l);
@@ -216,7 +216,7 @@ public class PatientProcessor {
 	}
 	
 	
-	public void readName(Element nameElement,CCDAPatient patient,XPath xPath) throws XPathExpressionException,TransformerException
+	public static void readName(Element nameElement, CCDAPatient patient, XPath xPath) throws XPathExpressionException, TransformerException
 	{
 		CCDADataElement patientLegalNameElement;
 		if(nameElement != null)
@@ -227,34 +227,34 @@ public class PatientProcessor {
 			patientLegalNameElement.setXmlString(ApplicationUtil.nodeToString((Node)nameElement));
 			patient.setPatientLegalNameElement(patientLegalNameElement);
 			
-			NodeList giveNameNodeList = (NodeList) xPath.compile("./given[not(@nullFlavor)]").
+			NodeList givenNameNodeList = (NodeList) xPath.compile("./given[not(@nullFlavor)]").
 					evaluate(nameElement, XPathConstants.NODESET);
 			
-			for (int i = 0; i < giveNameNodeList.getLength(); i++) {
-				Element givenNameElement = (Element) giveNameNodeList.item(i);
+			for (int i = 0; i < givenNameNodeList.getLength(); i++) {
+				Element givenNameElement = (Element) givenNameNodeList.item(i);
 				if(!ApplicationUtil.isEmpty(givenNameElement.getAttribute("qualifier")))
 				{
-					patient.setPreviousName(ApplicationUtil.readTextContext(givenNameElement));
+					patient.setPreviousName(ApplicationUtil.readTextContent(givenNameElement));
 					patient.setGivenNameContainsQualifier(true);
 					patient.getGivenNameElementList().add(givenNameElement);
 				}else if (i == 0) {
-					patient.setFirstName(ApplicationUtil.readTextContext(givenNameElement));
+					patient.setFirstName(ApplicationUtil.readTextContent(givenNameElement));
 					patient.getGivenNameElementList().add(givenNameElement);
 				}else {
-					patient.setMiddleName(ApplicationUtil.readTextContext(givenNameElement));
+					patient.setMiddleName(ApplicationUtil.readTextContent(givenNameElement));
 					patient.getGivenNameElementList().add(givenNameElement);
 				}
 			}
 			
-			patient.setLastName(ApplicationUtil.readTextContext((Element) xPath.compile("./family[not(@nullFlavor)]").
+			patient.setLastName(ApplicationUtil.readTextContent((Element) xPath.compile("./family[not(@nullFlavor)]").
 					evaluate(nameElement, XPathConstants.NODE)));
-			patient.setSuffix(ApplicationUtil.readTextContext((Element) xPath.compile("./suffix[not(@nullFlavor)]").
+			patient.setSuffix(ApplicationUtil.readTextContent((Element) xPath.compile("./suffix[not(@nullFlavor)]").
 					evaluate(nameElement, XPathConstants.NODE)));
 		}
 	}
 	
 	
-	public ArrayList<CCDAPL> readPreferredLanguage(NodeList languageCommElementList , XPath xPath) throws XPathExpressionException,TransformerException
+	public static ArrayList<CCDAPL> readPreferredLanguage(NodeList languageCommElementList, XPath xPath) throws XPathExpressionException, TransformerException
 	{
 		ArrayList<CCDAPL> preferredLanguageList = new ArrayList<>();
 		CCDAPL preferredLanguage = null;
