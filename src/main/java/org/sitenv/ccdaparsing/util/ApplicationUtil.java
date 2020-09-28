@@ -434,12 +434,12 @@ public class ApplicationUtil {
 		}
 		for (int i = 0; i < inputNodeList.getLength(); i++) {
 			Element value = (Element) inputNodeList.item(i);
-			dataList.add(readTextContext(value));
+			dataList.add(readTextContent(value));
 		}
 		return dataList;
 	}
 	
-	public static CCDADataElement readTextContext(Element element)
+	public static CCDADataElement readTextContent(Element element)
 	{
 		return element == null ? null : new CCDADataElement(element.getTextContent()) ;
 	}
@@ -447,15 +447,19 @@ public class ApplicationUtil {
 	public static CCDAPatientNameElement readPatientNameElement(Element element) throws TransformerException
 	{
 		CCDAPatientNameElement patientNameElement = null;
-		if(element!=null) {
+		if (element != null) {
 			patientNameElement = new CCDAPatientNameElement();
-			patientNameElement.setValue(element.getTextContent());
-			if(element.getAttribute("qualifier")!=null) {
+			patientNameElement.setValue(element.getTextContent()); 
+			// maybe this should use ApplicationUtil.readTextContent instead?
+			// e.g.: patientNameElement.setValue(ApplicationUtil.readTextContent(element).getValue());
+			if (element.getAttribute("qualifier") != null) { 
 				patientNameElement.setIsQualifierPresent(true);
 				patientNameElement.setQualifierValue(element.getAttribute("qualifier"));
 			}
 			//element.setAttribute("xmlns:xsi", "http://www.w3.org/2001/XMLSchema-instance");
-			patientNameElement.setLineNumber(element.getUserData("lineNumber").toString());
+			if (element.getUserData("lineNumber") != null) {
+				patientNameElement.setLineNumber(element.getUserData("lineNumber").toString());
+			}
 			patientNameElement.setXmlString(nodeToString((Node)element));
 		}
 		return patientNameElement;
@@ -473,22 +477,22 @@ public class ApplicationUtil {
 				address.setPostalAddressUse(addrElement.getAttribute("use"));
 			}
 			
-			address.setAddressLine1(readTextContext((Element) xPath.compile("./streetAddressLine[not(@nullFlavor)]").
+			address.setAddressLine1(readTextContent((Element) xPath.compile("./streetAddressLine[not(@nullFlavor)]").
 	    				evaluate(addrElement, XPathConstants.NODE)));
 			
-			address.setAddressLine2(readTextContext((Element) xPath.compile("./streetAddressLine2[not(@nullFlavor)]").
+			address.setAddressLine2(readTextContent((Element) xPath.compile("./streetAddressLine2[not(@nullFlavor)]").
 	    				evaluate(addrElement, XPathConstants.NODE)));
 			
-			address.setCity(readTextContext((Element) xPath.compile("./city[not(@nullFlavor)]").
+			address.setCity(readTextContent((Element) xPath.compile("./city[not(@nullFlavor)]").
 	    				evaluate(addrElement, XPathConstants.NODE)));
 			
-			address.setState(readTextContext((Element) xPath.compile("./state[not(@nullFlavor)]").
+			address.setState(readTextContent((Element) xPath.compile("./state[not(@nullFlavor)]").
 	    				evaluate(addrElement, XPathConstants.NODE)));
 			
-			address.setPostalCode(readTextContext((Element) xPath.compile("./postalCode[not(@nullFlavor)]").
+			address.setPostalCode(readTextContent((Element) xPath.compile("./postalCode[not(@nullFlavor)]").
 	    				evaluate(addrElement, XPathConstants.NODE)));
 			
-			address.setCountry(readTextContext((Element) xPath.compile("./country[not(@nullFlavor)]").
+			address.setCountry(readTextContent((Element) xPath.compile("./country[not(@nullFlavor)]").
 	    				evaluate(addrElement, XPathConstants.NODE)));
 		}
 		return address;
