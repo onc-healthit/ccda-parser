@@ -10,6 +10,7 @@ import javax.xml.xpath.XPathConstants;
 import javax.xml.xpath.XPathExpressionException;
 
 import org.apache.log4j.Logger;
+import org.sitenv.ccdaparsing.model.CCDAAuthor;
 import org.sitenv.ccdaparsing.model.CCDAConsumable;
 import org.sitenv.ccdaparsing.model.CCDAEffTime;
 import org.sitenv.ccdaparsing.model.CCDAID;
@@ -115,6 +116,9 @@ public class MedicationProcessor {
 				}
 			}
 			
+			medicationActivity.setStatusCode(ApplicationUtil.readCode((Element) xPath.compile("./statusCode[not(@nullFlavor)]").
+					evaluate(entryElement, XPathConstants.NODE)));
+			
 			medicationActivity.setRouteCode(ApplicationUtil.readCode((Element) xPath.compile("./routeCode[not(@nullFlavor)]").
 					evaluate(entryElement, XPathConstants.NODE)));
 			
@@ -132,6 +136,20 @@ public class MedicationProcessor {
 			
 			medicationActivity.setConsumable(readMedicationInformation((Element) xPath.compile("./consumable/manufacturedProduct[not(@nullFlavor)]").
 					evaluate(entryElement, XPathConstants.NODE), xPath,idList));
+			
+			Element authorElement = (Element) xPath.compile("./author[not(@nullFlavor)]").evaluate(entryElement, XPathConstants.NODE);
+			CCDAAuthor ccdaAuthor = null;
+			if(authorElement!=null) {
+				ccdaAuthor = new CCDAAuthor();
+				ccdaAuthor.setTemplateId(ApplicationUtil.readTemplateID((Element) xPath.compile("./templateId[not(@nullFlavor)]").
+					evaluate(authorElement, XPathConstants.NODE)));
+				
+				ccdaAuthor.setTime(ApplicationUtil.readEffectivetime((Element) xPath.compile("./time[not(@nullFlavor)]").
+					evaluate(authorElement, XPathConstants.NODE),xPath));
+				
+			}
+			
+			medicationActivity.setAuthor(ccdaAuthor);
 			
 			medicationActivity.setMedSubAdmin(readMedicationSubAdmin((Element) xPath.compile(ApplicationConstants.MEDICATION_SUBSTANCE_EXPRESSION).
 					evaluate(entryElement, XPathConstants.NODE), xPath));
@@ -183,10 +201,10 @@ public class MedicationProcessor {
 			consumable.setTranslations(ApplicationUtil.readCodeList((NodeList) xPath.compile("./manufacturedMaterial/code/translation[not(@nullFlavor)]").
 						evaluate(medicationInforamtionElement, XPathConstants.NODESET)));
 			
-			consumable.setManufacturingOrg(ApplicationUtil.readTextContext((Element) xPath.compile("./manufacturerOrganization/name[not(@nullFlavor)]").
+			consumable.setManufacturingOrg(ApplicationUtil.readTextContent((Element) xPath.compile("./manufacturerOrganization/name[not(@nullFlavor)]").
 						evaluate(medicationInforamtionElement, XPathConstants.NODE)));
 			
-			consumable.setLotNumberText(ApplicationUtil.readTextContext((Element) xPath.compile("./manufacturedMaterial/lotNumberText[not(@nullFlavor)]").
+			consumable.setLotNumberText(ApplicationUtil.readTextContent((Element) xPath.compile("./manufacturedMaterial/lotNumberText[not(@nullFlavor)]").
 						evaluate(medicationInforamtionElement, XPathConstants.NODE)));
 			
 			if(ApplicationUtil.readID((Element) xPath.compile("./id[not(@nullFlavor)]").

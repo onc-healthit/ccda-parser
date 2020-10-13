@@ -21,8 +21,10 @@ public class ApplicationConstants {
 	
 	public static String DOC_TEMPLATEID_EXPRESSION = "/ClinicalDocument/templateId[not(@nullFlavor)]";
 	
+	public static String ENCOMPASSING_ENCOUNTER_EXPRESSION = "/ClinicalDocument/componentOf/encompassingEncounter[not(@nullFlavor)]";
+	
 	public static String ALLERGIES_EXPRESSION = "/ClinicalDocument/component/structuredBody/component/section[(not(@nullFlavor) or @nullFlavor='NI') and templateId[@root='2.16.840.1.113883.10.20.22.2.6.1']]";
-    public static String ALLERGY_REACTION_EXPRESSION ="./entryRelationship/observation[not(@nullFlavor) and templateId[@root='2.16.840.1.113883.10.20.22.4.9']]";
+    public static String ALLERGY_REACTION_EXPRESSION ="./entryRelationship/observation[(not(@nullFlavor) or @nullFlavor='NI') and templateId[@root='2.16.840.1.113883.10.20.22.4.9']]";
     public static String ALLERGY_SEVERITY_EXPRESSION ="./entryRelationship/observation[not(@nullFlavor) and templateId[@root='2.16.840.1.113883.10.20.22.4.8']]";
 	
 	
@@ -45,8 +47,10 @@ public class ApplicationConstants {
     public static String LAB_TESTS_EXPRESSION = "./entry/organizer[not(@nullFlavor) and statusCode[@code='active']]";
     public static String IMMUNIZATION_EXPRESSION = "/ClinicalDocument/component/structuredBody/component/section[(not(@nullFlavor) or @nullFlavor='NI') and templateId[@root='2.16.840.1.113883.10.20.22.2.2.1']]";
     public static String VITALSIGNS_EXPRESSION = "/ClinicalDocument/component/structuredBody/component/section[(not(@nullFlavor) or @nullFlavor='NI') and templateId[@root='2.16.840.1.113883.10.20.22.2.4.1']]";
-    
-    
+
+    public static final String FAMILYHX_EXPRESSION = "/ClinicalDocument/component/structuredBody/component/section[(not(@nullFlavor) or @nullFlavor='NI') and templateId[@root='2.16.840.1.113883.10.20.22.2.15']]";
+    public static final String ADV_DIRECTIVE_EXPRESSION = "/ClinicalDocument/component/structuredBody/component/section[(not(@nullFlavor) or @nullFlavor='NI') and templateId[@root='2.16.840.1.113883.10.20.22.2.21']]";
+
     public static String PROCEDURE_EXPRESSION = "/ClinicalDocument/component/structuredBody/component/section[(not(@nullFlavor) or @nullFlavor='NI') and templateId[@root='2.16.840.1.113883.10.20.22.2.7.1']]";
     public static String PROCEDURE_UDI_EXPRESSION ="./participant[not(@nullFlavor) and @typeCode='DEV']/participantRole[not(@nullFlavor)]";
     public static String PROCEDURE_SDL_EXPRESSION ="./participant[not(@nullFlavor) and @typeCode='LOC']/participantRole[not(@nullFlavor)]";
@@ -61,7 +65,7 @@ public class ApplicationConstants {
     public static String CTM_EXPRESSION = "/ClinicalDocument/documentationOf/serviceEvent/performer[not(@nullFlavor)]";
     
     public static String REFERENCE_TEXT_EXPRESSION = "./code/originalText/reference[not(@nullFlavor)] | ./text/reference[not(@nullFlavor)] | ./participant/participantRole/playingEntity/code/originalText/reference[not(@nullFlavor)]";
-    
+    public static final String MEDICAL_EQUIPMENT_EXPRESSION = "/ClinicalDocument/component/structuredBody/component/section[(not(@nullFlavor) or @nullFlavor='NI') and templateId[@root='2.16.840.1.113883.10.20.22.2.23']]";
     
     public static String PROBLEMS_TEM_ID = "2.16.840.1.113883.10.20.22.2.5.1";
 	public static String MEDICATION_TEM_ID = "2.16.840.1.113883.10.20.22.2.1.1";
@@ -74,6 +78,12 @@ public class ApplicationConstants {
 	
 	public final static String LINE_NUMBER_KEY_NAME = "lineNumber";
     public final static String END_LINE_NUMBER_KEY_NAME = "endLineNumber";
+
+	public static final String TEMPLATE_ID_EXPRESSION      = "./templateId[not(@nullFlavor)]";
+	public static final String CODE_EXPRESSION             = "./code[not(@nullFlavor)]";
+	public static final String EFFECTIVE_EXPRESSION        = "./effectiveTime[not(@nullFlavor)]";
+	public static final String ID_EXPRESSION               = "./id[not(@nullFlavor)]";
+	public static final String STATUS_EXPRESSION           = "./statusCode[not(@nullFlavor)]";
     
     public static final class UsrhIISubTypes {
     	private static final String HL7_GENERAL_PREFIX = "2.16.840.1.113883.10.20";

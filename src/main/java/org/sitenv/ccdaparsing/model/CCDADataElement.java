@@ -2,11 +2,11 @@ package org.sitenv.ccdaparsing.model;
 
 public class CCDADataElement {
 
-	private String  value;
+	private String value;
 	private String lineNumber;
-	private String  xpath;
-	private String  use;
-	private String  xmlString ;
+	private String xpath;
+	private String use;
+	private String xmlString;
 	
 	public CCDADataElement(String value)
 	{
@@ -106,5 +106,9 @@ public class CCDADataElement {
 		} else if (!xpath.equals(other.xpath))
 			return false;
 		return true;
+	}
+	
+	public boolean isValueAndUseEqual(CCDADataElement ccdaDataElement) {
+		return value.equals(ccdaDataElement.getValue()) && use.equals(ccdaDataElement.getUse());		
 	}
 }

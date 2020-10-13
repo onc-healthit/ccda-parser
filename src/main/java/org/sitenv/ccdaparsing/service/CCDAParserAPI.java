@@ -4,8 +4,10 @@ import java.io.FileNotFoundException;
 import java.io.IOException;
 import java.io.InputStream;
 import java.util.ArrayList;
+import java.util.concurrent.ExecutionException;
 import java.util.concurrent.Future;
 import java.util.concurrent.TimeUnit;
+import java.util.concurrent.TimeoutException;
 
 import org.apache.log4j.Logger;
 
@@ -14,14 +16,17 @@ import javax.xml.xpath.XPath;
 import javax.xml.xpath.XPathExpressionException;
 import javax.xml.xpath.XPathFactory;
 
+import org.sitenv.ccdaparsing.model.CCDAAdvanceDirective;
 import org.sitenv.ccdaparsing.model.CCDAAllergy;
 import org.sitenv.ccdaparsing.model.CCDACareTeamMember;
 import org.sitenv.ccdaparsing.model.CCDAEncounter;
+import org.sitenv.ccdaparsing.model.CCDAFamilyHistory;
 import org.sitenv.ccdaparsing.model.CCDAGoals;
 import org.sitenv.ccdaparsing.model.CCDAHealthConcerns;
 import org.sitenv.ccdaparsing.model.CCDAID;
 import org.sitenv.ccdaparsing.model.CCDAImmunization;
 import org.sitenv.ccdaparsing.model.CCDALabResult;
+import org.sitenv.ccdaparsing.model.CCDAMedicalEquipment;
 import org.sitenv.ccdaparsing.model.CCDAMedication;
 import org.sitenv.ccdaparsing.model.CCDAPOT;
 import org.sitenv.ccdaparsing.model.CCDAPatient;
@@ -31,14 +36,17 @@ import org.sitenv.ccdaparsing.model.CCDARefModel;
 import org.sitenv.ccdaparsing.model.CCDASocialHistory;
 import org.sitenv.ccdaparsing.model.CCDAVitalSigns;
 import org.sitenv.ccdaparsing.model.UsrhSubType;
+import org.sitenv.ccdaparsing.processing.AdvanceDirectiveProcesser;
 import org.sitenv.ccdaparsing.processing.CareTeamMemberProcessor;
 import org.sitenv.ccdaparsing.processing.EncounterDiagnosesProcessor;
+import org.sitenv.ccdaparsing.processing.FamilyHistoryProcessor;
 import org.sitenv.ccdaparsing.processing.GoalsProcessor;
 import org.sitenv.ccdaparsing.processing.HealthConcernsProcessor;
 import org.sitenv.ccdaparsing.processing.ImmunizationProcessor;
 import org.sitenv.ccdaparsing.processing.LaboratoryResultsProcessor;
 import org.sitenv.ccdaparsing.processing.LaboratoryTestProcessor;
 import org.sitenv.ccdaparsing.processing.MediactionAllergiesProcessor;
+import org.sitenv.ccdaparsing.processing.MedicalEquipmentProcessor;
 import org.sitenv.ccdaparsing.processing.MedicationProcessor;
 import org.sitenv.ccdaparsing.processing.POTProcessor;
 import org.sitenv.ccdaparsing.processing.PatientProcessor;
@@ -113,8 +121,19 @@ public class CCDAParserAPI {
 	
 	@Autowired
 	UsrhSubTypeProcessor usrhSubTypeProcessor;
-	
-	 
+
+	@Autowired
+	FamilyHistoryProcessor familyHistoryProcessor;
+
+	@Autowired
+	AdvanceDirectiveProcesser advanceDirectiveProcesser;
+
+
+
+	@Autowired
+	MedicalEquipmentProcessor medicalEquipmentProcessor;
+
+
 	public CCDARefModel parseCCDA2_1(InputStream inputStream) {
 		
 		CCDARefModel refModel = new CCDARefModel();
@@ -133,6 +152,9 @@ public class CCDAParserAPI {
 		Future<CCDAPOT> pot=null;
 		Future<CCDAGoals> goals=null;
 		Future<CCDAHealthConcerns> healthConcerns=null;
+		Future<CCDAFamilyHistory> familyHistory=null;
+		Future<CCDAMedicalEquipment> medicalEquipments=null;
+		Future<CCDAAdvanceDirective> advanceDirective=null;
 		Future<UsrhSubType> usrhSubType=null;
 		ArrayList<CCDAID> idList = new ArrayList<>();
 		logger.info("Parsing CCDA document");
@@ -147,6 +169,7 @@ public class CCDAParserAPI {
 			if(doc.getDocumentElement()!= null && doc.getDocumentElement().getChildNodes().getLength()>1)
 			{
 				refModel.setDocTemplateId(patientProcessor.retrieveDocTemplateId(xPath, doc));
+				refModel.setEncompassingEncounter(patientProcessor.retrieveEncompassingEncounter(xPath, doc));
 				patient=patientProcessor.retrievePatientDetails(xPath, doc);
 				encounters = encounterDiagnosesProcessor.retrieveEncounterDetails(xPath, doc);
 				problems = problemProcessor.retrieveProblemDetails(xPath, doc);
@@ -163,7 +186,10 @@ public class CCDAParserAPI {
 				goals = goalsProcessor.retrieveGoalsDetails(xPath, doc);
 				healthConcerns = healthConcernsProcessor.retrieveHealthConcernDetails(xPath, doc);
 				usrhSubType = usrhSubTypeProcessor.retrieveUsrhSubTypeDetails(xPath, doc);
-				
+				familyHistory = familyHistoryProcessor.retrieveFamilyHistoryDetails(xPath, doc);
+				medicalEquipments = medicalEquipmentProcessor.retrieveMedicalEquipment(xPath, doc);
+				advanceDirective = advanceDirectiveProcesser.retrieveAdvanceDirectiveDetails(xPath, doc);
+
 				if(patient!=null){
 					try{
 						refModel.setPatient(patient.get(maxWaitTime, TimeUnit.MILLISECONDS));
@@ -325,7 +351,40 @@ public class CCDAParserAPI {
 						isTimeOut = true;
 					}
 				}
-				
+
+				if(familyHistory!=null){
+					try{
+						refModel.setFamilyHistory(familyHistory.get(isTimeOut?minWaitTime:maxWaitTime, TimeUnit.MILLISECONDS));
+						if(refModel.getFamilyHistory()!=null){
+							idList.addAll(refModel.getFamilyHistory().getIdList());
+						}
+					}catch (Exception e) {
+						isTimeOut = true;
+					}
+				}
+
+				if(medicalEquipments!=null){
+					try {
+						refModel.setMedicalEquipment(medicalEquipments.get(isTimeOut?minWaitTime:maxWaitTime, TimeUnit.MILLISECONDS));
+					} catch (InterruptedException | ExecutionException | TimeoutException e) {
+						isTimeOut = true;
+					}
+					if(refModel.getMedicalEquipment()!=null){
+						idList.addAll(refModel.getMedicalEquipment().getIds());
+					}
+				}
+
+				if(advanceDirective!=null){
+					try{
+						refModel.setAdvanceDirective(advanceDirective.get(isTimeOut?minWaitTime:maxWaitTime, TimeUnit.MILLISECONDS));
+						if(refModel.getAdvanceDirective()!=null){
+							idList.addAll(refModel.getAdvanceDirective().getIdList());
+						}
+					}catch (Exception e) {
+						isTimeOut = true;
+					}
+				}
+
 				refModel.setIdList(idList);
 			}
 			else

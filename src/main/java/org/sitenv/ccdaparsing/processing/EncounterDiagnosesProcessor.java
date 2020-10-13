@@ -196,7 +196,7 @@ public class EncounterDiagnosesProcessor {
 					evaluate(serviceDeliveryLocElement, XPathConstants.NODE),"encounterServiceDeliveryLocation"));
 			}*/
 			
-			serviceDeliveryLoc.setName(ApplicationUtil.readTextContext((Element) xPath.compile("./playingEntity/name[not(@nullFlavor)]").
+			serviceDeliveryLoc.setName(ApplicationUtil.readTextContent((Element) xPath.compile("./playingEntity/name[not(@nullFlavor)]").
 					evaluate(serviceDeliveryLocElement, XPathConstants.NODE)));
 			
 			serviceDeliveryLoc.setTelecom(ApplicationUtil.readDataElementList((NodeList) xPath.compile("./telecom[not(@nullFlavor)]").
