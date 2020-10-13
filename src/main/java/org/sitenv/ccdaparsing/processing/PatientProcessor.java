@@ -44,9 +44,12 @@ public class PatientProcessor {
 		Element encompassingEncounterElement = (Element) xPath.compile(ApplicationConstants.ENCOMPASSING_ENCOUNTER_EXPRESSION).evaluate(doc, XPathConstants.NODE);
 		
 		if(encompassingEncounterElement!=null) {
+			
+			encompassingEncounter = new CCDAEncompassingEncounter();
+			encompassingEncounter.setXmlString(ApplicationUtil.nodeToString((Node)encompassingEncounterElement));
+			encompassingEncounter.setLineNumber(encompassingEncounterElement.getUserData("lineNumber").toString());
 		
 			Element idElement = (Element) xPath.compile("./id").evaluate(encompassingEncounterElement, XPathConstants.NODE);
-			encompassingEncounter = new CCDAEncompassingEncounter();
 			encompassingEncounter.setId(ApplicationUtil.readTemplateID(idElement));
 		
 		
