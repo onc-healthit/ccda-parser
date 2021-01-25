@@ -5,6 +5,7 @@ public class CCDACode extends CCDADataElement {
 	private String  codeSystem;
 	private String  codeSystemName;
 	private String  displayName;
+	private String nullFlavor;
 	
 	public String getCode() {
 		return code;
@@ -36,6 +37,14 @@ public class CCDACode extends CCDADataElement {
 
 	public void setDisplayName(String displayName) {
 		this.displayName = displayName;
+	}
+	
+	public String getNullFlavor() {
+		return nullFlavor;
+	}
+
+	public void setNullFlavor(String nullFlavor) {
+		this.nullFlavor = nullFlavor;
 	}
 
 	public CCDACode()

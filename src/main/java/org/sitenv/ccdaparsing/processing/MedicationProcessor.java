@@ -90,6 +90,8 @@ public class MedicationProcessor {
 			medicationActivity.setLineNumber(entryElement.getUserData("lineNumber") + " - " + entryElement.getUserData("endLineNumber") );
 			medicationActivity.setXmlString(ApplicationUtil.nodeToString((Node)entryElement));
 			
+			medicationActivity.setNegationInd(Boolean.parseBoolean(entryElement.getAttribute("negationInd")));
+			
 			medicationActivity.setTemplateIds(ApplicationUtil.readTemplateIdList((NodeList) xPath.compile("./templateId[not(@nullFlavor)]").
 									evaluate(entryElement, XPathConstants.NODESET)));
 			
