@@ -54,7 +54,9 @@ public class ApplicationUtil {
 			{
 				code.setXpath(codeElement.getAttribute("xsi:type"));
 			}
-			
+			if(!isEmpty(codeElement.getAttribute("nullFlavor"))) {
+				code.setNullFlavor(codeElement.getAttribute("nullFlavor"));
+			}
 			codeElement.setAttribute("xmlns:xsi", "http://www.w3.org/2001/XMLSchema-instance");
 			code.setXmlString(nodeToString((Node)codeElement));
 			code.setLineNumber((String) codeElement.getUserData("lineNumber"));

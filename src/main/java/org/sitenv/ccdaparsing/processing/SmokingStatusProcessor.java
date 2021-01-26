@@ -197,7 +197,7 @@ public class SmokingStatusProcessor {
 			genderObs.setGenderCode(ApplicationUtil.readCode((Element) xPath.compile("./code[not(@nullFlavor)]")
 					.evaluate(genderObsElement, XPathConstants.NODE)));
 
-			genderObs.setGenderValue(ApplicationUtil.readCode((Element) xPath.compile("./value[not(@nullFlavor)]")
+			genderObs.setGenderValue(ApplicationUtil.readCode((Element) xPath.compile("./value")
 					.evaluate(genderObsElement, XPathConstants.NODE)));
 
 		}

@@ -140,6 +140,8 @@ public class ProblemProcessor {
 			
 			Element problemObservationElement = (Element) problemObservationNodeList.item(i);
 			
+			problemObservation.setNegationInd(Boolean.parseBoolean(problemObservationElement.getAttribute("negationInd")));
+			
 			problemObservationElement.setAttribute("xmlns:xsi", "http://www.w3.org/2001/XMLSchema-instance");
 			problemObservation.setLineNumber(problemObservationElement.getUserData("lineNumber") + " - " + problemObservationElement.getUserData("endLineNumber") );
 			problemObservation.setXmlString(ApplicationUtil.nodeToString((Node)problemObservationElement));

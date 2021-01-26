@@ -196,6 +196,9 @@ public class LaboratoryResultsProcessor {
 					else if (xsiType.equalsIgnoreCase("ED"))
 					{
 						resultObservation.setResults(new CCDAPQ(resultValue.getTextContent(),"ED"));
+					}else if (xsiType.equalsIgnoreCase("REAL"))
+					{
+						resultObservation.setResults(new CCDAPQ(resultValue.getAttribute("value"),"REAL"));
 					}
 				}
 			}

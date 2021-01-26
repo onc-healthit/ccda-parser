@@ -17,6 +17,7 @@ public class CCDAMedicationActivity extends CCDAXmlSnippet{
 	private CCDADataElement referenceText;
 	private CCDAMedicationSubstanceAdminstration medSubAdmin;
 	private CCDAAuthor author;
+	private Boolean negationInd;
 	
 	public ArrayList<CCDAII> getTemplateIds() {
 		return templateIds;
@@ -120,6 +121,14 @@ public class CCDAMedicationActivity extends CCDAXmlSnippet{
 
 	public void setAuthor(CCDAAuthor author) {
 		this.author = author;
+	}
+	
+	public Boolean getNegationInd() {
+		return negationInd;
+	}
+
+	public void setNegationInd(Boolean negationInd) {
+		this.negationInd = negationInd;
 	}
 
 	@Override

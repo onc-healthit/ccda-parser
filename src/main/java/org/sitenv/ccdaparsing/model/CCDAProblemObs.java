@@ -12,6 +12,7 @@ public class CCDAProblemObs extends CCDAXmlSnippet{
 	private CCDACode  		     statusCode;
 	private CCDADataElement referenceText;
 	private CCDAAuthor author;
+	private Boolean negationInd;
 	
 	public ArrayList<CCDAII> getTemplateId() {
 		return templateId;
@@ -75,6 +76,14 @@ public class CCDAProblemObs extends CCDAXmlSnippet{
 
 	public void setAuthor(CCDAAuthor author) {
 		this.author = author;
+	}
+	
+	public Boolean getNegationInd() {
+		return negationInd;
+	}
+
+	public void setNegationInd(Boolean negationInd) {
+		this.negationInd = negationInd;
 	}
 
 	public CCDAProblemObs()
