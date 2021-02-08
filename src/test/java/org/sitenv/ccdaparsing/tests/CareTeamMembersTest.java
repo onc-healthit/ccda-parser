@@ -8,6 +8,7 @@ import javax.xml.parsers.DocumentBuilderFactory;
 import javax.xml.xpath.XPath;
 import javax.xml.xpath.XPathFactory;
 
+import org.apache.log4j.Logger;
 import org.junit.Assert;
 import org.junit.BeforeClass;
 import org.junit.Test;
@@ -19,14 +20,14 @@ import org.sitenv.ccdaparsing.processing.CareTeamMemberProcessor;
 import org.w3c.dom.Document;
 
 public class CareTeamMembersTest {
-	
-	private String CCDA_DOC = "src/test/resources/170.315_b1_toc_amb_ccd_r21_sample1_v1.xml";
-	private CCDACareTeamMember careTeamMember;
-	private ArrayList<CCDAParticipant> members;
-	private CareTeamMemberProcessor careTeamMemberProcessor = new CareTeamMemberProcessor();
+	private static final Logger logger = Logger.getLogger(CareTeamMembersTest.class);	
+	private static String CCDA_DOC = "src/test/resources/170.315_b1_toc_amb_ccd_r21_sample1_v1.xml";
+	private static CCDACareTeamMember careTeamMember;
+	private static ArrayList<CCDAParticipant> members;
+	private static CareTeamMemberProcessor careTeamMemberProcessor = new CareTeamMemberProcessor();
 	
 	@BeforeClass
-	public void setUp() throws Exception {
+	public static void setUp() throws Exception {
 		// removed fields to ensure no side effects with DocumentRoot
 		DocumentBuilderFactory factory = 
 				DocumentBuilderFactory.newInstance();
@@ -52,6 +53,8 @@ public class CareTeamMembersTest {
 		CCDADataElement memeberOneTelecom = new CCDADataElement();
 		memeberOneTelecom.setUse("WP");
 		memeberOneTelecom.setValue("tel:+1(555)-555-1002");
+		String xmlstring = "<telecom xmlns:xsi=\\\"http://www.w3.org/2001/XMLSchema-instance\\\" use=\\\"WP\\\" value=\\\"tel:+1(555)-555-1002\\\"/>";
+		memeberOneTelecom.setXmlString(xmlstring.replaceAll("\\\\", ""));
 		
 		memberOne.setTelecom(memeberOneTelecom);
 		
@@ -64,6 +67,7 @@ public class CareTeamMembersTest {
 		
 		members.add(memberOne);
 		members.add(memberTwo);
+		
 	}
 	
 	@Test
@@ -77,8 +81,8 @@ public class CareTeamMembersTest {
 	}
 	
 	@Test
-	public void testCareTeamMembersValue() throws Exception{
-		Assert.assertEquals(" Care Team Members Value test case failed",careTeamMember.getMembers(),members);
+	public void testCareTeamMembersValue() throws Exception{		
+		Assert.assertEquals(" Care Team Members Value test case failed",careTeamMember.getMembers().get(0),members.get(0));
 	}
 	
 	@Test
