@@ -29,11 +29,11 @@ public class SmokingStatusTest {
 	private CCDACode  sectionCode;
 	private static ArrayList<CCDASmokingStatus>		smokingStatusList;
 	private static ArrayList<CCDATobaccoUse>			tobaccoUseList;
-	private SmokingStatusProcessor smokingStatusProcessor = new SmokingStatusProcessor();
+	private static SmokingStatusProcessor smokingStatusProcessor = new SmokingStatusProcessor();
 	
 	
 	@BeforeClass
-	public  void setUp() throws Exception {
+	public static void setUp() throws Exception {
 		DocumentBuilderFactory factory = 
 				DocumentBuilderFactory.newInstance();
 		DocumentBuilder builder = factory.newDocumentBuilder();

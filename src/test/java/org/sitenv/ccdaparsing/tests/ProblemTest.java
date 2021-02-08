@@ -27,11 +27,11 @@ public class ProblemTest {
 	private static CCDAProblem problems;
 	private ArrayList<CCDAII>    templateIds;
 	private CCDACode  sectionCode;
-	private ArrayList<CCDAProblemConcern> problemConcernList;
-	private ProblemProcessor problemProcessor = new ProblemProcessor();
+	private static ArrayList<CCDAProblemConcern> problemConcernList;
+	private static ProblemProcessor problemProcessor = new ProblemProcessor();
 	
 	@BeforeClass
-	public void setUp() throws Exception {
+	public static void setUp() throws Exception {
 		// removed fields to ensure no side effects with DocumentRoot
 		DocumentBuilderFactory factory = 
 				DocumentBuilderFactory.newInstance();

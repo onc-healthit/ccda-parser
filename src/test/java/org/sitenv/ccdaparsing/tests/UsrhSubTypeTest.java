@@ -32,10 +32,10 @@ public class UsrhSubTypeTest {
 	private final String TEST_DOC_NO_TYPE = PATH + "UsrhSubTypeTest_NoDocType.xml";
 	private final String TEST_DOC_UD = PATH + "UsrhSubTypeTest_UnstructuredDocument.xml";
 	private final String TEST_DOC_CP = PATH + "UsrhSubTypeTest_CarePlan.xml";
-	private UsrhSubType usrhSubType;
-	private UsrhSubTypeProcessor usrhSubTypeProcessor = new UsrhSubTypeProcessor();
+	private static UsrhSubType usrhSubType;
+	private static UsrhSubTypeProcessor usrhSubTypeProcessor = new UsrhSubTypeProcessor();
 	
-	private void setup(String ccdaDoc) throws Exception {
+	private static void setup(String ccdaDoc) throws Exception {
 		DocumentBuilderFactory factory = DocumentBuilderFactory.newInstance();
 		DocumentBuilder builder = factory.newDocumentBuilder();
 		Document doc = builder.parse(new File(ccdaDoc));
