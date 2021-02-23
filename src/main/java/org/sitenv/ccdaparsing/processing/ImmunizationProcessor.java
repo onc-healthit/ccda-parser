@@ -92,6 +92,8 @@ public class ImmunizationProcessor {
 				immunizationActivity.setLineNumber(immunizationActivityElement.getUserData("lineNumber") + " - " + immunizationActivityElement.getUserData("endLineNumber") );
 				immunizationActivity.setXmlString(ApplicationUtil.nodeToString((Node)immunizationActivityElement));
 				
+				immunizationActivity.setNegationInd(Boolean.parseBoolean(immunizationActivityElement.getAttribute("negationInd")));
+				
 				if(ApplicationUtil.readID((Element) xPath.compile("./id[not(@nullFlavor)]").
 						evaluate(immunizationActivityElement, XPathConstants.NODE),"immunizatonActivity")!= null)
 				{
