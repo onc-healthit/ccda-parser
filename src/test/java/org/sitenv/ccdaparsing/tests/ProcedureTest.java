@@ -25,15 +25,15 @@ import org.w3c.dom.Document;
 
 public class ProcedureTest {
 	
-	private String CCDA_DOC = "src/test/resources/170.315_b1_toc_amb_ccd_r21_sample1_v1.xml";
-	private CCDAProcedure procedures;
+	private static String CCDA_DOC = "src/test/resources/170.315_b1_toc_amb_ccd_r21_sample1_v1.xml";
+	private static CCDAProcedure procedures;
 	private ArrayList<CCDAII>    templateIds;
 	private CCDACode  sectionCode;
-	private ArrayList<CCDAProcActProc>	procActsProcs;
-	private ProcedureProcessor procedureProcessor = new ProcedureProcessor();
+	private static ArrayList<CCDAProcActProc>	procActsProcs;
+	private static ProcedureProcessor procedureProcessor = new ProcedureProcessor();
 	
 	@BeforeClass
-	public void setUp() throws Exception {
+	public static void setUp() throws Exception {
 		// removed fields to ensure no side effects with DocumentRoot
 		DocumentBuilderFactory factory = 
 				DocumentBuilderFactory.newInstance();
@@ -96,6 +96,9 @@ public class ProcedureTest {
 		CCDADataElement representedOrgTelecomOne = new CCDADataElement();
 		representedOrgTelecomOne.setValue("tel:+1(555)-555-5000");
 		representedOrgTelecomOne.setUse("WP");
+		String xmlstring = "<telecom xmlns:xsi=\\\"http://www.w3.org/2001/XMLSchema-instance\\\" use=\\\"WP\\\" value=\\\"tel:+1(555)-555-5000\\\"/>";
+		representedOrgTelecomOne.setXmlString(xmlstring.replaceAll("\\\\", ""));
+		
 		representedOrgTelecomList.add(representedOrgTelecomOne);
 		
 		representedOrg.setTelecom(representedOrgTelecomList);

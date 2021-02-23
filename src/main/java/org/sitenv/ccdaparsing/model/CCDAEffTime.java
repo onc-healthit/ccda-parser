@@ -10,6 +10,7 @@ public class CCDAEffTime extends CCDAXmlSnippet{
 	private Boolean         valuePresent;
 	private String singleAdministration;
 	private boolean singleAdministrationValuePresent;
+	private boolean nullFlavour;
 	
 	public CCDAEffTime(String value)
 	{
@@ -80,6 +81,14 @@ public class CCDAEffTime extends CCDAXmlSnippet{
 			boolean singleAdministrationValuePresent) {
 		this.singleAdministrationValuePresent = singleAdministrationValuePresent;
 	}
+	
+	public boolean isNullFlavour() {
+		return nullFlavour;
+	}
+
+	public void setNullFlavour(boolean nullFlavour) {
+		this.nullFlavour = nullFlavour;
+	}
 
 	public CCDAEffTime()
 	{
@@ -91,20 +100,13 @@ public class CCDAEffTime extends CCDAXmlSnippet{
 		final int prime = 31;
 		int result = super.hashCode();
 		result = prime * result + ((high == null) ? 0 : high.hashCode());
-		result = prime * result
-				+ ((highPresent == null) ? 0 : highPresent.hashCode());
+		result = prime * result + ((highPresent == null) ? 0 : highPresent.hashCode());
 		result = prime * result + ((low == null) ? 0 : low.hashCode());
-		result = prime * result
-				+ ((lowPresent == null) ? 0 : lowPresent.hashCode());
-		result = prime
-				* result
-				+ ((singleAdministration == null) ? 0 : singleAdministration
-						.hashCode());
-		result = prime * result
-				+ (singleAdministrationValuePresent ? 1231 : 1237);
+		result = prime * result + ((lowPresent == null) ? 0 : lowPresent.hashCode());
+		result = prime * result + ((singleAdministration == null) ? 0 : singleAdministration.hashCode());
+		result = prime * result + (singleAdministrationValuePresent ? 1231 : 1237);
 		result = prime * result + ((value == null) ? 0 : value.hashCode());
-		result = prime * result
-				+ ((valuePresent == null) ? 0 : valuePresent.hashCode());
+		result = prime * result + ((valuePresent == null) ? 0 : valuePresent.hashCode());
 		return result;
 	}
 
@@ -156,4 +158,8 @@ public class CCDAEffTime extends CCDAXmlSnippet{
 			return false;
 		return true;
 	}
+	
+	
+
+	
 }

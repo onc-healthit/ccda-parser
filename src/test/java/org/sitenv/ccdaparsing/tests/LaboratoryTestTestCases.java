@@ -23,16 +23,16 @@ import org.w3c.dom.Document;
 
 public class LaboratoryTestTestCases {
 	
-	private String CCDA_DOC = "src/test/resources/170.315_b1_toc_amb_ccd_r21_sample1_v1.xml";
-	private CCDALabResult labTests;
+	private static String CCDA_DOC = "src/test/resources/170.315_b1_toc_amb_ccd_r21_sample1_v1.xml";
+	private static CCDALabResult labTests;
 	private ArrayList<CCDAII>    templateIds;
 	private CCDACode  sectionCode;
-	private ArrayList<CCDALabResultOrg> resultOrgList;
-	private LaboratoryTestProcessor laboratoryTestProcessor = new LaboratoryTestProcessor();
+	private static ArrayList<CCDALabResultOrg> resultOrgList;
+	private static LaboratoryTestProcessor laboratoryTestProcessor = new LaboratoryTestProcessor();
 	
 	
 	@BeforeClass
-	public void setUp() throws Exception {
+	public static void setUp() throws Exception {
 		// removed fields to ensure no side effects with DocumentRoot
 		DocumentBuilderFactory factory = 
 				DocumentBuilderFactory.newInstance();

@@ -12,6 +12,7 @@ public class CCDAImmunizationActivity extends CCDAXmlSnippet {
 	private CCDAConsumable						consumable;
 	private CCDAOrganization					organization;
 	private CCDADataElement referenceText;
+	private Boolean negationInd;
 	
 	public CCDAImmunizationActivity()
 	{
@@ -88,6 +89,13 @@ public class CCDAImmunizationActivity extends CCDAXmlSnippet {
 
 	public void setReferenceText(CCDADataElement referenceText) {
 		this.referenceText = referenceText;
+	}
+	public Boolean getNegationInd() {
+		return negationInd;
+	}
+
+	public void setNegationInd(Boolean negationInd) {
+		this.negationInd = negationInd;
 	}
 
 	@Override

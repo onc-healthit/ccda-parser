@@ -25,16 +25,16 @@ import org.w3c.dom.Document;
 
 public class MedicationAllergies {
 	
-	private String CCDA_DOC = "src/test/resources/170.315_b1_toc_amb_ccd_r21_sample1_v1.xml";
-	private CCDAAllergy allergies;
+	private static String CCDA_DOC = "src/test/resources/170.315_b1_toc_amb_ccd_r21_sample1_v1.xml";
+	private static CCDAAllergy allergies;
 	private ArrayList<CCDAII>    templateIds;
 	private CCDACode  sectionCode;
-	private ArrayList<CCDAAllergyConcern> allergyConcernList;
-	private MediactionAllergiesProcessor mediactionAllergiesProcessor = new MediactionAllergiesProcessor();
+	private static ArrayList<CCDAAllergyConcern> allergyConcernList;
+	private static MediactionAllergiesProcessor mediactionAllergiesProcessor = new MediactionAllergiesProcessor();
 	
 	
 	@BeforeClass
-	public void setUp() throws Exception {
+	public static void setUp() throws Exception {
 		// removed fields to ensure no side effects with DocumentRoot
 		DocumentBuilderFactory factory = 
 				DocumentBuilderFactory.newInstance();

@@ -19,16 +19,16 @@ import org.w3c.dom.Document;
 
 public class GoalsTest {
 	
-	private String CCDA_DOC = "src/test/resources/170.315_b1_toc_amb_ccd_r21_sample1_v1.xml";
-	private CCDAGoals goals;
+	private static String CCDA_DOC = "src/test/resources/170.315_b1_toc_amb_ccd_r21_sample1_v1.xml";
+	private static CCDAGoals goals;
 	private ArrayList<CCDAII>    templateIds;
 	private CCDACode  sectionCode;
 	//private CCDADataElement narrativeText;
-	private GoalsProcessor goalsProcessor = new GoalsProcessor();
+	private static GoalsProcessor goalsProcessor = new GoalsProcessor();
 	
 	
 	@BeforeClass
-	public void setUp() throws Exception {
+	public static void setUp() throws Exception {
 		// removed fields to ensure no side effects with DocumentRoot
 		DocumentBuilderFactory factory = 
 				DocumentBuilderFactory.newInstance();
