@@ -23,16 +23,16 @@ import org.sitenv.ccdaparsing.processing.LaboratoryResultsProcessor;
 import org.w3c.dom.Document;
 
 public class LaboratoryResultsTest {
-	private String CCDA_DOC = "src/test/resources/170.315_b1_toc_amb_ccd_r21_sample1_v1.xml";
-	private CCDALabResult labResults;
+	private static String CCDA_DOC = "src/test/resources/170.315_b1_toc_amb_ccd_r21_sample1_v1.xml";
+	private static CCDALabResult labResults;
 	private ArrayList<CCDAII>    templateIds;
 	private CCDACode  sectionCode;
-	private ArrayList<CCDALabResultOrg> resultOrgList;
-	private LaboratoryResultsProcessor laboratoryResultsProcessor = new LaboratoryResultsProcessor();
+	private static ArrayList<CCDALabResultOrg> resultOrgList;
+	private static LaboratoryResultsProcessor laboratoryResultsProcessor = new LaboratoryResultsProcessor();
 	
 	
 	@BeforeClass
-	public void setUp() throws Exception {
+	public static void setUp() throws Exception {
 		// removed fields to ensure no side effects with DocumentRoot
 		DocumentBuilderFactory factory = 
 				DocumentBuilderFactory.newInstance();
@@ -64,7 +64,7 @@ public class LaboratoryResultsTest {
 	 }
 	
 	@BeforeClass
-	public void setLabResultsOrg()
+	public static void setLabResultsOrg()
 	{
 		
 		resultOrgList = new ArrayList<>();

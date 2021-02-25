@@ -26,16 +26,16 @@ import org.w3c.dom.Document;
 
 public class ImmunizationTest {
 	
-	private String CCDA_DOC = "src/test/resources/170.315_b1_toc_amb_ccd_r21_sample1_v1.xml";
-	private CCDAImmunization immunizations;
+	private static String CCDA_DOC = "src/test/resources/170.315_b1_toc_amb_ccd_r21_sample1_v1.xml";
+	private static CCDAImmunization immunizations;
 	private ArrayList<CCDAII>    templateIds;
 	private CCDACode  sectionCode;
-	private ArrayList<CCDAImmunizationActivity> immuActivities;
-	private ImmunizationProcessor immunizationProcessor = new ImmunizationProcessor();
+	private static ArrayList<CCDAImmunizationActivity> immuActivities;
+	private static ImmunizationProcessor immunizationProcessor = new ImmunizationProcessor();
 	
 	
 	@BeforeClass
-	public void setUp() throws Exception {
+	public static void setUp() throws Exception {
 		// removed fields to ensure no side effects with DocumentRoot
 		DocumentBuilderFactory factory = 
 				DocumentBuilderFactory.newInstance();
@@ -112,6 +112,9 @@ public class ImmunizationTest {
 		CCDADataElement representedOrgTelecomOne = new CCDADataElement();
 		representedOrgTelecomOne.setValue("tel: +1(555)555-1030");
 		representedOrgTelecomOne.setUse("WP");
+		String xmlstring = "<telecom xmlns:xsi=\\\"http://www.w3.org/2001/XMLSchema-instance\\\" use=\\\"WP\\\" value=\\\"tel: +1(555)555-1030\\\"/>";
+		representedOrgTelecomOne.setXmlString(xmlstring.replaceAll("\\\\", ""));
+		
 		representedOrgTelecomList.add(representedOrgTelecomOne);
 		
 		representedOrg.setTelecom(representedOrgTelecomList);

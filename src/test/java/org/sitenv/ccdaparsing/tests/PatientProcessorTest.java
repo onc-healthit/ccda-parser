@@ -66,6 +66,9 @@ public class PatientProcessorTest {
 		CCDADataElement telecomOne = new CCDADataElement();
 		telecomOne.setValue("tel:+1(555)-777-1234");
 		telecomOne.setUse("MC");
+		String xmlstring = "<telecom xmlns:xsi=\\\"http://www.w3.org/2001/XMLSchema-instance\\\" use=\\\"MC\\\" value=\\\"tel:+1(555)-777-1234\\\"/>";
+		telecomOne.setXmlString(xmlstring.replaceAll("\\\\", ""));
+		
 		telecomList.add(telecomOne);
 
 		CCDADataElement telecomTwo = new CCDADataElement();

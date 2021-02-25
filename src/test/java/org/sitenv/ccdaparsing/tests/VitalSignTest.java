@@ -29,11 +29,11 @@ public class VitalSignTest {
 	private ArrayList<CCDAII>    templateIds;
 	private CCDACode  sectionCode;
 	private static ArrayList<CCDAVitalOrg> vitalsOrg;
-	private VitalSignProcessor vitalSignProcessor = new VitalSignProcessor();
+	private static VitalSignProcessor vitalSignProcessor = new VitalSignProcessor();
 	
 	
 	@BeforeClass
-	public void setUp() throws Exception {
+	public static void setUp() throws Exception {
 		// removed fields to ensure no side effects with DocumentRoot
 		DocumentBuilderFactory factory = 
 				DocumentBuilderFactory.newInstance();

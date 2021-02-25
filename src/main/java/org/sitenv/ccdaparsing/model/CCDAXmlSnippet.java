@@ -19,15 +19,12 @@ public class CCDAXmlSnippet {
 	public void setXmlString(String xmlString) {
 		this.xmlString = xmlString;
 	}
-	
 	@Override
 	public int hashCode() {
 		final int prime = 31;
 		int result = 1;
-		result = prime * result
-				+ ((lineNumber == null) ? 0 : lineNumber.hashCode());
-		result = prime * result
-				+ ((xmlString == null) ? 0 : xmlString.hashCode());
+		result = prime * result + ((lineNumber == null) ? 0 : lineNumber.hashCode());
+		result = prime * result + ((xmlString == null) ? 0 : xmlString.hashCode());
 		return result;
 	}
 	@Override
@@ -51,5 +48,7 @@ public class CCDAXmlSnippet {
 			return false;
 		return true;
 	}
+	
+	
 	
 }

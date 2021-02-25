@@ -172,6 +172,10 @@ public class ApplicationUtil {
 			}else
 				effectiveTime.setHighPresent(false);
 			
+			if(effectiveTime.getValue() == null & !effectiveTime.getLowPresent() & !effectiveTime.getHighPresent()) {
+				effectiveTime.setNullFlavour(true);
+			}
+			
 			effectiveTimeElement.setAttribute("xmlns:xsi", "http://www.w3.org/2001/XMLSchema-instance");
 			effectiveTime.setXmlString(nodeToString((Node)effectiveTimeElement));
 			effectiveTime.setLineNumber(effectiveTimeElement.getUserData("lineNumber") + " - " + effectiveTimeElement.getUserData("endLineNumber"));

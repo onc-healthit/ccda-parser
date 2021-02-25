@@ -2,6 +2,7 @@ package org.sitenv.ccdaparsing.tests;
 
 import java.io.File;
 import java.util.ArrayList;
+import java.util.List;
 
 import javax.xml.parsers.DocumentBuilder;
 import javax.xml.parsers.DocumentBuilderFactory;
@@ -17,6 +18,7 @@ import org.sitenv.ccdaparsing.model.CCDADataElement;
 import org.sitenv.ccdaparsing.model.CCDAEffTime;
 import org.sitenv.ccdaparsing.model.CCDAEncounter;
 import org.sitenv.ccdaparsing.model.CCDAEncounterActivity;
+import org.sitenv.ccdaparsing.model.CCDAID;
 import org.sitenv.ccdaparsing.model.CCDAII;
 import org.sitenv.ccdaparsing.model.CCDAProblemObs;
 import org.sitenv.ccdaparsing.model.CCDAServiceDeliveryLoc;
@@ -26,16 +28,16 @@ import org.w3c.dom.Document;
 
 public class EncounterDiagnosisTest {
 	
-	private  String CCDA_DOC = "src/test/resources/170.315_b1_toc_amb_ccd_r21_sample1_v1.xml";
-	private  CCDAEncounter encounter;
+	private  static String CCDA_DOC = "src/test/resources/170.315_b1_toc_amb_ccd_r21_sample1_v1.xml";
+	private  static CCDAEncounter encounter;
 	private ArrayList<CCDAII>    templateIds;
 	private CCDACode  sectionCode;
-	private  ArrayList<CCDAEncounterActivity> encActivities;
-	private EncounterDiagnosesProcessor encounterDiagnosesProcessor = new EncounterDiagnosesProcessor();
+	private static ArrayList<CCDAEncounterActivity> encActivities;
+	private static EncounterDiagnosesProcessor encounterDiagnosesProcessor = new EncounterDiagnosesProcessor();
 	
 	
 	@BeforeClass
-	public  void setUp() throws Exception {
+	public  static void setUp() throws Exception {
 		// removed fields to ensure no side effects with DocumentRoot
 		DocumentBuilderFactory factory = 
 				DocumentBuilderFactory.newInstance();
@@ -43,6 +45,28 @@ public class EncounterDiagnosisTest {
 		Document doc = builder.parse(new File(CCDA_DOC));
 		XPath xPath =  XPathFactory.newInstance().newXPath();
 		encounter = encounterDiagnosesProcessor.retrieveEncounterDetails(xPath, doc).get();
+		encounter.getSectionCode().setXmlString(null);
+		ArrayList<CCDAII>   templateId =  new ArrayList<CCDAII>();
+		  for (CCDAII ccdaii : encounter.getTemplateId()) { 		      
+			  ccdaii.setXmlString(null);
+			  templateId.add(ccdaii);
+		  }		
+		  encounter.setTemplateId(templateId);
+			ArrayList<CCDAEncounterActivity>   encountActivityList =  new ArrayList<CCDAEncounterActivity>();
+			  for (CCDAEncounterActivity encAct : encounter.getEncActivities()) { 		      
+				  encAct.setXmlString(null);
+				  encountActivityList.add(encAct);
+			  }	
+		encounter.setEncActivities(encountActivityList);
+		
+		  encounter.setTemplateId(templateId);
+			ArrayList<CCDAID>   ccdaidList =  new ArrayList<CCDAID>();
+			  for (CCDAID ccdaid : encounter.getIdLIst()) { 		      
+				  ccdaid.setXmlString(null);
+				  ccdaidList.add(ccdaid);
+			  }	
+		encounter.setIdLIst(ccdaidList);
+		
 		
 		encActivities = new ArrayList<CCDAEncounterActivity>();
 		CCDAEncounterActivity encActivityOne = new CCDAEncounterActivity();
@@ -101,6 +125,9 @@ public class EncounterDiagnosisTest {
 		CCDADataElement sdlTelecomOne = new CCDADataElement();
 		sdlTelecomOne.setValue("tel:+1(555)-555-1002");
 		sdlTelecomOne.setUse("WP");
+		String xmlstring = "<telecom xmlns:xsi=\\\"http://www.w3.org/2001/XMLSchema-instance\\\" use=\\\"WP\\\" value=\\\"tel:+1(555)-555-1002\\\"/>";
+		sdlTelecomOne.setXmlString(xmlstring.replaceAll("\\\\", ""));
+		
 		sdlTelecomList.add(sdlTelecomOne);
 		
 		sdLocOne.setTelecom(sdlTelecomList);

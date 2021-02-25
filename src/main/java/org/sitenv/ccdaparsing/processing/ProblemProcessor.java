@@ -51,7 +51,7 @@ public class ProblemProcessor {
 											evaluate(sectionElement, XPathConstants.NODESET)));
 			problems.setSectionCode(ApplicationUtil.readCode((Element) xPath.compile("./code[not(@nullFlavor)]").
 					evaluate(sectionElement, XPathConstants.NODE)));
-			problems.setProblemConcerns(readProblemConcern((NodeList) xPath.compile("./entry/act[not(@nullFlavor)]").
+			problems.setProblemConcerns(readProblemConcern((NodeList) xPath.compile("./entry/act[not(@nullFlavor) and templateId[@root='2.16.840.1.113883.10.20.22.4.3']]").
 					evaluate(sectionElement, XPathConstants.NODESET), xPath,idList));
 			
 			sectionElement.setAttribute("xmlns:xsi", "http://www.w3.org/2001/XMLSchema-instance");

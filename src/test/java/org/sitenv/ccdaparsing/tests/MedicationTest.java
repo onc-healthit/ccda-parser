@@ -30,10 +30,10 @@ public class MedicationTest {
 	private ArrayList<CCDAII>    templateIds;
 	private CCDACode  sectionCode;
 	private static ArrayList<CCDAMedicationActivity> medActivities;
-	private MedicationProcessor medicationProcessor = new MedicationProcessor();
+	private static MedicationProcessor medicationProcessor = new MedicationProcessor();
 	
 	@BeforeClass
-	public void setUp() throws Exception {
+	public static void setUp() throws Exception {
 		// removed fields to ensure no side effects with DocumentRoot
 		DocumentBuilderFactory factory = 
 				DocumentBuilderFactory.newInstance();
