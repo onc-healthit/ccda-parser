@@ -10,7 +10,6 @@ import javax.xml.xpath.XPathFactory;
 
 import org.junit.Assert;
 import org.junit.BeforeClass;
-import org.junit.Ignore;
 import org.junit.Test;
 import org.sitenv.ccdaparsing.model.CCDAAddress;
 import org.sitenv.ccdaparsing.model.CCDACode;
@@ -102,12 +101,13 @@ public class PatientProcessorTest {
 		modeCode.setCodeSystem("2.16.840.1.113883.5.60");
 		modeCode.setCodeSystemName("LanguageAbilityMode");
 		modeCode.setDisplayName("Expressed spoken");
-
+		modeCode = (CCDACode) ApplicationUtilTest.setXmlString(modeCode,"modeCode");
 		CCDACode lanCommCode = new CCDACode();
 		lanCommCode.setCode("eng");
+		lanCommCode = (CCDACode) ApplicationUtilTest.setXmlString(lanCommCode,"languageCode");
 		languageCommunicationOne.setLanguageCode(lanCommCode);
 		languageCommunicationOne.setModeCode(modeCode);
-		languageCommunicationOne.setPreferenceInd(new CCDADataElement("true"));
+		languageCommunicationOne.setPreferenceInd((CCDADataElement) ApplicationUtilTest.setXmlString(new CCDADataElement("true"),"preferenceInd"));
 		languageCommunication.add(languageCommunicationOne);
 	}
 
@@ -136,6 +136,7 @@ public class PatientProcessorTest {
 		administrativeGenderCode.setCodeSystem("2.16.840.1.113883.5.1");
 		administrativeGenderCode.setCodeSystemName("AdministrativeGender");
 		administrativeGenderCode.setDisplayName("Female");
+		administrativeGenderCode = (CCDACode) ApplicationUtilTest.setXmlString(administrativeGenderCode,"administrativeGenderCode");		
 	}
 
 	private void setMaritalStatusCode() {
@@ -144,6 +145,7 @@ public class PatientProcessorTest {
 		maritalStatusCode.setCodeSystem("2.16.840.1.113883.5.2");
 		maritalStatusCode.setCodeSystemName("MaritalStatusCode");
 		maritalStatusCode.setDisplayName("Married");
+		maritalStatusCode = (CCDACode) ApplicationUtilTest.setXmlString(maritalStatusCode,"maritalStatusCode");		
 	}
 
 	private void setEthnicity() {
@@ -160,6 +162,7 @@ public class PatientProcessorTest {
 		religiousAffiliationCode.setCodeSystem("2.16.840.1.113883.5.1076");
 		religiousAffiliationCode.setCodeSystemName("HL7 Religious Affiliation");
 		religiousAffiliationCode.setDisplayName("Christian (non-Catholic, non-specific)");
+		religiousAffiliationCode = (CCDACode) ApplicationUtilTest.setXmlString(religiousAffiliationCode,"religiousAffiliationCode");
 	}
 
 	private void setBirthPlace() {
@@ -215,7 +218,6 @@ public class PatientProcessorTest {
 	}
 
 	// TODO: Find out why this fails and either fix test and/or fix source
-	@Ignore
 	@Test
 	public void testLanguageCommunications() {
 		setLanguageCommunication();
@@ -224,23 +226,22 @@ public class PatientProcessorTest {
 	}
 
 	// TODO: Find out why this fails and either fix test and/or fix source
-	@Ignore
 	@Test
 	public void testRaceCodes() {
 		setRaceCode();
+		patient.getRaceCodes().setXmlString(null);
 		Assert.assertEquals("raceCodes test case failed", raceCode, patient.getRaceCodes());
 	}
 
 	// TODO: Find out why this fails and either fix test and/or fix source
-	@Ignore
 	@Test
 	public void testSdtcRaceCodes() {
 		setSdtcRaceCode();
+		patient.getSdtcRaceCodes().get(0).setXmlString(null);
 		Assert.assertEquals("sdtcRaceCodes test case failed", sdtcRaceCodes, patient.getSdtcRaceCodes());
 	}
 
 	// TODO: Find out why this fails and either fix test and/or fix source
-	@Ignore
 	@Test
 	public void testAdministrativeGenderCode() {
 		setAdministrativeGenderCode();
@@ -249,7 +250,6 @@ public class PatientProcessorTest {
 	}
 
 	// TODO: Find out why this fails and either fix test and/or fix source
-	@Ignore
 	@Test
 	public void testMaritalStatusCode() {
 		setMaritalStatusCode();
@@ -257,16 +257,15 @@ public class PatientProcessorTest {
 	}
 
 	// TODO: Find out why this fails and either fix test and/or fix source
-	@Ignore
 	@Test
 	public void testEthnicity() {
 		setEthnicity();
+		patient.getEthnicity().setXmlString(null);
 		Assert.assertEquals("Ethnicity test case failed", ethnicity, patient.getEthnicity());
 	}
 	
 
 	// TODO: Find out why this fails and either fix test and/or fix source
-	@Ignore
 	@Test
 	public void testReligiousAffiliationCode() {
 		setReligiousAffiliationCode();
@@ -275,7 +274,6 @@ public class PatientProcessorTest {
 	}
 
 	// TODO: Find out why this fails and either fix test and/or fix source
-	@Ignore
 	@Test
 	public void testBirthPlace() {
 		setBirthPlace();

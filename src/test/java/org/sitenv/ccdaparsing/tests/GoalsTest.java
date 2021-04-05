@@ -46,6 +46,7 @@ public class GoalsTest {
 		sectionCode.setCodeSystem("2.16.840.1.113883.6.1");
 		sectionCode.setCodeSystemName("LOINC");
 		sectionCode.setDisplayName("Goals");
+		sectionCode = (CCDACode) ApplicationUtilTest.setXmlString(sectionCode,"code");		
 	 }
 	
 	private void setGoalsTemplateIds()

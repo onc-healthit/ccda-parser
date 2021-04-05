@@ -58,15 +58,16 @@ public class ProblemTest {
 		concernCode.setCode("CONC");
 		concernCode.setCodeSystem("2.16.840.1.113883.5.6");
 		concernCode.setDisplayName("Concern");
+		concernCode = (CCDACode) ApplicationUtilTest.setXmlString(concernCode,"code");		
 		problemConcernOne.setConcernCode(concernCode);
 		
 		CCDACode statusCode = new CCDACode();
 		statusCode.setCode("active");
-		
+		statusCode = (CCDACode) ApplicationUtilTest.setXmlString(statusCode,"statusCode");	
 		problemConcernOne.setStatusCode(statusCode);
 		
 		CCDAEffTime effectiveTime = new CCDAEffTime();
-		effectiveTime.setLow(new CCDADataElement("20111005"));
+		effectiveTime.setLow( (CCDADataElement) ApplicationUtilTest.setXmlString(new CCDADataElement("20111005"),"low") );
 		effectiveTime.setLowPresent(true);
 		effectiveTime.setHighPresent(false);
 		problemConcernOne.setEffTime(effectiveTime);
@@ -100,11 +101,11 @@ public class ProblemTest {
 		problemCode.setDisplayName("Essential hypertension");
 		problemCode.setCodeSystemName("SNOMED-CT");
 		problemCode.setXpath("CD");
-		
+		problemCode = (CCDACode) ApplicationUtilTest.setXmlString(problemCode,"value");
 		problemObsOne.setProblemCode(problemCode);
 		
 		CCDAEffTime problemObsEffectiveTime = new CCDAEffTime();
-		problemObsEffectiveTime.setLow(new CCDADataElement("20111005"));
+		problemObsEffectiveTime.setLow( (CCDADataElement) ApplicationUtilTest.setXmlString(new CCDADataElement("20111005"),"low") );
 		problemObsEffectiveTime.setLowPresent(true);
 		problemObsEffectiveTime.setHighPresent(false);
 		problemObsOne.setEffTime(problemObsEffectiveTime);
@@ -115,11 +116,15 @@ public class ProblemTest {
 		translation.setCodeSystem("2.16.840.1.113883.6.1");
 		translation.setCodeSystemName("LOINC");
 		translation.setDisplayName("Condition");
-		
+		translation = (CCDACode) ApplicationUtilTest.setXmlString(translation,"translation");
 		translationList.add(translation);
 		
 		problemObsOne.setTranslationProblemType(translationList);
+		CCDACode completedCode = new CCDACode();
+		completedCode.setCode("completed");
+		completedCode = (CCDACode) ApplicationUtilTest.setXmlString(completedCode,"statusCode");		
 		
+		problemObsOne.setStatusCode(completedCode);
 		problemObsList.add(problemObsOne);
 		
 		problemConcernOne.setProblemObservations(problemObsList);
@@ -134,6 +139,7 @@ public class ProblemTest {
 		sectionCode.setCodeSystem("2.16.840.1.113883.6.1");
 		sectionCode.setCodeSystemName("LOINC");
 		sectionCode.setDisplayName("PROBLEM LIST");
+		sectionCode = (CCDACode) ApplicationUtilTest.setXmlString(sectionCode,"code");		
 	}
 	
 	private void setProblemsTemplateIds()
@@ -189,11 +195,17 @@ public class ProblemTest {
 	
 	@Test
 	public void testProblemConcerneffectiveTime(){
+		problems.getProblemConcerns().get(0).getEffTime().setXmlString(null);
+		problems.getProblemConcerns().get(0).getEffTime().setLineNumber(null);
+		problems.getProblemConcerns().get(0).getEffTime().setValuePresent(null);
 		Assert.assertEquals("Problems  Concern  Effective Time test case failed",problemConcernList.get(0).getEffTime(),problems.getProblemConcerns().get(0).getEffTime());
 	}
 	
 	@Test
 	public void testProblemObservations(){
+		problems.getProblemConcerns().get(0).getProblemObservations().get(0).setXmlString(null);
+		problems.getProblemConcerns().get(0).getProblemObservations().get(0).setLineNumber(null);
+		problems.getProblemConcerns().get(0).getProblemObservations().get(0).setNegationInd(null);
 		Assert.assertEquals("Problems  Observations  test case failed",problemConcernList.get(0).getProblemObservations(),
 													problems.getProblemConcerns().get(0).getProblemObservations());
 	}
@@ -206,12 +218,13 @@ public class ProblemTest {
 	
 	@Test
 	public void testProblemObservationsProblemType(){
+		problems.getProblemConcerns().get(0).getProblemObservations().get(0).getProblemType().setXmlString(null);
 		Assert.assertEquals("Problems  Observations  problem type test case failed",problemConcernList.get(0).getProblemObservations().get(0).getProblemType(),
 													problems.getProblemConcerns().get(0).getProblemObservations().get(0).getProblemType());
 	}
 	
 	@Test
-	public void testProblemObservationsProblemCode(){
+	public void testProblemObservationsProblemCode(){		
 		Assert.assertEquals("Problems  Observations  problem code test case failed",problemConcernList.get(0).getProblemObservations().get(0).getProblemCode(),
 													problems.getProblemConcerns().get(0).getProblemObservations().get(0).getProblemCode());
 	}
@@ -224,6 +237,9 @@ public class ProblemTest {
 	
 	@Test
 	public void testProblemObservationsEffectiveTime(){
+		problems.getProblemConcerns().get(0).getProblemObservations().get(0).getEffTime().setXmlString(null);
+		problems.getProblemConcerns().get(0).getProblemObservations().get(0).getEffTime().setLineNumber(null);
+		problems.getProblemConcerns().get(0).getProblemObservations().get(0).getEffTime().setValuePresent(null);
 		Assert.assertEquals("Problems  Observations effective time test case failed",problemConcernList.get(0).getProblemObservations().get(0).getEffTime(),
 													problems.getProblemConcerns().get(0).getProblemObservations().get(0).getEffTime());
 	}

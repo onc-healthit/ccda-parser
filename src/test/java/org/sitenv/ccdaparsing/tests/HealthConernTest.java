@@ -46,6 +46,7 @@ public class HealthConernTest {
 		sectionCode.setCodeSystem("2.16.840.1.113883.6.1");
 		sectionCode.setCodeSystemName("LOINC");
 		sectionCode.setDisplayName("Health Concerns Document");
+		sectionCode = (CCDACode) ApplicationUtilTest.setXmlString(sectionCode,"code");			
 	 }
 	
 	private void setHealthConcernsTemplateIds()

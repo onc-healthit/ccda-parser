@@ -155,6 +155,7 @@ public class ProcedureTest {
 		sectionCode.setCodeSystem("2.16.840.1.113883.6.1");
 		sectionCode.setCodeSystemName("LOINC");
 		sectionCode.setDisplayName("HISTORY OF PROCEDURES");
+		sectionCode= (CCDACode) ApplicationUtilTest.setXmlString(sectionCode,"code");
 	}
 	
 	private void setProcedureTemplateIds()
@@ -189,6 +190,15 @@ public class ProcedureTest {
 	
 	@Test
 	public void testProcedureActivity(){
+		procedures.getProcActsProcs().get(2).getPatientUDI().get(0).getDeviceCode().setXmlString(null);
+		procedures.getProcActsProcs().get(2).getPatientUDI().get(0).getScopingEntityId().get(0).setXmlString(null);
+		procedures.getProcActsProcs().get(2).getPatientUDI().get(1).getScopingEntityId().get(0).setXmlString(null);
+		procedures.getProcActsProcs().get(2).getPatientUDI().get(1).getDeviceCode().setXmlString(null);
+		procedures.getProcActsProcs().get(2).getProcCode().setXmlString(null);
+		procedures.getProcActsProcs().get(2).getProcStatus().setXmlString(null);
+		procedures.getProcActsProcs().get(2).getTargetSiteCode().setXmlString(null);
+		procedures.getProcActsProcs().get(2).setLineNumber(null);
+		procedures.getProcActsProcs().get(2).setXmlString(null);
 		Assert.assertEquals("Procedures Activity Code test case failed",procActsProcs.get(0),procedures.getProcActsProcs().get(2));
 	}
 	
