@@ -2,7 +2,6 @@ package org.sitenv.ccdaparsing.tests;
 
 import java.io.File;
 import java.util.ArrayList;
-import java.util.List;
 
 import javax.xml.parsers.DocumentBuilder;
 import javax.xml.parsers.DocumentBuilderFactory;
@@ -66,6 +65,12 @@ public class EncounterDiagnosisTest {
 				  ccdaidList.add(ccdaid);
 			  }	
 		encounter.setIdLIst(ccdaidList);
+		ArrayList<CCDAEncounterActivity> encountActivityListOjb =  new ArrayList<CCDAEncounterActivity>();
+		for (CCDAEncounterActivity ccdaEncAt1 : encounter.getEncActivities() ) {
+			ccdaEncAt1.setXmlString(null);
+			encountActivityListOjb.add(ccdaEncAt1);
+		}			
+		encounter.setEncActivities(encountActivityListOjb);
 		
 		
 		encActivities = new ArrayList<CCDAEncounterActivity>();
@@ -89,12 +94,16 @@ public class EncounterDiagnosisTest {
 		encounterTypeCode.setCodeSystem("2.16.840.1.113883.6.12");
 		encounterTypeCode.setCodeSystemName("CPT-4");
 		encounterTypeCode.setDisplayName("Office outpatient visit 15 minutes");
+		encounterTypeCode = (CCDACode) ApplicationUtilTest.setXmlString(encounterTypeCode,"code");
+		encounterTypeCode.setXmlString(null);
 		
 		encActivityOne.setEncounterTypeCode(encounterTypeCode);
 		
 		// Creating Effective time Object
 		CCDAEffTime effectiveTime = new CCDAEffTime();
 		effectiveTime.setValue("20150622");
+		effectiveTime = (CCDAEffTime) ApplicationUtilTest.setXmlString(effectiveTime,"effectiveTime");
+		effectiveTime.setXmlString(null);
 		encActivityOne.setEffectiveTime(effectiveTime);
 		
 		
@@ -113,6 +122,7 @@ public class EncounterDiagnosisTest {
 		sdlLocationCode.setCodeSystem("2.16.840.1.113883.6.259");
 		sdlLocationCode.setCodeSystemName("HL7 HealthcareServiceLocation");
 		sdlLocationCode.setDisplayName("Urgent Care Center");
+		sdlLocationCode = (CCDACode) (ApplicationUtilTest.setXmlString(sdlLocationCode,"code"));
 		
 		sdLocOne.setLocationCode(sdlLocationCode);
 		
@@ -125,8 +135,7 @@ public class EncounterDiagnosisTest {
 		CCDADataElement sdlTelecomOne = new CCDADataElement();
 		sdlTelecomOne.setValue("tel:+1(555)-555-1002");
 		sdlTelecomOne.setUse("WP");
-		String xmlstring = "<telecom xmlns:xsi=\\\"http://www.w3.org/2001/XMLSchema-instance\\\" use=\\\"WP\\\" value=\\\"tel:+1(555)-555-1002\\\"/>";
-		sdlTelecomOne.setXmlString(xmlstring.replaceAll("\\\\", ""));
+		sdlTelecomOne = (CCDADataElement) (ApplicationUtilTest.setXmlString(sdlTelecomOne,"telecom"));	
 		
 		sdlTelecomList.add(sdlTelecomOne);
 		
@@ -139,9 +148,12 @@ public class EncounterDiagnosisTest {
 		sdlAddressOne.setState(new CCDADataElement("OR"));
 		sdlAddressOne.setCountry(new CCDADataElement("US"));
 		sdlAddressOne.setPostalCode(new CCDADataElement("97006"));
+		sdlAddressOne = (CCDAAddress) ApplicationUtilTest.setXmlString(sdlAddressOne,"telecom");
 		sdlAddressList.add(sdlAddressOne);
 		 
 		sdLocOne.setAddress(sdlAddressList);
+		sdLocOne = (CCDAServiceDeliveryLoc) ApplicationUtilTest.setXmlString(sdLocOne,"sdLocOne");
+		sdLocOne.setXmlString(null);
 		sdLocs.add(sdLocOne);
 		
 		encActivityOne.setSdLocs(sdLocs);
@@ -229,6 +241,25 @@ public class EncounterDiagnosisTest {
 	
 	@Test
 	public void testEncounterActivities(){
+		encounter.getEncActivities().get(0).getEffectiveTime().setHighPresent(null);
+		encounter.getEncActivities().get(0).getEffectiveTime().setLineNumber(null);
+		encounter.getEncActivities().get(0).getEffectiveTime().setValuePresent(null);
+		encounter.getEncActivities().get(0).getEffectiveTime().setLowPresent(null);
+		encounter.getEncActivities().get(0).getEffectiveTime().setXmlString(null);
+		encounter.getEncActivities().get(0).getTemplateId().get(0).setXmlString(null);
+		encounter.getEncActivities().get(0).getEncounterTypeCode().setXmlString(null);
+		encounter.getEncActivities().get(0).getEncounterTypeCode().setLineNumber(null);
+		encounter.getEncActivities().get(0).setReferenceText(null);
+		encounter.getEncActivities().get(0).getIndications().get(0).setXmlString(null);
+		encounter.getEncActivities().get(0).getIndications().get(0).setLineNumber(null);
+		encounter.getEncActivities().get(0).getIndications().get(0).getEffTime().setXmlString(null);
+
+		encounter.getEncActivities().get(0).getIndications().get(0).getEffTime().setLineNumber(null);
+		encounter.getEncActivities().get(0).getIndications().get(0).getEffTime().setValuePresent(null);
+		encounter.getEncActivities().get(0).getIndications().get(0).getEffTime().getLow().setXmlString(null);
+		encounter.getEncActivities().get(0).setLineNumber(null);
+		encounter.getEncActivities().get(0).getIndications().get(0).getProblemCode().setXmlString(null);
+		encounter.getEncActivities().get(0).getIndications().get(0).getProblemType().setXmlString(null);
 		Assert.assertEquals("EncounterActivity test case failed",encActivities,encounter.getEncActivities());
 	}
 	
@@ -283,7 +314,7 @@ public class EncounterDiagnosisTest {
 	}
 	
 	@Test
-	public void testEncounterActivitiySdlocsTelecom(){
+	public void testEncounterActivitiySdlocsTelecom(){		
 		Assert.assertEquals("EncounterActivity SdLocs Telecom test case failed",encActivities.get(0).getSdLocs().get(0).getTelecom(),
 									encounter.getEncActivities().get(0).getSdLocs().get(0).getTelecom());
 	}

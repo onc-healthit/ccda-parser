@@ -8,7 +8,6 @@ import javax.xml.parsers.DocumentBuilderFactory;
 import javax.xml.xpath.XPath;
 import javax.xml.xpath.XPathFactory;
 
-import org.apache.log4j.Logger;
 import org.junit.Assert;
 import org.junit.BeforeClass;
 import org.junit.Test;
@@ -17,10 +16,8 @@ import org.sitenv.ccdaparsing.model.CCDACareTeamMember;
 import org.sitenv.ccdaparsing.model.CCDADataElement;
 import org.sitenv.ccdaparsing.model.CCDAParticipant;
 import org.sitenv.ccdaparsing.processing.CareTeamMemberProcessor;
-import org.w3c.dom.Document;
-
+import org.w3c.dom.Document; 
 public class CareTeamMembersTest {
-	private static final Logger logger = Logger.getLogger(CareTeamMembersTest.class);	
 	private static String CCDA_DOC = "src/test/resources/170.315_b1_toc_amb_ccd_r21_sample1_v1.xml";
 	private static CCDACareTeamMember careTeamMember;
 	private static ArrayList<CCDAParticipant> members;
@@ -53,14 +50,12 @@ public class CareTeamMembersTest {
 		CCDADataElement memeberOneTelecom = new CCDADataElement();
 		memeberOneTelecom.setUse("WP");
 		memeberOneTelecom.setValue("tel:+1(555)-555-1002");
-		String xmlstring = "<telecom xmlns:xsi=\\\"http://www.w3.org/2001/XMLSchema-instance\\\" use=\\\"WP\\\" value=\\\"tel:+1(555)-555-1002\\\"/>";
-		memeberOneTelecom.setXmlString(xmlstring.replaceAll("\\\\", ""));
-		
+		memeberOneTelecom = (CCDADataElement) (ApplicationUtilTest.setXmlString(memeberOneTelecom,"telecom"));		
 		memberOne.setTelecom(memeberOneTelecom);
 		
 		CCDAParticipant memberTwo = new CCDAParticipant();
 		
-		memberTwo.setAddress(memberOneAddress);
+		memberTwo.setAddress((CCDAAddress) ApplicationUtilTest.setXmlString(memberOneAddress,"telecom"));
 		memberTwo.setFirstName(new CCDADataElement("Tracy"));
 		memberTwo.setLastName(new CCDADataElement("Davis"));
 		memberTwo.setTelecom(memeberOneTelecom);

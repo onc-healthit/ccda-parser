@@ -1,5 +1,13 @@
 package org.sitenv.ccdaparsing.tests;
 
+import java.io.File;
+import java.util.ArrayList;
+
+import javax.xml.parsers.DocumentBuilder;
+import javax.xml.parsers.DocumentBuilderFactory;
+import javax.xml.xpath.XPath;
+import javax.xml.xpath.XPathFactory;
+
 import org.junit.Assert;
 import org.junit.BeforeClass;
 import org.junit.Test;
@@ -12,13 +20,6 @@ import org.sitenv.ccdaparsing.model.CCDAEffTime;
 import org.sitenv.ccdaparsing.model.CCDAII;
 import org.sitenv.ccdaparsing.processing.AdvanceDirectiveProcesser;
 import org.w3c.dom.Document;
-
-import javax.xml.parsers.DocumentBuilder;
-import javax.xml.parsers.DocumentBuilderFactory;
-import javax.xml.xpath.XPath;
-import javax.xml.xpath.XPathFactory;
-import java.io.File;
-import java.util.ArrayList;
 
 public class AdvanceDirectiveTest {
 
@@ -94,9 +95,11 @@ public class AdvanceDirectiveTest {
 		observationTime.setHighPresent(false);
 		CCDADataElement low = new CCDADataElement();
 		low.setValue("20110219");
-		low.setXmlString("<low xmlns:xsi=\"http://www.w3.org/2001/XMLSchema-instance\" value=\"20110219\"/>");
+		low = (CCDADataElement) ApplicationUtilTest.setXmlString(low,"low");
 		observationTime.setLow(low);
 		observationTime.setLineNumber("null - null");
+		observationTime = (CCDAEffTime) (ApplicationUtilTest.setXmlString(observationTime,"effectiveTime"));
+		
 		observationTime.setXmlString("<effectiveTime xmlns:xsi=\"http://www.w3.org/2001/XMLSchema-instance\">\r\n" +
 				"                                        <low value=\"20110219\"/>\r\n" +
 				"                                        <high nullFlavor=\"NA\"/>\r\n" +
@@ -120,7 +123,7 @@ public class AdvanceDirectiveTest {
 		sectionCode.setCode("42348-3");
 		sectionCode.setCodeSystem("2.16.840.1.113883.6.1");
 		sectionCode.setCodeSystemName("LOINC");
-		sectionCode.setXmlString("<code xmlns:xsi=\"http://www.w3.org/2001/XMLSchema-instance\" code=\"42348-3\" codeSystem=\"2.16.840.1.113883.6.1\" codeSystemName=\"LOINC\"/>");
+		sectionCode =  (CCDACode) (ApplicationUtilTest.setXmlString(sectionCode,"code"));
 	}
 
 	private void setAdvanceDirectiveTemplateIds() {

@@ -75,6 +75,14 @@ public class UDITest {
 
 	@Test
 	public void testUdiList(){
+		patientUDIList.get(0).getDeviceCode().setXmlString(null);
+		patientUDIList.get(0).getDeviceCode().setLineNumber(null);
+		patientUDIList.get(0).setLineNumber(null);
+		patientUDIList.get(0).setXmlString(null);
+		patientUDIList.get(1).getDeviceCode().setXmlString(null);
+		patientUDIList.get(1).getDeviceCode().setLineNumber(null);
+		patientUDIList.get(1).setLineNumber(null);
+		patientUDIList.get(1).setXmlString(null);
 		Assert.assertEquals("UDI test case failed",udiList,patientUDIList);
 	}
 	
@@ -90,6 +98,8 @@ public class UDITest {
 	
 	@Test
 	public void testUdiListDeviceCode(){
+		patientUDIList.get(0).getDeviceCode().setXmlString(null);
+		patientUDIList.get(0).getDeviceCode().setLineNumber(null);
 		Assert.assertEquals("UDI test device code value failed",udiList.get(0).getDeviceCode(),patientUDIList.get(0).getDeviceCode());
 	}
 	
