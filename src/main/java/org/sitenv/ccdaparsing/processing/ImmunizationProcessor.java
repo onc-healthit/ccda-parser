@@ -119,9 +119,11 @@ public class ImmunizationProcessor {
 				
 				immunizationActivity.setAdminUnitCode(ApplicationUtil.readCode((Element) xPath.compile("./administrationUnitCode[not(@nullFlavor)]").
 							evaluate(immunizationActivityElement, XPathConstants.NODE)));
+				if (null !=medicationProcessor) {
+					immunizationActivity.setConsumable(medicationProcessor.readMedicationInformation((Element) xPath.compile("./consumable/manufacturedProduct[not(@nullFlavor)]").
+							   evaluate(immunizationActivityElement, XPathConstants.NODE), xPath,idList));					
+				}
 				
-				immunizationActivity.setConsumable(medicationProcessor.readMedicationInformation((Element) xPath.compile("./consumable/manufacturedProduct[not(@nullFlavor)]").
-						   evaluate(immunizationActivityElement, XPathConstants.NODE), xPath,idList));
 				
 				
 				Element represntOrgElement = (Element) xPath.compile("./performer/assignedEntity/representedOrganization[not(@nullFlavor)]").

@@ -396,7 +396,9 @@ public class ApplicationUtil {
 			}
 			frequencyElement.setAttribute("xmlns:xsi", "http://www.w3.org/2001/XMLSchema-instance");
 			frequency.setXmlString(nodeToString((Node)frequencyElement));
-			frequency.setLineNumber(frequencyElement.getUserData("lineNumber").toString());
+			if (null != frequencyElement.getUserData("lineNumber")) {
+				frequency.setLineNumber(frequencyElement.getUserData("lineNumber").toString());				
+			}
 		}
 		
 		return frequency;
