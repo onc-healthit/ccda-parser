@@ -10,7 +10,6 @@ import javax.xml.xpath.XPathFactory;
 
 import org.junit.Assert;
 import org.junit.BeforeClass;
-import org.junit.Ignore;
 import org.junit.Test;
 import org.sitenv.ccdaparsing.model.CCDACode;
 import org.sitenv.ccdaparsing.model.CCDAConsumable;
@@ -62,20 +61,23 @@ public class MedicationTest {
 		routeCode.setCodeSystem("2.16.840.1.113883.3.26.1.1");
 		routeCode.setCodeSystemName("NCI Thesaurus");
 		routeCode.setDisplayName("INTRAVENOUS");
+		routeCode = (CCDACode) ApplicationUtilTest.setXmlString(routeCode,"routeCode");
 		medActivitiyOne.setRouteCode(routeCode);
 		
 		CCDAPQ doseQuantity = new CCDAPQ();
 		doseQuantity.setValue("250");
 		doseQuantity.setUnits("mg/mL");
+		doseQuantity = (CCDAPQ) ApplicationUtilTest.setXmlString(doseQuantity,"doseQuantity");
 		medActivitiyOne.setDoseQuantity(doseQuantity);
 		
 		CCDAPQ rateQuantity = new CCDAPQ();
 		rateQuantity.setValue("2");
 		rateQuantity.setUnits("ml/min");
+		rateQuantity = (CCDAPQ) ApplicationUtilTest.setXmlString(rateQuantity,"rateQuantity");
 		medActivitiyOne.setRateQuantity(rateQuantity);
 		
 		CCDAEffTime duration = new CCDAEffTime();
-		duration.setLow(new CCDADataElement("20150622"));
+		duration.setLow((CCDADataElement) ApplicationUtilTest.setXmlString(new CCDADataElement("20150622"),"low"));
 		duration.setLowPresent(true);
 		duration.setHighPresent(false);
 		medActivitiyOne.setDuration(duration);
@@ -103,7 +105,7 @@ public class MedicationTest {
 		consumableMedCode.setCode("563973");
 		consumableMedCode.setCodeSystem("2.16.840.1.113883.6.88");
 		consumableMedCode.setDisplayName("Ceftriaxone 250MG/ML");
-		
+		consumableMedCode = (CCDACode) ApplicationUtilTest.setXmlString(consumableMedCode,"code");
 		consumable.setMedcode(consumableMedCode);
 		
 		medActivitiyOne.setConsumable(consumable);
@@ -118,6 +120,7 @@ public class MedicationTest {
 		sectionCode.setCodeSystem("2.16.840.1.113883.6.1");
 		sectionCode.setCodeSystemName("LOINC");
 		sectionCode.setDisplayName("HISTORY OF MEDICATION USE");
+		sectionCode = (CCDACode) ApplicationUtilTest.setXmlString(sectionCode,"code");
 	}
 	
 	private void setMedicationTemplateIds()
@@ -132,92 +135,103 @@ public class MedicationTest {
 		templateIds.add(templateIdTwo);
 	}
 	
-	@Ignore
+	
 	@Test
 	public void testMedication() throws Exception{
 		Assert.assertNotNull(medication);
 	}
-	@Ignore
+	
 	@Test
 	public void testMedicationSectionCode(){
 		setMedicationSectionCode();
 		Assert.assertEquals("Medication  SectionCode test case failed",sectionCode,medication.getSectionCode());
 	}
-	@Ignore
+	
 	@Test
 	public void testMedicationTemplateIds(){
 		setMedicationTemplateIds();
 		Assert.assertEquals("Medication  teamplet Id test case failed",templateIds,medication.getTemplateIds());
 	}
-	@Ignore
+	
 	@Test
 	public void testMedicationAct(){
-		Assert.assertEquals("Medication Activity test case failed",medActivities.get(0),medication.getMedActivities().get(0));
+		medication.getMedActivities().get(0).setXmlString(null);
+		medication.getMedActivities().get(0).getTemplateIds().get(0).setXmlString(null);
+		medication.getMedActivities().get(0).getTemplateIds().get(1).setXmlString(null);
+		medication.getMedActivities().get(0).getDuration().setXmlString(null);
+		medication.getMedActivities().get(0).getFrequency().setXmlString(null);
+		medication.getMedActivities().get(0).getConsumable().setXmlString(null);
+		medication.getMedActivities().get(0).getConsumable().setXmlString(null);
+		medication.getMedActivities().get(0).getConsumable().getTemplateIds().get(0).setXmlString(null);
+		medication.getMedActivities().get(0).getConsumable().getTemplateIds().get(1).setXmlString(null);
+		medication.getMedActivities().get(0).getDuration().setLineNumber(null);
+		medication.getMedActivities().get(0).getDuration().setValuePresent(null);		
+		Assert.assertEquals("Medication Activity test case failed11",medActivities.get(0),medication.getMedActivities().get(0));
 	}
-	@Ignore
+
 	@Test
 	public void testMedicationActTemplateIds(){
 		Assert.assertEquals("Medication Activity Teamplate Id test case failed",medActivities.get(0).getTemplateIds(),
 													medication.getMedActivities().get(0).getTemplateIds());
 	}
-	@Ignore
+
 	@Test
 	public void testMedicationActRouteCode(){
 		Assert.assertEquals("Medication Activity Route Code test case failed",medActivities.get(0).getRouteCode(),
 																	medication.getMedActivities().get(0).getRouteCode());
 	}
-	@Ignore
+
 	@Test
 	public void testMedicationActDoseQuantity(){
 		Assert.assertEquals("Medication Activity Dose Quantity test case failed",medActivities.get(0).getDoseQuantity(),
 											medication.getMedActivities().get(0).getDoseQuantity());
 	}
-	@Ignore
+
 	@Test
 	public void testMedicationActRateQuantity(){
 		Assert.assertEquals("Medication Activity Rate Quantity test case failed",medActivities.get(0).getRateQuantity(),
 														medication.getMedActivities().get(0).getRateQuantity());
 	}
-	@Ignore
+	
 	@Test
 	public void testMedicationActDuration(){
 		Assert.assertEquals("Medication Activity duration test case failed",medActivities.get(0).getDuration(),medication.getMedActivities().get(0).getDuration());
 	}
-	@Ignore
+	
 	@Test
 	public void testMedicationActFrequency(){
 		Assert.assertEquals("Medication Activity frequency test case failed",medActivities.get(0).getFrequency(),medication.getMedActivities().get(0).getFrequency());
 	}
-	@Ignore
+
 	@Test
 	public void testMedicationActConsumable(){
 		Assert.assertEquals("Medication Activity consumable test case failed",medActivities.get(0).getConsumable(),medication.getMedActivities().get(0).getConsumable());
 	}
-	@Ignore
+
 	@Test
 	public void testMedicationActConsumableTemplateIds(){
 		Assert.assertEquals("Medication Activity consumable template Ids test case failed",medActivities.get(0).getConsumable().getTemplateIds(),
 											medication.getMedActivities().get(0).getConsumable().getTemplateIds());
 	}
-	@Ignore
+	
 	@Test
 	public void testMedicationActConsumableMedcode(){
 		Assert.assertEquals("Medication Activity consumable med code test case failed",medActivities.get(0).getConsumable().getMedcode(),
 											medication.getMedActivities().get(0).getConsumable().getMedcode());
 	}
-	@Ignore
+	
 	@Test
 	public void testMedicationActConsumableTranslations(){
 		Assert.assertEquals("Medication Activity consumable translations test case failed",medActivities.get(0).getConsumable().getTranslations(),
 											medication.getMedActivities().get(0).getConsumable().getTranslations());
 	}
-	@Ignore
+
 	@Test
 	public void testMedicationActConsumableLotNumberText(){
 		Assert.assertEquals("Medication Activity consumable lotnumber text test case failed",medActivities.get(0).getConsumable().getTranslations(),
 											medication.getMedActivities().get(0).getConsumable().getTranslations());
 	}
-	@Ignore
+	
 	@Test
 	public void testMedicationActConsumableManufacturingOrg(){
 		Assert.assertEquals("Medication Activity consumable manufacturing org test case failed",medActivities.get(0).getConsumable().getManufacturingOrg(),
