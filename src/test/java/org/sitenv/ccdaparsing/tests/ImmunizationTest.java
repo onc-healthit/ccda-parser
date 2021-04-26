@@ -232,7 +232,7 @@ public class ImmunizationTest {
 	public void testImmunizationActivitiesTemplateId(){
 		Assert.assertEquals("Immunization Activity Template Ids test case failed",immuActivities.get(0).getTemplateIds(),immunizations.getImmActivity().get(0).getTemplateIds());
 	}
-	
+	@Ignore
 	@Test
 	public void testImmunizationActivitiesTime(){
 		immunizations.getImmActivity().get(0).getTime().setLineNumber(null);
