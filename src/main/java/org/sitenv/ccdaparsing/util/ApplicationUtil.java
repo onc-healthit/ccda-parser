@@ -160,13 +160,13 @@ public class ApplicationUtil {
 	    				evaluate(effectiveTimeElement, XPathConstants.NODE)));
 			effectiveTime.setHigh(readDataElement((Element) xPath.compile("./high[not(@nullFlavor)]").
 	    				evaluate(effectiveTimeElement, XPathConstants.NODE)));
-			if(effectiveTime.getLow() != null)
+			if(effectiveTime.getLow().getValue() != null)
 			{
 				effectiveTime.setLowPresent(true);
 			}else
 				effectiveTime.setLowPresent(false);
 			
-			if(effectiveTime.getHigh() != null)
+			if(effectiveTime.getHigh().getValue() != null)
 			{
 				effectiveTime.setHighPresent(true);
 			}else
@@ -400,7 +400,9 @@ public class ApplicationUtil {
 			}
 			frequencyElement.setAttribute("xmlns:xsi", "http://www.w3.org/2001/XMLSchema-instance");
 			frequency.setXmlString(nodeToString((Node)frequencyElement));
-			frequency.setLineNumber(frequencyElement.getUserData("lineNumber").toString());
+			if (null != frequencyElement.getUserData("lineNumber")) {
+				frequency.setLineNumber(frequencyElement.getUserData("lineNumber").toString());				
+			}
 		}
 		
 		return frequency;
