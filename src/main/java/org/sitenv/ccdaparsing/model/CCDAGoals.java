@@ -2,7 +2,7 @@ package org.sitenv.ccdaparsing.model;
 
 import java.util.ArrayList;
 
-public class CCDAGoals {
+public class CCDAGoals extends CCDAXmlSnippet {
 	
 	private boolean isSectionNullFlavourWithNI;
 	private ArrayList<CCDAII>    templateId;

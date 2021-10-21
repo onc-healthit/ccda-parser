@@ -21,6 +21,7 @@ import org.sitenv.ccdaparsing.model.CCDAAllergy;
 import org.sitenv.ccdaparsing.model.CCDACareTeamMember;
 import org.sitenv.ccdaparsing.model.CCDAEncounter;
 import org.sitenv.ccdaparsing.model.CCDAFamilyHistory;
+import org.sitenv.ccdaparsing.model.CCDAFunctionalStatus;
 import org.sitenv.ccdaparsing.model.CCDAGoals;
 import org.sitenv.ccdaparsing.model.CCDAHealthConcerns;
 import org.sitenv.ccdaparsing.model.CCDAID;
@@ -28,6 +29,7 @@ import org.sitenv.ccdaparsing.model.CCDAImmunization;
 import org.sitenv.ccdaparsing.model.CCDALabResult;
 import org.sitenv.ccdaparsing.model.CCDAMedicalEquipment;
 import org.sitenv.ccdaparsing.model.CCDAMedication;
+import org.sitenv.ccdaparsing.model.CCDAMentalStatus;
 import org.sitenv.ccdaparsing.model.CCDAPOT;
 import org.sitenv.ccdaparsing.model.CCDAPatient;
 import org.sitenv.ccdaparsing.model.CCDAProblem;
@@ -40,6 +42,7 @@ import org.sitenv.ccdaparsing.processing.AdvanceDirectiveProcesser;
 import org.sitenv.ccdaparsing.processing.CareTeamMemberProcessor;
 import org.sitenv.ccdaparsing.processing.EncounterDiagnosesProcessor;
 import org.sitenv.ccdaparsing.processing.FamilyHistoryProcessor;
+import org.sitenv.ccdaparsing.processing.FunctionalStatusProcessor;
 import org.sitenv.ccdaparsing.processing.GoalsProcessor;
 import org.sitenv.ccdaparsing.processing.HealthConcernsProcessor;
 import org.sitenv.ccdaparsing.processing.ImmunizationProcessor;
@@ -48,6 +51,7 @@ import org.sitenv.ccdaparsing.processing.LaboratoryTestProcessor;
 import org.sitenv.ccdaparsing.processing.MediactionAllergiesProcessor;
 import org.sitenv.ccdaparsing.processing.MedicalEquipmentProcessor;
 import org.sitenv.ccdaparsing.processing.MedicationProcessor;
+import org.sitenv.ccdaparsing.processing.MentalStatusProcessor;
 import org.sitenv.ccdaparsing.processing.POTProcessor;
 import org.sitenv.ccdaparsing.processing.PatientProcessor;
 import org.sitenv.ccdaparsing.processing.ProblemProcessor;
@@ -126,12 +130,16 @@ public class CCDAParserAPI {
 	FamilyHistoryProcessor familyHistoryProcessor;
 
 	@Autowired
-	AdvanceDirectiveProcesser advanceDirectiveProcesser;
-
-
+	MedicalEquipmentProcessor medicalEquipmentProcessor;
 
 	@Autowired
-	MedicalEquipmentProcessor medicalEquipmentProcessor;
+	AdvanceDirectiveProcesser advanceDirectiveProcesser;
+
+	@Autowired
+	FunctionalStatusProcessor functionalStatusProcessor;
+
+	@Autowired
+	MentalStatusProcessor mentalStatusProcessor;
 
 
 	public CCDARefModel parseCCDA2_1(InputStream inputStream) {
@@ -155,6 +163,8 @@ public class CCDAParserAPI {
 		Future<CCDAFamilyHistory> familyHistory=null;
 		Future<CCDAMedicalEquipment> medicalEquipments=null;
 		Future<CCDAAdvanceDirective> advanceDirective=null;
+		Future<CCDAFunctionalStatus> functionalStatus=null;
+		Future<CCDAMentalStatus> mentalStatus=null;
 		Future<UsrhSubType> usrhSubType=null;
 		ArrayList<CCDAID> idList = new ArrayList<>();
 		logger.info("Parsing CCDA document");
@@ -189,6 +199,8 @@ public class CCDAParserAPI {
 				familyHistory = familyHistoryProcessor.retrieveFamilyHistoryDetails(xPath, doc);
 				medicalEquipments = medicalEquipmentProcessor.retrieveMedicalEquipment(xPath, doc);
 				advanceDirective = advanceDirectiveProcesser.retrieveAdvanceDirectiveDetails(xPath, doc);
+				functionalStatus = functionalStatusProcessor.retrieveFunctionalStatusDetails(xPath, doc);
+				mentalStatus = mentalStatusProcessor.retrieveMentalStatusDetails(xPath, doc);
 
 				if(patient!=null){
 					try{
@@ -362,7 +374,6 @@ public class CCDAParserAPI {
 						isTimeOut = true;
 					}
 				}
-
 				if(medicalEquipments!=null){
 					try {
 						refModel.setMedicalEquipment(medicalEquipments.get(isTimeOut?minWaitTime:maxWaitTime, TimeUnit.MILLISECONDS));
@@ -385,6 +396,28 @@ public class CCDAParserAPI {
 					}
 				}
 
+				if(functionalStatus!=null){
+					try{
+						refModel.setFunctionalStatus(functionalStatus.get(isTimeOut?minWaitTime:maxWaitTime, TimeUnit.MILLISECONDS));
+						if(refModel.getFunctionalStatus()!=null){
+							idList.addAll(refModel.getFunctionalStatus().getIdList());
+						}
+					}catch (Exception e) {
+						isTimeOut = true;
+					}
+				}
+
+				if(mentalStatus!=null){
+					try{
+						refModel.setMentalStatus(mentalStatus.get(isTimeOut?minWaitTime:maxWaitTime, TimeUnit.MILLISECONDS));
+						if(refModel.getMentalStatus()!=null){
+							idList.addAll(refModel.getMentalStatus().getIdList());
+						}
+					}catch (Exception e) {
+						isTimeOut = true;
+					}
+				}
+				
 				refModel.setIdList(idList);
 			}
 			else

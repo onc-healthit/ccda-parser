@@ -23,6 +23,8 @@ public class CCDARefModel {
 	private CCDAFamilyHistory familyHistory;
 	private CCDAAdvanceDirective advanceDirective;
 	private CCDAMedicalEquipment medicalEquipment;
+	private CCDAFunctionalStatus functionalStatus;
+	private CCDAMentalStatus mentalStatus;
 	private CCDAHealthConcerns hcs;
 	private ArrayList<CCDAUDI> udi;
 	private ArrayList<CCDAID>  idList;
@@ -137,6 +139,18 @@ public class CCDARefModel {
 	public CCDAAdvanceDirective getAdvanceDirective() {
 		return this.advanceDirective;
 	}
+	public void setFunctionalStatus(CCDAFunctionalStatus functionalStatus) {
+		this.functionalStatus = functionalStatus;
+	}
+	public CCDAFunctionalStatus getFunctionalStatus() {
+		return this.functionalStatus;
+	}
+	public void setMentalStatus(CCDAMentalStatus mentalStatus) {
+		this.mentalStatus = mentalStatus;
+	}
+	public CCDAMentalStatus getMentalStatus() {
+		return this.mentalStatus;
+	}
 	public CCDAHealthConcerns getHcs() {
 		return hcs;
 	}
@@ -175,7 +189,6 @@ public class CCDARefModel {
 	public void setEncompassingEncounter(CCDAEncompassingEncounter encompassingEncounter) {
 		this.encompassingEncounter = encompassingEncounter;
 	}
-
 	@Override
 	public int hashCode() {
 		final int prime = 31;
@@ -213,6 +226,10 @@ public class CCDARefModel {
 				+ ((medicalEquipment == null) ? 0 : medicalEquipment.hashCode());
 		result = prime * result
 				+ ((advanceDirective == null) ? 0 : advanceDirective.hashCode());
+		result = prime * result
+				+ ((functionalStatus == null) ? 0 : functionalStatus.hashCode());
+		result = prime * result
+				+ ((mentalStatus == null) ? 0 : mentalStatus.hashCode());
 		return result;
 	}
 	@Override
@@ -324,7 +341,16 @@ public class CCDARefModel {
 				return false;
 		} else if (!advanceDirective.equals(other.advanceDirective))
 			return false;
-
+		if (functionalStatus == null) {
+			if (other.functionalStatus != null)
+				return false;
+		} else if (!functionalStatus.equals(other.functionalStatus))
+			return false;
+		if (mentalStatus == null) {
+			if (other.mentalStatus != null)
+				return false;
+		} else if (!mentalStatus.equals(other.mentalStatus))
+			return false;
 		return true;
 	}
 }

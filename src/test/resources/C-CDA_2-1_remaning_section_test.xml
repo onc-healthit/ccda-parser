@@ -956,6 +956,122 @@
                     </entry>
                 </section>
             </component>
-        </structuredBody>
+            <!-- ***************** FUNCTIONAL STATUS *************** -->
+            <!-- Functional Status Section (Parsing Title & HTML Only) -->
+            <component>
+                <section>
+                    <templateId root="2.16.840.1.113883.10.20.22.2.14"/>
+                    <templateId extension="2014-06-09" root="2.16.840.1.113883.10.20.22.2.14"/>
+                    <code code="47420-5" codeSystem="2.16.840.1.113883.6.1" codeSystemName="LOINC" displayName="Functional Status"/>
+                    <title>Functional Status</title>
+                    <text>
+                        <table>
+                            <colgroup>
+                                <col width="50%"/>
+                                <col span="2" width="25%"/>
+                            </colgroup>
+                            <thead>
+                                <tr>
+                                    <th>Functional Status</th>
+                                    <th>Response</th>
+                                    <th>Date of Assessment</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <tr ID="question10">
+                                    <td>Are you deaf or do you have serious difficulty hearing?</td>
+                                    <td>
+                                        <content>No</content>
+                                    </td>
+                                    <td>05/05/2017</td>
+                                </tr>
+                                <tr ID="question11">
+                                    <td>Are you blind or do you have serious difficulty seeing, even when wearing glasses?</td>
+                                    <td>
+                                        <content>No</content>
+                                    </td>
+                                    <td>05/05/2017</td>
+                                </tr>
+                                <tr ID="question12">
+                                    <td>Do you have serious difficulty walking or climbing stairs? (5 years old or older)</td>
+                                    <td>
+                                        <content>No</content>
+                                    </td>
+                                    <td>05/05/2017</td>
+                                </tr>
+                                <tr ID="question13">
+                                    <td>Do you have difficulty dressing or bathing? (5 years old or older)</td>
+                                    <td>
+                                        <content>No</content>
+                                    </td>
+                                    <td>05/05/2017</td>
+                                </tr>
+                                <tr ID="question14">
+                                    <td>Because of a physical, mental, or emotional condition, do you have difficulty doing errands alone such as visiting a doctor&#146;s office or shopping? (15 years old or older)</td>
+                                    <td>
+                                        <content>No</content>
+                                    </td>
+                                    <td>05/05/2017</td>
+                                </tr>
+                            </tbody>
+                        </table>
+                        <table>
+                            <colgroup>
+                                <col width="50%"/>
+                                <col span="2" width="25%"/>
+                            </colgroup>
+                            <thead>
+                                <tr>
+                                    <th>Cognitive Status</th>
+                                    <th>Response</th>
+                                    <th>Date of Assessment</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <tr ID="question15">
+                                    <td>Because of a physical, mental, or emotional condition, do you have serious difficulty concentrating, remembering, or making decisions? (5 years old or older)</td>
+                                    <td>
+                                        <content>No</content>
+                                    </td>
+                                    <td>05/05/2017</td>
+                                </tr>
+                            </tbody>
+                        </table>
+                        <footnote ID="subTitle9" styleCode="xSectionSubTitle xHidden">documented as of this encounter</footnote>
+                    </text>
+                </section>
+            </component>
+            <!-- ***************** MENTAL STATUS *************** -->
+            <!-- Mental Status Section (Parsing Title & HTML Only) -->
+            <component>
+                <section>
+                    <templateId extension="2015-08-01" root="2.16.840.1.113883.10.20.22.2.56"/>
+                    <id extension="MentalStatus" root="0001"/>
+                    <code code="10190-7" codeSystem="2.16.840.1.113883.6.1" codeSystemName="LOINC" displayName="MENTAL STATUS"/>
+                    <title>Mental Status</title>
+                    <text>
+                        <table border="1" width="100%">
+                            <thead>
+                                <tr>
+                                    <th>Date</th>
+                                    <th>Cognitive Assessment</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <tr>
+                                    <td>
+                                        <content>Feb-01-2018</content>
+                                    </td>
+                                    <td>
+                                        <list>
+                                            <item>Orientation - Oriented to time, place, person, situation.</item>
+                                        </list>
+                                    </td>
+                                </tr>
+                            </tbody>
+                        </table>
+                    </text>
+                </section>
+            </component>        </structuredBody>
     </component>
 </ClinicalDocument>
