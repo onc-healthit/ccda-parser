@@ -37,14 +37,18 @@ public class PatientProcessor {
 		return ApplicationUtil.readTemplateID(templateIdElement);
 	}
 	
+	@Async()
 	public CCDAEncompassingEncounter retrieveEncompassingEncounter(XPath xPath , Document doc) throws XPathExpressionException,TransformerException{
 		
 		CCDAEncompassingEncounter encompassingEncounter = null;
+		long startTime = System.currentTimeMillis();
+		logger.info("Parsing Encompassing encounter start time"+ startTime);
 		
 		Element encompassingEncounterElement = (Element) xPath.compile(ApplicationConstants.ENCOMPASSING_ENCOUNTER_EXPRESSION).evaluate(doc, XPathConstants.NODE);
 		
 		if(encompassingEncounterElement!=null) {
 			
+			encompassingEncounterElement.setAttribute("xmlns:xsi", "http://www.w3.org/2001/XMLSchema-instance");
 			encompassingEncounter = new CCDAEncompassingEncounter();
 			encompassingEncounter.setXmlString(ApplicationUtil.nodeToString((Node)encompassingEncounterElement));
 			encompassingEncounter.setLineNumber(encompassingEncounterElement.getUserData("lineNumber").toString());
@@ -59,6 +63,8 @@ public class PatientProcessor {
 		
 			encompassingEncounter.setCode(ApplicationUtil.readCode((Element) xPath.compile("./code").evaluate(encompassingEncounterElement, XPathConstants.NODE)));
 		}
+		
+		logger.info("Parsing Encompassing encounter end time"+ (System.currentTimeMillis() - startTime));
 		return encompassingEncounter;
 	}
 	
