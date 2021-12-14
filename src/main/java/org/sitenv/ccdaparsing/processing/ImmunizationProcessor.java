@@ -92,6 +92,8 @@ public class ImmunizationProcessor {
 				immunizationActivity.setLineNumber(immunizationActivityElement.getUserData("lineNumber") + " - " + immunizationActivityElement.getUserData("endLineNumber") );
 				immunizationActivity.setXmlString(ApplicationUtil.nodeToString((Node)immunizationActivityElement));
 				
+				immunizationActivity.setNegationInd(Boolean.parseBoolean(immunizationActivityElement.getAttribute("negationInd")));
+				
 				if(ApplicationUtil.readID((Element) xPath.compile("./id[not(@nullFlavor)]").
 						evaluate(immunizationActivityElement, XPathConstants.NODE),"immunizatonActivity")!= null)
 				{
@@ -119,9 +121,11 @@ public class ImmunizationProcessor {
 				
 				immunizationActivity.setAdminUnitCode(ApplicationUtil.readCode((Element) xPath.compile("./administrationUnitCode[not(@nullFlavor)]").
 							evaluate(immunizationActivityElement, XPathConstants.NODE)));
+				if (null !=medicationProcessor) {
+					immunizationActivity.setConsumable(medicationProcessor.readMedicationInformation((Element) xPath.compile("./consumable/manufacturedProduct[not(@nullFlavor)]").
+							   evaluate(immunizationActivityElement, XPathConstants.NODE), xPath,idList));					
+				}
 				
-				immunizationActivity.setConsumable(medicationProcessor.readMedicationInformation((Element) xPath.compile("./consumable/manufacturedProduct[not(@nullFlavor)]").
-						   evaluate(immunizationActivityElement, XPathConstants.NODE), xPath,idList));
 				
 				
 				Element represntOrgElement = (Element) xPath.compile("./performer/assignedEntity/representedOrganization[not(@nullFlavor)]").

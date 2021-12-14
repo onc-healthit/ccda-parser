@@ -2,11 +2,11 @@ package org.sitenv.ccdaparsing.model;
 
 public class CCDADataElement {
 
-	private String  value;
+	private String value;
 	private String lineNumber;
-	private String  xpath;
-	private String  use;
-	private String  xmlString ;
+	private String xpath;
+	private String use;
+	private String xmlString;
 	
 	public CCDADataElement(String value)
 	{
@@ -57,16 +57,15 @@ public class CCDADataElement {
 		this.xmlString = xmlString;
 	}
 
+	
 	@Override
 	public int hashCode() {
 		final int prime = 31;
 		int result = 1;
-		result = prime * result
-				+ ((lineNumber == null) ? 0 : lineNumber.hashCode());
+		result = prime * result + ((lineNumber == null) ? 0 : lineNumber.hashCode());
 		result = prime * result + ((use == null) ? 0 : use.hashCode());
 		result = prime * result + ((value == null) ? 0 : value.hashCode());
-		result = prime * result
-				+ ((xmlString == null) ? 0 : xmlString.hashCode());
+		result = prime * result + ((xmlString == null) ? 0 : xmlString.hashCode());
 		result = prime * result + ((xpath == null) ? 0 : xpath.hashCode());
 		return result;
 	}
@@ -106,5 +105,9 @@ public class CCDADataElement {
 		} else if (!xpath.equals(other.xpath))
 			return false;
 		return true;
+	}
+
+	public boolean isValueAndUseEqual(CCDADataElement ccdaDataElement) {
+		return value.equals(ccdaDataElement.getValue()) && use.equals(ccdaDataElement.getUse());		
 	}
 }

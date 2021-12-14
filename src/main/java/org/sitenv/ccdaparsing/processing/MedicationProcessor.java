@@ -90,6 +90,8 @@ public class MedicationProcessor {
 			medicationActivity.setLineNumber(entryElement.getUserData("lineNumber") + " - " + entryElement.getUserData("endLineNumber") );
 			medicationActivity.setXmlString(ApplicationUtil.nodeToString((Node)entryElement));
 			
+			medicationActivity.setNegationInd(Boolean.parseBoolean(entryElement.getAttribute("negationInd")));
+			
 			medicationActivity.setTemplateIds(ApplicationUtil.readTemplateIdList((NodeList) xPath.compile("./templateId[not(@nullFlavor)]").
 									evaluate(entryElement, XPathConstants.NODESET)));
 			
@@ -201,10 +203,10 @@ public class MedicationProcessor {
 			consumable.setTranslations(ApplicationUtil.readCodeList((NodeList) xPath.compile("./manufacturedMaterial/code/translation[not(@nullFlavor)]").
 						evaluate(medicationInforamtionElement, XPathConstants.NODESET)));
 			
-			consumable.setManufacturingOrg(ApplicationUtil.readTextContext((Element) xPath.compile("./manufacturerOrganization/name[not(@nullFlavor)]").
+			consumable.setManufacturingOrg(ApplicationUtil.readTextContent((Element) xPath.compile("./manufacturerOrganization/name[not(@nullFlavor)]").
 						evaluate(medicationInforamtionElement, XPathConstants.NODE)));
 			
-			consumable.setLotNumberText(ApplicationUtil.readTextContext((Element) xPath.compile("./manufacturedMaterial/lotNumberText[not(@nullFlavor)]").
+			consumable.setLotNumberText(ApplicationUtil.readTextContent((Element) xPath.compile("./manufacturedMaterial/lotNumberText[not(@nullFlavor)]").
 						evaluate(medicationInforamtionElement, XPathConstants.NODE)));
 			
 			if(ApplicationUtil.readID((Element) xPath.compile("./id[not(@nullFlavor)]").

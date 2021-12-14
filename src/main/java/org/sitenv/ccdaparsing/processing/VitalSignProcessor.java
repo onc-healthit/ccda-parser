@@ -175,6 +175,9 @@ public class VitalSignProcessor {
 					}else if (xsiType.equalsIgnoreCase("ST"))
 					{
 						vitalObservation.setVsResult(new CCDAPQ(vsResult.getTextContent(),"ST"));
+					}else if (xsiType.equalsIgnoreCase("REAL"))
+					{
+						vitalObservation.setVsResult(new CCDAPQ(vsResult.getAttribute("value"),"REAL"));
 					}
 				}
 			}

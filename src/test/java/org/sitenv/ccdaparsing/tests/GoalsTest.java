@@ -46,7 +46,7 @@ public class GoalsTest {
 		sectionCode.setCodeSystem("2.16.840.1.113883.6.1");
 		sectionCode.setCodeSystemName("LOINC");
 		sectionCode.setDisplayName("Goals");
-		sectionCode.setXmlString("<code xmlns:xsi=\"http://www.w3.org/2001/XMLSchema-instance\" code=\"61146-7\" codeSystem=\"2.16.840.1.113883.6.1\" codeSystemName=\"LOINC\" displayName=\"Goals\"/>");
+		sectionCode = (CCDACode) ApplicationUtilTest.setXmlString(sectionCode,"code");		
 	 }
 	
 	private void setGoalsTemplateIds()

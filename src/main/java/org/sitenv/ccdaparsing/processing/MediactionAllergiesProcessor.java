@@ -150,6 +150,8 @@ public class MediactionAllergiesProcessor {
 			allergyObservation.setLineNumber(allergyObservationElement.getUserData("lineNumber") + " - " + allergyObservationElement.getUserData("endLineNumber") );
 			allergyObservation.setXmlString(ApplicationUtil.nodeToString((Node)allergyObservationElement));
 			
+			allergyObservation.setNegationInd(Boolean.parseBoolean(allergyObservationElement.getAttribute("negationInd")));
+			
 			if(ApplicationUtil.readID((Element) xPath.compile("./id[not(@nullFlavor)]").
 					evaluate(allergyObservationElement, XPathConstants.NODE),"allergyObservation")!= null)
 			{

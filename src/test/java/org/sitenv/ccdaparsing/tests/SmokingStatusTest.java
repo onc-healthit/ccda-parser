@@ -29,11 +29,11 @@ public class SmokingStatusTest {
 	private CCDACode  sectionCode;
 	private static ArrayList<CCDASmokingStatus>		smokingStatusList;
 	private static ArrayList<CCDATobaccoUse>			tobaccoUseList;
-	private SmokingStatusProcessor smokingStatusProcessor = new SmokingStatusProcessor();
+	private static SmokingStatusProcessor smokingStatusProcessor = new SmokingStatusProcessor();
 	
 	
 	@BeforeClass
-	public  void setUp() throws Exception {
+	public static void setUp() throws Exception {
 		DocumentBuilderFactory factory = 
 				DocumentBuilderFactory.newInstance();
 		DocumentBuilder builder = factory.newDocumentBuilder();
@@ -128,6 +128,7 @@ public class SmokingStatusTest {
 	@Test
 	public void testSocialHistorySectionCode(){
 		setSocialHistorySectionCode();
+		socialHistory.getSectionCode().setXmlString(null);
 		Assert.assertEquals("Social History SectionCode test case failed",sectionCode,socialHistory.getSectionCode());
 	}
 	
@@ -139,6 +140,13 @@ public class SmokingStatusTest {
 	
 	@Test
 	public void testSmokingStatus(){
+		socialHistory.getSmokingStatus().get(0).setXmlString(null);
+		socialHistory.getSmokingStatus().get(0).setLineNumber(null);
+		socialHistory.getSmokingStatus().get(0).getObservationTime().setHighPresent(null);
+		socialHistory.getSmokingStatus().get(0).getObservationTime().setLineNumber(null);
+		socialHistory.getSmokingStatus().get(0).getObservationTime().setLowPresent(null);
+		socialHistory.getSmokingStatus().get(0).getObservationTime().setValuePresent(null);
+		socialHistory.getSmokingStatus().get(0).getObservationTime().setXmlString(null);
 		Assert.assertEquals("Smoking status test case failed",smokingStatusList.get(0),socialHistory.getSmokingStatus().get(0));
 	}
 	
@@ -150,6 +158,7 @@ public class SmokingStatusTest {
 	
 	@Test
 	public void testSmokingStatusCode(){
+		socialHistory.getSmokingStatus().get(0).getSmokingStatusCode().setXmlString(null);
 		Assert.assertEquals("Smoking status Code  test case failed",smokingStatusList.get(0).getSmokingStatusCode(),
 															socialHistory.getSmokingStatus().get(0).getSmokingStatusCode());
 	}
@@ -173,12 +182,20 @@ public class SmokingStatusTest {
 	
 	@Test
 	public void testTobaccoUseCode(){
+		socialHistory.getTobaccoUse().get(0).getTobaccoUseCode().setXmlString(null);
 		Assert.assertEquals("Tobacco use Code test case failed",tobaccoUseList.get(0).getTobaccoUseCode(),
 																	socialHistory.getTobaccoUse().get(0).getTobaccoUseCode());
 	}
 	
 	@Test
 	public void testTobaccoUseTime(){
+		socialHistory.getTobaccoUse().get(0).getTobaccoUseTime().setXmlString(null);
+		socialHistory.getTobaccoUse().get(0).getTobaccoUseTime().setLineNumber(null);
+		socialHistory.getTobaccoUse().get(0).getTobaccoUseTime().setLineNumber(null);
+		socialHistory.getTobaccoUse().get(0).getTobaccoUseTime().setValuePresent(null);
+		socialHistory.getTobaccoUse().get(0).getTobaccoUseTime().setXmlString(null);
+		socialHistory.getTobaccoUse().get(0).getTobaccoUseTime().getLow().setXmlString(null);
+		socialHistory.getTobaccoUse().get(0).getTobaccoUseTime().getHigh().setXmlString(null);
 		Assert.assertEquals("Tobacco use Time test case failed",tobaccoUseList.get(0).getTobaccoUseTime(),
 																	socialHistory.getTobaccoUse().get(0).getTobaccoUseTime());
 	}

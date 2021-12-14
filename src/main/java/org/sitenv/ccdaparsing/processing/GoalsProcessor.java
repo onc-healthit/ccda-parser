@@ -47,7 +47,7 @@ public class GoalsProcessor {
 			goals.setSectionCode(ApplicationUtil.readCode((Element) xPath.compile("./code[not(@nullFlavor)]").
 					evaluate(sectionElement, XPathConstants.NODE)));
 			
-			goals.setNarrativeText(ApplicationUtil.readTextContext((Element) xPath.compile("./text[not(@nullFlavor)]").
+			goals.setNarrativeText(ApplicationUtil.readTextContent((Element) xPath.compile("./text[not(@nullFlavor)]").
 					evaluate(sectionElement, XPathConstants.NODE)));
 
 			sectionElement.setAttribute("xmlns:xsi", "http://www.w3.org/2001/XMLSchema-instance");

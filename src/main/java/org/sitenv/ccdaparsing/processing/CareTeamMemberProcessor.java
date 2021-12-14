@@ -66,17 +66,17 @@ public class CareTeamMemberProcessor {
 				Element givenNameElement = (Element) giveNameNodeList.item(i);
 				if(!ApplicationUtil.isEmpty(givenNameElement.getAttribute("qualifier")))
 				{
-					participant.setPreviousName(ApplicationUtil.readTextContext(givenNameElement));
+					participant.setPreviousName(ApplicationUtil.readTextContent(givenNameElement));
 				}else if (i == 0) {
-					participant.setFirstName(ApplicationUtil.readTextContext(givenNameElement));
+					participant.setFirstName(ApplicationUtil.readTextContent(givenNameElement));
 				}else {
-					participant.setMiddleName(ApplicationUtil.readTextContext(givenNameElement));
+					participant.setMiddleName(ApplicationUtil.readTextContent(givenNameElement));
 				}
 			}
 			
-			participant.setLastName(ApplicationUtil.readTextContext((Element) xPath.compile("./family[not(@nullFlavor)]").
+			participant.setLastName(ApplicationUtil.readTextContent((Element) xPath.compile("./family[not(@nullFlavor)]").
 					evaluate(nameElement, XPathConstants.NODE)));
-			participant.setSuffix(ApplicationUtil.readTextContext((Element) xPath.compile("./suffix[not(@nullFlavor)]").
+			participant.setSuffix(ApplicationUtil.readTextContent((Element) xPath.compile("./suffix[not(@nullFlavor)]").
 					evaluate(nameElement, XPathConstants.NODE)));
 		}
 	}

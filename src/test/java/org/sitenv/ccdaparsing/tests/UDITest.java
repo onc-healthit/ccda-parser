@@ -21,15 +21,15 @@ import org.w3c.dom.Document;
 
 public class UDITest {
 	
-	private String CCDA_DOC = "src/test/resources/170.315_b1_toc_amb_ccd_r21_sample1_v1.xml";
-	private CCDAProcedure procedures;
-	private ArrayList<CCDAUDI>  patientUDIList;
-	private ArrayList<CCDAUDI>  udiList;
-	private ProcedureProcessor procedureProcessor = new ProcedureProcessor();
-	private UDIProcessor uDIProcessor = new UDIProcessor();
+	private static String CCDA_DOC = "src/test/resources/170.315_b1_toc_amb_ccd_r21_sample1_v1.xml";
+	private static CCDAProcedure procedures;
+	private static ArrayList<CCDAUDI>  patientUDIList;
+	private static ArrayList<CCDAUDI>  udiList;
+	private static ProcedureProcessor procedureProcessor = new ProcedureProcessor();
+	private static UDIProcessor uDIProcessor = new UDIProcessor();
 	
 	@BeforeClass
-	public void setUp() throws Exception {
+	public static void setUp() throws Exception {
 		// removed fields to ensure no side effects with DocumentRoot
 		DocumentBuilderFactory factory = 
 				DocumentBuilderFactory.newInstance();
@@ -75,6 +75,14 @@ public class UDITest {
 
 	@Test
 	public void testUdiList(){
+		patientUDIList.get(0).getDeviceCode().setXmlString(null);
+		patientUDIList.get(0).getDeviceCode().setLineNumber(null);
+		patientUDIList.get(0).setLineNumber(null);
+		patientUDIList.get(0).setXmlString(null);
+		patientUDIList.get(1).getDeviceCode().setXmlString(null);
+		patientUDIList.get(1).getDeviceCode().setLineNumber(null);
+		patientUDIList.get(1).setLineNumber(null);
+		patientUDIList.get(1).setXmlString(null);
 		Assert.assertEquals("UDI test case failed",udiList,patientUDIList);
 	}
 	
@@ -90,6 +98,8 @@ public class UDITest {
 	
 	@Test
 	public void testUdiListDeviceCode(){
+		patientUDIList.get(0).getDeviceCode().setXmlString(null);
+		patientUDIList.get(0).getDeviceCode().setLineNumber(null);
 		Assert.assertEquals("UDI test device code value failed",udiList.get(0).getDeviceCode(),patientUDIList.get(0).getDeviceCode());
 	}
 	

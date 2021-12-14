@@ -46,7 +46,7 @@ public class HealthConernTest {
 		sectionCode.setCodeSystem("2.16.840.1.113883.6.1");
 		sectionCode.setCodeSystemName("LOINC");
 		sectionCode.setDisplayName("Health Concerns Document");
-		sectionCode.setXmlString("<code xmlns:xsi=\"http://www.w3.org/2001/XMLSchema-instance\" code=\"75310-3\" codeSystem=\"2.16.840.1.113883.6.1\" codeSystemName=\"LOINC\" displayName=\"Health Concerns Document\"/>");
+		sectionCode = (CCDACode) ApplicationUtilTest.setXmlString(sectionCode,"code");			
 	 }
 	
 	private void setHealthConcernsTemplateIds()

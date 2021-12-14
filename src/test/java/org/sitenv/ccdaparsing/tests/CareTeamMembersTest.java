@@ -16,17 +16,15 @@ import org.sitenv.ccdaparsing.model.CCDACareTeamMember;
 import org.sitenv.ccdaparsing.model.CCDADataElement;
 import org.sitenv.ccdaparsing.model.CCDAParticipant;
 import org.sitenv.ccdaparsing.processing.CareTeamMemberProcessor;
-import org.w3c.dom.Document;
-
+import org.w3c.dom.Document; 
 public class CareTeamMembersTest {
-	
-	private String CCDA_DOC = "src/test/resources/170.315_b1_toc_amb_ccd_r21_sample1_v1.xml";
-	private CCDACareTeamMember careTeamMember;
-	private ArrayList<CCDAParticipant> members;
-	private CareTeamMemberProcessor careTeamMemberProcessor = new CareTeamMemberProcessor();
+	private static String CCDA_DOC = "src/test/resources/170.315_b1_toc_amb_ccd_r21_sample1_v1.xml";
+	private static CCDACareTeamMember careTeamMember;
+	private static ArrayList<CCDAParticipant> members;
+	private static CareTeamMemberProcessor careTeamMemberProcessor = new CareTeamMemberProcessor();
 	
 	@BeforeClass
-	public void setUp() throws Exception {
+	public static void setUp() throws Exception {
 		// removed fields to ensure no side effects with DocumentRoot
 		DocumentBuilderFactory factory = 
 				DocumentBuilderFactory.newInstance();
@@ -52,18 +50,19 @@ public class CareTeamMembersTest {
 		CCDADataElement memeberOneTelecom = new CCDADataElement();
 		memeberOneTelecom.setUse("WP");
 		memeberOneTelecom.setValue("tel:+1(555)-555-1002");
-		
+		memeberOneTelecom = (CCDADataElement) (ApplicationUtilTest.setXmlString(memeberOneTelecom,"telecom"));		
 		memberOne.setTelecom(memeberOneTelecom);
 		
 		CCDAParticipant memberTwo = new CCDAParticipant();
 		
-		memberTwo.setAddress(memberOneAddress);
+		memberTwo.setAddress((CCDAAddress) ApplicationUtilTest.setXmlString(memberOneAddress,"telecom"));
 		memberTwo.setFirstName(new CCDADataElement("Tracy"));
 		memberTwo.setLastName(new CCDADataElement("Davis"));
 		memberTwo.setTelecom(memeberOneTelecom);
 		
 		members.add(memberOne);
 		members.add(memberTwo);
+		
 	}
 	
 	@Test
@@ -77,8 +76,8 @@ public class CareTeamMembersTest {
 	}
 	
 	@Test
-	public void testCareTeamMembersValue() throws Exception{
-		Assert.assertEquals(" Care Team Members Value test case failed",careTeamMember.getMembers(),members);
+	public void testCareTeamMembersValue() throws Exception{		
+		Assert.assertEquals(" Care Team Members Value test case failed",careTeamMember.getMembers().get(0),members.get(0));
 	}
 	
 	@Test
