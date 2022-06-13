@@ -8,7 +8,8 @@ import javax.xml.transform.TransformerException;
 import javax.xml.xpath.XPath;
 import javax.xml.xpath.XPathConstants;
 import javax.xml.xpath.XPathExpressionException;
-import org.apache.log4j.Logger;
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
 import org.sitenv.ccdaparsing.model.CCDAID;
 import org.sitenv.ccdaparsing.model.CCDAImmunization;
 import org.sitenv.ccdaparsing.model.CCDAImmunizationActivity;
@@ -27,7 +28,7 @@ import org.w3c.dom.NodeList;
 @Service
 public class ImmunizationProcessor {
 	
-	private static final Logger logger = Logger.getLogger(CareTeamMemberProcessor.class);
+	private static final Logger logger = LogManager.getLogger(CareTeamMemberProcessor.class);
 	
 	@Autowired
 	MedicationProcessor medicationProcessor;

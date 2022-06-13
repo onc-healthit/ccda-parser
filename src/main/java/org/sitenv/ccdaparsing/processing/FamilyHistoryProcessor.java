@@ -1,6 +1,7 @@
 package org.sitenv.ccdaparsing.processing;
 
-import org.apache.log4j.Logger;
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
 import org.sitenv.ccdaparsing.model.CCDAFamilyHistory;
 import org.sitenv.ccdaparsing.model.CCDAFamilyHxObs;
 import org.sitenv.ccdaparsing.model.CCDAFamilyHxOrg;
@@ -25,7 +26,7 @@ import java.util.concurrent.Future;
 
 @Service
 public class FamilyHistoryProcessor {
-	private static final Logger logger = Logger.getLogger(FamilyHistoryProcessor.class);
+	private static final Logger logger = LogManager.getLogger(FamilyHistoryProcessor.class);
 
 	@Async()
 	public Future<CCDAFamilyHistory> retrieveFamilyHistoryDetails(XPath xPath, Document doc) throws XPathExpressionException, TransformerException {

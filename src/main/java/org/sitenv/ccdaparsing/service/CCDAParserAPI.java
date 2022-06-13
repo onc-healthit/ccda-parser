@@ -9,8 +9,8 @@ import java.util.concurrent.Future;
 import java.util.concurrent.TimeUnit;
 import java.util.concurrent.TimeoutException;
 
-import org.apache.log4j.Logger;
-
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
 import javax.xml.transform.TransformerException;
 import javax.xml.xpath.XPath;
 import javax.xml.xpath.XPathExpressionException;
@@ -65,7 +65,7 @@ import org.xml.sax.SAXException;
 @Service
 public class CCDAParserAPI {
 
-	private static final Logger logger = Logger.getLogger(CCDAParserAPI.class);
+	private static final Logger logger = LogManager.getLogger(CCDAParserAPI.class);
 	
 	private static XPath xPath = XPathFactory.newInstance().newXPath();
 	

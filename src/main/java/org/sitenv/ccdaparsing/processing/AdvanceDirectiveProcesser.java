@@ -1,6 +1,8 @@
 package org.sitenv.ccdaparsing.processing;
 
-import org.apache.log4j.Logger;
+
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
 import org.sitenv.ccdaparsing.model.CCDAAdvanceDirective;
 import org.sitenv.ccdaparsing.model.CCDAAdvanceDirectiveObs;
 import org.sitenv.ccdaparsing.model.CCDAAdvanceDirectiveOrg;
@@ -26,7 +28,7 @@ import java.util.concurrent.Future;
 
 @Service
 public class AdvanceDirectiveProcesser {
-	private static final Logger logger = Logger.getLogger(AdvanceDirectiveProcesser.class);
+	private static final Logger logger = LogManager.getLogger(AdvanceDirectiveProcesser.class);
 
 	@Async()
 	public Future<CCDAAdvanceDirective> retrieveAdvanceDirectiveDetails(XPath xPath, Document doc) throws XPathExpressionException, TransformerException {

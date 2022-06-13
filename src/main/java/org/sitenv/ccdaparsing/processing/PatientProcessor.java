@@ -9,7 +9,8 @@ import javax.xml.xpath.XPath;
 import javax.xml.xpath.XPathConstants;
 import javax.xml.xpath.XPathExpressionException;
 
-import org.apache.log4j.Logger;
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
 import org.sitenv.ccdaparsing.model.CCDADataElement;
 import org.sitenv.ccdaparsing.model.CCDAEncompassingEncounter;
 import org.sitenv.ccdaparsing.model.CCDAII;
@@ -30,7 +31,7 @@ import org.w3c.dom.NodeList;
 @Service
 public class PatientProcessor {
 	
-	private static final Logger logger = Logger.getLogger(PatientProcessor.class);
+	private static final Logger logger = LogManager.getLogger(PatientProcessor.class);
 	
 	public CCDAII retrieveDocTemplateId(XPath xPath , Document doc) throws XPathExpressionException,TransformerException{
 		Element templateIdElement = (Element) xPath.compile(ApplicationConstants.DOC_TEMPLATEID_EXPRESSION).evaluate(doc, XPathConstants.NODE);

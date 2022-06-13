@@ -7,7 +7,8 @@ import javax.xml.xpath.XPath;
 import javax.xml.xpath.XPathConstants;
 import javax.xml.xpath.XPathExpressionException;
 
-import org.apache.log4j.Logger;
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
 import org.sitenv.ccdaparsing.model.CCDAHealthConcerns;
 import org.sitenv.ccdaparsing.util.ApplicationConstants;
 import org.sitenv.ccdaparsing.util.ApplicationUtil;
@@ -21,7 +22,7 @@ import org.w3c.dom.NodeList;
 @Service
 public class HealthConcernsProcessor {
 	
-	private static final Logger logger = Logger.getLogger(CareTeamMemberProcessor.class);
+	private static final Logger logger = LogManager.getLogger(CareTeamMemberProcessor.class);
 	
 	@Async()
 	public Future<CCDAHealthConcerns> retrieveHealthConcernDetails(XPath xPath , Document doc) throws XPathExpressionException,TransformerException
