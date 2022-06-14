@@ -9,7 +9,10 @@ import javax.xml.xpath.XPath;
 import javax.xml.xpath.XPathConstants;
 import javax.xml.xpath.XPathExpressionException;
 
-import org.apache.log4j.Logger;
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
+
+
 import org.sitenv.ccdaparsing.model.CCDAEncounter;
 import org.sitenv.ccdaparsing.model.CCDAEncounterActivity;
 import org.sitenv.ccdaparsing.model.CCDAEncounterDiagnosis;
@@ -29,7 +32,7 @@ import org.w3c.dom.NodeList;
 @Service
 public class EncounterDiagnosesProcessor {
 	
-	private static final Logger logger = Logger.getLogger(EncounterDiagnosesProcessor.class);
+	private static final Logger logger = LogManager.getLogger(EncounterDiagnosesProcessor.class);
 	
 	@Async()
 	public Future<CCDAEncounter> retrieveEncounterDetails(XPath xPath , Document doc) throws XPathExpressionException,TransformerException

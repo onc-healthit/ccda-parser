@@ -9,7 +9,8 @@ import javax.xml.xpath.XPath;
 import javax.xml.xpath.XPathConstants;
 import javax.xml.xpath.XPathExpressionException;
 
-import org.apache.log4j.Logger;
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
 import org.sitenv.ccdaparsing.model.CCDAID;
 import org.sitenv.ccdaparsing.model.CCDAPQ;
 import org.sitenv.ccdaparsing.model.CCDAVitalObs;
@@ -28,7 +29,7 @@ import org.w3c.dom.NodeList;
 @Service
 public class VitalSignProcessor {
 	
-	private static final Logger logger = Logger.getLogger(VitalSignProcessor.class);
+	private static final Logger logger = LogManager.getLogger(VitalSignProcessor.class);
 	
 	@Async()
 	public Future<CCDAVitalSigns> retrieveVitalSigns(XPath xPath , Document doc) throws XPathExpressionException,TransformerException

@@ -9,7 +9,8 @@ import javax.xml.xpath.XPath;
 import javax.xml.xpath.XPathConstants;
 import javax.xml.xpath.XPathExpressionException;
 
-import org.apache.log4j.Logger;
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
 import org.sitenv.ccdaparsing.model.CCDAID;
 import org.sitenv.ccdaparsing.model.CCDAPOT;
 import org.sitenv.ccdaparsing.util.ApplicationConstants;
@@ -25,7 +26,7 @@ import org.w3c.dom.NodeList;
 @Service
 public class POTProcessor {
 	
-	private static final Logger logger = Logger.getLogger(POTProcessor.class);
+	private static final Logger logger = LogManager.getLogger(POTProcessor.class);
 	
 	@Autowired
 	MedicationProcessor medicationProcessor;

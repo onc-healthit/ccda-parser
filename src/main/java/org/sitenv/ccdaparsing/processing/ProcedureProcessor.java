@@ -9,7 +9,8 @@ import javax.xml.xpath.XPath;
 import javax.xml.xpath.XPathConstants;
 import javax.xml.xpath.XPathExpressionException;
 
-import org.apache.log4j.Logger;
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
 import org.sitenv.ccdaparsing.model.CCDAAssignedEntity;
 import org.sitenv.ccdaparsing.model.CCDAID;
 import org.sitenv.ccdaparsing.model.CCDAOrganization;
@@ -30,7 +31,7 @@ import org.w3c.dom.NodeList;
 @Service
 public class ProcedureProcessor {
 	
-	private static final Logger logger = Logger.getLogger(ProcedureProcessor.class);
+	private static final Logger logger = LogManager.getLogger(ProcedureProcessor.class);
 	
 	@Async()
 	public Future<CCDAProcedure> retrievePrcedureDetails(XPath xPath , Document doc) throws XPathExpressionException,TransformerException

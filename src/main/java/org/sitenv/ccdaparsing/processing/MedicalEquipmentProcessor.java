@@ -1,6 +1,7 @@
 package org.sitenv.ccdaparsing.processing;
 
-import org.apache.log4j.Logger;
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
 import org.sitenv.ccdaparsing.model.CCDAID;
 import org.sitenv.ccdaparsing.model.CCDAMedicalEquipment;
 import org.sitenv.ccdaparsing.model.CCDAMedicalEquipmentOrg;
@@ -26,7 +27,7 @@ import java.util.concurrent.Future;
 
 @Service
 public class MedicalEquipmentProcessor {
-    private static final Logger logger = Logger.getLogger(MedicalEquipmentProcessor.class);
+    private static final Logger logger = LogManager.getLogger(MedicalEquipmentProcessor.class);
 
     @Autowired
     ProcedureProcessor procedureProcessor;

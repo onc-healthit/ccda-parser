@@ -9,7 +9,8 @@ import javax.xml.xpath.XPath;
 import javax.xml.xpath.XPathConstants;
 import javax.xml.xpath.XPathExpressionException;
 
-import org.apache.log4j.Logger;
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
 import org.sitenv.ccdaparsing.model.CCDAAllergy;
 import org.sitenv.ccdaparsing.model.CCDAAllergyConcern;
 import org.sitenv.ccdaparsing.model.CCDAAllergyObs;
@@ -30,7 +31,7 @@ import org.w3c.dom.NodeList;
 @Service
 public class MediactionAllergiesProcessor {
 	
-	private static final Logger logger = Logger.getLogger(MediactionAllergiesProcessor.class);
+	private static final Logger logger = LogManager.getLogger(MediactionAllergiesProcessor.class);
 	
 	@Async()
 	public Future<CCDAAllergy> retrieveAllergiesDetails(XPath xPath , Document doc) throws XPathExpressionException,TransformerException
