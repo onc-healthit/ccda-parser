@@ -84,6 +84,21 @@ public class ApplicationConstants {
 	public static final String EFFECTIVE_EXPRESSION        = "./effectiveTime[not(@nullFlavor)]";
 	public static final String ID_EXPRESSION               = "./id[not(@nullFlavor)]";
 	public static final String STATUS_EXPRESSION           = "./statusCode[not(@nullFlavor)]";
+	
+	
+	public static final String AUTHORS_FROM_HEADER_EXP = "/ClinicalDocument/author[not(@nullFlavor)]";
+	
+	public static final String AUTHORS_WITH_LINKED_REFERENCE_DATA_EXP = "/ClinicalDocument//author[not(@nullFlavor) "
+			+ "and assignedAuthor[not(@nullFlavor) and id[not(@nullFlavor) and string(@root) and string(@extension)] "
+			+ "and (code[not(@nullFlavor)] or addr[not(@nullFlavor)] or telecom[not(@nullFlavor)] or assignedPerson[not(@nullFlavor)] or representedOrganization[not(@nullFlavor)]) ] ]";	
+	
+	public static final String INTERVENTIONS_SECTION_V3_EXP = "/ClinicalDocument/component/structuredBody/component"
+			+ "/section[not(@nullFlavor) and templateId[@root='2.16.840.1.113883.10.20.21.2.3' and @extension='2015-08-01']]";	
+	
+	public static final String HEALTH_STATUS_EVALUATIONS_AND_OUTCOMES_SECTION_EXP = "/ClinicalDocument/component/structuredBody/component"
+			+ "/section[not(@nullFlavor) and templateId[@root='2.16.840.1.113883.10.20.22.2.61']]";
+	
+	
     
     public static final class UsrhIISubTypes {
     	private static final String HL7_GENERAL_PREFIX = "2.16.840.1.113883.10.20";

@@ -2,6 +2,7 @@ package org.sitenv.ccdaparsing.util;
 
 import java.io.StringWriter;
 import java.util.ArrayList;
+import java.util.HashMap;
 
 import javax.xml.transform.OutputKeys;
 import javax.xml.transform.Transformer;
@@ -14,12 +15,15 @@ import javax.xml.xpath.XPathConstants;
 import javax.xml.xpath.XPathExpressionException;
 
 import org.sitenv.ccdaparsing.model.CCDAAddress;
+import org.sitenv.ccdaparsing.model.CCDAAuthor;
 import org.sitenv.ccdaparsing.model.CCDACode;
 import org.sitenv.ccdaparsing.model.CCDADataElement;
 import org.sitenv.ccdaparsing.model.CCDAEffTime;
 import org.sitenv.ccdaparsing.model.CCDAFrequency;
 import org.sitenv.ccdaparsing.model.CCDAID;
 import org.sitenv.ccdaparsing.model.CCDAII;
+import org.sitenv.ccdaparsing.model.CCDANotes;
+import org.sitenv.ccdaparsing.model.CCDANotesActivity;
 import org.sitenv.ccdaparsing.model.CCDAPQ;
 import org.sitenv.ccdaparsing.model.CCDAPatientNameElement;
 import org.w3c.dom.Element;
@@ -529,5 +533,170 @@ public class ApplicationUtil {
 	public static boolean checkForNullFlavourNI(Element element)
 	{
 		return element!=null && element.getAttribute("nullFlavor").equalsIgnoreCase("NI");
+	}
+	
+	
+	public static CCDAAuthor readAuthor(Element auth,XPath xPath) throws XPathExpressionException, TransformerException {
+		
+		CCDAAuthor author = null;
+		
+		if(auth != null) {
+			
+			author = new CCDAAuthor();
+			
+			author.setTemplateIds(readTemplateIdList((NodeList) xPath.compile("./templateId[not(@nullFlavor)]").evaluate(auth, XPathConstants.NODESET)));
+			
+			
+			author.setTime(readEffectivetime((Element) xPath.compile("./time[not(@nullFlavor)]").evaluate(auth, XPathConstants.NODE),xPath));
+			
+			
+			author.setAuthorIds(readTemplateIdList((NodeList) xPath.compile("./id[not(@nullFlavor)]").evaluate(auth, XPathConstants.NODESET)));
+			
+			Element assignedAuthor = (Element)xPath.compile("./assignedAuthor[not(@nullFlavor)]").evaluate(auth, XPathConstants.NODE);
+			
+			if(assignedAuthor != null) {
+				
+				author.setAuthorIds(readTemplateIdList((NodeList) xPath.compile("./id[not(@nullFlavor)]").evaluate(auth, XPathConstants.NODESET)));
+				
+				Element assignedPerson = (Element)xPath.compile("./assignedPerson[not(@nullFlavor)]").evaluate(auth, XPathConstants.NODE);
+				
+				if(assignedPerson != null) {
+					
+					
+					
+					author.setAuthorFirstName(readDataElement((Element) xPath.compile("(./given[not(@nullFlavor)])[1]").evaluate(assignedPerson, XPathConstants.NODE)));
+					
+					author.setAuthorLastName(readDataElement((Element) xPath.compile("./family[not(@nullFlavor)])").evaluate(assignedPerson, XPathConstants.NODE)));
+					
+					author.setAuthorName(readDataElement((Element) xPath.compile("./name[not(@nullFlavor)])").evaluate(assignedPerson, XPathConstants.NODE)));
+				
+				}
+				
+				
+				
+				Element repOrg = (Element)xPath.compile("./representedOrganization[not(@nullFlavor)]").evaluate(assignedAuthor, XPathConstants.NODE);
+				
+				if(repOrg != null) {
+					
+					author.setRepOrgIds(readTemplateIdList((NodeList) xPath.compile("./id[not(@nullFlavor)]").evaluate(repOrg, XPathConstants.NODESET)));
+					
+					author.setOrgName(readDataElement((Element) xPath.compile("./name[not(@nullFlavor)])").evaluate(repOrg, XPathConstants.NODE)));
+					
+					author.setTelecoms(ApplicationUtil.readDataElementList((NodeList) xPath.compile("./telecom[not(@nullFlavor)]").
+        					evaluate(repOrg, XPathConstants.NODESET)));
+				
+				}
+				
+			}
+			
+		}
+				
+		return author;
+	}
+	
+	public static ArrayList<CCDANotesActivity> readNotesActivity(NodeList notesActivityList, CCDANotes parent, XPath xPath) throws XPathExpressionException, TransformerException
+	{
+		ArrayList<CCDANotesActivity> notesActList = null;
+		
+		if(notesActivityList!=null && notesActivityList.getLength()!=0) {
+			
+			notesActList = new ArrayList<>();
+			
+			for (int i = 0; i < notesActivityList.getLength(); i++) {
+				
+				CCDANotesActivity notesActivity = new CCDANotesActivity();
+				
+				notesActivity.setParent(parent);
+				
+				Element notesActElem = (Element) notesActivityList.item(i);
+				
+				notesActivity.setTemplateId(readTemplateIdList((NodeList) xPath.compile("./templateId[not(@nullFlavor)]").evaluate(notesActElem, XPathConstants.NODESET)));
+				
+				
+				notesActivity.setActivityCode(readCodeWithTranslation((Element) xPath.compile("./code[not(@nullFlavor)]").
+						evaluate(notesActElem, XPathConstants.NODE),xPath));
+				
+				
+				
+				notesActivity.setStatusCode(readCode((Element) xPath.compile("./statusCode[not(@nullFlavor)]").
+						evaluate(notesActElem, XPathConstants.NODE)));
+				
+				
+				
+				notesActivity.setText(readTextContent((Element) xPath.compile("./text[not(@nullFlavor)]").
+						evaluate(notesActElem, XPathConstants.NODE)));
+				
+				
+				
+				notesActivity.setEffTime(readEffectivetime((Element) xPath.compile("./effectiveTime[not(@nullFlavor)]").
+									evaluate(notesActElem, XPathConstants.NODE),xPath));
+				
+				
+				
+				notesActivity.setAuthor(readAuthor((Element) xPath.compile("./author[not(@nullFlavor)]").evaluate(notesActElem, XPathConstants.NODE),xPath));
+				
+				notesActList.add(notesActivity);
+			}
+			
+		}
+		
+		return notesActList;
+	}
+	
+	public static void populateNotesActiviteis(ArrayList<CCDANotesActivity> notesActs, HashMap<String,CCDANotesActivity> results) {
+		
+		if(notesActs != null && notesActs.size() > 0) {
+		
+			for(CCDANotesActivity act : notesActs) {
+				
+				CCDACode actCode = act.getActivityCode();
+				
+				// If Translations exist, we need to use translation codes.
+				if(actCode.getTranslations() != null && actCode.getTranslations().size() > 0) {
+					
+					ArrayList<CCDACode> actTransCodes = actCode.getTranslations();
+					
+					// Already size has been checked.
+					if(actTransCodes.get(0).getCode() != null) {
+						
+						results.put(actTransCodes.get(0).getCode(), act);
+					}
+				}
+				else {
+					
+					results.put(actCode.getCode(), act);
+				}
+			} // For all Notes Activities
+		}		
+	}
+	
+public static CCDACode readCodeWithTranslation(Element codeElement, XPath xPath) throws XPathExpressionException, TransformerException {
+		
+		CCDACode cd = readCode(codeElement);
+		
+		if(cd != null) {
+			
+			NodeList transList = (NodeList) xPath.compile("./translation[not(@nullFlavor)]").evaluate(codeElement, XPathConstants.NODESET);	
+			
+			if(transList != null) {
+				
+				for (int i = 0; i < transList.getLength(); i++) {
+					Element node = (Element) transList.item(i);
+					
+					CCDACode transCode = readCode(node);
+					
+					if(transCode != null) {
+						
+						cd.addTranslation(transCode);
+					}
+					
+				}
+			}
+			
+			
+		}
+		
+		return cd;
+		
 	}
 }

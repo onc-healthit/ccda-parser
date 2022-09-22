@@ -1,0 +1,33 @@
+<?xml version="1.0"?>
+<Configuration>
+<properties>
+	<property name="appenderPatternLayout">"[%-5level] %d{yyyy-MM-dd HH:mm:ss} [%t] %c{1} - %msg%n"></property>
+</properties>
+
+
+  <Appenders>
+    <RollingRandomAccessFile name="scorecardLog" fileName="${catalina.home}/logs/ScoreCard.%d{yyyy-MM-dd}.log" 
+    							 filePattern= "${catalina.home}/logs/$${date:yyyy-MM}/ScoreCard-%d{MM-dd-yyyy}-%i.log.gz" append="true">
+    	<PatternLayout pattern="${appenderPatternLayout}"/>
+    	<policies>
+    		<SizeBasedTriggeringPolicy size="10 MB"></SizeBasedTriggeringPolicy>
+    	</policies>
+    </RollingRandomAccessFile>
+    
+    <Console name="console" target="SYSTEM_OUT">
+      <PatternLayout pattern="${appenderPatternLayout}"/>
+    </Console>
+  
+  </Appenders>
+  
+  <Loggers>
+    <Logger name="org.sitenv" level="info">
+      <AppenderRef ref="scorecardLog"/>
+    </Logger>
+    <Root level="info">
+      <AppenderRef ref="console"/>
+      <AppenderRef ref="scorecardLog"/>
+    </Root>
+  </Loggers>
+</Configuration>
+
