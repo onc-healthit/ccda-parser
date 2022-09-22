@@ -2,6 +2,8 @@ package org.sitenv.ccdaparsing.model;
 
 import java.util.ArrayList;
 
+
+
 public class CCDARefModel {
 	
 	private CCDAII  docTemplateId;
@@ -28,6 +30,16 @@ public class CCDARefModel {
 	private ArrayList<CCDAID>  idList;
 	private UsrhSubType        usrhSubType;
 	private boolean isEmpty;
+	
+	
+	private ArrayList<CCDAAuthor> authorsFromHeader; // header-level only
+	private ArrayList<CCDAAuthor> authorsWithLinkedReferenceData;
+	private CCDACarePlanSections carePlanSections;
+	
+	private ArrayList<CCDANotes> notes;
+	private ArrayList<CCDANotesActivity> notesEntries;
+		
+
 
 	public CCDAII getDocTemplateId() {
 		return docTemplateId;
@@ -175,7 +187,39 @@ public class CCDARefModel {
 	public void setEncompassingEncounter(CCDAEncompassingEncounter encompassingEncounter) {
 		this.encompassingEncounter = encompassingEncounter;
 	}
-
+	
+	public ArrayList<CCDAAuthor> getAuthorsFromHeader() {
+		return authorsFromHeader;
+	}
+	public void setAuthorsFromHeader(ArrayList<CCDAAuthor> authorsFromHeader) {
+		this.authorsFromHeader = authorsFromHeader;
+	}
+	public ArrayList<CCDAAuthor> getAuthorsWithLinkedReferenceData() {
+		return authorsWithLinkedReferenceData;
+	}
+	public void setAuthorsWithLinkedReferenceData(ArrayList<CCDAAuthor> authorsWithLinkedReferenceData) {
+		this.authorsWithLinkedReferenceData = authorsWithLinkedReferenceData;
+	}
+	
+	public CCDACarePlanSections getCarePlanSections() {
+		return carePlanSections;
+	}
+	public void setCarePlanSections(CCDACarePlanSections carePlanSections) {
+		this.carePlanSections = carePlanSections;
+	}
+	
+	public ArrayList<CCDANotes> getNotes() {
+		return notes;
+	}
+	public void setNotes(ArrayList<CCDANotes> notes) {
+		this.notes = notes;
+	}
+	public ArrayList<CCDANotesActivity> getNotesEntries() {
+		return notesEntries;
+	}
+	public void setNotesEntries(ArrayList<CCDANotesActivity> notesEntries) {
+		this.notesEntries = notesEntries;
+	}
 	@Override
 	public int hashCode() {
 		final int prime = 31;

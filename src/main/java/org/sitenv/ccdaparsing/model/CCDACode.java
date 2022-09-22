@@ -1,11 +1,16 @@
 package org.sitenv.ccdaparsing.model;
 
+import java.util.ArrayList;
+
 public class CCDACode extends CCDADataElement {
 	private String  code;
 	private String  codeSystem;
 	private String  codeSystemName;
 	private String  displayName;
 	private String nullFlavor;
+	private ArrayList<CCDACode> translations;
+	
+	
 	
 	public String getCode() {
 		return code;
@@ -46,10 +51,24 @@ public class CCDACode extends CCDADataElement {
 	public void setNullFlavor(String nullFlavor) {
 		this.nullFlavor = nullFlavor;
 	}
+	
+	public void addTranslation(CCDACode transCode) {	
+		this.translations.add(transCode);
+		
+	}
+	
+	public ArrayList<CCDACode> getTranslations() {
+		return translations;
+	}
+
+	public void setTranslations(ArrayList<CCDACode> translations) {
+		this.translations = translations;
+	}
 
 	public CCDACode()
 	{
 		super();
+		translations = new ArrayList<CCDACode>();
 	}
 
 	@Override
